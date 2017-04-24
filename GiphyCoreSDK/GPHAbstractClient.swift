@@ -1,0 +1,132 @@
+//
+//  GPHClientAbstract.swift
+//  GiphyCoreSDK
+//
+//  Created by Cem Kozinoglu on 4/24/17.
+//  Copyright © 2017 Giphy. All rights reserved.
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to
+//  deal in the Software without restriction, including without limitation the
+//  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+//  sell copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+//  IN THE SOFTWARE.
+//
+
+import Foundation
+
+/// An abstract API client.
+///
+/// + Warning: Not meant to be used directly. Use `GPHClient` instead.
+///
+@objc public class GPHAbstractClient : NSObject {
+    // MARK: Properties
+    
+    /// HTTP headers that will be sent with every request.
+    @objc public var headers = [String:String]()
+    
+    /// Giphy API key.
+    @objc internal var _apiKey: String? {
+        didSet {
+            /// Update headers with the API Key.
+            updateHeadersFromAPIKey()
+        }
+    }
+    private func updateHeadersFromAPIKey() {
+        headers["how-do-we-pass-this-to-kong"] = _apiKey
+    }
+
+    /// Session
+    var session: URLSession
+    
+    /// Default timeout for network requests. Default: 30 seconds.
+    @objc public var timeout: TimeInterval = 30
+    
+    /// Time delay before a search request is fired or cancelled
+    @objc public var searchDelay: TimeInterval = 0.200
+    
+    /// Number of characters before a search request is fired
+    @objc public var searchDelayMinCharacters: Int = 2
+    
+    
+    /// Operation queue used to keep track of network requests.
+    let requestQueue: OperationQueue
+    
+    /// Maximum number of concurrent requests we allow per connection.
+    private let maxConcurrentRequestsPerConnection = 4
+    
+    /// Operation queue used to run completion handlers.
+    /// Default = main queue.
+    ///
+    @objc public weak var completionQueue = OperationQueue.main
+    
+    #if !os(watchOS)
+    
+    /// Network reachability detecter.
+    internal var reachability: GPHNetworkReachability = GPHNetworkReachability()
+    
+    /// Whether to use network reachability to decide if online requests should be attempted.
+    ///
+    /// + Note: Not available on watchOS (the System Configuration framework is not available there).
+    ///
+    @objc public var useReachability: Bool = true
+    
+    #endif // !os(watchOS)
+    
+    // MARK: Initialization
+    
+    internal init(apiKey: String?) {
+        self._apiKey = apiKey
+
+        // WARNING:
+        var clientHTTPHeaders: [String: String] = [:]
+        clientHTTPHeaders["how-do-we-pass-this-to-kong"] = self._apiKey
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = clientHTTPHeaders
+        
+        session = Foundation.URLSession(configuration: configuration)
+        
+        requestQueue = OperationQueue()
+        requestQueue.name = "Giphy Api Requests"
+        requestQueue.maxConcurrentOperationCount = configuration.httpMaximumConnectionsPerHost * maxConcurrentRequestsPerConnection
+        
+        super.init()
+        
+        // WARNING: `didSet` not called during initialization => we need to update the headers manually here.
+        updateHeadersFromAPIKey()
+    }
+    
+    
+    /// User-agent to be used per client
+    private static func defaultUserAgent() -> String {
+        return ""
+    }
+
+    
+    // MARK: - Operations / Network
+    
+    
+    #if !os(watchOS)
+    
+    /// Decide whether a network request should be attempted in the current conditions.
+    ///
+    /// - returns: `true` if a network request should be attempted, `false` if the client should fail fast with a
+    ///            network error.
+    ///
+    func shouldMakeNetworkCall() -> Bool {
+        return !useReachability || reachability.isReachable()
+    }
+    
+    #endif // !os(watchOS)
+}
