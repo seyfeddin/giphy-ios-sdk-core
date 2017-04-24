@@ -26,9 +26,8 @@
 
 import Foundation
 
-/**
- Represents a Giphy Object
- */
+/// Represents a Giphy Object
+///
 @objc public class GPHUser: NSObject, NSCoding {
     
     /// Username

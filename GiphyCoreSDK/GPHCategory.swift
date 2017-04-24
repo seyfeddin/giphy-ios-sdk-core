@@ -26,9 +26,8 @@
 
 import Foundation
 
-/**
- Represents a Giphy Categories & Sub-categories
- */
+/// Represents a Giphy Categories & Sub-categories
+///
 @objc public class GPHCategory: NSObject, NSCoding {
     
     /// Username

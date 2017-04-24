@@ -26,9 +26,8 @@
 
 import Foundation
 
-/**
- Represents a Giphy Term Suggestion
- */
+/// Represents a Giphy Term Suggestion
+///
 @objc public class GPHTermSuggestion: NSObject, NSCoding {
     
     /// Username

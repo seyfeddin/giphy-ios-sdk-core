@@ -26,10 +26,8 @@
 
 import Foundation
 
-
-/**
- Represents a Giphy Object
- */
+/// Represents a Giphy Object
+///
 @objc public class GPHObject: NSObject, NSCoding {
     
     public private(set) var type: GPHMediaType

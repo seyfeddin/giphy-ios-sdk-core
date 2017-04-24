@@ -27,9 +27,8 @@
 import Foundation
 
 
-/**
- Represents a Giphy Object Type (Gif/Sticker/...)
- */
+/// Represents a Giphy Object Type (Gif/Sticker/...)
+///
 @objc public enum GPHMediaType: Int {
     /// Gif Media Type
     case gif
@@ -38,9 +37,8 @@ import Foundation
     case sticker
 }
 
-/**
- Represents a Giphy Object Type (Gif/Sticker/...)
- */
+/// Represents a Giphy Object Type (Gif/Sticker/...)
+///
 @objc public enum GPHRenditionType: Int, RawRepresentable {
     /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values
     
@@ -196,9 +194,8 @@ import Foundation
 }
 
 
-/**
- Represents Giphy APIs Supported Languages
- */
+/// Represents Giphy APIs Supported Languages
+///
 @objc public enum GPHLanguageType: Int, RawRepresentable {
     /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values
     
@@ -444,9 +441,8 @@ import Foundation
 
 
 
-/**
- Represents content rating (y,g, pg, pg-13 or r)
- */
+/// Represents content rating (y,g, pg, pg-13 or r)
+///
 @objc public enum GPHRatingType: Int, RawRepresentable {
     /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values
     
