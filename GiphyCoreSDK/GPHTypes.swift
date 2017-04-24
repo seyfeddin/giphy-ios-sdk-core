@@ -149,7 +149,7 @@ import Foundation
     }
     
     public init?(rawValue: RawValue) {
-        switch rawValue {
+        switch rawValue.lowercased() {
             
         case "fixed_height":
             self = .fixedHeight
@@ -195,12 +195,261 @@ import Foundation
     }
 }
 
+
+/**
+ Represents Giphy APIs Supported Languages
+ */
+@objc public enum GPHLanguageType: Int, RawRepresentable {
+    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values
+    
+    /// English (en)
+    case english
+    
+    /// Spanish (es)
+    case spanish
+    
+    /// Portuguese (pt)
+    case portuguese
+    
+    /// Indonesian (id)
+    case indonesian
+    
+    /// French (fr)
+    case french
+    
+    /// Arabic (ar)
+    case arabic
+    
+    /// Turkish (tr)
+    case turkish
+    
+    /// Thai (th)
+    case thai
+    
+    /// Vietnamese (vi)
+    case vietnamese
+    
+    /// German (de)
+    case german
+    
+    /// Italian (it)
+    case italian
+    
+    /// Japanese (ja)
+    case japanese
+    
+    /// Chinese Simplified (zh-CN)
+    case chineseSimplified
+    
+    /// Chinese Traditional (zh-TW)
+    case chineseTraditional
+    
+    /// Russian (ru)
+    case russian
+    
+    /// Korean (ko)
+    case korean
+    
+    /// Polish (pl)
+    case polish
+    
+    /// Dutch (nl)
+    case dutch
+    
+    /// Romanian (ro)
+    case romanian
+    
+    /// Hungarian (hu)
+    case hungarian
+    
+    /// Swedish (sv)
+    case swedish
+    
+    /// Czech (cs)
+    case czech
+    
+    /// Hindi (hi)
+    case hindi
+    
+    /// Bengali (bn)
+    case bengali
+    
+    /// Danish (da)
+    case danish
+    
+    /// Farsi (fa)
+    case farsi
+    
+    /// Filipino (tl)
+    case filipino
+    
+    /// Finnish (fi)
+    case finnish
+    
+    /// Hebrew (iw)
+    case hebrew
+    
+    /// Malay (ms)
+    case malay
+    
+    /// Norwegian (no)
+    case norwegian
+    
+    /// Ukrainian (uk)
+    case ukrainian
+    
+    public typealias RawValue = String
+    
+    public var rawValue: RawValue {
+        switch self {
+        case .english:
+            return "en"
+        case .spanish:
+            return "es"
+        case .portuguese:
+            return "pt"
+        case .indonesian:
+            return "id"
+        case .french:
+            return "fr"
+        case .arabic:
+            return "ar"
+        case .turkish:
+            return "tr"
+        case .thai:
+            return "th"
+        case .vietnamese:
+            return "vi"
+        case .german:
+            return "de"
+        case .italian:
+            return "it"
+        case .japanese:
+            return "ja"
+        case .chineseSimplified:
+            return "zh-cn"
+        case .chineseTraditional:
+            return "zh-tw"
+        case .russian:
+            return "ru"
+        case .korean:
+            return "ko"
+        case .polish:
+            return "pl"
+        case .dutch:
+            return "nl"
+        case .romanian:
+            return "ro"
+        case .hungarian:
+            return "hu"
+        case .swedish:
+            return "sv"
+        case .czech:
+            return "cs"
+        case .hindi:
+            return "hi"
+        case .bengali:
+            return "bn"
+        case .danish:
+            return "da"
+        case .farsi:
+            return "fa"
+        case .filipino:
+            return "tl"
+        case .finnish:
+            return "fi"
+        case .hebrew:
+            return "iw"
+        case .malay:
+            return "ms"
+        case .norwegian:
+            return "no"
+        case .ukrainian:
+            return "uk"
+        }
+    }
+    
+    public init?(rawValue: RawValue) {
+        switch rawValue.lowercased() {
+            
+        case "en":
+            self = .english
+        case "es":
+            self = .spanish
+        case "pt":
+            self = .portuguese
+        case "id":
+            self = .indonesian
+        case "fr":
+            self = .french
+        case "ar":
+            self = .arabic
+        case "tr":
+            self = .turkish
+        case "th":
+            self = .thai
+        case "vi":
+            self = .vietnamese
+        case "de":
+            self = .german
+        case "it":
+            self = .italian
+        case "ja":
+            self = .japanese
+        case "zh-cn":
+            self = .chineseSimplified
+        case "zh-tw":
+            self = .chineseTraditional
+        case "ru":
+            self = .russian
+        case "ko":
+            self = .korean
+        case "pl":
+            self = .polish
+        case "nl":
+            self = .dutch
+        case "ro":
+            self = .romanian
+        case "hu":
+            self = .hungarian
+        case "sv":
+            self = .swedish
+        case "cs":
+            self = .czech
+        case "hi":
+            self = .hindi
+        case "bn":
+            self = .bengali
+        case "da":
+            self = .danish
+        case "fa":
+            self = .farsi
+        case "tl":
+            self = .filipino
+        case "fi":
+            self = .finnish
+        case "iw":
+            self = .hebrew
+        case "ms":
+            self = .malay
+        case "no":
+            self = .norwegian
+        case "uk":
+            self = .ukrainian
+        default:
+            self = .english
+        }
+    }
+}
+
+
+
 /**
  Represents content rating (y,g, pg, pg-13 or r)
  */
 @objc public enum GPHRatingType: Int, RawRepresentable {
-/// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values
-
+    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values
+    
     /// Rated R
     case ratedR
     
@@ -234,7 +483,7 @@ import Foundation
     }
     
     public init?(rawValue: RawValue) {
-        switch rawValue {
+        switch rawValue.lowercased() {
         case "r":
             self = .ratedR
         case "y":
