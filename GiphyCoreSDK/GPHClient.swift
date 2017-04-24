@@ -42,16 +42,27 @@ import Foundation
     /// A JSON object.
     public typealias GPHJSONObject = [String: Any]
     
-    /// Signature of most completion handlers used by this library.
+    /// JSON/Error signature of generic request method
     ///
-    /// - parameter content: The JSON response (in case of success) or `nil` (in case of error).
+    /// - parameter data: The JSON response (in case of success) or `nil` (in case of error).
     /// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
     ///
-    /// + Note: `content` and `error` are mutually exclusive: only one will be non-nil.
+    public typealias GPHCompletionHandler = (_ data: GPHJSONObject?, _ error: Error?) -> Void
+
+    /// Single Result/Error signature of generic request method
     ///
-    public typealias GPHCompletionHandler = (_ content: GPHJSONObject?, _ error: Error?) -> Void {}
+    /// - parameter data: The GPHResult response (in case of success) or `nil` (in case of error).
+    /// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
+    ///
+    public typealias GPHResultCompletionHandler = (_ data: GPHResult?, _ error: Error?) -> Void
     
-    
+    /// Multiple Results/Error signature of generic request method
+    ///
+    /// - parameter data: The GPHListResult response (in case of success) or `nil` (in case of error).
+    /// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
+    ///
+    public typealias GPHListResultCompletionHandler = (_ data: GPHListResult?, _ error: Error?) -> Void
+
     /// Perform a request.
     ///
     /// - parameter query: Query parameters. GPHQuery
@@ -79,8 +90,8 @@ import Foundation
                                    offset: Int = 0,
                                    limit: Int = 25,
                                    rating: GPHRatingType = .ratedR,
-                                   lang: GPHLanguageType = .English,
-                                   completionHandler: @escaping GPHCompletionHandler) -> Operation {}
+                                   lang: GPHLanguageType = .english,
+                                   completionHandler: @escaping GPHListResultCompletionHandler) -> Operation {}
     
     
     /// Trending
@@ -97,7 +108,7 @@ import Foundation
                                      offset: Int = 0,
                                      limit: Int = 25,
                                      rating: GPHRatingType = .ratedR,
-                                     completionHandler: @escaping GPHCompletionHandler) -> Operation {}
+                                     completionHandler: @escaping GPHListResultCompletionHandler) -> Operation {}
     
     
     /// Translate
@@ -113,9 +124,8 @@ import Foundation
     @discardableResult func translate(_ term: String,
                                       type: GPHMediaType = .gif,
                                       rating: GPHRatingType = .ratedR,
-                                      lang: GPHLanguageType = .English,
-                                      completionHandler: @escaping GPHCompletionHandler) -> Operation {}
-    
+                                      lang: GPHLanguageType = .english,
+                                      completionHandler: @escaping GPHResultCompletionHandler) -> Operation {}
     
     
     /// Random
@@ -130,7 +140,7 @@ import Foundation
     @discardableResult func random(_ query: String,
                                    type: GPHMediaType = .gif,
                                    rating: GPHRatingType = .ratedR,
-                                   completionHandler: @escaping GPHCompletionHandler) -> Operation {}
+                                   completionHandler: @escaping GPHResultCompletionHandler) -> Operation {}
     
     
     /// GIF by ID
@@ -141,7 +151,7 @@ import Foundation
     ///
     @objc
     @discardableResult func gifByID(_ id: String,
-                                    completionHandler: @escaping GPHCompletionHandler) -> Operation {}
+                                    completionHandler: @escaping GPHResultCompletionHandler) -> Operation {}
     
     
     /// GIFs by IDs
@@ -152,6 +162,6 @@ import Foundation
     ///
     @objc
     @discardableResult func gifByIDs(_ ids: [String],
-                                     completionHandler: @escaping GPHCompletionHandler) -> Operation {}
+                                     completionHandler: @escaping GPHListResultCompletionHandler) -> Operation {}
 
 }
