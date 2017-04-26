@@ -29,12 +29,35 @@ import Foundation
 
 /// Represents a Giphy Object Type (Gif/Sticker/...)
 ///
-@objc public enum GPHMediaType: Int {
+@objc public enum GPHMediaType: Int, RawRepresentable {
     /// Gif Media Type
     case gif
     
     /// Sticker Media Type
     case sticker
+    
+    
+    public typealias RawValue = String
+    
+    public var rawValue: RawValue {
+        switch self {
+        case .gif:
+            return "gif"
+        case .sticker:
+            return "sticker"
+        }
+    }
+    public init?(rawValue: RawValue) {
+        switch rawValue.lowercased() {
+        case "gif":
+            self = .gif
+        case "sticker":
+            self = .sticker
+        default:
+            self = .gif
+        }
+    }
+    
 }
 
 /// Represents a Giphy Object Type (Gif/Sticker/...)

@@ -26,4 +26,62 @@
 
 import Foundation
 
-// Will use ours here 
+/// Sub-classing Operation to make sure we manage its state correctly
+///
+open class GPHAsyncOperation: Operation {
+    public enum State: String {
+        case ready, executing, finished
+        
+        /// cool trick from raywenderlich
+        fileprivate var keyPath: String {
+            return "is" + rawValue.capitalized
+        }
+    }
+    /// Using KVO to update state
+    open var state = State.ready {
+        willSet {
+            willChangeValue(forKey: newValue.keyPath)
+            willChangeValue(forKey: state.keyPath)
+        }
+        didSet {
+            didChangeValue(forKey: oldValue.keyPath)
+            didChangeValue(forKey: state.keyPath)
+        }
+    }
+}
+
+/// State management
+///
+extension GPHAsyncOperation {
+    
+    override open var isReady: Bool {
+        return super.isReady && state == .ready
+    }
+    
+    override open var isExecuting: Bool {
+        return state == .executing
+    }
+    
+    override open var isFinished: Bool {
+        return state == .finished
+    }
+    
+    override open var isAsynchronous: Bool {
+        return true
+    }
+    
+    override open func start() {
+        if isCancelled {
+            state = .finished
+            return
+        }
+        
+        main()
+        state = .executing
+    }
+    
+    override open func cancel() {
+        super.cancel()
+        state = .finished
+    }
+}

@@ -21,6 +21,7 @@
 		E7AF4E551EAE382D00489AB7 /* GPHAbstractClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E541EAE382D00489AB7 /* GPHAbstractClient.swift */; };
 		E7AF4E571EAE387100489AB7 /* GPHAsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E561EAE387100489AB7 /* GPHAsyncOperation.swift */; };
 		E7AF4E591EAE3E1900489AB7 /* GPHNetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E581EAE3E1900489AB7 /* GPHNetworkReachability.swift */; };
+		E7AF4E5B1EAE87C000489AB7 /* GPHResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E5A1EAE87C000489AB7 /* GPHResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		E7AF4E541EAE382D00489AB7 /* GPHAbstractClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHAbstractClient.swift; sourceTree = "<group>"; };
 		E7AF4E561EAE387100489AB7 /* GPHAsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHAsyncOperation.swift; sourceTree = "<group>"; };
 		E7AF4E581EAE3E1900489AB7 /* GPHNetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHNetworkReachability.swift; sourceTree = "<group>"; };
+		E7AF4E5A1EAE87C000489AB7 /* GPHResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHResult.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				E7AF4E491EAC2B5500489AB7 /* GPHImage.swift */,
 				E7AF4E4B1EAC390700489AB7 /* GPHCategory.swift */,
 				E7AF4E4D1EAC3A4A00489AB7 /* GPHTermSuggestion.swift */,
+				E7AF4E5A1EAE87C000489AB7 /* GPHResult.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				E7AF4E591EAE3E1900489AB7 /* GPHNetworkReachability.swift in Sources */,
 				E7AF4E4C1EAC390700489AB7 /* GPHCategory.swift in Sources */,
 				E7AF4E501EAE370100489AB7 /* GPHClient.swift in Sources */,
+				E7AF4E5B1EAE87C000489AB7 /* GPHResult.swift in Sources */,
 				E7AF4E461EAC17C200489AB7 /* GPHTypes.swift in Sources */,
 				E7AF4E4A1EAC2B5500489AB7 /* GPHImage.swift in Sources */,
 				E7AF4E551EAE382D00489AB7 /* GPHAbstractClient.swift in Sources */,

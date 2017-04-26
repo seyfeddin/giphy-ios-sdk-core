@@ -28,7 +28,8 @@ import Foundation
 
 /// Represents a Giphy Object
 ///
-@objc public class GPHObject: NSObject, NSCoding {
+/*
+@objc public class GPHObject: NSObject , NSCoding {
     
     public private(set) var type: GPHMediaType
     public private(set) var id: String!
@@ -48,7 +49,24 @@ import Foundation
     public private(set) var sourcePostUrl: URL?
     public private(set) var user: [String]?
     public private(set) var images: [String]?
+    public private(set) var tags: [String]?
+    public private(set) var featuredTags: [String]?
+
+    // MARK: Categories endpoint
     
+    // Example: http://api.giphy.com/v1/gifs/categories/actions?api_key=4OMJYpPoYwVpe
+    public private(set) var isHidden: Bool?
+    public private(set) var is_removed: Bool?
+    public private(set) var is_community: Bool?
+    public private(set) var is_anonymous: Bool?
+    public private(set) var is_featured: Bool?
+    public private(set) var is_realtime: Bool?
+    public private(set) var is_indexable: Bool?
+    public private(set) var is_sticker: Bool?
+    public private(set) var updateDate: String?
+    public private(set) var createDate: String?
+
+
     
 //    convenience init(_ identifier: String, name: String, summary: String, previewImoji: IMImojiObject?) {
 //        self.init()
@@ -92,4 +110,4 @@ import Foundation
         return "gph_object_\(self.id)".hashValue
     }
     
-}
+} */

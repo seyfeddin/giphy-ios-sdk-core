@@ -113,9 +113,32 @@ import Foundation
         return ""
     }
 
+        
+    /// Perform a request.
+    ///
+    /// - parameter request: URLRequest
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
+    @discardableResult func httpRequest(with request: URLRequest, completionHandler: @escaping GPHCompletionHandler) -> Operation {
+        return GPHRequest(self, request: request)
+    }
     
-    // MARK: - Operations / Network
-    
+    //    /// Perform an HTTP Query.
+    //    func performHTTPRequest(path: String, method: HTTPMethod, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completionHandler: CompletionHandler? = nil) -> Operation {
+    //        let request = newRequest(method: method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, completion: completionHandler)
+    //        request.completionQueue = self.completionQueue
+    //        onlineRequestQueue.addOperation(request)
+    //        return request
+    //    }
+    //    
+    //    /// Create a request with this client's settings.
+    //    func newRequest(method: HTTPMethod, path: String, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
+    //        let currentTimeout = isSearchQuery ? searchTimeout : timeout
+    //        let request = Request(client: self, method: method, hosts: hostnames, firstHostIndex: 0, path: path, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
+    //        return request
+    //    }
     
     #if !os(watchOS)
     

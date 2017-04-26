@@ -32,46 +32,13 @@ import Foundation
 @objc public class GPHClient : GPHAbstractClient {
     // MARK: Properties
     
-    
     /// Giphy API key.
     @objc public var apiKey: String {
         get { return _apiKey! }
         set { _apiKey = newValue }
     }
     
-    /// A JSON object.
-    public typealias GPHJSONObject = [String: Any]
-    
-    /// JSON/Error signature of generic request method
-    ///
-    /// - parameter data: The JSON response (in case of success) or `nil` (in case of error).
-    /// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
-    ///
-    public typealias GPHCompletionHandler = (_ data: GPHJSONObject?, _ error: Error?) -> Void
-
-    /// Single Result/Error signature of generic request method
-    ///
-    /// - parameter data: The GPHResult response (in case of success) or `nil` (in case of error).
-    /// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
-    ///
-    public typealias GPHResultCompletionHandler = (_ data: GPHResult?, _ error: Error?) -> Void
-    
-    /// Multiple Results/Error signature of generic request method
-    ///
-    /// - parameter data: The GPHListResult response (in case of success) or `nil` (in case of error).
-    /// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
-    ///
-    public typealias GPHListResultCompletionHandler = (_ data: GPHListResult?, _ error: Error?) -> Void
-
-    /// Perform a request.
-    ///
-    /// - parameter query: Query parameters. GPHQuery
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @objc
-    @discardableResult func request(_ query: GPHQuery, completionHandler: @escaping GPHCompletionHandler) -> Operation {}
-    
+    //MARK: Search Endpoint
     
     /// Perform a search.
     ///
@@ -91,8 +58,19 @@ import Foundation
                                    limit: Int = 25,
                                    rating: GPHRatingType = .ratedR,
                                    lang: GPHLanguageType = .english,
-                                   completionHandler: @escaping GPHListResultCompletionHandler) -> Operation {}
+                                   completionHandler: @escaping GPHListResultCompletionHandler) -> Operation {
     
+        
+        let request = GPHRequestRouter.search(query, type, offset, limit, rating, lang).asURLRequest()
+
+        return self.httpRequest(with: request) { (data, error) in
+            // Do the parsing and return:
+            completionHandler(nil, nil)
+        }
+        
+    }
+    
+    //MARK: Trending Endpoint
     
     /// Trending
     ///
@@ -108,8 +86,18 @@ import Foundation
                                      offset: Int = 0,
                                      limit: Int = 25,
                                      rating: GPHRatingType = .ratedR,
-                                     completionHandler: @escaping GPHListResultCompletionHandler) -> Operation {}
+                                     completionHandler: @escaping GPHCompletionHandler) -> Operation {
     
+        let request = GPHRequestRouter.trending(type, offset, limit, rating).asURLRequest()
+        
+        return self.httpRequest(with: request) { (data, error) in
+            // Do the parsing and return:
+            completionHandler(nil, nil)
+        }
+    
+    }
+    
+    //MARK: Translate Endpoint
     
     /// Translate
     ///
@@ -125,11 +113,22 @@ import Foundation
                                       type: GPHMediaType = .gif,
                                       rating: GPHRatingType = .ratedR,
                                       lang: GPHLanguageType = .english,
-                                      completionHandler: @escaping GPHResultCompletionHandler) -> Operation {}
+                                      completionHandler: @escaping GPHCompletionHandler) -> Operation {
     
+        let request = GPHRequestRouter.translate(term, type, rating, lang).asURLRequest()
+        
+        return self.httpRequest(with: request) { (data, error) in
+            // Do the parsing and return:
+            completionHandler(nil, nil)
+        }
+    
+    }
+    
+    //MARK: Random Endpoint
     
     /// Random
     ///
+    /// Example: http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=cats
     /// - parameter query: Search parameters.
     /// - parameter type: Media type / optional (default: .gif)
     /// - parameter rating: rating of the content / optional (default R)
@@ -140,8 +139,23 @@ import Foundation
     @discardableResult func random(_ query: String,
                                    type: GPHMediaType = .gif,
                                    rating: GPHRatingType = .ratedR,
-                                   completionHandler: @escaping GPHResultCompletionHandler) -> Operation {}
+                                   completionHandler: @escaping GPHCompletionHandler) -> Operation {
     
+        let request = GPHRequestRouter.random(query, type, rating).asURLRequest()
+        
+        return self.httpRequest(with: request) { (data, error) in
+            // Do the parsing and return:
+            completionHandler(nil, nil)
+        }
+    
+    }
+    
+    
+    //MARK: Categories Endpoint
+    
+    //MARK: Term Suggestion Endpoint
+    
+    //MARK: Gifs by ID(s)
     
     /// GIF by ID
     ///
@@ -151,7 +165,16 @@ import Foundation
     ///
     @objc
     @discardableResult func gifByID(_ id: String,
-                                    completionHandler: @escaping GPHResultCompletionHandler) -> Operation {}
+                                    completionHandler: @escaping GPHCompletionHandler) -> Operation {
+    
+        let request = GPHRequestRouter.get(id).asURLRequest()
+        
+        return self.httpRequest(with: request) { (data, error) in
+            // Do the parsing and return:
+            completionHandler(nil, nil)
+        }
+    
+    }
     
     
     /// GIFs by IDs
@@ -162,6 +185,15 @@ import Foundation
     ///
     @objc
     @discardableResult func gifByIDs(_ ids: [String],
-                                     completionHandler: @escaping GPHListResultCompletionHandler) -> Operation {}
+                                     completionHandler: @escaping GPHCompletionHandler) -> Operation {
+    
+        let request = GPHRequestRouter.getAll(ids).asURLRequest()
+        
+        return self.httpRequest(with: request) { (data, error) in
+            // Do the parsing and return:
+            completionHandler(nil, nil)
+        }
+    
+    }
 
 }

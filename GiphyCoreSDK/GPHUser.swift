@@ -28,6 +28,8 @@ import Foundation
 
 /// Represents a Giphy Object
 ///
+/// http://api.giphy.com/v1/gifs/categories/animals/cats?api_key=4OMJYpPoYwVpe
+
 @objc public class GPHUser: NSObject, NSCoding {
     
     /// Username
