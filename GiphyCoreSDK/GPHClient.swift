@@ -61,11 +61,11 @@ import Foundation
                                    completionHandler: @escaping GPHListResultCompletionHandler) -> Operation {
     
         
-        let request = GPHRequestRouter.search(query, type, offset, limit, rating, lang).asURLRequest()
+        let request = GPHRequestRouter.search(query, type, offset, limit, rating, lang).asURLRequest(apiKey)
 
-        return self.httpRequest(with: request) { (data, error) in
+        return self.httpRequest(with: request) { (data, response, error) in
             // Do the parsing and return:
-            completionHandler(nil, nil)
+            completionHandler(data, response, error)
         }
         
     }
@@ -88,11 +88,11 @@ import Foundation
                                      rating: GPHRatingType = .ratedR,
                                      completionHandler: @escaping GPHCompletionHandler) -> Operation {
     
-        let request = GPHRequestRouter.trending(type, offset, limit, rating).asURLRequest()
+        let request = GPHRequestRouter.trending(type, offset, limit, rating).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request) { (data, error) in
+        return self.httpRequest(with: request) { (data, response, error) in
             // Do the parsing and return:
-            completionHandler(nil, nil)
+            completionHandler(data, response, error)
         }
     
     }
@@ -115,11 +115,11 @@ import Foundation
                                       lang: GPHLanguageType = .english,
                                       completionHandler: @escaping GPHCompletionHandler) -> Operation {
     
-        let request = GPHRequestRouter.translate(term, type, rating, lang).asURLRequest()
+        let request = GPHRequestRouter.translate(term, type, rating, lang).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request) { (data, error) in
+        return self.httpRequest(with: request) { (data, response, error) in
             // Do the parsing and return:
-            completionHandler(nil, nil)
+            completionHandler(data, response, error)
         }
     
     }
@@ -141,11 +141,11 @@ import Foundation
                                    rating: GPHRatingType = .ratedR,
                                    completionHandler: @escaping GPHCompletionHandler) -> Operation {
     
-        let request = GPHRequestRouter.random(query, type, rating).asURLRequest()
+        let request = GPHRequestRouter.random(query, type, rating).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request) { (data, error) in
+        return self.httpRequest(with: request) { (data, response, error) in
             // Do the parsing and return:
-            completionHandler(nil, nil)
+            completionHandler(data, response, error)
         }
     
     }
@@ -167,11 +167,11 @@ import Foundation
     @discardableResult func gifByID(_ id: String,
                                     completionHandler: @escaping GPHCompletionHandler) -> Operation {
     
-        let request = GPHRequestRouter.get(id).asURLRequest()
+        let request = GPHRequestRouter.get(id).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request) { (data, error) in
+        return self.httpRequest(with: request) { (data, response, error) in
             // Do the parsing and return:
-            completionHandler(nil, nil)
+            completionHandler(data, response, error)
         }
     
     }
@@ -187,11 +187,11 @@ import Foundation
     @discardableResult func gifByIDs(_ ids: [String],
                                      completionHandler: @escaping GPHCompletionHandler) -> Operation {
     
-        let request = GPHRequestRouter.getAll(ids).asURLRequest()
+        let request = GPHRequestRouter.getAll(ids).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request) { (data, error) in
+        return self.httpRequest(with: request) { (data, response, error) in
             // Do the parsing and return:
-            completionHandler(nil, nil)
+            completionHandler(data, response, error)
         }
     
     }

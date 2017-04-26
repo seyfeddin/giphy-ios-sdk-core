@@ -85,3 +85,27 @@ extension GPHAsyncOperation {
         state = .finished
     }
 }
+
+/// A specific type of async operation with a completion handler.
+///
+internal class GPHAsyncOperationWithCompletion: GPHAsyncOperation {
+    /// User completion block to be called.
+    let completion: GPHCompletionHandler?
+    
+    
+    init(completionHandler: GPHCompletionHandler?) {
+        self.completion = completionHandler
+    }
+    
+    /// Finish this operation.
+    /// This method should be called exactly once per operation.
+    internal func callCompletion(data: GPHJSONObject?, response: URLResponse?, error: Error?) {
+        if !isCancelled {
+            if let completion = completion {
+                completion(data, response, error)
+            }
+            state = .finished
+        }
+    }
+
+}

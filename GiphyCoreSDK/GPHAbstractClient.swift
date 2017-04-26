@@ -59,17 +59,11 @@ import Foundation
     /// Number of characters before a search request is fired
     @objc public var searchDelayMinCharacters: Int = 2
     
-    
     /// Operation queue used to keep track of network requests.
     let requestQueue: OperationQueue
     
     /// Maximum number of concurrent requests we allow per connection.
     private let maxConcurrentRequestsPerConnection = 4
-    
-    /// Operation queue used to run completion handlers.
-    /// Default = main queue.
-    ///
-    @objc public weak var completionQueue = OperationQueue.main
     
     #if !os(watchOS)
     
@@ -107,12 +101,10 @@ import Foundation
         updateHeadersFromAPIKey()
     }
     
-    
     /// User-agent to be used per client
     private static func defaultUserAgent() -> String {
         return ""
     }
-
         
     /// Perform a request.
     ///
@@ -122,23 +114,12 @@ import Foundation
     ///
     @objc
     @discardableResult func httpRequest(with request: URLRequest, completionHandler: @escaping GPHCompletionHandler) -> Operation {
-        return GPHRequest(self, request: request)
+        
+        let operation = GPHRequest(self, request: request, completionHandler: completionHandler)
+        self.requestQueue.addOperation(operation)
+        
+        return operation
     }
-    
-    //    /// Perform an HTTP Query.
-    //    func performHTTPRequest(path: String, method: HTTPMethod, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completionHandler: CompletionHandler? = nil) -> Operation {
-    //        let request = newRequest(method: method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, completion: completionHandler)
-    //        request.completionQueue = self.completionQueue
-    //        onlineRequestQueue.addOperation(request)
-    //        return request
-    //    }
-    //    
-    //    /// Create a request with this client's settings.
-    //    func newRequest(method: HTTPMethod, path: String, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
-    //        let currentTimeout = isSearchQuery ? searchTimeout : timeout
-    //        let request = Request(client: self, method: method, hosts: hostnames, firstHostIndex: 0, path: path, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
-    //        return request
-    //    }
     
     #if !os(watchOS)
     
