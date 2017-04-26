@@ -28,24 +28,11 @@ import Foundation
 
 /// An abstract API client.
 ///
-/// + Warning: Not meant to be used directly. Use `GPHClient` instead.
-///
 @objc public class GPHAbstractClient : NSObject {
     // MARK: Properties
     
-    /// HTTP headers that will be sent with every request.
-    @objc public var headers = [String:String]()
-    
     /// Giphy API key.
-    @objc internal var _apiKey: String? {
-        didSet {
-            /// Update headers with the API Key.
-            updateHeadersFromAPIKey()
-        }
-    }
-    private func updateHeadersFromAPIKey() {
-        headers["how-do-we-pass-this-to-kong"] = _apiKey
-    }
+    @objc internal var _apiKey: String?
 
     /// Session
     var session: URLSession
@@ -85,7 +72,7 @@ import Foundation
 
         // WARNING:
         var clientHTTPHeaders: [String: String] = [:]
-        clientHTTPHeaders["how-do-we-pass-this-to-kong"] = self._apiKey
+        clientHTTPHeaders["User-Agent"] = GPHAbstractClient.defaultUserAgent()
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = clientHTTPHeaders
         
@@ -96,14 +83,11 @@ import Foundation
         requestQueue.maxConcurrentOperationCount = configuration.httpMaximumConnectionsPerHost * maxConcurrentRequestsPerConnection
         
         super.init()
-        
-        // WARNING: `didSet` not called during initialization => we need to update the headers manually here.
-        updateHeadersFromAPIKey()
     }
     
     /// User-agent to be used per client
     private static func defaultUserAgent() -> String {
-        return ""
+        return "Giphy SDK v1.0 (iOS)"
     }
         
     /// Perform a request.
