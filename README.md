@@ -2,7 +2,7 @@
 
 CORE SKD
 
-![alt tag](https://media.giphy.com/media/gXyrfP9SDf5Je/giphy.gif)
+![alt tag](https://media.giphy.com/media/5xaOcLOqNmWHaLeB14I/giphy.gif)
 
 ## Scope
 
