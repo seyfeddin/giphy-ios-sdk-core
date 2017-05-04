@@ -97,9 +97,9 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func httpRequest(with request: URLRequest, completionHandler: @escaping GPHCompletionHandler) -> Operation {
+    @discardableResult func httpRequest(with request: URLRequest, type: GPHRequestType, completionHandler: @escaping GPHCompletionHandler) -> Operation {
         
-        let operation = GPHRequest(self, request: request, completionHandler: completionHandler)
+        let operation = GPHRequest(self, request: request, type: type, completionHandler: completionHandler)
         self.requestQueue.addOperation(operation)
         
         return operation

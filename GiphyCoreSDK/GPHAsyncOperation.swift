@@ -28,7 +28,7 @@ import Foundation
 
 /// Sub-classing Operation to make sure we manage its state correctly
 ///
-open class GPHAsyncOperation: Operation {
+class GPHAsyncOperation: Operation {
     public enum State: String {
         case ready, executing, finished
         
@@ -88,10 +88,9 @@ extension GPHAsyncOperation {
 
 /// A specific type of async operation with a completion handler.
 ///
-internal class GPHAsyncOperationWithCompletion: GPHAsyncOperation {
+class GPHAsyncOperationWithCompletion: GPHAsyncOperation {
     /// User completion block to be called.
     let completion: GPHCompletionHandler?
-    
     
     init(completionHandler: GPHCompletionHandler?) {
         self.completion = completionHandler

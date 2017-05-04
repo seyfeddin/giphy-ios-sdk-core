@@ -30,10 +30,65 @@ import Foundation
 ///
 /// http://api.giphy.com/v1/gifs/categories/animals/cats?api_key=4OMJYpPoYwVpe
 
+/*
+ ▿ 18 elements
+ ▿ 0 : 2 elements
+ - key : "name"
+ - value : AFV Pets
+ 
+ ▿ 2 : 2 elements
+ - key : "website_url"
+ - value : http://www.afv.com
+
+ ▿ 4 : 2 elements
+ - key : "description"
+ - value : Boat loads of pet gifs from America’s favorite show, “AFV”.
+ 
+ ▿ 7 : 2 elements
+ - key : "profile_url"
+ - value : https://giphy.com/afvpets/
+ 
+ ▿ 8 : 2 elements
+ - key : "tumblr_url"
+ - value : http://afvofficial.tumblr.com/
+ 
+ ▿ 9 : 2 elements
+ - key : "id"
+ - value : 183873
+ 
+ ▿ 10 : 2 elements
+ - key : "is_public"
+ - value : 1
+ 
+ ▿ 11 : 2 elements
+ - key : "attribution_display_name"
+ - value : AFV Pets
+ 
+ ▿ 13 : 2 elements
+ - key : "suppress_chrome"
+ - value : 0
+ 
+ ▿ 14 : 2 elements
+ - key : "facebook_url"
+ - value :
+ 
+ ▿ 15 : 2 elements
+ - key : "website_display_url"
+ - value : www.afv.com
+ 
+ ▿ 16 : 2 elements
+ - key : "twitter_url"
+ - value : https://twitter.com/AFVOfficial
+ ▿ 17 : 2 elements
+ 
+ - key : "instagram_url"
+ - value : <null>
+
+ */
 @objc public class GPHUser: NSObject, NSCoding {
     
     /// Username
-    public private(set) var username: String!
+    public private(set) var username: String
     
     /// Display Name for the User
     public private(set) var displayName: String?
@@ -42,21 +97,25 @@ import Foundation
     public private(set) var twitter: String?
     
     /// URL of the Avatar
-    public private(set) var avatarUrl: URL?
+    public private(set) var avatarUrl: String?
     
     /// URL of the Banner
-    public private(set) var bannerUrl: URL?
+    public private(set) var bannerUrl: String?
     
     /// URL of the Profile
-    public private(set) var profileUrl: URL?
+    public private(set) var profileUrl: String?
     
+    override public init() {
+        self.username = ""
+        super.init()
+    }
     
     convenience init(_ username: String,
                      displayName: String?,
                      twitter: String?,
-                     avatarUrl: URL?,
-                     bannerUrl: URL?,
-                     profileUrl: URL?) {
+                     avatarUrl: String?,
+                     bannerUrl: String?,
+                     profileUrl: String?) {
         self.init()
         self.username = username
         self.displayName = displayName
@@ -67,14 +126,17 @@ import Foundation
     }
     
     required convenience public init?(coder aDecoder: NSCoder) {
-        guard let username = aDecoder.decodeObject(forKey: "username") as? String
-            else { return nil }
+        guard
+            let username = aDecoder.decodeObject(forKey: "username") as? String
+        else {
+            return nil
+        }
 
         let displayName = aDecoder.decodeObject(forKey: "displayName") as? String
         let twitter = aDecoder.decodeObject(forKey: "twitter") as? String
-        let avatarUrl = aDecoder.decodeObject(forKey: "avatarUrl") as? URL
-        let bannerUrl = aDecoder.decodeObject(forKey: "bannerUrl") as? URL
-        let profileUrl = aDecoder.decodeObject(forKey: "profileUrl") as? URL
+        let avatarUrl = aDecoder.decodeObject(forKey: "avatarUrl") as? String
+        let bannerUrl = aDecoder.decodeObject(forKey: "bannerUrl") as? String
+        let profileUrl = aDecoder.decodeObject(forKey: "profileUrl") as? String
 
         self.init(username,
                   displayName: displayName,
@@ -110,3 +172,55 @@ import Foundation
     }
     
 }
+
+// MARK: Human readable
+
+/// Make objects human readable
+///
+extension GPHUser {
+    
+    override public var description: String {
+        return "GPHUser(\(self.username))"
+    }
+    
+}
+
+// MARK: Parsing & Mapping
+
+/// For parsing/mapping protocol
+///
+extension GPHUser: GPHMappable {
+    
+    /// this is where the magic will happen + error handling
+    public static func mapData(_ id: String,
+                               data jsonData: GPHJSONObject,
+                               request requestType: GPHRequestType,
+                               media mediaType: GPHMediaType = .gif,
+                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHUser?, error: GPHJSONMappingError?) {
+        
+        guard
+            let username = jsonData["username"] as? String
+        else {
+            return (nil, GPHJSONMappingError(description: "Couldn't map GPHUser for \(jsonData)"))
+        }
+
+        let displayName = jsonData["display_name"] as? String
+        let twitter = jsonData["twitter"] as? String
+        let avatarUrl = jsonData["avatar_url"] as? String
+        let bannerUrl = jsonData["banner_url"] as? String
+        let profileUrl = jsonData["profile_url"] as? String
+        
+        let obj = GPHUser(username,
+                          displayName: displayName,
+                          twitter: twitter,
+                          avatarUrl: avatarUrl,
+                          bannerUrl: bannerUrl,
+                          profileUrl: profileUrl)
+        
+        return (obj, nil)
+    }
+    
+}
+
+
+

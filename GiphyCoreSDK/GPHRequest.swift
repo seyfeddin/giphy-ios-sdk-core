@@ -26,40 +26,46 @@
 
 import Foundation
 
-/// A JSON object.
-public typealias GPHJSONObject = [String: Any]
+/// Represents a Giphy URLRequest Type
+///
+@objc public enum GPHRequestType: Int {
+    /// Search Request
+    case search
+    
+    /// Trending Request
+    case trending
+    
+    /// Translate Request
+    case translate
+    
+    /// Random Item Request
+    case random
+    
+    /// Get an Item with ID
+    case get
+    
+    /// Get items with IDs
+    case getAll
+}
 
-//MARK: Generic Request & Completion Handlers
 
-/// JSON/Error signature of generic request method
+/// Async Request Operations with Completion Handler Support
 ///
-/// - parameter data: The JSON response (in case of success) or `nil` (in case of error).
-/// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
-///
-public typealias GPHCompletionHandler = (_ data: GPHJSONObject?, _ response: URLResponse?, _ error: Error?) -> Void
-
-/// Single Result/Error signature of generic request method
-///
-/// - parameter data: The GPHResult response (in case of success) or `nil` (in case of error).
-/// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
-///
-public typealias GPHResultCompletionHandler = (_ data: GPHJSONObject?, _ response: URLResponse?, _ error: Error?) -> Void
-
-/// Multiple Results/Error signature of generic request method
-///
-/// - parameter data: The GPHListResult response (in case of success) or `nil` (in case of error).
-/// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
-///
-public typealias GPHListResultCompletionHandler = (_ data: GPHJSONObject?, _ response: URLResponse?, _ error: Error?) -> Void
-
 class GPHRequest: GPHAsyncOperationWithCompletion {
+    /// URLRequest obj to handle the networking
     var request: URLRequest
+    
     /// The client to which this request is related.
     let client: GPHAbstractClient
     
-    init(_ client: GPHAbstractClient, request: URLRequest, completionHandler: @escaping GPHCompletionHandler) {
+    /// Type of the request so we do some edge-case handling (JSON/Mapping etc)
+    /// More than anything so we can map JSON > GPH objs
+    let type: GPHRequestType
+    
+    init(_ client: GPHAbstractClient, request: URLRequest, type: GPHRequestType, completionHandler: @escaping GPHCompletionHandler) {
         self.client = client
         self.request = request
+        self.type = type
         super.init(completionHandler: completionHandler)
     }
     
@@ -87,7 +93,7 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
                 print(error.localizedDescription)
             }
             
-            // Handle HTTP status code.
+/// CEM: RETURN HTTP ERROR HERE
 //            let httpResponse = response! as! HTTPURLResponse
 //            if (finalError == nil && !StatusCode.isSuccess(httpResponse.statusCode)) {
 //                // Get the error message from JSON if available.

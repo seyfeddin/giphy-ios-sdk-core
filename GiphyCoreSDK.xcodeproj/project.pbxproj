@@ -21,7 +21,9 @@
 		E7AF4E551EAE382D00489AB7 /* GPHAbstractClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E541EAE382D00489AB7 /* GPHAbstractClient.swift */; };
 		E7AF4E571EAE387100489AB7 /* GPHAsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E561EAE387100489AB7 /* GPHAsyncOperation.swift */; };
 		E7AF4E591EAE3E1900489AB7 /* GPHNetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E581EAE3E1900489AB7 /* GPHNetworkReachability.swift */; };
-		E7AF4E5B1EAE87C000489AB7 /* GPHResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E5A1EAE87C000489AB7 /* GPHResult.swift */; };
+		E7F1026F1EB8EFF400F0FF34 /* GPHError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */; };
+		E7F102711EB9407000F0FF34 /* GPHImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102701EB9407000F0FF34 /* GPHImages.swift */; };
+		E7F102731EBA6E5B00F0FF34 /* GPHMappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +54,9 @@
 		E7AF4E541EAE382D00489AB7 /* GPHAbstractClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHAbstractClient.swift; sourceTree = "<group>"; };
 		E7AF4E561EAE387100489AB7 /* GPHAsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHAsyncOperation.swift; sourceTree = "<group>"; };
 		E7AF4E581EAE3E1900489AB7 /* GPHNetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHNetworkReachability.swift; sourceTree = "<group>"; };
-		E7AF4E5A1EAE87C000489AB7 /* GPHResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHResult.swift; sourceTree = "<group>"; };
+		E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHError.swift; sourceTree = "<group>"; };
+		E7F102701EB9407000F0FF34 /* GPHImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHImages.swift; sourceTree = "<group>"; };
+		E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHMappable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,9 +125,11 @@
 				E7AF4E451EAC17C200489AB7 /* GPHTypes.swift */,
 				E7AF4E471EAC181C00489AB7 /* GPHUser.swift */,
 				E7AF4E491EAC2B5500489AB7 /* GPHImage.swift */,
+				E7F102701EB9407000F0FF34 /* GPHImages.swift */,
 				E7AF4E4B1EAC390700489AB7 /* GPHCategory.swift */,
 				E7AF4E4D1EAC3A4A00489AB7 /* GPHTermSuggestion.swift */,
-				E7AF4E5A1EAE87C000489AB7 /* GPHResult.swift */,
+				E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */,
+				E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -255,12 +261,14 @@
 				E7AF4E441EABF5C200489AB7 /* GPHObject.swift in Sources */,
 				E7AF4E531EAE380700489AB7 /* GPHRequest.swift in Sources */,
 				E7AF4E591EAE3E1900489AB7 /* GPHNetworkReachability.swift in Sources */,
+				E7F1026F1EB8EFF400F0FF34 /* GPHError.swift in Sources */,
 				E7AF4E4C1EAC390700489AB7 /* GPHCategory.swift in Sources */,
 				E7AF4E501EAE370100489AB7 /* GPHClient.swift in Sources */,
-				E7AF4E5B1EAE87C000489AB7 /* GPHResult.swift in Sources */,
 				E7AF4E461EAC17C200489AB7 /* GPHTypes.swift in Sources */,
 				E7AF4E4A1EAC2B5500489AB7 /* GPHImage.swift in Sources */,
+				E7F102711EB9407000F0FF34 /* GPHImages.swift in Sources */,
 				E7AF4E551EAE382D00489AB7 /* GPHAbstractClient.swift in Sources */,
+				E7F102731EBA6E5B00F0FF34 /* GPHMappable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +474,7 @@
 				E7AF4E3E1EABCFFF00489AB7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E7AF4E3F1EABCFFF00489AB7 /* Build configuration list for PBXNativeTarget "GiphyCoreSDKTests" */ = {
 			isa = XCConfigurationList;
@@ -474,6 +483,7 @@
 				E7AF4E411EABCFFF00489AB7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

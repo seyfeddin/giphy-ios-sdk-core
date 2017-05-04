@@ -65,6 +65,18 @@ import Foundation
 @objc public enum GPHRenditionType: Int, RawRepresentable {
     /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values
     
+    /// Original file size and file dimensions. Good for desktop use.
+    case original
+    
+    /// Preview image for original.
+    case originalStill
+    
+    /// File size under 50kb. Duration may be truncated to meet file size requirements. Good for thumbnails and previews.
+    case preview
+    
+    /// Duration set to loop for 15 seconds. Only recommended for this exact use case.
+    case looping
+    
     /// Height set to 200px. Good for mobile use.
     case fixedHeight
     
@@ -75,6 +87,12 @@ import Foundation
     /// Works well for unlimited scroll on mobile and as animated previews. See Giphy.com on mobile web as an example.
     case fixedHeightDownsampled
     
+    /// Height set to 100px. Good for mobile keyboards.
+    case fixedHeightSmall
+    
+    /// Static preview image for fixed_height_small
+    case fixedHeightSmallStill
+    
     /// Width set to 200px. Good for mobile use.
     case fixedWidth
     
@@ -84,26 +102,17 @@ import Foundation
     /// Width set to 200px. Reduced to 6 frames. Works well for unlimited scroll on mobile and as animated previews.
     case fixedWidthDownsampled
     
-    /// Height set to 100px. Good for mobile keyboards.
-    case fixedHeightSmall
-    
-    /// Static preview image for fixed_height_small
-    case fixedHeightSmallStill
-    
     /// Width set to 100px. Good for mobile keyboards.
     case fixedWidthSmall
     
     /// Static preview image for fixed_width_small
     case fixedWidthSmallStill
     
-    /// File size under 50kb. Duration may be truncated to meet file size requirements. Good for thumbnails and previews.
-    case preview
+    /// File size under 2mb.
+    case downsized
     
     /// File size under 200kb.
     case downsizedSmall
-    
-    /// File size under 2mb.
-    case downsized
     
     /// File size under 5mb.
     case downsizedMedium
@@ -114,104 +123,96 @@ import Foundation
     /// Static preview image for downsized.
     case downsizedStill
     
-    /// Original file size and file dimensions. Good for desktop use.
-    case original
-    
-    /// Preview image for original.
-    case originalStill
-    
-    /// Duration set to loop for 15 seconds. Only recommended for this exact use case.
-    case looping
-    
     
     public typealias RawValue = String
     
     public var rawValue: RawValue {
         switch self {
+        case .original:
+            return "original"
+        case .originalStill:
+            return "original_still"
+        case .preview:
+            return "preview"
+        case .looping:
+            return "looping"
         case .fixedHeight:
             return "fixed_height"
         case .fixedHeightStill:
             return "fixed_height_still"
         case .fixedHeightDownsampled:
             return "fixed_height_downsampled"
+        case .fixedHeightSmall:
+            return "fixed_height_small"
+        case .fixedHeightSmallStill:
+            return "fixed_height_small_still"
         case .fixedWidth:
             return "fixed_width"
         case .fixedWidthStill:
             return "fixed_width_still"
         case .fixedWidthDownsampled:
             return "fixed_width_downsampled"
-        case .fixedHeightSmall:
-            return "fixed_height_small"
-        case .fixedHeightSmallStill:
-            return "fixed_height_small_still"
         case .fixedWidthSmall:
             return "fixed_width_small"
         case .fixedWidthSmallStill:
             return "fixed_width_small_still"
-        case .preview:
-            return "preview"
-        case .downsizedSmall:
-            return "downsized_small"
         case .downsized:
             return "downsized"
+        case .downsizedSmall:
+            return "downsized_small"
         case .downsizedMedium:
             return "downsized_medium"
         case .downsizedLarge:
             return "downsized_large"
         case .downsizedStill:
             return "downsized_still"
-        case .original:
-            return "original"
-        case .originalStill:
-            return "original_still"
-        case .looping:
-            return "looping"
         }
     }
     
     public init?(rawValue: RawValue) {
         switch rawValue.lowercased() {
             
+        case "original":
+            self = .original
+        case "original_still":
+            self = .originalStill
+        case "preview":
+            self = .preview
+        case "looping":
+            self = .looping
         case "fixed_height":
             self = .fixedHeight
         case "fixed_height_still":
             self = .fixedHeightStill
         case "fixed_height_downsampled":
             self = .fixedHeightDownsampled
+        case "fixed_height_small":
+            self = .fixedHeightSmall
+        case "fixed_height_small_still":
+            self = .fixedHeightSmallStill
         case "fixed_width":
             self = .fixedWidth
         case "fixed_width_still":
             self = .fixedWidthStill
         case "fixed_width_downsampled":
             self = .fixedWidthDownsampled
-        case "fixed_height_small":
-            self = .fixedHeightSmall
-        case "fixed_height_small_still":
-            self = .fixedHeightSmallStill
         case "fixed_width_small":
             self = .fixedWidthSmall
         case "fixed_width_small_still":
             self = .fixedWidthSmallStill
-        case "preview":
-            self = .preview
-        case "downsized_small":
-            self = .downsizedSmall
         case "downsized":
             self = .downsized
+        case "downsized_small":
+            self = .downsizedSmall
         case "downsized_medium":
             self = .downsizedMedium
         case "downsized_large":
             self = .downsizedLarge
         case "downsized_still":
             self = .downsizedStill
-        case "original":
-            self = .original
-        case "original_still":
-            self = .originalStill
-        case "looping":
-            self = .looping
+
         default:
-            self = .fixedHeight
+            self = .original
         }
     }
 }

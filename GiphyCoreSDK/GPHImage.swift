@@ -30,17 +30,14 @@ import Foundation
 ///
 @objc public class GPHImage: NSObject, NSCoding {
     
-    /// Image ID
-    public private(set) var id: String!
-    
-    /// Display Name for the User
-    public private(set) var type: GPHMediaType!
+    /// ID of the Represented Object
+    public fileprivate(set) var id: String
 
-    /// Rendition
-    public private(set) var rendition: GPHRenditionType!
+    /// ID of the Represented Object
+    public fileprivate(set) var rendition: GPHRenditionType
     
     /// URL of the Gif file
-    public private(set) var gifUrl: URL!
+    public private(set) var gifUrl: String?
     
     /// Width
     public private(set) var width: Int?
@@ -52,31 +49,35 @@ import Foundation
     public private(set) var gifSize: Int?
     
     /// URL of the WebP file
-    public private(set) var webPUrl: URL?
+    public private(set) var webPUrl: String?
 
     /// Gif file size in bytes
     public private(set) var webPSize: Int?
     
     /// URL of the mp4 file
-    public private(set) var mp4Url: URL?
+    public private(set) var mp4Url: String?
     
     /// Gif file size in bytes
     public private(set) var mp4Size: Int?
     
+    override public init() {
+        self.id = ""
+        self.rendition = .original
+        super.init()
+    }
+    
     convenience init(_ id: String,
-                     type: GPHMediaType,
                      rendition: GPHRenditionType,
-                     gifUrl: URL,
+                     gifUrl: String?,
                      gifSize: Int?,
                      width: Int?,
                      height: Int?,
-                     webPUrl: URL?,
+                     webPUrl: String?,
                      webPSize: Int?,
-                     mp4Url: URL?,
+                     mp4Url: String?,
                      mp4Size: Int?) {
         self.init()
         self.id = id
-        self.type = type
         self.rendition = rendition
         self.gifUrl = gifUrl
         self.gifSize = gifSize
@@ -89,22 +90,23 @@ import Foundation
     }
     
     required convenience public init?(coder aDecoder: NSCoder) {
-        guard let id = aDecoder.decodeObject(forKey: "id") as? String,
-            let type = aDecoder.decodeObject(forKey: "type") as? GPHMediaType,
-            let rendition = aDecoder.decodeObject(forKey: "rendition") as? GPHRenditionType,
-            let gifUrl = aDecoder.decodeObject(forKey: "gifUrl") as? URL
-            else { return nil }
+        guard
+            let id = aDecoder.decodeObject(forKey: "id") as? String,
+            let rendition = aDecoder.decodeObject(forKey: "rendition") as? GPHRenditionType
+        else {
+            return nil
+        }
         
+        let gifUrl = aDecoder.decodeObject(forKey: "gifUrl") as? String
         let gifSize = aDecoder.decodeObject(forKey: "gifSize") as? Int
         let width = aDecoder.decodeObject(forKey: "width") as? Int
         let height = aDecoder.decodeObject(forKey: "height") as? Int
-        let webPUrl = aDecoder.decodeObject(forKey: "webPUrl") as? URL
+        let webPUrl = aDecoder.decodeObject(forKey: "webPUrl") as? String
         let webPSize = aDecoder.decodeObject(forKey: "webPSize") as? Int
-        let mp4Url = aDecoder.decodeObject(forKey: "mp4Url") as? URL
+        let mp4Url = aDecoder.decodeObject(forKey: "mp4Url") as? String
         let mp4Size = aDecoder.decodeObject(forKey: "mp4Size") as? Int
         
         self.init(id,
-                  type: type,
                   rendition: rendition,
                   gifUrl: gifUrl,
                   gifSize: gifSize,
@@ -118,7 +120,6 @@ import Foundation
     
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.id, forKey: "id")
-        aCoder.encode(self.type, forKey: "type")
         aCoder.encode(self.rendition, forKey: "rendition")
         aCoder.encode(self.gifUrl, forKey: "gifUrl")
         aCoder.encode(self.gifSize, forKey: "gifSize")
@@ -135,14 +136,69 @@ import Foundation
         if object as? GPHImage === self {
             return true
         }
-        if let other = object as? GPHImage, self.id == other.id {
+        if let other = object as? GPHImage, self.id == other.id, self.rendition.rawValue == other.rendition.rawValue {
             return true
         }
         return false
     }
     
     override public var hash: Int {
-        return "gph_image_\(self.id)_\(self.type.hashValue)_\(self.rendition.hashValue)".hashValue
+        return "gph_image_\(self.id)_\(self.rendition.rawValue)".hashValue
     }
     
 }
+
+// MARK: Human readable
+
+/// Make objects human readable
+///
+extension GPHImage {
+    
+    override public var description: String {
+        return "GPHImage(for: \(self.id)) rendition: \(self.rendition.rawValue)"
+    }
+    
+}
+
+// MARK: Parsing & Mapping
+
+/// For parsing/mapping protocol
+///
+extension GPHImage: GPHMappable {
+    
+    /// this is where the magic will happen + error handling
+    public static func mapData(_ id: String,
+                               data jsonData: GPHJSONObject,
+                               request requestType: GPHRequestType,
+                               media mediaType: GPHMediaType = .gif,
+                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHImage?, error: GPHJSONMappingError?) {
+        
+        let gifUrl = jsonData["url"] as? String
+        let gifSize = jsonData["size"] as? Int
+        let width = jsonData["width"] as? Int
+        let height = jsonData["height"] as? Int
+        let webPUrl = jsonData["webp_url"] as? String
+        let webPSize = jsonData["webp_size"] as? Int
+        let mp4Url = jsonData["mp4_url"] as? String
+        let mp4Size = jsonData["mp4_size"] as? Int
+        
+        let obj = GPHImage(id,
+                           rendition: renditionType,
+                           gifUrl: gifUrl,
+                           gifSize: gifSize,
+                           width: width,
+                           height: height,
+                           webPUrl: webPUrl,
+                           webPSize: webPSize,
+                           mp4Url: mp4Url,
+                           mp4Size: mp4Size)
+
+        //        return (nil, GPHJSONMappingError(description: "Couldn't map GPHImage for \(jsonData)"))
+        return (obj, nil)
+    }
+    
+}
+
+
+
+

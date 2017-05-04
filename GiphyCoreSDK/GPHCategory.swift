@@ -31,12 +31,18 @@ import Foundation
 @objc public class GPHCategory: NSObject, NSCoding {
     
     /// Username
-    public private(set) var name: String!
-    public private(set) var encodedName: String!
+    public private(set) var name: String
+    public private(set) var encodedName: String
     public private(set) var previewImage: GPHImage?
     public private(set) var subCategories: [GPHCategory]?
     
 
+    override public init() {
+        self.name = ""
+        self.encodedName = ""
+        super.init()
+    }
+    
     convenience init(_ name: String, encodedName: String, previewImage: GPHImage?, subCategories: [GPHCategory]?) {
         self.init()
         self.name = name
@@ -80,3 +86,16 @@ import Foundation
     }
     
 }
+
+// MARK: Human readable
+
+/// Make objects human readable
+///
+extension GPHCategory {
+    
+    override public var description: String {
+        return "GPHCategory(\(self.name)) encoded: \(self.encodedName)"
+    }
+    
+}
+

@@ -31,7 +31,12 @@ import Foundation
 @objc public class GPHTermSuggestion: NSObject, NSCoding {
     
     /// Username
-    public private(set) var term: String!
+    public private(set) var term: String
+    
+    override public init() {
+        self.term = ""
+        super.init()
+    }
     
     convenience init(_ term: String) {
         self.init()
@@ -63,6 +68,18 @@ import Foundation
     
     override public var hash: Int {
         return "gph_term_suggestion_\(self.term)".hashValue
+    }
+    
+}
+
+// MARK: Human readable
+
+/// Make objects human readable
+///
+extension GPHTermSuggestion {
+    
+    override public var description: String {
+        return "GPHTermSuggestion(\(self.term))"
     }
     
 }

@@ -26,6 +26,31 @@
 
 import Foundation
 
+/// A JSON object.
+public typealias GPHJSONObject = [String: Any]
+
+//MARK: Generic Request & Completion Handlers
+
+/// JSON/Error signature of generic request method
+///
+/// - parameter data: The JSON response (in case of success) or `nil` (in case of error).
+/// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
+///
+public typealias GPHCompletionHandler = (_ data: GPHJSONObject?, _ response: URLResponse?, _ error: Error?) -> Void
+
+/// Single Result/Error signature of generic request method
+///
+/// - parameter data: The GPHResult response (in case of success) or `nil` (in case of error).
+/// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
+///
+public typealias GPHResultCompletionHandler = (_ data: GPHJSONObject?, _ response: URLResponse?, _ error: Error?) -> Void
+
+/// Multiple Results/Error signature of generic request method
+///
+/// - parameter data: The GPHListResult response (in case of success) or `nil` (in case of error).
+/// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
+///
+public typealias GPHListResultCompletionHandler = (_ data: GPHJSONObject?, _ response: URLResponse?, _ error: Error?) -> Void
 
 /// Entry point into the Swift API.
 ///
@@ -52,7 +77,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func search(_ query: String,
+    @discardableResult public func search(_ query: String,
                                    type: GPHMediaType = .gif,
                                    offset: Int = 0,
                                    limit: Int = 25,
@@ -63,7 +88,7 @@ import Foundation
         
         let request = GPHRequestRouter.search(query, type, offset, limit, rating, lang).asURLRequest(apiKey)
 
-        return self.httpRequest(with: request) { (data, response, error) in
+        return self.httpRequest(with: request, type: .search) { (data, response, error) in
             // Do the parsing and return:
             completionHandler(data, response, error)
         }
@@ -82,7 +107,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func trending(_  type: GPHMediaType = .gif,
+    @discardableResult public func trending(_  type: GPHMediaType = .gif,
                                      offset: Int = 0,
                                      limit: Int = 25,
                                      rating: GPHRatingType = .ratedR,
@@ -90,7 +115,7 @@ import Foundation
     
         let request = GPHRequestRouter.trending(type, offset, limit, rating).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request) { (data, response, error) in
+        return self.httpRequest(with: request, type: .trending) { (data, response, error) in
             // Do the parsing and return:
             completionHandler(data, response, error)
         }
@@ -109,7 +134,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func translate(_ term: String,
+    @discardableResult public func translate(_ term: String,
                                       type: GPHMediaType = .gif,
                                       rating: GPHRatingType = .ratedR,
                                       lang: GPHLanguageType = .english,
@@ -117,7 +142,7 @@ import Foundation
     
         let request = GPHRequestRouter.translate(term, type, rating, lang).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request) { (data, response, error) in
+        return self.httpRequest(with: request, type: .translate) { (data, response, error) in
             // Do the parsing and return:
             completionHandler(data, response, error)
         }
@@ -136,14 +161,14 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func random(_ query: String,
+    @discardableResult public func random(_ query: String,
                                    type: GPHMediaType = .gif,
                                    rating: GPHRatingType = .ratedR,
                                    completionHandler: @escaping GPHCompletionHandler) -> Operation {
     
         let request = GPHRequestRouter.random(query, type, rating).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request) { (data, response, error) in
+        return self.httpRequest(with: request, type: .random) { (data, response, error) in
             // Do the parsing and return:
             completionHandler(data, response, error)
         }
@@ -164,12 +189,12 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func gifByID(_ id: String,
+    @discardableResult public func gifByID(_ id: String,
                                     completionHandler: @escaping GPHCompletionHandler) -> Operation {
     
         let request = GPHRequestRouter.get(id).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request) { (data, response, error) in
+        return self.httpRequest(with: request, type: .get) { (data, response, error) in
             // Do the parsing and return:
             completionHandler(data, response, error)
         }
@@ -184,12 +209,12 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func gifByIDs(_ ids: [String],
+    @discardableResult public func gifByIDs(_ ids: [String],
                                      completionHandler: @escaping GPHCompletionHandler) -> Operation {
     
         let request = GPHRequestRouter.getAll(ids).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request) { (data, response, error) in
+        return self.httpRequest(with: request, type: .getAll) { (data, response, error) in
             // Do the parsing and return:
             completionHandler(data, response, error)
         }
