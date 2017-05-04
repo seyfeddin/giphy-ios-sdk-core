@@ -204,7 +204,7 @@ extension GPHObject: GPHMappable {
         
         let obj = GPHObject(objId, type: mediaType, url: url)
         
-        obj.rating = jsonData["rating"] as? GPHRatingType
+        obj.rating = parseRating(jsonData["rating"] as? String)
         obj.caption = jsonData["caption"] as? String
         obj.slug = jsonData["slug"] as? String
         obj.importDate = parseDate(jsonData["import_datetime"] as? String)

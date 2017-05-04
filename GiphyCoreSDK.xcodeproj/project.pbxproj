@@ -24,6 +24,7 @@
 		E7F1026F1EB8EFF400F0FF34 /* GPHError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */; };
 		E7F102711EB9407000F0FF34 /* GPHImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102701EB9407000F0FF34 /* GPHImages.swift */; };
 		E7F102731EBA6E5B00F0FF34 /* GPHMappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */; };
+		E7F102751EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102741EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHError.swift; sourceTree = "<group>"; };
 		E7F102701EB9407000F0FF34 /* GPHImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHImages.swift; sourceTree = "<group>"; };
 		E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHMappable.swift; sourceTree = "<group>"; };
+		E7F102741EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiphyCoreSDKParsingTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 		E7AF4E351EABCFFF00489AB7 /* GiphyCoreSDKTests */ = {
 			isa = PBXGroup;
 			children = (
+				E7F102741EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift */,
 				E7AF4E361EABCFFF00489AB7 /* GiphyCoreSDKTests.swift */,
 				E7AF4E381EABCFFF00489AB7 /* Info.plist */,
 			);
@@ -276,6 +279,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7F102751EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift in Sources */,
 				E7AF4E371EABCFFF00489AB7 /* GiphyCoreSDKTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

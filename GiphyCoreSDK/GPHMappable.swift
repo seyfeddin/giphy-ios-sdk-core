@@ -84,5 +84,19 @@ extension GPHMappable {
         }
         return nil
     }
+    
+    
+    /// parseRating
+    ///
+    /// - parameter date: String version of the Date to be mapped to Date type
+    /// - returns: a GPHRatingType object or nil
+    ///
+    static func parseRating(_ rating: String?) -> GPHRatingType? {
+        if let rating = rating {
+            return GPHRatingType(rawValue: rating)
+        }
+        return nil
+    }
+    
 
 }

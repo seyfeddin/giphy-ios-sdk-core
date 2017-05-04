@@ -1,15 +1,16 @@
 //
-//  GiphyCoreSDKTests.swift
-//  GiphyCoreSDKTests
+//  GiphyCoreSDKParsingTests.swift
+//  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu on 4/22/17.
+//  Created by Cem Kozinoglu on 5/4/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
 
 import XCTest
 @testable import GiphyCoreSDK
 
-class GiphyCoreSDKTests: XCTestCase {
+class GiphyCoreSDKParsingTests: XCTestCase {
+    
     let client = GPHClient(apiKey: "4OMJYpPoYwVpe")
     
     override func setUp() {
@@ -22,10 +23,9 @@ class GiphyCoreSDKTests: XCTestCase {
         super.tearDown()
     }
     
-    
-    func testClientSearchGIFs() {
+    func testClientSearchGIFsMapJsonToObject() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Search Results")
+        let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
         var statusCode: Int?
         var responseError: Error?
         
@@ -37,65 +37,16 @@ class GiphyCoreSDKTests: XCTestCase {
                 responseError = error
                 XCTFail("Error: \(error.localizedDescription)")
             }
-            if results != nil {
-                promise.fulfill()
-            }
-        }
-        waitForExpectations(timeout: 10, handler: nil)
-        
-        XCTAssertNil(responseError)
-        XCTAssertEqual(statusCode, 200)
-    }
-    
-    
-    func testClientSearchGIFsOffsetLimit() {
-        // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Search Results")
-        var statusCode: Int?
-        var responseError: Error?
-        
-        client.search("cats", media:.gif, offset: 0, limit: 4) { (results, response, error) in
-            
-            statusCode = (response as? HTTPURLResponse)?.statusCode
-            
-            
-            if let error = error {
-                responseError = error
-                XCTFail("Error: \(error.localizedDescription)")
-            }
-            if let results = results {
-                print(results)
-                if results.count == 4 {
-                    promise.fulfill()
-                } else {
-                    XCTFail("Offset/Limit is returning wrong amount of results")
+            if let results = results  {
+                
+                for result in results {
+                    print(result)
                 }
                 
-            }
-        }
-        waitForExpectations(timeout: 10, handler: nil)
-        
-        XCTAssertNil(responseError)
-        XCTAssertEqual(statusCode, 200)
-    }
-    
-    
-    func testClientSearchStickers() {
-        // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Search Results")
-        var statusCode: Int?
-        var responseError: Error?
-        
-        client.search("cats", media: .sticker) { (results, response, error) in
-            
-            statusCode = (response as? HTTPURLResponse)?.statusCode
-            
-            if let error = error {
-                responseError = error
-                XCTFail("Error: \(error.localizedDescription)")
-            }
-            if results != nil {
                 promise.fulfill()
+                
+            } else {
+                XCTFail("No results?")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
@@ -104,14 +55,13 @@ class GiphyCoreSDKTests: XCTestCase {
         XCTAssertEqual(statusCode, 200)
     }
     
-    
-    func testClientSearchStickersOffsetLimit() {
+    func testClientSearchStickersMapJsonToObject() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Search Results")
+        let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
         var statusCode: Int?
         var responseError: Error?
         
-        client.search("cats", media:.sticker, offset: 0, limit: 4) { (results, response, error) in
+        let _ = client.search("cats", media: .sticker) { (results, response, error) in
             
             statusCode = (response as? HTTPURLResponse)?.statusCode
             
@@ -119,14 +69,16 @@ class GiphyCoreSDKTests: XCTestCase {
                 responseError = error
                 XCTFail("Error: \(error.localizedDescription)")
             }
-            if let results = results {
-                print(results)
-                if results.count == 4 {
-                    promise.fulfill()
-                } else {
-                    XCTFail("Offset/Limit is returning wrong amount of results")
+            if let results = results  {
+                
+                for result in results {
+                    print(result)
                 }
                 
+                promise.fulfill()
+                
+            } else {
+                XCTFail("No results?")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
@@ -135,14 +87,13 @@ class GiphyCoreSDKTests: XCTestCase {
         XCTAssertEqual(statusCode, 200)
     }
     
-    
-    func testClientTrendingGIFs() {
+    func testClientTrendingGIFsMapJsonToObject() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Trending Results")
+        let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
         var statusCode: Int?
         var responseError: Error?
         
-        client.trending() { (results, response, error) in
+        let _ = client.trending(completionHandler: { (results, response, error) in
             
             statusCode = (response as? HTTPURLResponse)?.statusCode
             
@@ -150,24 +101,32 @@ class GiphyCoreSDKTests: XCTestCase {
                 responseError = error
                 XCTFail("Error: \(error.localizedDescription)")
             }
-            if results != nil {
+            if let results = results  {
+                
+                for result in results {
+                    print(result)
+                }
+                
                 promise.fulfill()
+                
+            } else {
+                XCTFail("No results?")
             }
-        }
+        })
+        
         waitForExpectations(timeout: 10, handler: nil)
         
         XCTAssertNil(responseError)
         XCTAssertEqual(statusCode, 200)
     }
-
     
-    func testClientTrendingStickers() {
+    func testClientTrendingStickersMapJsonToObject() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Trending Results")
+        let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
         var statusCode: Int?
         var responseError: Error?
         
-        client.trending(.sticker) { (results, response, error) in
+        let _ = client.trending(.sticker) { (results, response, error) in
             
             statusCode = (response as? HTTPURLResponse)?.statusCode
             
@@ -175,8 +134,16 @@ class GiphyCoreSDKTests: XCTestCase {
                 responseError = error
                 XCTFail("Error: \(error.localizedDescription)")
             }
-            if results != nil {
+            if let results = results  {
+                
+                for result in results {
+                    print(result)
+                }
+                
                 promise.fulfill()
+                
+            } else {
+                XCTFail("No results?")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
@@ -184,6 +151,63 @@ class GiphyCoreSDKTests: XCTestCase {
         XCTAssertNil(responseError)
         XCTAssertEqual(statusCode, 200)
     }
+    
+    func testClientTranslateGIFsMapJsonToObject() {
+        // Test to see if we can do a valid search request with our Client Api Key
+        let promise = expectation(description: "Status 200 & Recieve Translate Result & Map it to Object")
+        var statusCode: Int?
+        var responseError: Error?
+        
+        let _ = client.translate("cats") { (result, response, error) in
+            
+            statusCode = (response as? HTTPURLResponse)?.statusCode
+            
+            if let error = error {
+                responseError = error
+                XCTFail("Error: \(error.localizedDescription)")
+            }
+            if let result = result  {
+                print(result)
+                promise.fulfill()
+                
+            } else {
+                XCTFail("No results?")
+            }
+        }
+        waitForExpectations(timeout: 10, handler: nil)
+        
+        XCTAssertNil(responseError)
+        XCTAssertEqual(statusCode, 200)
+    }
+    
+    func testClientTranslateStickersMapJsonToObject() {
+        // Test to see if we can do a valid search request with our Client Api Key
+        let promise = expectation(description: "Status 200 & Recieve Translate Result & Map it to Object")
+        var statusCode: Int?
+        var responseError: Error?
+        
+        let _ = client.translate("cats", media: .sticker) { (result, response, error) in
+            
+            statusCode = (response as? HTTPURLResponse)?.statusCode
+            
+            if let error = error {
+                responseError = error
+                XCTFail("Error: \(error.localizedDescription)")
+            }
+            if let result = result  {
+                print(result)
+                promise.fulfill()
+                
+            } else {
+                XCTFail("No results?")
+            }
+        }
+        waitForExpectations(timeout: 10, handler: nil)
+        
+        XCTAssertNil(responseError)
+        XCTAssertEqual(statusCode, 200)
+    }
+    
     
     
 }
