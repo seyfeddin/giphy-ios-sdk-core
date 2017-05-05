@@ -52,6 +52,14 @@ public typealias GPHResultCompletionHandler = (_ data: GPHObject?, _ response: U
 ///
 public typealias GPHListResultCompletionHandler = (_ results: [GPHObject]?, _ response: URLResponse?, _ error: Error?) -> Void
 
+/// Multiple Results/Error signature of generic request method
+///
+/// - parameter data: The GPHListResult response (in case of success) or `nil` (in case of error).
+/// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
+///
+public typealias GPHListTermSuggestionsCompletionHandler = (_ results: [GPHTermSuggestion]?, _ response: URLResponse?, _ error: Error?) -> Void
+
+
 /// Entry point into the Swift API.
 ///
 @objc public class GPHClient : GPHAbstractClient {
@@ -88,31 +96,7 @@ public typealias GPHListResultCompletionHandler = (_ results: [GPHObject]?, _ re
         
         let request = GPHRequestRouter.search(query, media, offset, limit, rating, lang).asURLRequest(apiKey)
 
-        return self.httpRequest(with: request, type: .search) { (data, response, error) in
-            // Do the parsing and return:
-            if let data = data, let results = data["data"] as? [[String:Any]]  {
-                
-                var resultObjs:[GPHObject] = []
-                
-                for result in results {
-                    let resultObj = GPHObject.mapData("", data: result, request: .search, media: media)
-                    
-                    if resultObj.object == nil {
-                        if let jsonError = resultObj.error {
-                            completionHandler(nil, response, jsonError)
-                        } else {
-                            completionHandler(nil, response, GPHJSONMappingError(description: "Unexpected error"))
-                        }
-                        return
-                    }
-                    
-                    resultObjs.append(resultObj.object!)
-                }
-                completionHandler(resultObjs, response, error)
-                return
-            }
-            completionHandler(nil, response, error)
-        }
+        return self.listRequest(with: request, type: .search, media: media, completionHandler: completionHandler)
     }
     
     //MARK: Trending Endpoint
@@ -135,31 +119,7 @@ public typealias GPHListResultCompletionHandler = (_ results: [GPHObject]?, _ re
     
         let request = GPHRequestRouter.trending(media, offset, limit, rating).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request, type: .trending) { (data, response, error) in
-            // Do the parsing and return:
-            if let data = data, let results = data["data"] as? [[String:Any]]  {
-                
-                var resultObjs:[GPHObject] = []
-                
-                for result in results {
-                    let resultObj = GPHObject.mapData("", data: result, request: .trending, media: media)
-                    
-                    if resultObj.object == nil {
-                        if let jsonError = resultObj.error {
-                            completionHandler(nil, response, jsonError)
-                        } else {
-                            completionHandler(nil, response, GPHJSONMappingError(description: "Unexpected error"))
-                        }
-                        return
-                    }
-                    
-                    resultObjs.append(resultObj.object!)
-                }
-                completionHandler(resultObjs, response, error)
-                return
-            }
-            completionHandler(nil, response, error)
-        }
+        return self.listRequest(with: request, type: .trending, media: media, completionHandler: completionHandler)
     }
     
     //MARK: Translate Endpoint
@@ -182,27 +142,7 @@ public typealias GPHListResultCompletionHandler = (_ results: [GPHObject]?, _ re
     
         let request = GPHRequestRouter.translate(term, media, rating, lang).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request, type: .translate) { (data, response, error) in
-            // Do the parsing and return:
-            if let data = data, let result = data["data"] as? [String:Any]  {
-                
-                let resultObj = GPHObject.mapData("", data: result, request: .translate, media: media)
-                
-                if resultObj.object == nil {
-                    if let jsonError = resultObj.error {
-                        completionHandler(nil, response, jsonError)
-                    } else {
-                        completionHandler(nil, response, GPHJSONMappingError(description: "Unexpected error"))
-                    }
-                    return
-                }
-                    
-                completionHandler(resultObj.object, response, error)
-                return
-            }
-            completionHandler(nil, response, error)
-        }
-    
+        return self.getRequest(with: request, type: .translate, media: media, completionHandler: completionHandler)
     }
     
     //MARK: Random Endpoint
@@ -220,15 +160,11 @@ public typealias GPHListResultCompletionHandler = (_ results: [GPHObject]?, _ re
     @discardableResult public func random(_ query: String,
                                    media: GPHMediaType = .gif,
                                    rating: GPHRatingType = .ratedR,
-                                   completionHandler: @escaping GPHCompletionHandler) -> Operation {
+                                   completionHandler: @escaping GPHResultCompletionHandler) -> Operation {
     
         let request = GPHRequestRouter.random(query, media, rating).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request, type: .random) { (data, response, error) in
-            // Do the parsing and return:
-            completionHandler(data, response, error)
-        }
-    
+        return self.getRequest(with: request, type: .random, media: media, completionHandler: completionHandler)
     }
     
     
@@ -246,15 +182,11 @@ public typealias GPHListResultCompletionHandler = (_ results: [GPHObject]?, _ re
     ///
     @objc
     @discardableResult public func gifByID(_ id: String,
-                                    completionHandler: @escaping GPHCompletionHandler) -> Operation {
+                                    completionHandler: @escaping GPHResultCompletionHandler) -> Operation {
     
         let request = GPHRequestRouter.get(id).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request, type: .get) { (data, response, error) in
-            // Do the parsing and return:
-            completionHandler(data, response, error)
-        }
-    
+        return self.getRequest(with: request, type: .get, media: .gif, completionHandler: completionHandler)
     }
     
     
@@ -265,16 +197,28 @@ public typealias GPHListResultCompletionHandler = (_ results: [GPHObject]?, _ re
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func gifByIDs(_ ids: [String],
-                                     completionHandler: @escaping GPHCompletionHandler) -> Operation {
+    @discardableResult public func gifsByIDs(_ ids: [String],
+                                     completionHandler: @escaping GPHListResultCompletionHandler) -> Operation {
     
         let request = GPHRequestRouter.getAll(ids).asURLRequest(apiKey)
         
-        return self.httpRequest(with: request, type: .getAll) { (data, response, error) in
-            // Do the parsing and return:
-            completionHandler(data, response, error)
-        }
-    
+        return self.listRequest(with: request, type: .getAll, media: .gif, completionHandler: completionHandler)
     }
-
+    
+    
+    /// Term Suggestions
+    ///
+    /// - parameter term: Word/Words
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
+    @discardableResult public func termSuggestions(_ term: String,
+                                             completionHandler: @escaping GPHListTermSuggestionsCompletionHandler) -> Operation {
+        
+        let request = GPHRequestRouter.termSuggestions(encodedStringForUrl(term)).asURLRequest(apiKey)
+        
+        return self.listTermSuggestionsRequest(with: request, type: .termSuggestions, media: .gif, completionHandler: completionHandler)
+    }
+    
 }

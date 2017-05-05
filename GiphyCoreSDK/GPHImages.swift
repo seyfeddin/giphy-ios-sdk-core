@@ -190,6 +190,30 @@ extension GPHImages {
 ///
 extension GPHImages: GPHMappable {
     
+    // convinience method to convert Random endpoint results to structured renditions
+    private static func mapRandomData(_ keyPrefix: String, data: GPHJSONObject) -> GPHJSONObject? {
+        
+        var keyPrefixMap = keyPrefix
+        if keyPrefix == "original" {
+            keyPrefixMap = "image"
+        }
+        var mappedDict: GPHJSONObject = [:]
+        mappedDict["url"] = data["\(keyPrefixMap)_url"] as? String
+        mappedDict["width"] = parseInt(data["\(keyPrefixMap)_width"] as? String)
+        mappedDict["height"] = parseInt(data["\(keyPrefixMap)_height"] as? String)
+        mappedDict["frames"] = parseInt(data["\(keyPrefixMap)_frames"] as? String)
+        mappedDict["size"] = parseInt(data["\(keyPrefixMap)_size"] as? String)
+        mappedDict["mp4"] = data["\(keyPrefixMap)_mp4_url"] as? String
+        mappedDict["still_url"] = data["\(keyPrefixMap)_still_url"] as? String
+        
+        if mappedDict.count == 0 {
+            return nil
+        }
+        
+        return mappedDict
+    }
+    
+    
     // convinience method to get GPHImage or nil safely
     private static func image(_ id: String,
                               data jsonData: GPHJSONObject,
@@ -197,7 +221,17 @@ extension GPHImages: GPHMappable {
                               media mediaType: GPHMediaType,
                               rendition renditionType: GPHRenditionType) -> (object: GPHImage?, error: GPHJSONMappingError?) {
         
-        if let jsonKeyData = jsonData[renditionType.rawValue] as? GPHJSONObject {
+        var jsonKeyData:GPHJSONObject?
+        
+        // handle structural changes on how data is mapped depending on the request type (search, trending, random....)
+        switch requestType {
+        case .random:
+            jsonKeyData = mapRandomData(renditionType.rawValue, data: jsonData)
+        default:
+            jsonKeyData = jsonData[renditionType.rawValue] as? GPHJSONObject
+        }
+        
+        if let jsonKeyData = jsonKeyData {
             let keyImage = GPHImage.mapData(id, data: jsonKeyData, request: requestType, media: mediaType, rendition: renditionType)
             if let image = keyImage.object {
                 return (image, nil)
@@ -212,7 +246,7 @@ extension GPHImages: GPHMappable {
         return (nil, GPHJSONMappingError(description: "Couldn't map GPHImage for the rendition \(renditionType.rawValue)"))
     }
     
-    /// this is where the magic will happen + error handling
+    /// this is where the magic happens + error handling
     public static func mapData(_ id: String,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,

@@ -26,103 +26,75 @@
 
 import Foundation
 
-/// Represents a Giphy Object
+/// Represents a Giphy User Object
 ///
 /// http://api.giphy.com/v1/gifs/categories/animals/cats?api_key=4OMJYpPoYwVpe
 
-/*
- ▿ 18 elements
- ▿ 0 : 2 elements
- - key : "name"
- - value : AFV Pets
- 
- ▿ 2 : 2 elements
- - key : "website_url"
- - value : http://www.afv.com
-
- ▿ 4 : 2 elements
- - key : "description"
- - value : Boat loads of pet gifs from America’s favorite show, “AFV”.
- 
- ▿ 7 : 2 elements
- - key : "profile_url"
- - value : https://giphy.com/afvpets/
- 
- ▿ 8 : 2 elements
- - key : "tumblr_url"
- - value : http://afvofficial.tumblr.com/
- 
- ▿ 9 : 2 elements
- - key : "id"
- - value : 183873
- 
- ▿ 10 : 2 elements
- - key : "is_public"
- - value : 1
- 
- ▿ 11 : 2 elements
- - key : "attribution_display_name"
- - value : AFV Pets
- 
- ▿ 13 : 2 elements
- - key : "suppress_chrome"
- - value : 0
- 
- ▿ 14 : 2 elements
- - key : "facebook_url"
- - value :
- 
- ▿ 15 : 2 elements
- - key : "website_display_url"
- - value : www.afv.com
- 
- ▿ 16 : 2 elements
- - key : "twitter_url"
- - value : https://twitter.com/AFVOfficial
- ▿ 17 : 2 elements
- 
- - key : "instagram_url"
- - value : <null>
-
- */
 @objc public class GPHUser: NSObject, NSCoding {
     
     /// Username
-    public private(set) var username: String
+    public fileprivate(set) var username: String
+
+    /// User Public/Private
+    public fileprivate(set) var isPublic: Bool?
+
+    /// User Id
+    public fileprivate(set) var id: Int?
+    
+    /// Name of the User
+    public fileprivate(set) var name: String?
+    
+    /// Description of the User
+    public fileprivate(set) var userDescription: String?
+
+    /// Attribution Display Name
+    public fileprivate(set) var attributionDisplayName: String?
     
     /// Display Name for the User
-    public private(set) var displayName: String?
+    public fileprivate(set) var displayName: String?
     
     /// Twitter Handler
-    public private(set) var twitter: String?
+    public fileprivate(set) var twitter: String?
+
+    /// URL of the Twitter Handler
+    public fileprivate(set) var twitterUrl: String?
+
+    /// URL of the Facebook Handler
+    public fileprivate(set) var facebookUrl: String?
+
+    /// URL of the Instagram Handler
+    public fileprivate(set) var instagramUrl: String?
+    
+    /// URL of the Website
+    public fileprivate(set) var websiteUrl: String?
+
+    /// Displayable URL of the Website
+    public fileprivate(set) var websiteDisplayUrl: String?
+    
+    /// URL of the Tumblr Handler
+    public fileprivate(set) var tumblrUrl: String?
     
     /// URL of the Avatar
-    public private(set) var avatarUrl: String?
+    public fileprivate(set) var avatarUrl: String?
     
     /// URL of the Banner
-    public private(set) var bannerUrl: String?
+    public fileprivate(set) var bannerUrl: String?
     
     /// URL of the Profile
-    public private(set) var profileUrl: String?
+    public fileprivate(set) var profileUrl: String?
+
+    /// Suppress Chrome
+    public fileprivate(set) var suppressChrome: Bool?
+    
     
     override public init() {
         self.username = ""
         super.init()
     }
     
-    convenience init(_ username: String,
-                     displayName: String?,
-                     twitter: String?,
-                     avatarUrl: String?,
-                     bannerUrl: String?,
-                     profileUrl: String?) {
+    convenience init(_ username: String) {
         self.init()
         self.username = username
-        self.displayName = displayName
-        self.twitter = twitter
-        self.avatarUrl = avatarUrl
-        self.bannerUrl = bannerUrl
-        self.profileUrl = profileUrl
     }
     
     required convenience public init?(coder aDecoder: NSCoder) {
@@ -131,26 +103,45 @@ import Foundation
         else {
             return nil
         }
-
-        let displayName = aDecoder.decodeObject(forKey: "displayName") as? String
-        let twitter = aDecoder.decodeObject(forKey: "twitter") as? String
-        let avatarUrl = aDecoder.decodeObject(forKey: "avatarUrl") as? String
-        let bannerUrl = aDecoder.decodeObject(forKey: "bannerUrl") as? String
-        let profileUrl = aDecoder.decodeObject(forKey: "profileUrl") as? String
-
-        self.init(username,
-                  displayName: displayName,
-                  twitter: twitter,
-                  avatarUrl: avatarUrl,
-                  bannerUrl: bannerUrl,
-                  profileUrl: profileUrl)
-
+        
+        self.init(username)
+        
+        self.id = aDecoder.decodeObject(forKey: "id") as? Int
+        self.isPublic = aDecoder.decodeObject(forKey: "isPublic") as? Bool
+        self.suppressChrome = aDecoder.decodeObject(forKey: "suppressChrome") as? Bool
+        self.name = aDecoder.decodeObject(forKey: "name") as? String
+        self.displayName = aDecoder.decodeObject(forKey: "displayName") as? String
+        self.userDescription = aDecoder.decodeObject(forKey: "userDescription") as? String
+        self.attributionDisplayName = aDecoder.decodeObject(forKey: "attributionDisplayName") as? String
+        self.twitter = aDecoder.decodeObject(forKey: "twitter") as? String
+        self.twitterUrl = aDecoder.decodeObject(forKey: "twitterUrl") as? String
+        self.facebookUrl = aDecoder.decodeObject(forKey: "facebookUrl") as? String
+        self.instagramUrl = aDecoder.decodeObject(forKey: "instagramUrl") as? String
+        self.websiteUrl = aDecoder.decodeObject(forKey: "websiteUrl") as? String
+        self.websiteDisplayUrl = aDecoder.decodeObject(forKey: "websiteDisplayUrl") as? String
+        self.tumblrUrl = aDecoder.decodeObject(forKey: "tumblrUrl") as? String
+        self.avatarUrl = aDecoder.decodeObject(forKey: "avatarUrl") as? String
+        self.bannerUrl = aDecoder.decodeObject(forKey: "bannerUrl") as? String
+        self.profileUrl = aDecoder.decodeObject(forKey: "profileUrl") as? String
+        
     }
 
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.username, forKey: "username")
+        aCoder.encode(self.id, forKey: "id")
+        aCoder.encode(self.isPublic, forKey: "isPublic")
+        aCoder.encode(self.suppressChrome, forKey: "suppressChrome")
+        aCoder.encode(self.name, forKey: "name")
         aCoder.encode(self.displayName, forKey: "displayName")
+        aCoder.encode(self.userDescription, forKey: "userDescription")
+        aCoder.encode(self.attributionDisplayName, forKey: "attributionDisplayName")
         aCoder.encode(self.twitter, forKey: "twitter")
+        aCoder.encode(self.twitterUrl, forKey: "twitterUrl")
+        aCoder.encode(self.facebookUrl, forKey: "facebookUrl")
+        aCoder.encode(self.instagramUrl, forKey: "instagramUrl")
+        aCoder.encode(self.websiteUrl, forKey: "websiteUrl")
+        aCoder.encode(self.websiteDisplayUrl, forKey: "websiteDisplayUrl")
+        aCoder.encode(self.tumblrUrl, forKey: "tumblrUrl")
         aCoder.encode(self.avatarUrl, forKey: "avatarUrl")
         aCoder.encode(self.bannerUrl, forKey: "bannerUrl")
         aCoder.encode(self.profileUrl, forKey: "profileUrl")
@@ -203,24 +194,28 @@ extension GPHUser: GPHMappable {
         else {
             return (nil, GPHJSONMappingError(description: "Couldn't map GPHUser for \(jsonData)"))
         }
+       
+        let obj = GPHUser(username)
 
-        let displayName = jsonData["display_name"] as? String
-        let twitter = jsonData["twitter"] as? String
-        let avatarUrl = jsonData["avatar_url"] as? String
-        let bannerUrl = jsonData["banner_url"] as? String
-        let profileUrl = jsonData["profile_url"] as? String
-        
-        let obj = GPHUser(username,
-                          displayName: displayName,
-                          twitter: twitter,
-                          avatarUrl: avatarUrl,
-                          bannerUrl: bannerUrl,
-                          profileUrl: profileUrl)
+        obj.id = parseInt(jsonData["id"] as? String)
+        obj.isPublic = jsonData["isPublic"] as? Bool
+        obj.suppressChrome = jsonData["suppressChrome"] as? Bool
+        obj.name = jsonData["name"] as? String
+        obj.displayName = jsonData["displayName"] as? String
+        obj.userDescription = jsonData["userDescription"] as? String
+        obj.attributionDisplayName = jsonData["attributionDisplayName"] as? String
+        obj.twitter = jsonData["twitter"] as? String
+        obj.twitterUrl = jsonData["twitterUrl"] as? String
+        obj.facebookUrl = jsonData["facebookUrl"] as? String
+        obj.instagramUrl = jsonData["instagramUrl"] as? String
+        obj.websiteUrl = jsonData["websiteUrl"] as? String
+        obj.websiteDisplayUrl = jsonData["websiteDisplayUrl"] as? String
+        obj.tumblrUrl = jsonData["tumblrUrl"] as? String
+        obj.avatarUrl = jsonData["avatarUrl"] as? String
+        obj.bannerUrl = jsonData["bannerUrl"] as? String
+        obj.profileUrl = jsonData["profileUrl"] as? String
         
         return (obj, nil)
     }
     
 }
-
-
-

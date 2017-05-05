@@ -36,8 +36,6 @@ import Foundation
     public fileprivate(set) var rating: GPHRatingType?
     public fileprivate(set) var caption: String?
     public fileprivate(set) var slug: String?
-    public fileprivate(set) var importDate: Date?
-    public fileprivate(set) var trendingDate: Date?
     public fileprivate(set) var indexable: String?
     public fileprivate(set) var content: String?
     public fileprivate(set) var bitly: String?
@@ -50,7 +48,11 @@ import Foundation
     public fileprivate(set) var images: GPHImages?
     public fileprivate(set) var tags: [String]?
     public fileprivate(set) var featuredTags: [String]?
-
+    public fileprivate(set) var importDate: Date?
+    public fileprivate(set) var createDate: Date?
+    public fileprivate(set) var updateDate: Date?
+    public fileprivate(set) var trendingDate: Date?
+    
     // NOTE: Categories endpoint
     // Example: http://api.giphy.com/v1/gifs/categories/actions?api_key=4OMJYpPoYwVpe
     public fileprivate(set) var isHidden: Bool?
@@ -61,8 +63,7 @@ import Foundation
     public fileprivate(set) var isRealtime: Bool?
     public fileprivate(set) var isIndexable: Bool?
     public fileprivate(set) var isSticker: Bool?
-    public fileprivate(set) var updateDate: Date?
-    public fileprivate(set) var createDate: Date?
+
 
     
     override public init() {
@@ -221,16 +222,29 @@ extension GPHObject: GPHMappable {
         if let userData = jsonData["user"] as? [String: Any] {
             obj.user = GPHUser.mapData(objId, data: userData, request: requestType, media: mediaType).object
         }
-        if let renditionData = jsonData["images"] as? [String: Any] {
-            let renditionResults = GPHImages.mapData(objId, data: renditionData, request: requestType, media: mediaType)
+        
+        // Handling exception of the Random endpoint structure
+        switch requestType {
+        case .random:
+            let renditionResults = GPHImages.mapData(objId, data: jsonData, request: requestType, media: mediaType)
             if let renditions = renditionResults.object {
                 obj.images = renditions
             } else {
                 // fail? or return nil -- this is conditional depending on the end-point
                 return (nil, renditionResults.error)
             }
+        default:
+            if let renditionData = jsonData["images"] as? [String: Any] {
+                let renditionResults = GPHImages.mapData(objId, data: renditionData, request: requestType, media: mediaType)
+                if let renditions = renditionResults.object {
+                    obj.images = renditions
+                } else {
+                    // fail? or return nil -- this is conditional depending on the end-point
+                    return (nil, renditionResults.error)
+                }
+            }
         }
-                
+        
         obj.tags = jsonData["tags"] as? [String]
         obj.featuredTags = jsonData["featured_tags"] as? [String]
         
@@ -250,4 +264,3 @@ extension GPHObject: GPHMappable {
     }
 
 }
-

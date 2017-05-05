@@ -46,6 +46,9 @@ import Foundation
     
     /// Get items with IDs
     case getAll
+    
+    /// Get term suggestions
+    case termSuggestions
 }
 
 
@@ -117,7 +120,7 @@ public enum GPHRequestRouter {
     case random(String, GPHMediaType, GPHRatingType) // query, type, rating
     case get(String) // id
     case getAll([String]) // ids
-
+    case termSuggestions(String) // term to query
     
     // Base endpoint
     static let baseURLString = "https://api.giphy.com/v1/"
@@ -125,7 +128,7 @@ public enum GPHRequestRouter {
     // Set the method
     var method: String {
         switch self {
-        case .search, .trending, .translate, .random, .get, .getAll: return "GET"
+        case .search, .trending, .translate, .random, .get, .getAll, .termSuggestions: return "GET"
         // in future when we have upload / auth / we will add PUT, DELETE, POST here
         }
     }
@@ -166,7 +169,10 @@ public enum GPHRequestRouter {
             case .getAll(let ids):
                 queryItems.append(URLQueryItem(name: "ids", value: ids.flatMap({$0}).joined(separator:",")))
                 relativePath = "gifs"
+            case .termSuggestions(let term):
+                relativePath = "queries/suggest/\(term)"
             }
+            
 
             var url = URL(string: GPHRequestRouter.baseURLString)!
             if let path = relativePath {
@@ -183,7 +189,7 @@ public enum GPHRequestRouter {
         // Set up request parameters
         let parameters: [String: Any]? = {
             switch self {
-            case .search, .trending, .translate, .random, .get, .getAll: return nil
+            case .search, .trending, .translate, .random, .get, .getAll, .termSuggestions: return nil
             // in future when we have upload / auth / we will add PUT, DELETE, POST here
             }
         }()

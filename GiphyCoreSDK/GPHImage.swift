@@ -38,12 +38,18 @@ import Foundation
     
     /// URL of the Gif file
     public private(set) var gifUrl: String?
+
+    /// URL of the Still Gif file
+    public private(set) var stillGifUrl: String?
     
     /// Width
     public private(set) var width: Int?
     
     /// Height
     public private(set) var height: Int?
+
+    /// # of Frames
+    public private(set) var frames: Int?
     
     /// Gif file size in bytes
     public private(set) var gifSize: Int?
@@ -69,9 +75,11 @@ import Foundation
     convenience init(_ id: String,
                      rendition: GPHRenditionType,
                      gifUrl: String?,
+                     stillGifUrl: String?,
                      gifSize: Int?,
                      width: Int?,
                      height: Int?,
+                     frames: Int?,
                      webPUrl: String?,
                      webPSize: Int?,
                      mp4Url: String?,
@@ -80,9 +88,11 @@ import Foundation
         self.id = id
         self.rendition = rendition
         self.gifUrl = gifUrl
+        self.stillGifUrl = stillGifUrl
         self.gifSize = gifSize
         self.width = width
         self.height = height
+        self.frames = frames
         self.webPUrl = webPUrl
         self.webPSize = webPSize
         self.mp4Url = mp4Url
@@ -98,9 +108,11 @@ import Foundation
         }
         
         let gifUrl = aDecoder.decodeObject(forKey: "gifUrl") as? String
+        let stillGifUrl = aDecoder.decodeObject(forKey: "stillGifUrl") as? String
         let gifSize = aDecoder.decodeObject(forKey: "gifSize") as? Int
         let width = aDecoder.decodeObject(forKey: "width") as? Int
         let height = aDecoder.decodeObject(forKey: "height") as? Int
+        let frames = aDecoder.decodeObject(forKey: "frames") as? Int
         let webPUrl = aDecoder.decodeObject(forKey: "webPUrl") as? String
         let webPSize = aDecoder.decodeObject(forKey: "webPSize") as? Int
         let mp4Url = aDecoder.decodeObject(forKey: "mp4Url") as? String
@@ -109,9 +121,11 @@ import Foundation
         self.init(id,
                   rendition: rendition,
                   gifUrl: gifUrl,
+                  stillGifUrl: stillGifUrl,
                   gifSize: gifSize,
                   width: width,
                   height: height,
+                  frames: frames,
                   webPUrl: webPUrl,
                   webPSize: webPSize,
                   mp4Url: mp4Url,
@@ -122,9 +136,11 @@ import Foundation
         aCoder.encode(self.id, forKey: "id")
         aCoder.encode(self.rendition, forKey: "rendition")
         aCoder.encode(self.gifUrl, forKey: "gifUrl")
+        aCoder.encode(self.gifUrl, forKey: "stillGifUrl")
         aCoder.encode(self.gifSize, forKey: "gifSize")
         aCoder.encode(self.width, forKey: "width")
         aCoder.encode(self.height, forKey: "height")
+        aCoder.encode(self.frames, forKey: "frames")
         aCoder.encode(self.webPUrl, forKey: "webPUrl")
         aCoder.encode(self.webPSize, forKey: "webPSize")
         aCoder.encode(self.mp4Url, forKey: "mp4Url")
@@ -174,20 +190,24 @@ extension GPHImage: GPHMappable {
                                rendition renditionType: GPHRenditionType = .original) -> (object: GPHImage?, error: GPHJSONMappingError?) {
         
         let gifUrl = jsonData["url"] as? String
-        let gifSize = jsonData["size"] as? Int
-        let width = jsonData["width"] as? Int
-        let height = jsonData["height"] as? Int
+        let stillGifUrl = jsonData["still_url"]  as? String
+        let gifSize = parseInt(jsonData["size"] as? String)
+        let width = parseInt(jsonData["width"] as? String)
+        let height = parseInt(jsonData["height"] as? String)
+        let frames = parseInt(jsonData["frames"] as? String)
         let webPUrl = jsonData["webp_url"] as? String
-        let webPSize = jsonData["webp_size"] as? Int
+        let webPSize = parseInt(jsonData["webp_size"] as? String)
         let mp4Url = jsonData["mp4_url"] as? String
-        let mp4Size = jsonData["mp4_size"] as? Int
+        let mp4Size = parseInt(jsonData["mp4_size"] as? String)
         
         let obj = GPHImage(id,
                            rendition: renditionType,
                            gifUrl: gifUrl,
+                           stillGifUrl: stillGifUrl,
                            gifSize: gifSize,
                            width: width,
                            height: height,
+                           frames: frames,
                            webPUrl: webPUrl,
                            webPSize: webPSize,
                            mp4Url: mp4Url,
@@ -198,7 +218,3 @@ extension GPHImage: GPHMappable {
     }
     
 }
-
-
-
-

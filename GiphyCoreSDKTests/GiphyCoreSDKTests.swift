@@ -10,6 +10,9 @@ import XCTest
 @testable import GiphyCoreSDK
 
 class GiphyCoreSDKTests: XCTestCase {
+    
+    // MARK: Setup Client and Tests
+
     let client = GPHClient(apiKey: "4OMJYpPoYwVpe")
     
     override func setUp() {

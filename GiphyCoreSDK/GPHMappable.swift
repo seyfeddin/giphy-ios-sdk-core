@@ -99,4 +99,16 @@ extension GPHMappable {
     }
     
 
+    /// parseInt
+    ///
+    /// - parameter number: String version of the Int to be mapped to Int type
+    /// - returns: a Int object or nil
+    ///
+    static func parseInt(_ number: String?) -> Int? {
+        if let number = number {
+            return Int(number)
+        }
+        return nil
+    }
+
 }

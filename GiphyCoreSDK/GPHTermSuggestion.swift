@@ -83,3 +83,29 @@ extension GPHTermSuggestion {
     }
     
 }
+
+// MARK: Parsing & Mapping
+
+/// For parsing/mapping protocol
+///
+extension GPHTermSuggestion: GPHMappable {
+    
+    /// this is where the magic will happen + error handling
+    public static func mapData(_ id: String,
+                               data jsonData: GPHJSONObject,
+                               request requestType: GPHRequestType,
+                               media mediaType: GPHMediaType = .gif,
+                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHTermSuggestion?, error: GPHJSONMappingError?) {
+        
+        guard
+            let term = jsonData["name"] as? String
+            else {
+                return (nil, GPHJSONMappingError(description: "Couldn't map GPHTermSuggestion for \(jsonData)"))
+        }
+        
+        let obj = GPHTermSuggestion(term)
+        
+        return (obj, nil)
+    }
+    
+}

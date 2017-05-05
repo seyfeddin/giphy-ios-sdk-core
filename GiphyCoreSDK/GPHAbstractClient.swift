@@ -37,8 +37,8 @@ import Foundation
     /// Session
     var session: URLSession
     
-    /// Default timeout for network requests. Default: 30 seconds.
-    @objc public var timeout: TimeInterval = 30
+    /// Default timeout for network requests. Default: 10 seconds.
+    @objc public var timeout: TimeInterval = 10
     
     /// Time delay before a search request is fired or cancelled
     @objc public var searchDelay: TimeInterval = 0.200
@@ -89,7 +89,15 @@ import Foundation
     private static func defaultUserAgent() -> String {
         return "Giphy SDK v1.0 (iOS)"
     }
-        
+    
+    /// Encode Strings for appending to URLS for endpoints like Term Suggestions
+    func encodedStringForUrl(_ string: String) -> String {
+        guard
+            let encoded = string.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+            else { return string }
+        return encoded
+    }
+
     /// Perform a request.
     ///
     /// - parameter request: URLRequest
@@ -104,6 +112,113 @@ import Foundation
         
         return operation
     }
+    
+    /// Perform a request to get a single result
+    ///
+    /// - parameter request: URLRequest
+    /// - parameter type: GPHRequestType to figure out what endpoint to hit
+    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
+    @discardableResult func getRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHResultCompletionHandler) -> Operation {
+        
+         return self.httpRequest(with: request, type: type) { (data, response, error) in
+             // Do the parsing and return:
+             if let data = data, let result = data["data"] as? [String:Any]  {
+                 let resultObj = GPHObject.mapData("", data: result, request: .translate, media: media)
+                 
+                 if resultObj.object == nil {
+                     if let jsonError = resultObj.error {
+                        completionHandler(nil, response, jsonError)
+                     } else {
+                        completionHandler(nil, response, GPHJSONMappingError(description: "Unexpected error"))
+                     }
+                     return
+                 }
+                 completionHandler(resultObj.object, response, error)
+                return
+             }
+             completionHandler(nil, response, error)
+         }
+    }
+    
+    
+    /// Perform a request to get a list of results
+    ///
+    /// - parameter request: URLRequest
+    /// - parameter type: GPHRequestType to figure out what endpoint to hit
+    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
+    @discardableResult func listRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHListResultCompletionHandler) -> Operation {
+
+        return self.httpRequest(with: request, type: type) { (data, response, error) in
+            // Do the parsing and return:
+            if let data = data, let results = data["data"] as? [[String:Any]]  {
+
+                var resultObjs:[GPHObject] = []
+
+                for result in results {
+                    let resultObj = GPHObject.mapData("", data: result, request: .search, media: media)
+
+                    if resultObj.object == nil {
+                        if let jsonError = resultObj.error {
+                            completionHandler(nil, response, jsonError)
+                        } else {
+                            completionHandler(nil, response, GPHJSONMappingError(description: "Unexpected error"))
+                        }
+                        return
+                    }
+                    resultObjs.append(resultObj.object!)
+                }
+                completionHandler(resultObjs, response, error)
+                return
+            }
+            completionHandler(nil, response, error)
+        }
+    }
+    
+    /// Perform a request to get a list of term suggestions
+    ///
+    /// - parameter request: URLRequest
+    /// - parameter type: GPHRequestType to figure out what endpoint to hit
+    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
+    @discardableResult func listTermSuggestionsRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHListTermSuggestionsCompletionHandler) -> Operation {
+        
+        return self.httpRequest(with: request, type: type) { (data, response, error) in
+            // Do the parsing and return:
+            if let data = data, let results = data["data"] as? [[String:Any]]  {
+                
+                var resultObjs:[GPHTermSuggestion] = []
+                
+                for result in results {
+                    let resultObj = GPHTermSuggestion.mapData("", data: result, request: .termSuggestions, media: media)
+                    
+                    if resultObj.object == nil {
+                        if let jsonError = resultObj.error {
+                            completionHandler(nil, response, jsonError)
+                        } else {
+                            completionHandler(nil, response, GPHJSONMappingError(description: "Unexpected error"))
+                        }
+                        return
+                    }
+                    resultObjs.append(resultObj.object!)
+                }
+                completionHandler(resultObjs, response, error)
+                return
+            }
+            completionHandler(nil, response, error)
+        }
+    }
+    
     
     #if !os(watchOS)
     
