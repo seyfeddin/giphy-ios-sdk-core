@@ -55,7 +55,7 @@ import Foundation
     #if !os(watchOS)
     
     /// Network reachability detecter.
-    internal var reachability: GPHNetworkReachability = GPHNetworkReachability()
+    var reachability: GPHNetworkReachability = GPHNetworkReachability()
     
     /// Whether to use network reachability to decide if online requests should be attempted.
     ///
@@ -67,7 +67,7 @@ import Foundation
     
     // MARK: Initialization
     
-    internal init(apiKey: String?) {
+    init(apiKey: String?) {
         self._apiKey = apiKey
 
         // WARNING:
@@ -126,21 +126,21 @@ import Foundation
         
          return self.httpRequest(with: request, type: type) { (data, response, error) in
              // Do the parsing and return:
-             if let data = data, let result = data["data"] as? [String:Any]  {
-                 let resultObj = GPHObject.mapData("", data: result, request: .translate, media: media)
+             if let data = data, let resultData = data["data"] as? GPHJSONObject  {
+                 let resultObj = GPHObject.mapData(nil, data: resultData, request: .translate, media: media)
                  
                  if resultObj.object == nil {
                      if let jsonError = resultObj.error {
-                        completionHandler(nil, response, jsonError)
+                        completionHandler(nil, jsonError)
                      } else {
-                        completionHandler(nil, response, GPHJSONMappingError(description: "Unexpected error"))
+                        completionHandler(nil, GPHJSONMappingError(description: "Unexpected error"))
                      }
                      return
                  }
-                 completionHandler(resultObj.object, response, error)
+                 completionHandler(resultObj.object, error)
                 return
              }
-             completionHandler(nil, response, error)
+             completionHandler(nil, error)
          }
     }
     
@@ -154,31 +154,48 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func listRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHListResultCompletionHandler) -> Operation {
+    @discardableResult func listRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHListResultsCompletionHandler) -> Operation {
 
         return self.httpRequest(with: request, type: type) { (data, response, error) in
             // Do the parsing and return:
-            if let data = data, let results = data["data"] as? [[String:Any]]  {
-
+            if let data = data, let resultsData = data["data"] as? [GPHJSONObject], let paginationData = data["pagination"] as? GPHJSONObject {
+                
+                // Get Pagination
+                let paginationObj = GPHPagination.mapData(nil, data: paginationData, request: type)
+                if paginationObj.object == nil {
+                    if let jsonError = paginationObj.error {
+                        completionHandler(nil, nil, jsonError)
+                    } else {
+                        completionHandler(nil, nil, GPHJSONMappingError(description: "Unexpected pagination error"))
+                    }
+                    return
+                }
+                guard
+                    let pagination = paginationObj.object
+                    else {
+                        completionHandler(nil, nil, GPHJSONMappingError(description: "Unexpected pagination error"))
+                        return
+                }
+                // Get Results
                 var resultObjs:[GPHObject] = []
 
-                for result in results {
-                    let resultObj = GPHObject.mapData("", data: result, request: .search, media: media)
+                for result in resultsData {
+                    let resultObj = GPHObject.mapData(nil, data: result, request: type, media: media)
 
                     if resultObj.object == nil {
                         if let jsonError = resultObj.error {
-                            completionHandler(nil, response, jsonError)
+                            completionHandler(nil, nil, jsonError)
                         } else {
-                            completionHandler(nil, response, GPHJSONMappingError(description: "Unexpected error"))
+                            completionHandler(nil, nil, GPHJSONMappingError(description: "Unexpected error"))
                         }
                         return
                     }
                     resultObjs.append(resultObj.object!)
                 }
-                completionHandler(resultObjs, response, error)
+                completionHandler(resultObjs, pagination, error)
                 return
             }
-            completionHandler(nil, response, error)
+            completionHandler(nil, nil, error)
         }
     }
     
@@ -195,30 +212,84 @@ import Foundation
         
         return self.httpRequest(with: request, type: type) { (data, response, error) in
             // Do the parsing and return:
-            if let data = data, let results = data["data"] as? [[String:Any]]  {
+            if let data = data, let resultsData = data["data"] as? [GPHJSONObject] {
                 
+                // Get Results
                 var resultObjs:[GPHTermSuggestion] = []
                 
-                for result in results {
-                    let resultObj = GPHTermSuggestion.mapData("", data: result, request: .termSuggestions, media: media)
+                for result in resultsData {
+                    let resultObj = GPHTermSuggestion.mapData(nil, data: result, request: type, media: media)
                     
                     if resultObj.object == nil {
                         if let jsonError = resultObj.error {
-                            completionHandler(nil, response, jsonError)
+                            completionHandler(nil, jsonError)
                         } else {
-                            completionHandler(nil, response, GPHJSONMappingError(description: "Unexpected error"))
+                            completionHandler(nil, GPHJSONMappingError(description: "Unexpected error"))
                         }
                         return
                     }
                     resultObjs.append(resultObj.object!)
                 }
-                completionHandler(resultObjs, response, error)
+                completionHandler(resultObjs, error)
                 return
             }
-            completionHandler(nil, response, error)
+            completionHandler(nil, error)
         }
     }
-    
+
+    /// Perform a request to get a list of term suggestions
+    ///
+    /// - parameter request: URLRequest
+    /// - parameter type: GPHRequestType to figure out what endpoint to hit
+    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
+    @discardableResult func listCategoriesRequest(_ root:GPHCategory? = nil, with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHListCategoriesCompletionHandler) -> Operation {
+        
+        return self.httpRequest(with: request, type: type) { (data, response, error) in
+            // Do the parsing and return:
+            if let data = data, let resultsData = data["data"] as? [GPHJSONObject], let paginationData = data["pagination"] as? GPHJSONObject {
+                
+                // Get Pagination
+                let paginationObj = GPHPagination.mapData(nil, data: paginationData, request: type)
+                if paginationObj.object == nil {
+                    if let jsonError = paginationObj.error {
+                        completionHandler(nil, nil, jsonError)
+                    } else {
+                        completionHandler(nil, nil, GPHJSONMappingError(description: "Unexpected pagination error"))
+                    }
+                    return
+                }
+                guard
+                    let pagination = paginationObj.object
+                else {
+                    completionHandler(nil, nil, GPHJSONMappingError(description: "Unexpected pagination error"))
+                    return
+                }
+                // Get Results
+                var resultObjs:[GPHCategory] = []
+                
+                for result in resultsData {
+                    let resultObj = GPHCategory.mapData(root, data: result, request: type, media: media)
+                    
+                    if resultObj.object == nil {
+                        if let jsonError = resultObj.error {
+                            completionHandler(nil, nil, jsonError)
+                        } else {
+                            completionHandler(nil, nil, GPHJSONMappingError(description: "Unexpected parsing error"))
+                        }
+                        return
+                    }
+                    resultObjs.append(resultObj.object!)
+                }
+                completionHandler(resultObjs, pagination, error)
+                return
+            }
+            completionHandler(nil, nil, error)
+        }
+    }
     
     #if !os(watchOS)
     

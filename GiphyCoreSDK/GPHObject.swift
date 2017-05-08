@@ -191,7 +191,7 @@ extension GPHObject {
 extension GPHObject: GPHMappable {
 
     /// this is where the magic will happen + error handling
-    public static func mapData(_ id: String,
+    public static func mapData(_ root: GPHObject?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
@@ -218,37 +218,8 @@ extension GPHObject: GPHMappable {
         obj.source = jsonData["source"] as? String
         obj.sourceTld = jsonData["source_tld"] as? String
         obj.sourcePostUrl = jsonData["source_post_url"] as? String
-        
-        if let userData = jsonData["user"] as? [String: Any] {
-            obj.user = GPHUser.mapData(objId, data: userData, request: requestType, media: mediaType).object
-        }
-        
-        // Handling exception of the Random endpoint structure
-        switch requestType {
-        case .random:
-            let renditionResults = GPHImages.mapData(objId, data: jsonData, request: requestType, media: mediaType)
-            if let renditions = renditionResults.object {
-                obj.images = renditions
-            } else {
-                // fail? or return nil -- this is conditional depending on the end-point
-                return (nil, renditionResults.error)
-            }
-        default:
-            if let renditionData = jsonData["images"] as? [String: Any] {
-                let renditionResults = GPHImages.mapData(objId, data: renditionData, request: requestType, media: mediaType)
-                if let renditions = renditionResults.object {
-                    obj.images = renditions
-                } else {
-                    // fail? or return nil -- this is conditional depending on the end-point
-                    return (nil, renditionResults.error)
-                }
-            }
-        }
-        
         obj.tags = jsonData["tags"] as? [String]
         obj.featuredTags = jsonData["featured_tags"] as? [String]
-        
-        // NOTE: Categories endpoint
         obj.isHidden = jsonData["is_hidden"] as? Bool
         obj.isRemoved = jsonData["is_removed"] as? Bool
         obj.isCommunity = jsonData["is_community"] as? Bool
@@ -259,6 +230,33 @@ extension GPHObject: GPHMappable {
         obj.isSticker = jsonData["is_sticker"] as? Bool
         obj.updateDate = parseDate(jsonData["update_datetime"] as? String)
         obj.createDate = parseDate(jsonData["create_datetime"] as? String)
+        
+        // Handle User Data
+        if let userData = jsonData["user"] as? GPHJSONObject {
+            obj.user = GPHUser.mapData(obj, data: userData, request: requestType, media: mediaType).object
+        }
+        
+        // Handling exception of the Random endpoint structure
+        switch requestType {
+        case .random:
+            let renditionResults = GPHImages.mapData(obj, data: jsonData, request: requestType, media: mediaType)
+            if let renditions = renditionResults.object {
+                obj.images = renditions
+            } else {
+                // fail? or return nil -- this is conditional depending on the end-point
+                return (nil, renditionResults.error)
+            }
+        default:
+            if let renditionData = jsonData["images"] as? GPHJSONObject {
+                let renditionResults = GPHImages.mapData(obj, data: renditionData, request: requestType, media: mediaType)
+                if let renditions = renditionResults.object {
+                    obj.images = renditions
+                } else {
+                    // fail? or return nil -- this is conditional depending on the end-point
+                    return (nil, renditionResults.error)
+                }
+            }
+        }
         
         return (obj, nil)
     }

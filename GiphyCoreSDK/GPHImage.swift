@@ -37,34 +37,34 @@ import Foundation
     public fileprivate(set) var rendition: GPHRenditionType
     
     /// URL of the Gif file
-    public private(set) var gifUrl: String?
+    public fileprivate(set) var gifUrl: String?
 
     /// URL of the Still Gif file
-    public private(set) var stillGifUrl: String?
+    public fileprivate(set) var stillGifUrl: String?
     
     /// Width
-    public private(set) var width: Int?
+    public fileprivate(set) var width: Int?
     
     /// Height
-    public private(set) var height: Int?
+    public fileprivate(set) var height: Int?
 
     /// # of Frames
-    public private(set) var frames: Int?
+    public fileprivate(set) var frames: Int?
     
     /// Gif file size in bytes
-    public private(set) var gifSize: Int?
+    public fileprivate(set) var gifSize: Int?
     
     /// URL of the WebP file
-    public private(set) var webPUrl: String?
+    public fileprivate(set) var webPUrl: String?
 
     /// Gif file size in bytes
-    public private(set) var webPSize: Int?
+    public fileprivate(set) var webPSize: Int?
     
     /// URL of the mp4 file
-    public private(set) var mp4Url: String?
+    public fileprivate(set) var mp4Url: String?
     
     /// Gif file size in bytes
-    public private(set) var mp4Size: Int?
+    public fileprivate(set) var mp4Size: Int?
     
     override public init() {
         self.id = ""
@@ -73,30 +73,10 @@ import Foundation
     }
     
     convenience init(_ id: String,
-                     rendition: GPHRenditionType,
-                     gifUrl: String?,
-                     stillGifUrl: String?,
-                     gifSize: Int?,
-                     width: Int?,
-                     height: Int?,
-                     frames: Int?,
-                     webPUrl: String?,
-                     webPSize: Int?,
-                     mp4Url: String?,
-                     mp4Size: Int?) {
+                     rendition: GPHRenditionType) {
         self.init()
         self.id = id
         self.rendition = rendition
-        self.gifUrl = gifUrl
-        self.stillGifUrl = stillGifUrl
-        self.gifSize = gifSize
-        self.width = width
-        self.height = height
-        self.frames = frames
-        self.webPUrl = webPUrl
-        self.webPSize = webPSize
-        self.mp4Url = mp4Url
-        self.mp4Size = mp4Size
     }
     
     required convenience public init?(coder aDecoder: NSCoder) {
@@ -107,29 +87,19 @@ import Foundation
             return nil
         }
         
-        let gifUrl = aDecoder.decodeObject(forKey: "gifUrl") as? String
-        let stillGifUrl = aDecoder.decodeObject(forKey: "stillGifUrl") as? String
-        let gifSize = aDecoder.decodeObject(forKey: "gifSize") as? Int
-        let width = aDecoder.decodeObject(forKey: "width") as? Int
-        let height = aDecoder.decodeObject(forKey: "height") as? Int
-        let frames = aDecoder.decodeObject(forKey: "frames") as? Int
-        let webPUrl = aDecoder.decodeObject(forKey: "webPUrl") as? String
-        let webPSize = aDecoder.decodeObject(forKey: "webPSize") as? Int
-        let mp4Url = aDecoder.decodeObject(forKey: "mp4Url") as? String
-        let mp4Size = aDecoder.decodeObject(forKey: "mp4Size") as? Int
+        self.init(id, rendition: rendition)
+                  
+        self.gifUrl = aDecoder.decodeObject(forKey: "gifUrl") as? String
+        self.stillGifUrl = aDecoder.decodeObject(forKey: "stillGifUrl") as? String
+        self.gifSize = aDecoder.decodeObject(forKey: "gifSize") as? Int
+        self.width = aDecoder.decodeObject(forKey: "width") as? Int
+        self.height = aDecoder.decodeObject(forKey: "height") as? Int
+        self.frames = aDecoder.decodeObject(forKey: "frames") as? Int
+        self.webPUrl = aDecoder.decodeObject(forKey: "webPUrl") as? String
+        self.webPSize = aDecoder.decodeObject(forKey: "webPSize") as? Int
+        self.mp4Url = aDecoder.decodeObject(forKey: "mp4Url") as? String
+        self.mp4Size = aDecoder.decodeObject(forKey: "mp4Size") as? Int
         
-        self.init(id,
-                  rendition: rendition,
-                  gifUrl: gifUrl,
-                  stillGifUrl: stillGifUrl,
-                  gifSize: gifSize,
-                  width: width,
-                  height: height,
-                  frames: frames,
-                  webPUrl: webPUrl,
-                  webPSize: webPSize,
-                  mp4Url: mp4Url,
-                  mp4Size: mp4Size)
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -183,37 +153,29 @@ extension GPHImage {
 extension GPHImage: GPHMappable {
     
     /// this is where the magic will happen + error handling
-    public static func mapData(_ id: String,
+    public static func mapData(_ root: GPHObject?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
                                rendition renditionType: GPHRenditionType = .original) -> (object: GPHImage?, error: GPHJSONMappingError?) {
         
-        let gifUrl = jsonData["url"] as? String
-        let stillGifUrl = jsonData["still_url"]  as? String
-        let gifSize = parseInt(jsonData["size"] as? String)
-        let width = parseInt(jsonData["width"] as? String)
-        let height = parseInt(jsonData["height"] as? String)
-        let frames = parseInt(jsonData["frames"] as? String)
-        let webPUrl = jsonData["webp_url"] as? String
-        let webPSize = parseInt(jsonData["webp_size"] as? String)
-        let mp4Url = jsonData["mp4_url"] as? String
-        let mp4Size = parseInt(jsonData["mp4_size"] as? String)
+        guard let id = root?.id else {
+            return (nil, GPHJSONMappingError(description: "Root object can not be nil, expected a GPHImages"))
+        }
         
-        let obj = GPHImage(id,
-                           rendition: renditionType,
-                           gifUrl: gifUrl,
-                           stillGifUrl: stillGifUrl,
-                           gifSize: gifSize,
-                           width: width,
-                           height: height,
-                           frames: frames,
-                           webPUrl: webPUrl,
-                           webPSize: webPSize,
-                           mp4Url: mp4Url,
-                           mp4Size: mp4Size)
+        let obj = GPHImage(id, rendition: renditionType)
+        
+        obj.gifUrl = jsonData["url"] as? String
+        obj.stillGifUrl = jsonData["still_url"]  as? String
+        obj.gifSize = parseInt(jsonData["size"] as? String)
+        obj.width = parseInt(jsonData["width"] as? String)
+        obj.height = parseInt(jsonData["height"] as? String)
+        obj.frames = parseInt(jsonData["frames"] as? String)
+        obj.webPUrl = jsonData["webp_url"] as? String
+        obj.webPSize = parseInt(jsonData["webp_size"] as? String)
+        obj.mp4Url = jsonData["mp4_url"] as? String
+        obj.mp4Size = parseInt(jsonData["mp4_size"] as? String)
 
-        //        return (nil, GPHJSONMappingError(description: "Couldn't map GPHImage for \(jsonData)"))
         return (obj, nil)
     }
     

@@ -44,34 +44,36 @@ public struct GPHJSONMappingError: CustomNSError {
     public var errorCode: Int { return 1001 }
     
     /// NSError style, return the dict for the error with description in place
-    public var errorUserInfo: [String : Any] {
+    public var errorUserInfo: GPHJSONObject {
         return [
             NSLocalizedDescriptionKey: description
         ]
     }
 }
 
-/// Our Custom Error codes
+/// Our Custom HTTP Error
 ///
-public struct GPHTTPError: CustomNSError {
+public struct GPHHTTPError: CustomNSError {
+    /// The HTTP status code returned by the server.
+    public let statusCode: Int
     
-    /// Human readable issue
-    public let description: String
+    /// Optional message returned by the server.
+    public let description: String?
     
-    public init(description: String) {
+    public init(statusCode: Int, description: String? = nil) {
+        self.statusCode = statusCode
         self.description = description
     }
     
-    /// Creates a string with a detailed representation of the given value, suitable for debugging.
-    public static var errorDomain: String = String(reflecting: GPHTTPError.self)
+    public static var errorDomain: String = String(reflecting: GPHJSONMappingError.self)
     
-    /// Custom error code
-    public var errorCode: Int { return 1000 } // default, will change as the http error code changes
+    public var errorCode: Int { return statusCode }
     
-    /// NSError style, return the dict for the error with description in place
-    public var errorUserInfo: [String : Any] {
-        return [
-            NSLocalizedDescriptionKey: description
-        ]
+    public var errorUserInfo: GPHJSONObject {
+        var userInfo = GPHJSONObject()
+        if let description = description {
+            userInfo[NSLocalizedDescriptionKey] = description
+        }
+        return userInfo
     }
 }

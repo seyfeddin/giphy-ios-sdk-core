@@ -5,6 +5,24 @@
 //  Created by Cem Kozinoglu on 4/22/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to
+//  deal in the Software without restriction, including without limitation the
+//  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+//  sell copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+//  IN THE SOFTWARE.
+//
 
 import XCTest
 @testable import GiphyCoreSDK
@@ -29,43 +47,46 @@ class GiphyCoreSDKTests: XCTestCase {
     func testClientSearchGIFs() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Search Results")
-        var statusCode: Int?
-        var responseError: Error?
         
-        let _ = client.search("cats") { (results, response, error) in
+        let _ = client.search("cats") { (results, pagination, error) in
             
-            statusCode = (response as? HTTPURLResponse)?.statusCode
-            
-            if let error = error {
-                responseError = error
-                XCTFail("Error: \(error.localizedDescription)")
+            if let error = error as NSError? {
+                XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
+            
+            if let pagination = pagination {
+                print(pagination)
+            } else {
+                XCTFail("No Pagination")
+            }
+            
             if results != nil {
                 promise.fulfill()
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
-        
-        XCTAssertNil(responseError)
-        XCTAssertEqual(statusCode, 200)
     }
     
     
     func testClientSearchGIFsOffsetLimit() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Search Results")
-        var statusCode: Int?
-        var responseError: Error?
         
-        client.search("cats", media:.gif, offset: 0, limit: 4) { (results, response, error) in
+        client.search("cats", media:.gif, offset: 0, limit: 4) { (results, pagination, error) in
             
-            statusCode = (response as? HTTPURLResponse)?.statusCode
-            
-            
-            if let error = error {
-                responseError = error
-                XCTFail("Error: \(error.localizedDescription)")
+            if let error = error as NSError? {
+                XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
+            
+            if let pagination = pagination {
+                print(pagination)
+                if pagination.totalCount != 4 && pagination.count != 4 {
+                    XCTFail("Pagination doesn't match limit of 4")
+                }
+            } else {
+                XCTFail("No Pagination")
+            }
+            
             if let results = results {
                 print(results)
                 if results.count == 4 {
@@ -77,51 +98,52 @@ class GiphyCoreSDKTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
-        
-        XCTAssertNil(responseError)
-        XCTAssertEqual(statusCode, 200)
     }
     
     
     func testClientSearchStickers() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Search Results")
-        var statusCode: Int?
-        var responseError: Error?
         
-        client.search("cats", media: .sticker) { (results, response, error) in
+        client.search("cats", media: .sticker) { (results, pagination, error) in
             
-            statusCode = (response as? HTTPURLResponse)?.statusCode
-            
-            if let error = error {
-                responseError = error
-                XCTFail("Error: \(error.localizedDescription)")
+            if let error = error as NSError? {
+                XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
+            
+            if let pagination = pagination {
+                print(pagination)
+            } else {
+                XCTFail("No Pagination")
+            }
+            
             if results != nil {
                 promise.fulfill()
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
-        
-        XCTAssertNil(responseError)
-        XCTAssertEqual(statusCode, 200)
     }
     
     
     func testClientSearchStickersOffsetLimit() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Search Results")
-        var statusCode: Int?
-        var responseError: Error?
         
-        client.search("cats", media:.sticker, offset: 0, limit: 4) { (results, response, error) in
+        client.search("cats", media:.sticker, offset: 0, limit: 4) { (results, pagination, error) in
             
-            statusCode = (response as? HTTPURLResponse)?.statusCode
-            
-            if let error = error {
-                responseError = error
-                XCTFail("Error: \(error.localizedDescription)")
+            if let error = error as NSError? {
+                XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
+            
+            if let pagination = pagination {
+                print(pagination)
+                if pagination.totalCount != 4 && pagination.count != 4 {
+                    XCTFail("Pagination doesn't match limit of 4")
+                }
+            } else {
+                XCTFail("No Pagination")
+            }
+            
             if let results = results {
                 print(results)
                 if results.count == 4 {
@@ -133,59 +155,54 @@ class GiphyCoreSDKTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
-        
-        XCTAssertNil(responseError)
-        XCTAssertEqual(statusCode, 200)
     }
     
     
     func testClientTrendingGIFs() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Trending Results")
-        var statusCode: Int?
-        var responseError: Error?
         
-        client.trending() { (results, response, error) in
+        client.trending() { (results, pagination, error) in
             
-            statusCode = (response as? HTTPURLResponse)?.statusCode
-            
-            if let error = error {
-                responseError = error
-                XCTFail("Error: \(error.localizedDescription)")
+            if let error = error as NSError? {
+                XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
+
+            if let pagination = pagination {
+                print(pagination)
+            } else {
+                XCTFail("No Pagination")
+            }
+            
             if results != nil {
                 promise.fulfill()
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
-        
-        XCTAssertNil(responseError)
-        XCTAssertEqual(statusCode, 200)
     }
 
     
     func testClientTrendingStickers() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Trending Results")
-        var statusCode: Int?
-        var responseError: Error?
-        
-        client.trending(.sticker) { (results, response, error) in
+
+        client.trending(.sticker) { (results, pagination, error) in
             
-            statusCode = (response as? HTTPURLResponse)?.statusCode
-            
-            if let error = error {
-                responseError = error
-                XCTFail("Error: \(error.localizedDescription)")
+            if let error = error as NSError? {
+                XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
+            
+            if let pagination = pagination {
+                print(pagination)
+            } else {
+                XCTFail("No Pagination")
+            }
+            
             if results != nil {
                 promise.fulfill()
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
-        
-        XCTAssertNil(responseError)
-        XCTAssertEqual(statusCode, 200)
     }
     
     

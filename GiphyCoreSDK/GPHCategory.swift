@@ -31,42 +31,47 @@ import Foundation
 @objc public class GPHCategory: NSObject, NSCoding {
     
     /// Username
-    public private(set) var name: String
-    public private(set) var encodedName: String
-    public private(set) var previewImage: GPHImage?
-    public private(set) var subCategories: [GPHCategory]?
+    public fileprivate(set) var name: String
+    public fileprivate(set) var nameEncoded: String
+    public fileprivate(set) var encodedPath: String
+    public fileprivate(set) var gif: GPHObject?
+    public fileprivate(set) var subCategories: [GPHCategory]?
     
 
     override public init() {
         self.name = ""
-        self.encodedName = ""
+        self.nameEncoded = ""
+        self.encodedPath = ""
         super.init()
     }
     
-    convenience init(_ name: String, encodedName: String, previewImage: GPHImage?, subCategories: [GPHCategory]?) {
+    convenience init(_ name: String, nameEncoded: String, encodedPath: String) {
         self.init()
         self.name = name
-        self.encodedName = encodedName
-        self.previewImage = previewImage
-        self.subCategories = subCategories
+        self.nameEncoded = nameEncoded
+        self.encodedPath = encodedPath
     }
     
     required convenience public init?(coder aDecoder: NSCoder) {
-        guard let name = aDecoder.decodeObject(forKey: "name") as? String,
-              let encodedName = aDecoder.decodeObject(forKey: "encodedName") as? String
-            else { return nil }
+        guard
+            let name = aDecoder.decodeObject(forKey: "name") as? String,
+            let nameEncoded = aDecoder.decodeObject(forKey: "nameEncoded") as? String,
+            let encodedPath = aDecoder.decodeObject(forKey: "encodedPath") as? String
+        else {
+            return nil
+        }
         
-        let previewImage = aDecoder.decodeObject(forKey: "previewImage") as? GPHImage
-        let subCategories = aDecoder.decodeObject(forKey: "subCategories") as? [GPHCategory]
+        self.init(name, nameEncoded: nameEncoded, encodedPath: encodedPath)
+        
+        self.gif = aDecoder.decodeObject(forKey: "previewImage") as? GPHObject
+        self.subCategories = aDecoder.decodeObject(forKey: "subCategories") as? [GPHCategory]
 
-        
-        self.init(name, encodedName: encodedName, previewImage: previewImage, subCategories: subCategories)
     }
     
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.name, forKey: "name")
-        aCoder.encode(self.encodedName, forKey: "encodedName")
-        aCoder.encode(self.previewImage, forKey: "previewImage")
+        aCoder.encode(self.nameEncoded, forKey: "nameEncoded")
+        aCoder.encode(self.gif, forKey: "gif")
         aCoder.encode(self.subCategories, forKey: "subCategories")
     }
     
@@ -94,8 +99,75 @@ import Foundation
 extension GPHCategory {
     
     override public var description: String {
-        return "GPHCategory(\(self.name)) encoded: \(self.encodedName)"
+        return "GPHCategory(\(self.name)) encoded: \(self.nameEncoded) and path:\(self.encodedPath)"
     }
     
 }
+
+// MARK: Parsing & Mapping
+
+/// For parsing/mapping protocol
+///
+extension GPHCategory: GPHMappable {
+    
+    /// this is where the magic will happen + error handling
+    public static func mapData(_ root: GPHCategory?,
+                               data jsonData: GPHJSONObject,
+                               request requestType: GPHRequestType,
+                               media mediaType: GPHMediaType = .gif,
+                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHCategory?, error: GPHJSONMappingError?) {
+        
+        
+        guard let name = jsonData["name"] as? String,
+              let nameEncoded = jsonData["name_encoded"] as? String
+        else {
+            return (nil, GPHJSONMappingError(description: "Couldn't map GPHCategory for \(jsonData)"))
+        }
+        
+        let obj = GPHCategory(name, nameEncoded: nameEncoded, encodedPath: "")
+        
+        var gif:GPHObject? = nil
+        
+        if let gifData = jsonData["gif"] as? GPHJSONObject {
+            gif = GPHObject.mapData(nil, data: gifData, request: requestType, media: mediaType).object
+        }
+        
+        obj.gif = gif
+        
+        switch requestType {
+        case .categories:
+            
+            obj.encodedPath = nameEncoded
+            
+            if let subCategoriesJSON = jsonData["subcategories"] as? [GPHJSONObject] {
+                if subCategoriesJSON.count > 0 {
+                    obj.subCategories = []
+                    for subcategoryJSON in subCategoriesJSON {
+                        // Create all the sub categories
+                        let subObjResult = GPHCategory.mapData(obj, data: subcategoryJSON, request: .subCategories)
+                        if let subObj = subObjResult.object {
+                            obj.subCategories?.append(subObj)
+                        } else {
+                            return (nil, GPHJSONMappingError(description: "Couldn't map SubCategory GPHCategory for \(subcategoryJSON)"))
+                        }
+                    }
+                }
+            }
+            
+        case .subCategories:
+            if let root = root {
+                obj.encodedPath = root.nameEncoded + "/" + nameEncoded
+            } else {
+                return (nil, GPHJSONMappingError(description: "You need to root category to get sub-categories"))
+            }
+            obj.subCategories = nil
+        default:
+           return (nil, GPHJSONMappingError(description: "Request type is not valid for Categories"))
+        }
+        
+        return (obj, nil)
+    }
+    
+}
+
 

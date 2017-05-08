@@ -215,7 +215,7 @@ extension GPHImages: GPHMappable {
     
     
     // convinience method to get GPHImage or nil safely
-    private static func image(_ id: String,
+    private static func image(_ root: GPHObject?,
                               data jsonData: GPHJSONObject,
                               request requestType: GPHRequestType,
                               media mediaType: GPHMediaType,
@@ -232,7 +232,7 @@ extension GPHImages: GPHMappable {
         }
         
         if let jsonKeyData = jsonKeyData {
-            let keyImage = GPHImage.mapData(id, data: jsonKeyData, request: requestType, media: mediaType, rendition: renditionType)
+            let keyImage = GPHImage.mapData(root, data: jsonKeyData, request: requestType, media: mediaType, rendition: renditionType)
             if let image = keyImage.object {
                 return (image, nil)
             } else {
@@ -247,34 +247,37 @@ extension GPHImages: GPHMappable {
     }
     
     /// this is where the magic happens + error handling
-    public static func mapData(_ id: String,
+    public static func mapData(_ root: GPHObject?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
                                rendition renditionType: GPHRenditionType = .original) -> (object: GPHImages?, error: GPHJSONMappingError?) {
         
+        guard let id = root?.id else {
+            return (nil, GPHJSONMappingError(description: "Root object can not be nil, expected a GPHObject"))
+        }
         
         let obj = GPHImages(id)
         
-        obj.original = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .original).object
-        obj.originalStill = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .originalStill).object
-        obj.preview = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .preview).object
-        obj.looping = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .looping).object
-        obj.fixedHeight = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .fixedHeight).object
-        obj.fixedHeightStill = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .fixedHeightStill).object
-        obj.fixedHeightDownsampled = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .fixedHeightDownsampled).object
-        obj.fixedHeightSmall = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition:.fixedHeightSmall).object
-        obj.fixedHeightSmallStill = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .fixedHeightSmallStill).object
-        obj.fixedWidth = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .fixedWidth).object
-        obj.fixedWidthStill = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .fixedWidthStill).object
-        obj.fixedWidthDownsampled = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .fixedWidthDownsampled).object
-        obj.fixedWidthSmall = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .fixedWidthSmall).object
-        obj.fixedWidthSmallStill = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .fixedWidthSmallStill).object
-        obj.downsized = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .downsized).object
-        obj.downsizedSmall = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .downsizedSmall).object
-        obj.downsizedMedium = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .downsizedMedium).object
-        obj.downsizedLarge = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .downsizedLarge).object
-        obj.downsizedStill = GPHImages.image(id, data: jsonData, request: requestType, media: mediaType, rendition: .downsizedStill).object
+        obj.original = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .original).object
+        obj.originalStill = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .originalStill).object
+        obj.preview = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .preview).object
+        obj.looping = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .looping).object
+        obj.fixedHeight = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .fixedHeight).object
+        obj.fixedHeightStill = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .fixedHeightStill).object
+        obj.fixedHeightDownsampled = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .fixedHeightDownsampled).object
+        obj.fixedHeightSmall = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition:.fixedHeightSmall).object
+        obj.fixedHeightSmallStill = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .fixedHeightSmallStill).object
+        obj.fixedWidth = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .fixedWidth).object
+        obj.fixedWidthStill = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .fixedWidthStill).object
+        obj.fixedWidthDownsampled = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .fixedWidthDownsampled).object
+        obj.fixedWidthSmall = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .fixedWidthSmall).object
+        obj.fixedWidthSmallStill = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .fixedWidthSmallStill).object
+        obj.downsized = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .downsized).object
+        obj.downsizedSmall = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .downsizedSmall).object
+        obj.downsizedMedium = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .downsizedMedium).object
+        obj.downsizedLarge = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .downsizedLarge).object
+        obj.downsizedStill = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .downsizedStill).object
         
         return (obj, nil)
 

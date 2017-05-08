@@ -49,6 +49,15 @@ import Foundation
     
     /// Get term suggestions
     case termSuggestions
+    
+    /// Trending Categories
+    case categories
+    
+    /// Trending SubCategories
+    case subCategories
+
+    /// Trending SubCategories
+    case categoryContent
 }
 
 
@@ -79,35 +88,35 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
                 return
             }
             
-            //guard let data = data, let response = response as? URLResponse else { return }
-            
-            var jsonResult: GPHJSONObject?
-            
             do {
                 let result = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-                //print(result)
                 
-                if let myjsonResult = result as? GPHJSONObject {
-                    jsonResult = myjsonResult
-                    //print(myjsonResult)
+                if let result = result as? GPHJSONObject {
+                    // Got the JSON
+                    let httpResponse = response! as! HTTPURLResponse
+                    if httpResponse.statusCode != 200 {
+                        // Get the error message from JSON if available.
+                        let errorMessage = (result["meta"] as? GPHJSONObject)?["msg"] as? String
+                        // Get the status code from the JSON if available and prefer it over the response code from HTTPURLRespons
+                        // If not found return the actual response code from http
+                        let statusCode = ((result["meta"] as? GPHJSONObject)?["status"] as? Int) ?? httpResponse.statusCode
+                        // Prep the error
+                        let errorAPIorHTTP = GPHHTTPError(statusCode: statusCode, description: errorMessage)
+                        self.callCompletion(data: result, response: response, error: errorAPIorHTTP)
+                        self.state = .finished
+                        return
+                    }
+                    self.callCompletion(data: result, response: response, error: error)
+                } else {
+                    self.callCompletion(data: nil, response: response, error: GPHJSONMappingError(description: "Can not map API response to JSON"))
                 }
-                
             } catch {
-                print(error.localizedDescription)
+                self.callCompletion(data: nil, response: response, error: error)
             }
             
-/// CEM: RETURN HTTP ERROR HERE
-//            let httpResponse = response! as! HTTPURLResponse
-//            if (finalError == nil && !StatusCode.isSuccess(httpResponse.statusCode)) {
-//                // Get the error message from JSON if available.
-//                let errorMessage = json?["message"] as? String
-//                finalError = HTTPError(statusCode: httpResponse.statusCode, message: errorMessage)
-//            }
-            
-            self.callCompletion(data: jsonResult, response: response, error: error)
-            
             self.state = .finished
-            }.resume()
+            
+        }.resume()
     }
 }
 
@@ -121,6 +130,9 @@ public enum GPHRequestRouter {
     case get(String) // id
     case getAll([String]) // ids
     case termSuggestions(String) // term to query
+    case categories(GPHMediaType, Int, Int, String) // type, offset, limit, sort
+    case subCategories(String, GPHMediaType, Int, Int, String) // category, type, offset, limit, sort
+    case categoryContent(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType) // subcategory, type, offset, limit, rating, lang
     
     // Base endpoint
     static let baseURLString = "https://api.giphy.com/v1/"
@@ -128,7 +140,7 @@ public enum GPHRequestRouter {
     // Set the method
     var method: String {
         switch self {
-        case .search, .trending, .translate, .random, .get, .getAll, .termSuggestions: return "GET"
+        default: return "GET"
         // in future when we have upload / auth / we will add PUT, DELETE, POST here
         }
     }
@@ -171,6 +183,23 @@ public enum GPHRequestRouter {
                 relativePath = "gifs"
             case .termSuggestions(let term):
                 relativePath = "queries/suggest/\(term)"
+            case .categories(let type, let offset, let limit, let sort):
+                relativePath = "\(type.rawValue)s/categories"
+                queryItems.append(URLQueryItem(name: "sort", value: "\(sort)"))
+                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
+            case .subCategories(let category, let type, let offset, let limit, let sort):
+                relativePath = "\(type.rawValue)s/categories/\(category)"
+                queryItems.append(URLQueryItem(name: "sort", value: "\(sort)"))
+                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
+            case .categoryContent(let category, let type, let offset, let limit, let rating, let lang):
+                relativePath = "\(type.rawValue)s/categories/\(category)"
+                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
+                queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
+                queryItems.append(URLQueryItem(name: "lang", value: lang.rawValue))
+
             }
             
 
@@ -187,9 +216,9 @@ public enum GPHRequestRouter {
         }()
         
         // Set up request parameters
-        let parameters: [String: Any]? = {
+        let parameters: GPHJSONObject? = {
             switch self {
-            case .search, .trending, .translate, .random, .get, .getAll, .termSuggestions: return nil
+            default: return nil
             // in future when we have upload / auth / we will add PUT, DELETE, POST here
             }
         }()

@@ -1,8 +1,8 @@
 //
-//  GPHSuggestion.swift
+//  GPHPagination.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu on 4/22/17.
+//  Created by Cem Kozinoglu on 5/7/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,48 +26,27 @@
 
 import Foundation
 
-/// Represents a Giphy Term Suggestion
+/// Represents a Giphy Response Pagination Info
 ///
-@objc public class GPHTermSuggestion: NSObject, NSCoding {
+@objc public class GPHPagination: NSObject {
     
     /// Username
-    public private(set) var term: String
+    public private(set) var totalCount: Int
+    public private(set) var count: Int
+    public private(set) var offset: Int
     
     override public init() {
-        self.term = ""
+        self.totalCount = 0
+        self.count = 0
+        self.offset = 0
         super.init()
     }
     
-    convenience init(_ term: String) {
+    convenience init(_ totalCount: Int, count: Int, offset: Int) {
         self.init()
-        self.term = term
-    }
-    
-    required convenience public init?(coder aDecoder: NSCoder) {
-        guard let term = aDecoder.decodeObject(forKey: "term") as? String
-            else { return nil }
-        
-        self.init(term)
-        
-    }
-    
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(self.term, forKey: "term")
-    }
-    
-    // MARK: NSCoder Hash and Equality/Identity
-    override public func isEqual(_ object: Any?) -> Bool {
-        if object as? GPHTermSuggestion === self {
-            return true
-        }
-        if let other = object as? GPHTermSuggestion, self.term == other.term {
-            return true
-        }
-        return false
-    }
-    
-    override public var hash: Int {
-        return "gph_term_suggestion_\(self.term)".hashValue
+        self.totalCount = totalCount
+        self.count = count
+        self.offset = offset
     }
     
 }
@@ -76,10 +55,10 @@ import Foundation
 
 /// Make objects human readable
 ///
-extension GPHTermSuggestion {
+extension GPHPagination {
     
     override public var description: String {
-        return "GPHTermSuggestion(\(self.term))"
+        return "GPHPagination(totalCount: \(self.totalCount) count: \(self.count) offset: \(self.offset))"
     }
     
 }
@@ -88,22 +67,25 @@ extension GPHTermSuggestion {
 
 /// For parsing/mapping protocol
 ///
-extension GPHTermSuggestion: GPHMappable {
+extension GPHPagination: GPHMappable {
     
     /// this is where the magic will happen + error handling
-    public static func mapData(_ root: GPHTermSuggestion?,
+    public static func mapData(_ root: GPHPagination?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHTermSuggestion?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHPagination?, error: GPHJSONMappingError?) {
         
         guard
-            let term = jsonData["name"] as? String
-            else {
-                return (nil, GPHJSONMappingError(description: "Couldn't map GPHTermSuggestion for \(jsonData)"))
+            let count = jsonData["count"] as? Int
+        else {
+            return (nil, GPHJSONMappingError(description: "Couldn't map GPHPagination for \(jsonData)"))
         }
         
-        let obj = GPHTermSuggestion(term)
+        let totalCount = jsonData["total_count"] as? Int ?? count
+        let offset = jsonData["offset"] as? Int ?? 0
+        
+        let obj = GPHPagination(totalCount, count: count, offset: offset)
         
         return (obj, nil)
     }
