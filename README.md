@@ -12,7 +12,9 @@ Trending Gifs/Stickers
 Translate Gifs/Stickers
 Random Gifs/Stickers
 GIF by ID(s)
-Categories
+Categories for Gifs
+Subcategories for Gifs
+GIFs by Category
 Query Suggestions
 ```
 
