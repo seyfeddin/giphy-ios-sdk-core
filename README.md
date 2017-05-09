@@ -1,6 +1,5 @@
 # Giphy Core SDK for Swift
 
-[Giphy](https://www.giphy.com) is the best way to search, share, and discover GIFs on the Internet. Similar to the way other search engines work, the majority of our content comes from indexing based on the best and most popular GIFs and search terms across the web. We organize all those GIFs so you can find the good content easier and share it out through your social channels. We also feature some of our favorite GIF artists and work with brands to create and promote their original GIF content.
 
 The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/GiphyAPI).
 
@@ -8,6 +7,10 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 [![CocoaPods](https://img.shields.io/cocoapods/v/Giphy.svg)]()
 [![](https://img.shields.io/badge/OS%20X-10.9%2B-lightgrey.svg)]()
 [![](https://img.shields.io/badge/iOS-7.0%2B-lightgrey.svg)]()
+
+[Giphy](https://www.giphy.com) is the best way to search, share, and discover GIFs on the Internet. Similar to the way other search engines work, the majority of our content comes from indexing based on the best and most popular GIFs and search terms across the web. We organize all those GIFs so you can find the good content easier and share it out through your social channels. We also feature some of our favorite GIF artists and work with brands to create and promote their original GIF content.
+
+[![](https://media.giphy.com/media/5xaOcLOqNmWHaLeB14I/giphy.gif)]()
 
 # Getting Started
 
@@ -18,8 +21,6 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 ## Supported languages
 
 **Swift** and **Objective-C**.
-
-[![](https://media.giphy.com/media/5xaOcLOqNmWHaLeB14I/giphy.gif)]()
 
 ## Supported End-points
 
@@ -34,9 +35,9 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 * Query Suggestions
 
 
-## Setup
+# Setup
 
-### CocoaPods Setup
+## CocoaPods Setup
 
 Add the GiphyCoreSDK entry to your Podfile
 
@@ -50,13 +51,13 @@ Run pods to grab the GiphyCoreSDK framework
 pod install
 ```
 
-### Initialize Giphy SDK
+## Initialize Giphy SDK
 
 ```swift
 let client = GPHClient(apiKey: "YOUR_API_KEY")
 ```
 
-### Search Gifs / Stickers
+## Search Gifs / Stickers
 
 You can now search for contacts using firstname, lastname, company, etc. (even with typos):
 
@@ -80,7 +81,7 @@ let _ = client.search("ryan gosling") { (response, error) in
 }
 ```
 
-## CONTRIBUTING
+# CONTRIBUTING
 
 Managing git repositories can be hard, so we've laid out a few simple guidelines to help keep things organized.
 
