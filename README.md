@@ -53,7 +53,7 @@ pod install
 ### Initialize Giphy SDK
 
 ```swift
-let client = GPHClient(apiKey: "YOUR_API_KEY"
+let client = GPHClient(apiKey: "YOUR_API_KEY")
 ```
 
 ### Search Gifs / Stickers
