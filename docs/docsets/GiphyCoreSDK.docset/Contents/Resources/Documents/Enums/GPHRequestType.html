@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>GPHRequestType Enum Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Enum/GPHRequestType" class="dashAnchor"></a>
+    <a title="GPHRequestType Enum Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">GiphyCoreSDK Docs</a> (68% documented)</p>
+        <p class="header-right"><a href="https://github.com/Giphy/giphy-ios-sdk-core"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">GiphyCoreSDK Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        GPHRequestType Enum Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/GPHAbstractClient.html">GPHAbstractClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHCategory.html">GPHCategory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHClient.html">GPHClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHImage.html">GPHImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHImages.html">GPHImages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHListCategoryResponse.html">GPHListCategoryResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHListMediaResponse.html">GPHListMediaResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHListTermSuggestionRespose.html">GPHListTermSuggestionRespose</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHMedia.html">GPHMedia</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHMediaResponse.html">GPHMediaResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHMeta.html">GPHMeta</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHPagination.html">GPHPagination</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHResponse.html">GPHResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHTermSuggestion.html">GPHTermSuggestion</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHUser.html">GPHUser</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/GPHLanguageType.html">GPHLanguageType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GPHMediaType.html">GPHMediaType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GPHRatingType.html">GPHRatingType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GPHRenditionType.html">GPHRenditionType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GPHRequestRouter.html">GPHRequestRouter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GPHRequestType.html">GPHRequestType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/GPHAsyncOperation.html">GPHAsyncOperation</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/GPHHTTPError.html">GPHHTTPError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GPHJSONMappingError.html">GPHJSONMappingError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12GiphyCoreSDK20GPHCompletionHandler">GPHCompletionHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12GiphyCoreSDK24GPHJSONCompletionHandler">GPHJSONCompletionHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12GiphyCoreSDK13GPHJSONObject">GPHJSONObject</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>GPHRequestType</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">enum</span> <span class="kt">GPHRequestType</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                </div>
+              </div>
+            <p>Represents a Giphy URLRequest Type</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO12GiphyCoreSDK14GPHRequestType6searchFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/search" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO12GiphyCoreSDK14GPHRequestType6searchFMS0_S0_">search</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Search Request</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">search</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO12GiphyCoreSDK14GPHRequestType8trendingFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/trending" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO12GiphyCoreSDK14GPHRequestType8trendingFMS0_S0_">trending</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Trending Request</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">trending</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO12GiphyCoreSDK14GPHRequestType9translateFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/translate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO12GiphyCoreSDK14GPHRequestType9translateFMS0_S0_">translate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Translate Request</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">translate</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO12GiphyCoreSDK14GPHRequestType6randomFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/random" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO12GiphyCoreSDK14GPHRequestType6randomFMS0_S0_">random</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Random Item Request</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">random</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO12GiphyCoreSDK14GPHRequestType3getFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/get" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO12GiphyCoreSDK14GPHRequestType3getFMS0_S0_">get</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get an Item with ID</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="k">get</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO12GiphyCoreSDK14GPHRequestType6getAllFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/getAll" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO12GiphyCoreSDK14GPHRequestType6getAllFMS0_S0_">getAll</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get items with IDs</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">getAll</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO12GiphyCoreSDK14GPHRequestType15termSuggestionsFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/termSuggestions" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO12GiphyCoreSDK14GPHRequestType15termSuggestionsFMS0_S0_">termSuggestions</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get Term Suggestions</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">termSuggestions</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO12GiphyCoreSDK14GPHRequestType10categoriesFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/categories" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO12GiphyCoreSDK14GPHRequestType10categoriesFMS0_S0_">categories</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Top Categories</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">categories</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO12GiphyCoreSDK14GPHRequestType13subCategoriesFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/subCategories" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO12GiphyCoreSDK14GPHRequestType13subCategoriesFMS0_S0_">subCategories</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>SubCategories of a Category</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">subCategories</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO12GiphyCoreSDK14GPHRequestType15categoryContentFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/categoryContent" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO12GiphyCoreSDK14GPHRequestType15categoryContentFMS0_S0_">categoryContent</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Category Content</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">categoryContent</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2017 <a class="link" href="https://www.giphy.com" target="_blank" rel="external">Giphy</a>. All rights reserved. (Last updated: 2017-05-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

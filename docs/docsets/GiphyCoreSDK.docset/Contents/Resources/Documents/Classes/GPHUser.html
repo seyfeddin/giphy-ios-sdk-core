@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>GPHUser Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/GPHUser" class="dashAnchor"></a>
+    <a title="GPHUser Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">GiphyCoreSDK Docs</a> (68% documented)</p>
+        <p class="header-right"><a href="https://github.com/Giphy/giphy-ios-sdk-core"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">GiphyCoreSDK Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        GPHUser Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/GPHAbstractClient.html">GPHAbstractClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHCategory.html">GPHCategory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHClient.html">GPHClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHImage.html">GPHImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHImages.html">GPHImages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHListCategoryResponse.html">GPHListCategoryResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHListMediaResponse.html">GPHListMediaResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHListTermSuggestionRespose.html">GPHListTermSuggestionRespose</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHMedia.html">GPHMedia</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHMediaResponse.html">GPHMediaResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHMeta.html">GPHMeta</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHPagination.html">GPHPagination</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHResponse.html">GPHResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHTermSuggestion.html">GPHTermSuggestion</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPHUser.html">GPHUser</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/GPHLanguageType.html">GPHLanguageType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GPHMediaType.html">GPHMediaType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GPHRatingType.html">GPHRatingType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GPHRenditionType.html">GPHRenditionType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GPHRequestRouter.html">GPHRequestRouter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GPHRequestType.html">GPHRequestType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/GPHAsyncOperation.html">GPHAsyncOperation</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/GPHHTTPError.html">GPHHTTPError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GPHJSONMappingError.html">GPHJSONMappingError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12GiphyCoreSDK20GPHCompletionHandler">GPHCompletionHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12GiphyCoreSDK24GPHJSONCompletionHandler">GPHJSONCompletionHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12GiphyCoreSDK13GPHJSONObject">GPHJSONObject</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>GPHUser</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">GPHUser</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCoding</span></code></pre>
+
+                </div>
+              </div>
+            <p>Represents a Giphy User Object</p>
+
+<p><a href="http://api.giphy.com/v1/gifs/categories/animals/cats?api_key=4OMJYpPoYwVpe">http://api.giphy.com/v1/gifs/categories/animals/cats?api_key=4OMJYpPoYwVpe</a></p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser8usernameSS"></a>
+                    <a name="//apple_ref/swift/Property/username" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser8usernameSS">username</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Username</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">username</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser8isPublicGSqSb_"></a>
+                    <a name="//apple_ref/swift/Property/isPublic" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser8isPublicGSqSb_">isPublic</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>User Public/Private</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">isPublic</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser2idGSqSi_"></a>
+                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser2idGSqSi_">id</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>User Id</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser4nameGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser4nameGSqSS_">name</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Name of the User</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser15userDescriptionGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/userDescription" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser15userDescriptionGSqSS_">userDescription</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Description of the User</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">userDescription</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser22attributionDisplayNameGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/attributionDisplayName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser22attributionDisplayNameGSqSS_">attributionDisplayName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Attribution Display Name</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">attributionDisplayName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser11displayNameGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/displayName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser11displayNameGSqSS_">displayName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Display Name for the User</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">displayName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser7twitterGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/twitter" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser7twitterGSqSS_">twitter</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Twitter Handler</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">twitter</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser10twitterUrlGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/twitterUrl" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser10twitterUrlGSqSS_">twitterUrl</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>URL of the Twitter Handler</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">twitterUrl</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser11facebookUrlGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/facebookUrl" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser11facebookUrlGSqSS_">facebookUrl</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>URL of the Facebook Handler</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">facebookUrl</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser12instagramUrlGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/instagramUrl" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser12instagramUrlGSqSS_">instagramUrl</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>URL of the Instagram Handler</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">instagramUrl</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser10websiteUrlGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/websiteUrl" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser10websiteUrlGSqSS_">websiteUrl</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>URL of the Website</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">websiteUrl</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser17websiteDisplayUrlGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/websiteDisplayUrl" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser17websiteDisplayUrlGSqSS_">websiteDisplayUrl</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Displayable URL of the Website</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">websiteDisplayUrl</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser9tumblrUrlGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/tumblrUrl" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser9tumblrUrlGSqSS_">tumblrUrl</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>URL of the Tumblr Handler</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">tumblrUrl</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser9avatarUrlGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/avatarUrl" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser9avatarUrlGSqSS_">avatarUrl</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>URL of the Avatar</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">avatarUrl</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser9bannerUrlGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/bannerUrl" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser9bannerUrlGSqSS_">bannerUrl</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>URL of the Banner</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">bannerUrl</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser10profileUrlGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/profileUrl" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser10profileUrlGSqSS_">profileUrl</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>URL of the Profile</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">profileUrl</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser14suppressChromeGSqSb_"></a>
+                    <a name="//apple_ref/swift/Property/suppressChrome" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser14suppressChromeGSqSb_">suppressChrome</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Suppress Chrome</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">fileprivate</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">suppressChrome</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC12GiphyCoreSDK7GPHUsercFT_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC12GiphyCoreSDK7GPHUsercFT_S0_">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">GPHUser</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCoding</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC12GiphyCoreSDK7GPHUsercFT5coderCSo7NSCoder_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(coder:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC12GiphyCoreSDK7GPHUsercFT5coderCSo7NSCoder_GSqS0__">init(coder:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">GPHUser</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCoding</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC12GiphyCoreSDK7GPHUser6encodeFT4withCSo7NSCoder_T_"></a>
+                    <a name="//apple_ref/swift/Method/encode(with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC12GiphyCoreSDK7GPHUser6encodeFT4withCSo7NSCoder_T_">encode(with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">GPHUser</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCoding</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/NSCoder%20Hash%20and%20Equality/Identity"></a>
+                <a name="//apple_ref/swift/Section/NSCoder Hash and Equality/Identity" class="dashAnchor"></a>
+                <a href="#/NSCoder%20Hash%20and%20Equality/Identity">
+                  <h3 class="section-name">NSCoder Hash and Equality/Identity</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC12GiphyCoreSDK7GPHUser7isEqualFGSqP__Sb"></a>
+                    <a name="//apple_ref/swift/Method/isEqual(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC12GiphyCoreSDK7GPHUser7isEqualFGSqP__Sb">isEqual(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">GPHUser</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCoding</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser4hashSi"></a>
+                    <a name="//apple_ref/swift/Property/hash" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser4hashSi">hash</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">GPHUser</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCoding</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12GiphyCoreSDK7GPHUser11descriptionSS"></a>
+                    <a name="//apple_ref/swift/Property/description" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12GiphyCoreSDK7GPHUser11descriptionSS">description</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">GPHUser</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCoding</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC12GiphyCoreSDK7GPHUser7mapDataFTGSqCS_8GPHMedia_4dataGVs10DictionarySSP__7requestOS_14GPHRequestType5mediaOS_12GPHMediaType9renditionOS_16GPHRenditionType_T6objectGSqS0__5errorGSqVS_19GPHJSONMappingError__"></a>
+                    <a name="//apple_ref/swift/Method/mapData(_:data:request:media:rendition:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC12GiphyCoreSDK7GPHUser7mapDataFTGSqCS_8GPHMedia_4dataGVs10DictionarySSP__7requestOS_14GPHRequestType5mediaOS_12GPHMediaType9renditionOS_16GPHRenditionType_T6objectGSqS0__5errorGSqVS_19GPHJSONMappingError__">mapData(_:data:request:media:rendition:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>this is where the magic will happen + error handling</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">mapData</span><span class="p">(</span><span class="n">_</span> <span class="nv">root</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPHMedia.html">GPHMedia</a></span><span class="p">?,</span>
+                               <span class="n">data</span> <span class="nv">jsonData</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:12GiphyCoreSDK13GPHJSONObject">GPHJSONObject</a></span><span class="p">,</span>
+                               <span class="n">request</span> <span class="nv">requestType</span><span class="p">:</span> <span class="kt"><a href="../Enums/GPHRequestType.html">GPHRequestType</a></span><span class="p">,</span>
+                               <span class="n">media</span> <span class="nv">mediaType</span><span class="p">:</span> <span class="kt"><a href="../Enums/GPHMediaType.html">GPHMediaType</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">gif</span><span class="p">,</span>
+                               <span class="n">rendition</span> <span class="nv">renditionType</span><span class="p">:</span> <span class="kt"><a href="../Enums/GPHRenditionType.html">GPHRenditionType</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">original</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">object</span><span class="p">:</span> <span class="kt">GPHUser</span><span class="p">?,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="../Structs/GPHJSONMappingError.html">GPHJSONMappingError</a></span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2017 <a class="link" href="https://www.giphy.com" target="_blank" rel="external">Giphy</a>. All rights reserved. (Last updated: 2017-05-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
