@@ -15,15 +15,15 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 
 # Getting Started
 
-## Supported platforms
+### Supported platforms
 
 **iOS**, **macOS**, **tvOS** and **watchOS**,
 
-## Supported languages
+### Supported languages
 
 **Swift** and **Objective-C**.
 
-## Supported End-points
+### Supported End-points
 
 * Search Gifs/Stickers
 * Trending Gifs/Stickers
@@ -38,7 +38,7 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 
 # Setup
 
-## CocoaPods Setup
+### CocoaPods Setup
 
 Add the GiphyCoreSDK entry to your Podfile
 
@@ -52,13 +52,13 @@ Run pods to grab the GiphyCoreSDK framework
 pod install
 ```
 
-## Initialize Giphy SDK
+### Initialize Giphy SDK
 
 ```swift
 let client = GPHClient(apiKey: "YOUR_API_KEY")
 ```
 
-## Search Gifs / Stickers
+### Search Gifs / Stickers
 
 ```swift
 /// Simple Gif Search
