@@ -59,8 +59,6 @@ let client = GPHClient(apiKey: "YOUR_API_KEY")
 
 ## Search Gifs / Stickers
 
-You can now search for contacts using firstname, lastname, company, etc. (even with typos):
-
 ```swift
 /// Simple Gif Search
 let _ = client.search("ryan gosling") { (response, error) in
