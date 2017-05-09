@@ -1,0 +1,10 @@
+branches:
+  only:
+    - master
+language: objective-c
+osx_image: xcode8.3
+script: 
+    - set -o pipefail
+    - travis_retry xcodebuild clean build test -project GiphyCoreSDK.xcodeproj -scheme GiphyCoreSDK CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator -destination "OS=10.0,platform=iOS Simulator,name=iPhone 7"
+    #- travis_retry xcodebuild clean build test -project GiphyCoreSDK.xcodeproj -scheme GiphyCoreSDK CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk appletvsimulator -destination "OS=10.0,name=Apple TV 1080p" 
+    #- travis_retry xcodebuild clean build test -project GiphyCoreSDK.xcodeproj -scheme GiphyCoreSDK CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk macosx -destination "platform=OS X" 
