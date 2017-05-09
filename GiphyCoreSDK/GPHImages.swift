@@ -26,12 +26,12 @@
 
 import Foundation
 
-/// Represents a Giphy Images (Renditions) for a GPHObject
+/// Represents a Giphy Images (Renditions) for a GPHMedia
 ///
 @objc public class GPHImages: NSObject, NSCoding {
     
     /// ID of the Represented Object
-    public fileprivate(set) var id: String
+    public fileprivate(set) var mediaId: String
     
     /// Original file size and file dimensions. Good for desktop use.
     public fileprivate(set) var original: GPHImage?
@@ -92,23 +92,23 @@ import Foundation
     public fileprivate(set) var downsizedStill: GPHImage?
     
     override public init() {
-        self.id = ""
+        self.mediaId = ""
         super.init()
     }
     
-    convenience init(_ id: String) {
+    convenience init(_ mediaId: String) {
         self.init()
-        self.id = id
+        self.mediaId = mediaId
     }
     
     required convenience public init?(coder aDecoder: NSCoder) {
         guard
-            let id = aDecoder.decodeObject(forKey: "id") as? String
+            let mediaId = aDecoder.decodeObject(forKey: "mediaId") as? String
         else {
             return nil
         }
         
-        self.init(id)
+        self.init(mediaId)
         
         self.original = aDecoder.decodeObject(forKey: "original") as? GPHImage
         self.originalStill = aDecoder.decodeObject(forKey: "originalStill") as? GPHImage
@@ -160,14 +160,14 @@ import Foundation
         if object as? GPHImages === self {
             return true
         }
-        if let other = object as? GPHImages, self.id == other.id {
+        if let other = object as? GPHImages, self.mediaId == other.mediaId {
             return true
         }
         return false
     }
     
     override public var hash: Int {
-        return "gph_renditions_\(self.id)".hashValue
+        return "gph_renditions_\(self.mediaId)".hashValue
     }
 
 }
@@ -179,7 +179,7 @@ import Foundation
 extension GPHImages {
     
     override public var description: String {
-        return "GPHImages(for: \(self.id))"
+        return "GPHImages(for: \(self.mediaId))"
     }
     
 }
@@ -215,7 +215,7 @@ extension GPHImages: GPHMappable {
     
     
     // convinience method to get GPHImage or nil safely
-    private static func image(_ root: GPHObject?,
+    private static func image(_ root: GPHMedia?,
                               data jsonData: GPHJSONObject,
                               request requestType: GPHRequestType,
                               media mediaType: GPHMediaType,
@@ -247,17 +247,17 @@ extension GPHImages: GPHMappable {
     }
     
     /// this is where the magic happens + error handling
-    public static func mapData(_ root: GPHObject?,
+    public static func mapData(_ root: GPHMedia?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
                                rendition renditionType: GPHRenditionType = .original) -> (object: GPHImages?, error: GPHJSONMappingError?) {
         
-        guard let id = root?.id else {
-            return (nil, GPHJSONMappingError(description: "Root object can not be nil, expected a GPHObject"))
+        guard let mediaId = root?.id else {
+            return (nil, GPHJSONMappingError(description: "Root object can not be nil, expected a GPHMedia"))
         }
         
-        let obj = GPHImages(id)
+        let obj = GPHImages(mediaId)
         
         obj.original = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .original).object
         obj.originalStill = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .originalStill).object

@@ -49,28 +49,21 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
         
-        let _ = client.search("ryan gosling") { (results, pagination, error) in
+        let _ = client.search("ryan gosling") { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
             
-            if let pagination = pagination {
+            if let response = response, let data = response.data, let pagination = response.pagination {
+                print(response.meta)
                 print(pagination)
-            } else {
-                XCTFail("No Pagination")
-            }
-            
-            if let results = results  {
-                
-                for result in results {
+                for result in data {
                     print(result)
                 }
-                
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
@@ -80,28 +73,21 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
         
-        let _ = client.search("cats", media: .sticker) { (results, pagination, error) in
+        let _ = client.search("cats", media: .sticker) { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
-
-            if let pagination = pagination {
-                print(pagination)
-            } else {
-                XCTFail("No Pagination")
-            }
             
-            if let results = results  {
-                
-                for result in results {
+            if let response = response, let data = response.data, let pagination = response.pagination {
+                print(response.meta)
+                print(pagination)
+                for result in data {
                     print(result)
                 }
-                
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
@@ -113,28 +99,21 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
         
-        let _ = client.trending(completionHandler: { (results, pagination, error) in
+        let _ = client.trending(completionHandler: { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
             
-            if let pagination = pagination {
+            if let response = response, let data = response.data, let pagination = response.pagination {
+                print(response.meta)
                 print(pagination)
-            } else {
-                XCTFail("No Pagination")
-            }
-            
-            if let results = results  {
-                
-                for result in results {
+                for result in data {
                     print(result)
                 }
-                
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
         })
         
@@ -145,28 +124,21 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
         
-        let _ = client.trending(.sticker) { (results, pagination, error) in
+        let _ = client.trending(.sticker) { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
             
-            if let pagination = pagination {
+            if let response = response, let data = response.data, let pagination = response.pagination {
+                print(response.meta)
                 print(pagination)
-            } else {
-                XCTFail("No Pagination")
-            }
-            
-            if let results = results  {
-                
-                for result in results {
+                for result in data {
                     print(result)
                 }
-                
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
@@ -178,19 +150,20 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Translate Result & Map it to Object")
         
-        let _ = client.translate("cats") { (result, error) in
+        let _ = client.translate("cats") { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
             
-            if let result = result  {
-                print(result)
+            if let response = response, let data = response.data  {
+                print(response.meta)
+                print(data)
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
+            
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
@@ -199,19 +172,20 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Translate Result & Map it to Object")
         
-        let _ = client.translate("cats", media: .sticker) { (result, error) in
+        let _ = client.translate("cats", media: .sticker) { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
             
-            if let result = result  {
-                print(result)
+            if let response = response, let data = response.data  {
+                print(response.meta)
+                print(data)
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
+            
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
@@ -222,19 +196,20 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Random Result & Map it to Object")
         
-        let _ = client.random("cats") { (result, error) in
+        let _ = client.random("cats") { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
             
-            if let result = result  {
-                print(result)
+            if let response = response, let data = response.data  {
+                print(response.meta)
+                print(data)
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
+            
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
@@ -243,19 +218,20 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Random Result & Map it to Object")
         
-        let _ = client.random("cats", media: .sticker) { (result, error) in
+        let _ = client.random("cats", media: .sticker) { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
             
-            if let result = result  {
-                print(result)
+            if let response = response, let data = response.data  {
+                print(response.meta)
+                print(data)
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
+            
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
@@ -267,19 +243,20 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve a Gif by its id & Map it to Object")
         
-        let _ = client.gifByID("FiGiRei2ICzzG") { (result, error) in
+        let _ = client.gifByID("FiGiRei2ICzzG") { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
             
-            if let result = result  {
-                print(result)
+            if let response = response, let data = response.data  {
+                print(response.meta)
+                print(data)
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
+            
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
@@ -291,29 +268,21 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         let promise = expectation(description: "Status 200 & Recieve Gifs by Ids & Map them to Objects")
         let ids = ["PwyQ8ase9nuyQ", "mztEiyM7hzjDG", "5w4QZx27jDM8U"]
         
-        let _ = client.gifsByIDs(ids) { (results, pagination, error) in
+        let _ = client.gifsByIDs(ids) { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
-
-            if let pagination = pagination {
-                print(pagination)
-            } else {
-                XCTFail("No Pagination")
-            }
             
-            if let results = results {
-                for result in results {
+            if let response = response, let data = response.data, let pagination = response.pagination {
+                print(response.meta)
+                print(pagination)
+                for result in data {
                     print(result)
                 }
-                if results.count != ids.count {
-                    XCTFail("Number of gifs requested and parsed don't match")
-                }
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
@@ -325,22 +294,20 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Term Suggestions & Map them to Objects")
         
-        let _ = client.termSuggestions("carm") { (results, error) in
+        let _ = client.termSuggestions("carm") { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
             
-            if let results = results  {
-                
-                for result in results {
+            if let response = response, let data = response.data {
+                print(response.meta)
+                for result in data {
                     print(result)
                 }
-                
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
@@ -352,28 +319,21 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Categories & Map them to Objects")
         
-        let _ = client.trendingCategories() { (results, pagination, error) in
+        let _ = client.categoriesForGifs() { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
             
-            if let pagination = pagination {
+            if let response = response, let data = response.data, let pagination = response.pagination {
+                print(response.meta)
                 print(pagination)
-            } else {
-                XCTFail("No Pagination")
-            }
-            
-            if let results = results  {
-                
-                for result in results {
+                for result in data {
                     print(result)
                 }
-                
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
@@ -382,30 +342,22 @@ class GiphyCoreSDKParsingTests: XCTestCase {
     func testClientSubCategoriesMapJsonToObject() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Categories & Map them to Objects")
-        let category = GPHCategory("actions", nameEncoded: "actions", encodedPath:"actions")
         
-        let _ = client.trendingCategories(category) { (results, pagination, error) in
+        let _ = client.subCategoriesForGifs("actions") { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
             
-            if let pagination = pagination {
+            if let response = response, let data = response.data, let pagination = response.pagination {
+                print(response.meta)
                 print(pagination)
-            } else {
-                XCTFail("No Pagination")
-            }
-            
-            if let results = results  {
-                
-                for result in results {
+                for result in data {
                     print(result)
                 }
-                
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
@@ -415,30 +367,21 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Categories & Map them to Objects")
         
-        let category = GPHCategory("cooking", nameEncoded: "cooking", encodedPath:"actions/cooking")
-        
-        let _ = client.categoryContent(category) { (results, pagination, error) in
+        let _ = client.gifsByCategory("actions", subCategory: "cooking") { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
-
-            if let pagination = pagination {
-                print(pagination)
-            } else {
-                XCTFail("No Pagination")
-            }
             
-            if let results = results  {
-                
-                for result in results {
+            if let response = response, let data = response.data, let pagination = response.pagination {
+                print(response.meta)
+                print(pagination)
+                for result in data {
                     print(result)
                 }
-                
                 promise.fulfill()
-                
             } else {
-                XCTFail("No results?")
+                XCTFail("No Result Found")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)

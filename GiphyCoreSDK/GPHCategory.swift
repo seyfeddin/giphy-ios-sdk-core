@@ -34,7 +34,7 @@ import Foundation
     public fileprivate(set) var name: String
     public fileprivate(set) var nameEncoded: String
     public fileprivate(set) var encodedPath: String
-    public fileprivate(set) var gif: GPHObject?
+    public fileprivate(set) var gif: GPHMedia?
     public fileprivate(set) var subCategories: [GPHCategory]?
     
 
@@ -63,7 +63,7 @@ import Foundation
         
         self.init(name, nameEncoded: nameEncoded, encodedPath: encodedPath)
         
-        self.gif = aDecoder.decodeObject(forKey: "previewImage") as? GPHObject
+        self.gif = aDecoder.decodeObject(forKey: "gif") as? GPHMedia
         self.subCategories = aDecoder.decodeObject(forKey: "subCategories") as? [GPHCategory]
 
     }
@@ -126,10 +126,10 @@ extension GPHCategory: GPHMappable {
         
         let obj = GPHCategory(name, nameEncoded: nameEncoded, encodedPath: "")
         
-        var gif:GPHObject? = nil
+        var gif:GPHMedia? = nil
         
         if let gifData = jsonData["gif"] as? GPHJSONObject {
-            gif = GPHObject.mapData(nil, data: gifData, request: requestType, media: mediaType).object
+            gif = GPHMedia.mapData(nil, data: gifData, request: requestType, media: mediaType).object
         }
         
         obj.gif = gif
@@ -139,16 +139,16 @@ extension GPHCategory: GPHMappable {
             
             obj.encodedPath = nameEncoded
             
-            if let subCategoriesJSON = jsonData["subcategories"] as? [GPHJSONObject] {
+            if let subCategoriesJSON = jsonData["subCategories"] as? [GPHJSONObject] {
                 if subCategoriesJSON.count > 0 {
                     obj.subCategories = []
-                    for subcategoryJSON in subCategoriesJSON {
+                    for subCategoryJSON in subCategoriesJSON {
                         // Create all the sub categories
-                        let subObjResult = GPHCategory.mapData(obj, data: subcategoryJSON, request: .subCategories)
+                        let subObjResult = GPHCategory.mapData(obj, data: subCategoryJSON, request: .subCategories)
                         if let subObj = subObjResult.object {
                             obj.subCategories?.append(subObj)
                         } else {
-                            return (nil, GPHJSONMappingError(description: "Couldn't map SubCategory GPHCategory for \(subcategoryJSON)"))
+                            return (nil, GPHJSONMappingError(description: "Couldn't map subCategory GPHCategory for \(subCategoryJSON)"))
                         }
                     }
                 }

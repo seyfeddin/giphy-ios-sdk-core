@@ -183,7 +183,7 @@ extension GPHUser {
 extension GPHUser: GPHMappable {
     
     /// this is where the magic will happen + error handling
-    public static func mapData(_ root: GPHObject?,
+    public static func mapData(_ root: GPHMedia?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,

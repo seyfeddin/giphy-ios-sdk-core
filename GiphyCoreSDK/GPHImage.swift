@@ -30,8 +30,8 @@ import Foundation
 ///
 @objc public class GPHImage: NSObject, NSCoding {
     
-    /// ID of the Represented Object
-    public fileprivate(set) var id: String
+    /// ID of the Represented GPHMedia Object
+    public fileprivate(set) var mediaId: String
 
     /// ID of the Represented Object
     public fileprivate(set) var rendition: GPHRenditionType
@@ -67,27 +67,27 @@ import Foundation
     public fileprivate(set) var mp4Size: Int?
     
     override public init() {
-        self.id = ""
+        self.mediaId = ""
         self.rendition = .original
         super.init()
     }
     
-    convenience init(_ id: String,
+    convenience init(_ mediaId: String,
                      rendition: GPHRenditionType) {
         self.init()
-        self.id = id
+        self.mediaId = mediaId
         self.rendition = rendition
     }
     
     required convenience public init?(coder aDecoder: NSCoder) {
         guard
-            let id = aDecoder.decodeObject(forKey: "id") as? String,
+            let mediaId = aDecoder.decodeObject(forKey: "mediaId") as? String,
             let rendition = aDecoder.decodeObject(forKey: "rendition") as? GPHRenditionType
         else {
             return nil
         }
         
-        self.init(id, rendition: rendition)
+        self.init(mediaId, rendition: rendition)
                   
         self.gifUrl = aDecoder.decodeObject(forKey: "gifUrl") as? String
         self.stillGifUrl = aDecoder.decodeObject(forKey: "stillGifUrl") as? String
@@ -103,7 +103,7 @@ import Foundation
     }
     
     public func encode(with aCoder: NSCoder) {
-        aCoder.encode(self.id, forKey: "id")
+        aCoder.encode(self.mediaId, forKey: "mediaId")
         aCoder.encode(self.rendition, forKey: "rendition")
         aCoder.encode(self.gifUrl, forKey: "gifUrl")
         aCoder.encode(self.gifUrl, forKey: "stillGifUrl")
@@ -122,14 +122,14 @@ import Foundation
         if object as? GPHImage === self {
             return true
         }
-        if let other = object as? GPHImage, self.id == other.id, self.rendition.rawValue == other.rendition.rawValue {
+        if let other = object as? GPHImage, self.mediaId == other.mediaId, self.rendition.rawValue == other.rendition.rawValue {
             return true
         }
         return false
     }
     
     override public var hash: Int {
-        return "gph_image_\(self.id)_\(self.rendition.rawValue)".hashValue
+        return "gph_image_\(self.mediaId)_\(self.rendition.rawValue)".hashValue
     }
     
 }
@@ -141,7 +141,7 @@ import Foundation
 extension GPHImage {
     
     override public var description: String {
-        return "GPHImage(for: \(self.id)) rendition: \(self.rendition.rawValue)"
+        return "GPHImage(for: \(self.mediaId)) rendition: \(self.rendition.rawValue)"
     }
     
 }
@@ -153,17 +153,17 @@ extension GPHImage {
 extension GPHImage: GPHMappable {
     
     /// this is where the magic will happen + error handling
-    public static func mapData(_ root: GPHObject?,
+    public static func mapData(_ root: GPHMedia?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
                                rendition renditionType: GPHRenditionType = .original) -> (object: GPHImage?, error: GPHJSONMappingError?) {
         
-        guard let id = root?.id else {
+        guard let mediaId = root?.id else {
             return (nil, GPHJSONMappingError(description: "Root object can not be nil, expected a GPHImages"))
         }
         
-        let obj = GPHImage(id, rendition: renditionType)
+        let obj = GPHImage(mediaId, rendition: renditionType)
         
         obj.gifUrl = jsonData["url"] as? String
         obj.stillGifUrl = jsonData["still_url"]  as? String

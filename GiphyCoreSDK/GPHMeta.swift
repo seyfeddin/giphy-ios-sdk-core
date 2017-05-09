@@ -1,8 +1,8 @@
 //
-//  GPHPagination.swift
+//  GPHMeta.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu on 5/7/17.
+//  Created by Cem Kozinoglu on 5/8/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,31 +26,32 @@
 
 import Foundation
 
-/// Represents a Giphy Response Pagination Info
+/// Represents a Giphy Response Meta Info
 ///
-@objc public class GPHPagination: NSObject {
+@objc public class GPHMeta: NSObject {
     
-    /// Total Result Count
-    public private(set) var totalCount: Int
+    /// Unique response id
+    public fileprivate(set) var responseId: String
     
-    /// Returned Result Count (not always == limit)
-    public private(set) var count: Int
+    /// Status (200, 404...)
+    public fileprivate(set) var status: Int
     
-    /// Offset to start next set of results
-    public private(set) var offset: Int
+    /// Message description
+    public fileprivate(set) var msg: String
+    
     
     override public init() {
-        self.totalCount = 0
-        self.count = 0
-        self.offset = 0
+        self.responseId = ""
+        self.status = 0
+        self.msg = ""
         super.init()
     }
     
-    convenience init(_ totalCount: Int, count: Int, offset: Int) {
+    convenience init(_ responseId: String, status: Int, msg: String) {
         self.init()
-        self.totalCount = totalCount
-        self.count = count
-        self.offset = offset
+        self.status = status
+        self.msg = msg
+        self.responseId = responseId
     }
     
 }
@@ -59,10 +60,10 @@ import Foundation
 
 /// Make objects human readable
 ///
-extension GPHPagination {
+extension GPHMeta {
     
     override public var description: String {
-        return "GPHPagination(totalCount: \(self.totalCount) count: \(self.count) offset: \(self.offset))"
+        return "GPHMeta(\(self.responseId) status: \(self.status) msg: \(self.msg))"
     }
     
 }
@@ -71,25 +72,24 @@ extension GPHPagination {
 
 /// For parsing/mapping protocol
 ///
-extension GPHPagination: GPHMappable {
+extension GPHMeta: GPHMappable {
     
     /// this is where the magic will happen + error handling
-    public static func mapData(_ root: GPHPagination?,
+    public static func mapData(_ root: GPHMeta?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHPagination?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHMeta?, error: GPHJSONMappingError?) {
         
         guard
-            let count = jsonData["count"] as? Int
-        else {
-            return (nil, GPHJSONMappingError(description: "Couldn't map GPHPagination for \(jsonData)"))
+            let responseId = jsonData["response_id"] as? String,
+            let status = jsonData["status"] as? Int,
+            let msg = jsonData["msg"] as? String
+            else {
+                return (nil, GPHJSONMappingError(description: "Couldn't map GPHMeta for \(jsonData)"))
         }
         
-        let totalCount = jsonData["total_count"] as? Int ?? count
-        let offset = jsonData["offset"] as? Int ?? 0
-        
-        let obj = GPHPagination(totalCount, count: count, offset: offset)
+        let obj = GPHMeta(responseId, status: status, msg: msg)
         
         return (obj, nil)
     }

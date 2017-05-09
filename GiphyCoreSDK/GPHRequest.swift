@@ -47,16 +47,16 @@ import Foundation
     /// Get items with IDs
     case getAll
     
-    /// Get term suggestions
+    /// Get Term Suggestions
     case termSuggestions
     
-    /// Trending Categories
+    /// Top Categories
     case categories
     
-    /// Trending SubCategories
+    /// SubCategories of a Category
     case subCategories
 
-    /// Trending SubCategories
+    /// Category Content
     case categoryContent
 }
 
@@ -74,7 +74,7 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
     /// More than anything so we can map JSON > GPH objs
     let type: GPHRequestType
     
-    init(_ client: GPHAbstractClient, request: URLRequest, type: GPHRequestType, completionHandler: @escaping GPHCompletionHandler) {
+    init(_ client: GPHAbstractClient, request: URLRequest, type: GPHRequestType, completionHandler: @escaping GPHJSONCompletionHandler) {
         self.client = client
         self.request = request
         self.type = type
@@ -132,7 +132,7 @@ public enum GPHRequestRouter {
     case termSuggestions(String) // term to query
     case categories(GPHMediaType, Int, Int, String) // type, offset, limit, sort
     case subCategories(String, GPHMediaType, Int, Int, String) // category, type, offset, limit, sort
-    case categoryContent(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType) // subcategory, type, offset, limit, rating, lang
+    case categoryContent(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType) // subCategory, type, offset, limit, rating, lang
     
     // Base endpoint
     static let baseURLString = "https://api.giphy.com/v1/"
@@ -202,7 +202,6 @@ public enum GPHRequestRouter {
 
             }
             
-
             var url = URL(string: GPHRequestRouter.baseURLString)!
             if let path = relativePath {
                 url = url.appendingPathComponent(path)

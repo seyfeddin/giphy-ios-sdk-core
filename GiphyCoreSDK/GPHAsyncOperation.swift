@@ -90,9 +90,9 @@ extension GPHAsyncOperation {
 ///
 class GPHAsyncOperationWithCompletion: GPHAsyncOperation {
     /// User completion block to be called.
-    let completion: GPHCompletionHandler?
+    let completion: GPHJSONCompletionHandler?
     
-    init(completionHandler: GPHCompletionHandler?) {
+    init(completionHandler: GPHJSONCompletionHandler?) {
         self.completion = completionHandler
     }
     

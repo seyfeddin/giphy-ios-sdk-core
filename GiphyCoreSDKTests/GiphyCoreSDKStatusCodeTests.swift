@@ -48,7 +48,7 @@ class GiphyCoreSDKStatusCodeTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 401 & Recieve 401 Error")
         
-        let _ = clientProblematicApiKey.gifByID("some_fake_id") { (result, error) in
+        let _ = clientProblematicApiKey.gifByID("some_fake_id") { (response, error) in
             
             if let error = error as NSError? {
                 if error.code == 401 {
@@ -57,7 +57,7 @@ class GiphyCoreSDKStatusCodeTests: XCTestCase {
                     XCTFail("Error(\(error.code)): \(error.localizedDescription) does not match 401!")
                 }
             } else {
-                XCTFail("No results?")
+                XCTFail("Didn't return 401")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
@@ -68,7 +68,7 @@ class GiphyCoreSDKStatusCodeTests: XCTestCase {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 404 & Recieve 404 Error")
         
-        let _ = client.gifByID("some_fake_id") { (result, error) in
+        let _ = client.gifByID("some_fake_id") { (response, error) in
             
             if let error = error as NSError? {
                 if error.code == 404 {
@@ -77,7 +77,7 @@ class GiphyCoreSDKStatusCodeTests: XCTestCase {
                   XCTFail("Error(\(error.code)): \(error.localizedDescription) does not match 404!")
                 }
             } else {
-                XCTFail("No results?")
+                XCTFail("Didn't return 404")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)

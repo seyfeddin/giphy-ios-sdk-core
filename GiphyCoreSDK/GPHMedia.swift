@@ -26,9 +26,9 @@
 
 import Foundation
 
-/// Represents a Giphy Object
+/// Represents a Giphy Media Object
 ///
-@objc public class GPHObject: NSObject, NSCoding {
+@objc public class GPHMedia: NSObject, NSCoding {
     
     public fileprivate(set) var id: String
     public fileprivate(set) var type: GPHMediaType
@@ -157,10 +157,10 @@ import Foundation
     
     // MARK: NSCoder Hash and Equality/Identity
     override public func isEqual(_ object: Any?) -> Bool {
-        if object as? GPHObject === self {
+        if object as? GPHMedia === self {
             return true
         }
-        if let other = object as? GPHObject, self.id == other.id {
+        if let other = object as? GPHMedia, self.id == other.id {
             return true
         }
         return false
@@ -176,10 +176,10 @@ import Foundation
 
 /// Make objects human readable
 ///
-extension GPHObject {
+extension GPHMedia {
     
     override public var description: String {
-        return "GPHObject(\(self.type.rawValue)) for \(self.id) --> \(self.url)"
+        return "GPHMedia(\(self.type.rawValue)) for \(self.id) --> \(self.url)"
     }
     
 }
@@ -188,22 +188,22 @@ extension GPHObject {
 
 /// For parsing/mapping protocol
 ///
-extension GPHObject: GPHMappable {
+extension GPHMedia: GPHMappable {
 
     /// this is where the magic will happen + error handling
-    public static func mapData(_ root: GPHObject?,
+    public static func mapData(_ root: GPHMedia?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHObject?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHMedia?, error: GPHJSONMappingError?) {
         guard
             let objId: String = jsonData["id"] as? String,
             let url: String = jsonData["url"] as? String
         else {
-            return (nil, GPHJSONMappingError(description: "Couldn't map GPHObject for \(jsonData)"))
+            return (nil, GPHJSONMappingError(description: "Couldn't map GPHMedia for \(jsonData)"))
         }
         
-        let obj = GPHObject(objId, type: mediaType, url: url)
+        let obj = GPHMedia(objId, type: mediaType, url: url)
         
         obj.rating = parseRating(jsonData["rating"] as? String)
         obj.caption = jsonData["caption"] as? String
