@@ -212,3 +212,49 @@ let op = client.random("cats", media: .sticker) { (response, error) in
     }
 }
 ```
+
+### Get GIF by ID 
+Returns meta data about a GIF, by GIF id. In the below example, the GIF ID is "feqkVgjJpYtjy"
+
+```swift
+/// Gif by Id
+let op = client.gifByID("feqkVgjJpYtjy") { (response, error) in
+
+    if let error = error as NSError? {
+        // Do what you want with the error
+    }
+
+    if let response = response, let data = response.data  {
+        print(response.meta)
+        print(data)
+        promise.fulfill()
+    } else {
+        print("No Result Found")
+    }
+}
+```
+
+### Get GIFs by IDs 
+A multiget version of the get GIF by ID endpoint. In this case the IDs are feqkVgjJpYtjy and 7rzbxdu0ZEXLy.
+
+```swift
+/// Gifs by Ids
+let ids = ["feqkVgjJpYtjy", "7rzbxdu0ZEXLy"]
+
+let op = client.gifByID("feqkVgjJpYtjy") { (response, error) in
+
+    if let error = error as NSError? {
+        // Do what you want with the error
+    }
+
+    if let response = response, let data = response.data, let pagination = response.pagination {
+        print(response.meta)
+        print(pagination)
+        for result in data {
+            print(result)
+        }
+    } else {
+        print("No Result Found")
+    }
+}
+```
