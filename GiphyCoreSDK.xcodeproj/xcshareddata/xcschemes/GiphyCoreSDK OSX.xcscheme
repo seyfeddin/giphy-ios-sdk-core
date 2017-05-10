@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E78FAD071EC370B6006D2803"
-               BuildableName = "GiphyCoreSDK OSX.framework"
+               BuildableName = "GiphyCoreSDK.framework"
                BlueprintName = "GiphyCoreSDK OSX"
                ReferencedContainer = "container:GiphyCoreSDK.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E78FAD0F1EC370B6006D2803"
-               BuildableName = "GiphyCoreSDKTests OSX.xctest"
+               BuildableName = "GiphyCoreSDK-OSX-Tests.xctest"
                BlueprintName = "GiphyCoreSDKTests OSX"
                ReferencedContainer = "container:GiphyCoreSDK.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E78FAD071EC370B6006D2803"
-            BuildableName = "GiphyCoreSDK OSX.framework"
+            BuildableName = "GiphyCoreSDK.framework"
             BlueprintName = "GiphyCoreSDK OSX"
             ReferencedContainer = "container:GiphyCoreSDK.xcodeproj">
          </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E78FAD071EC370B6006D2803"
-            BuildableName = "GiphyCoreSDK OSX.framework"
+            BuildableName = "GiphyCoreSDK.framework"
             BlueprintName = "GiphyCoreSDK OSX"
             ReferencedContainer = "container:GiphyCoreSDK.xcodeproj">
          </BuildableReference>
@@ -83,7 +83,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E78FAD071EC370B6006D2803"
-            BuildableName = "GiphyCoreSDK OSX.framework"
+            BuildableName = "GiphyCoreSDK.framework"
             BlueprintName = "GiphyCoreSDK OSX"
             ReferencedContainer = "container:GiphyCoreSDK.xcodeproj">
          </BuildableReference>
