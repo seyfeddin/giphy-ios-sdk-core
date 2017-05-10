@@ -59,13 +59,32 @@ let client = GPHClient(apiKey: "YOUR_API_KEY")
 ```
 
 ### Search Gifs / Stickers
+Search all Giphy GIFs for a word or phrase. Punctuation will be stripped and ignored. 
 
 ```swift
-/// Simple Gif Search
-let _ = client.search("ryan gosling") { (response, error) in
+/// Gif Search
+let op = client.search("cats") { (response, error) in
 
     if let error = error as NSError? {
-        // Do what you want to do with the error
+        // Do what you want with the error
+    }
+
+    if let response = response, let data = response.data, let pagination = response.pagination {
+        print(response.meta)
+        print(pagination)
+        for result in data {
+            print(result)
+        }
+    } else {
+        print("No Result Found")
+    }
+}
+
+/// Sticker Search
+let op = client.search("dogs", media: .sticker) { (response, error) in
+
+    if let error = error as NSError? {
+        // Do what you want with the error
     }
 
     if let response = response, let data = response.data, let pagination = response.pagination {
@@ -79,3 +98,82 @@ let _ = client.search("ryan gosling") { (response, error) in
     }
 }
 ```
+### Trending Gifs / Stickers
+Fetch GIFs currently trending online. Hand curated by the Giphy editorial team. The data returned mirrors the GIFs showcased on the [Giphy](https://www.giphy.com) homepage.
+
+```swift
+/// Trending Gifs
+let op = client.trending() { (response, error) in
+
+    if let error = error as NSError? {
+        // Do what you want with the error
+    }
+
+    if let response = response, let data = response.data, let pagination = response.pagination {
+        print(response.meta)
+        print(pagination)
+        for result in data {
+            print(result)
+        }
+    } else {
+        print("No Result Found")
+    }
+}
+
+/// Trending Stickers
+let op = client.trending(.sticker) { (response, error) in
+
+    if let error = error as NSError? {
+        // Do what you want with the error
+    }
+
+    if let response = response, let data = response.data, let pagination = response.pagination {
+        print(response.meta)
+        print(pagination)
+        for result in data {
+            print(result)
+        }
+    } else {
+        print("No Result Found")
+    }
+}
+```
+
+### Translate to a Gif / Sticker
+The translate API draws on search, but uses the Giphy "special sauce" to handle translating from one vocabulary to another. In this case, words and phrases to GIFs. Example implementations of translate can be found in the Giphy Slack, Hipchat, Wire, or Dasher integrations. Use a plus or url encode for phrases.
+
+```swift
+/// Translate to a Gif
+let op = client.translate("cats") { (response, error) in
+
+    if let error = error as NSError? {
+        // Do what you want with the error
+    }
+
+    if let response = response, let data = response.data  {
+        print(response.meta)
+        print(data)
+        promise.fulfill()
+    } else {
+        print("No Result Found")
+    }
+}
+
+/// Translate to a Sticker
+let op = client.translate("cats", media: .sticker) { (response, error) in
+
+    if let error = error as NSError? {
+        // Do what you want with the error
+    }
+
+    if let response = response, let data = response.data  {
+        print(response.meta)
+        print(data)
+        promise.fulfill()
+    } else {
+        print("No Result Found")
+    }
+}
+```
+
+
