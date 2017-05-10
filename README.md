@@ -245,7 +245,7 @@ A multiget version of the get GIF by ID endpoint. In this case the IDs are feqkV
 /// Gifs by Ids
 let ids = ["feqkVgjJpYtjy", "7rzbxdu0ZEXLy"]
 
-let op = client.gifByID("feqkVgjJpYtjy") { (response, error) in
+let op = client.gifsByIDs(ids) { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
