@@ -176,4 +176,39 @@ let op = client.translate("cats", media: .sticker) { (response, error) in
 }
 ```
 
+### Random Gif / Sticker
+Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the Giphy catalog.
 
+```swift
+/// Random Gif
+let op = client.random("cats") { (response, error) in
+
+    if let error = error as NSError? {
+        // Do what you want with the error
+    }
+
+    if let response = response, let data = response.data  {
+        print(response.meta)
+        print(data)
+        promise.fulfill()
+    } else {
+        print("No Result Found")
+    }
+}
+
+/// Random Sticker
+let op = client.random("cats", media: .sticker) { (response, error) in
+
+    if let error = error as NSError? {
+        // Do what you want with the error
+    }
+
+    if let response = response, let data = response.data  {
+        print(response.meta)
+        print(data)
+        promise.fulfill()
+    } else {
+        print("No Result Found")
+    }
+}
+```
