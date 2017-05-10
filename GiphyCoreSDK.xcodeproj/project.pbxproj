@@ -66,6 +66,27 @@
 		E78FAD341EC371EE006D2803 /* GPHMappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */; };
 		E78FAD351EC371F4006D2803 /* GPHClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E4F1EAE370100489AB7 /* GPHClient.swift */; };
 		E78FAD361EC371F4006D2803 /* GPHAbstractClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E541EAE382D00489AB7 /* GPHAbstractClient.swift */; };
+		E78FAD441EC37557006D2803 /* GPHClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E4F1EAE370100489AB7 /* GPHClient.swift */; };
+		E78FAD451EC37557006D2803 /* GPHAbstractClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E541EAE382D00489AB7 /* GPHAbstractClient.swift */; };
+		E78FAD461EC37557006D2803 /* GPHMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E431EABF5C200489AB7 /* GPHMedia.swift */; };
+		E78FAD471EC37557006D2803 /* GPHTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E451EAC17C200489AB7 /* GPHTypes.swift */; };
+		E78FAD481EC37557006D2803 /* GPHUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E471EAC181C00489AB7 /* GPHUser.swift */; };
+		E78FAD491EC37557006D2803 /* GPHImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E491EAC2B5500489AB7 /* GPHImage.swift */; };
+		E78FAD4A1EC37557006D2803 /* GPHImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102701EB9407000F0FF34 /* GPHImages.swift */; };
+		E78FAD4B1EC37557006D2803 /* GPHCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E4B1EAC390700489AB7 /* GPHCategory.swift */; };
+		E78FAD4C1EC37557006D2803 /* GPHTermSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E4D1EAC3A4A00489AB7 /* GPHTermSuggestion.swift */; };
+		E78FAD4D1EC37557006D2803 /* GPHMappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */; };
+		E78FAD4E1EC37557006D2803 /* GPHPagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A451EBFD87900997C5C /* GPHPagination.swift */; };
+		E78FAD4F1EC37557006D2803 /* GPHMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A481EC1065B00997C5C /* GPHMeta.swift */; };
+		E78FAD501EC37557006D2803 /* GPHResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A4A1EC10A8E00997C5C /* GPHResponse.swift */; };
+		E78FAD511EC37557006D2803 /* GPHMediaResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A4C1EC1140300997C5C /* GPHMediaResponse.swift */; };
+		E78FAD521EC37557006D2803 /* GPHListMediaResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A4E1EC124AC00997C5C /* GPHListMediaResponse.swift */; };
+		E78FAD531EC37557006D2803 /* GPHListCategoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A521EC132BA00997C5C /* GPHListCategoryResponse.swift */; };
+		E78FAD541EC37557006D2803 /* GPHListTermSuggestionRespose.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A501EC1305700997C5C /* GPHListTermSuggestionRespose.swift */; };
+		E78FAD551EC37557006D2803 /* GPHRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E521EAE380700489AB7 /* GPHRequest.swift */; };
+		E78FAD561EC37557006D2803 /* GPHError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */; };
+		E78FAD571EC37557006D2803 /* GPHAsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E561EAE387100489AB7 /* GPHAsyncOperation.swift */; };
+		E78FAD581EC37557006D2803 /* GPHNetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E581EAE3E1900489AB7 /* GPHNetworkReachability.swift */; };
 		E7AF4E321EABCFFF00489AB7 /* GiphyCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7AF4E281EABCFFF00489AB7 /* GiphyCoreSDK.framework */; };
 		E7AF4E441EABF5C200489AB7 /* GPHMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E431EABF5C200489AB7 /* GPHMedia.swift */; };
 		E7AF4E461EAC17C200489AB7 /* GPHTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E451EAC17C200489AB7 /* GPHTypes.swift */; };
@@ -122,6 +143,7 @@
 		E7365A541EC136FC00997C5C /* GiphyCoreSDKOffsetTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiphyCoreSDKOffsetTests.swift; sourceTree = "<group>"; };
 		E78FAD081EC370B6006D2803 /* GiphyCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GiphyCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E78FAD101EC370B6006D2803 /* GiphyCoreSDK-OSX-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GiphyCoreSDK-OSX-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E78FAD3C1EC374EA006D2803 /* GiphyCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GiphyCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7AF4E281EABCFFF00489AB7 /* GiphyCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GiphyCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7AF4E2C1EABCFFF00489AB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7AF4E311EABCFFF00489AB7 /* GiphyCoreSDK-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GiphyCoreSDK-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,6 +193,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E78FAD111EC370B6006D2803 /* GiphyCoreSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E78FAD381EC374EA006D2803 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +269,7 @@
 				E7147DE81EC2AF7700DC5CFF /* GiphyCoreSDK-tvOS-Tests.xctest */,
 				E78FAD081EC370B6006D2803 /* GiphyCoreSDK.framework */,
 				E78FAD101EC370B6006D2803 /* GiphyCoreSDK-OSX-Tests.xctest */,
+				E78FAD3C1EC374EA006D2803 /* GiphyCoreSDK.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -305,6 +335,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E78FAD051EC370B6006D2803 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E78FAD391EC374EA006D2803 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -393,6 +430,24 @@
 			productReference = E78FAD101EC370B6006D2803 /* GiphyCoreSDK-OSX-Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		E78FAD3B1EC374EA006D2803 /* GiphyCoreSDK watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E78FAD431EC374EA006D2803 /* Build configuration list for PBXNativeTarget "GiphyCoreSDK watchOS" */;
+			buildPhases = (
+				E78FAD371EC374EA006D2803 /* Sources */,
+				E78FAD381EC374EA006D2803 /* Frameworks */,
+				E78FAD391EC374EA006D2803 /* Headers */,
+				E78FAD3A1EC374EA006D2803 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GiphyCoreSDK watchOS";
+			productName = "GiphyCoreSDK watchOS";
+			productReference = E78FAD3C1EC374EA006D2803 /* GiphyCoreSDK.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		E7AF4E271EABCFFF00489AB7 /* GiphyCoreSDK iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E7AF4E3C1EABCFFF00489AB7 /* Build configuration list for PBXNativeTarget "GiphyCoreSDK iOS" */;
@@ -455,6 +510,10 @@
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Automatic;
 					};
+					E78FAD3B1EC374EA006D2803 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+					};
 					E7AF4E271EABCFFF00489AB7 = {
 						CreatedOnToolsVersion = 8.3.1;
 						LastSwiftMigration = 0830;
@@ -484,6 +543,7 @@
 				E7147DE71EC2AF7700DC5CFF /* GiphyCoreSDK tvOS Tests */,
 				E78FAD071EC370B6006D2803 /* GiphyCoreSDK OSX */,
 				E78FAD0F1EC370B6006D2803 /* GiphyCoreSDKTests OSX */,
+				E78FAD3B1EC374EA006D2803 /* GiphyCoreSDK watchOS */,
 			);
 		};
 /* End PBXProject section */
@@ -511,6 +571,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E78FAD0E1EC370B6006D2803 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E78FAD3A1EC374EA006D2803 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -607,6 +674,34 @@
 				E78FAD201EC371D4006D2803 /* GiphyCoreSDKStatusCodeTests.swift in Sources */,
 				E78FAD211EC371D4006D2803 /* GiphyCoreSDKParsingTests.swift in Sources */,
 				E78FAD1F1EC371D4006D2803 /* GiphyCoreSDKOffsetTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E78FAD371EC374EA006D2803 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E78FAD531EC37557006D2803 /* GPHListCategoryResponse.swift in Sources */,
+				E78FAD561EC37557006D2803 /* GPHError.swift in Sources */,
+				E78FAD551EC37557006D2803 /* GPHRequest.swift in Sources */,
+				E78FAD461EC37557006D2803 /* GPHMedia.swift in Sources */,
+				E78FAD4B1EC37557006D2803 /* GPHCategory.swift in Sources */,
+				E78FAD4A1EC37557006D2803 /* GPHImages.swift in Sources */,
+				E78FAD511EC37557006D2803 /* GPHMediaResponse.swift in Sources */,
+				E78FAD501EC37557006D2803 /* GPHResponse.swift in Sources */,
+				E78FAD4D1EC37557006D2803 /* GPHMappable.swift in Sources */,
+				E78FAD471EC37557006D2803 /* GPHTypes.swift in Sources */,
+				E78FAD4C1EC37557006D2803 /* GPHTermSuggestion.swift in Sources */,
+				E78FAD4F1EC37557006D2803 /* GPHMeta.swift in Sources */,
+				E78FAD571EC37557006D2803 /* GPHAsyncOperation.swift in Sources */,
+				E78FAD581EC37557006D2803 /* GPHNetworkReachability.swift in Sources */,
+				E78FAD4E1EC37557006D2803 /* GPHPagination.swift in Sources */,
+				E78FAD541EC37557006D2803 /* GPHListTermSuggestionRespose.swift in Sources */,
+				E78FAD451EC37557006D2803 /* GPHAbstractClient.swift in Sources */,
+				E78FAD481EC37557006D2803 /* GPHUser.swift in Sources */,
+				E78FAD521EC37557006D2803 /* GPHListMediaResponse.swift in Sources */,
+				E78FAD441EC37557006D2803 /* GPHClient.swift in Sources */,
+				E78FAD491EC37557006D2803 /* GPHImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -815,6 +910,50 @@
 			};
 			name = Release;
 		};
+		E78FAD411EC374EA006D2803 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.giphy.GiphyCoreSDK-watchOS";
+				PRODUCT_NAME = GiphyCoreSDK;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 3.2;
+			};
+			name = Debug;
+		};
+		E78FAD421EC374EA006D2803 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.giphy.GiphyCoreSDK-watchOS";
+				PRODUCT_NAME = GiphyCoreSDK;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 3.2;
+			};
+			name = Release;
+		};
 		E7AF4E3A1EABCFFF00489AB7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1007,12 +1146,22 @@
 				E78FAD1A1EC370B6006D2803 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E78FAD1E1EC370B6006D2803 /* Build configuration list for PBXNativeTarget "GiphyCoreSDKTests OSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E78FAD1B1EC370B6006D2803 /* Debug */,
 				E78FAD1C1EC370B6006D2803 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E78FAD431EC374EA006D2803 /* Build configuration list for PBXNativeTarget "GiphyCoreSDK watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E78FAD411EC374EA006D2803 /* Debug */,
+				E78FAD421EC374EA006D2803 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
