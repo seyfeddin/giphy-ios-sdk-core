@@ -27,7 +27,7 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 
 * Search Gifs/Stickers
 * Trending Gifs/Stickers
-* Translate Gifs/Stickers
+* [Translate Gifs/Stickers](#translate-endpoint)
 * Random Gifs/Stickers
 * GIF by ID(s)
 * Categories for Gifs
@@ -139,7 +139,7 @@ let op = client.trending(.sticker) { (response, error) in
 }
 ```
 
-### Translate to a Gif / Sticker
+### Translate Endpoint
 The translate API draws on search, but uses the Giphy "special sauce" to handle translating from one vocabulary to another. In this case, words and phrases to GIFs. Example implementations of translate can be found in the Giphy Slack, Hipchat, Wire, or Dasher integrations. Use a plus or url encode for phrases.
 
 ```swift
