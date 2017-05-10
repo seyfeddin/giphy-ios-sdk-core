@@ -29,7 +29,8 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 * [Trending Gifs/Stickers](#trending-endpoint)
 * [Translate Gifs/Stickers](#translate-endpoint)
 * [Random Gifs/Stickers](#random-endpoint)
-* [GIF by ID(s)](#translate-endpoint)
+* [GIF by ID](#get-gif-by-id-endpoint)
+* [GIFs by IDs](#get-gifs-by-ids-endpoint)
 * [Categories for Gifs](#translate-endpoint)
 * [Subcategories for Gifs](#translate-endpoint)
 * [GIFs by Category](#translate-endpoint)
@@ -213,7 +214,7 @@ let op = client.random("cats", media: .sticker) { (response, error) in
 }
 ```
 
-### Get GIF by ID 
+### Get GIF by ID Endpoint
 Returns meta data about a GIF, by GIF id. In the below example, the GIF ID is "feqkVgjJpYtjy"
 
 ```swift
@@ -234,7 +235,7 @@ let op = client.gifByID("feqkVgjJpYtjy") { (response, error) in
 }
 ```
 
-### Get GIFs by IDs 
+### Get GIFs by IDs Endpoint
 A multiget version of the get GIF by ID endpoint. In this case the IDs are feqkVgjJpYtjy and 7rzbxdu0ZEXLy.
 
 ```swift
