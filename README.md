@@ -19,9 +19,12 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 
 # Getting Started
 
-### Supported platforms
+### Supported Platforms
 
-**iOS**, **macOS**, **tvOS** and **watchOS**
+* iOS
+* macOS
+* tvOS
+* watchOS
 
 ### Supported End-points
 
