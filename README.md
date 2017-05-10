@@ -25,15 +25,15 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 
 ### Supported End-points
 
-* Search Gifs/Stickers
-* Trending Gifs/Stickers
+* [Search Gifs/Stickers](#translate-endpoint)
+* [Trending Gifs/Stickers](#translate-endpoint)
 * [Translate Gifs/Stickers](#translate-endpoint)
-* Random Gifs/Stickers
-* GIF by ID(s)
-* Categories for Gifs
-* Subcategories for Gifs
-* GIFs by Category
-* Query Suggestions
+* [Random Gifs/Stickers](#translate-endpoint)
+* [GIF by ID(s)](#translate-endpoint)
+* [Categories for Gifs](#translate-endpoint)
+* [Subcategories for Gifs](#translate-endpoint)
+* [GIFs by Category](#translate-endpoint)
+* [Query Suggestions](#translate-endpoint)
 
 
 # Setup
@@ -58,7 +58,7 @@ pod install
 let client = GPHClient(apiKey: "YOUR_API_KEY")
 ```
 
-### Search Gifs / Stickers
+### Search Endpoint
 Search all Giphy GIFs for a word or phrase. Punctuation will be stripped and ignored. 
 
 ```swift
@@ -98,7 +98,7 @@ let op = client.search("dogs", media: .sticker) { (response, error) in
     }
 }
 ```
-### Trending Gifs / Stickers
+### Trending Endpoint
 Fetch GIFs currently trending online. Hand curated by the Giphy editorial team. The data returned mirrors the GIFs showcased on the [Giphy](https://www.giphy.com) homepage.
 
 ```swift
@@ -176,7 +176,7 @@ let op = client.translate("cats", media: .sticker) { (response, error) in
 }
 ```
 
-### Random Gif / Sticker
+### Random Endpoint
 Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the Giphy catalog.
 
 ```swift
