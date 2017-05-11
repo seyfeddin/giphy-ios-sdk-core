@@ -143,36 +143,41 @@
 
 <p>The <strong>Giphy Core SDK</strong> is a wrapper around <a href="https://github.com/Giphy/GiphyAPI">Giphy API</a>.</p>
 
-<p><a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible"></a>
+<p><a href="https://travis-ci.com/Giphy/giphy-ios-sdk-core"><img src="https://travis-ci.com/Giphy/giphy-ios-sdk-core.svg?token=ApviWy5Ne8UKNzA4xUNJ&branch=master" alt="Build Status"></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible"></a>
 <a href=""><img src="https://img.shields.io/cocoapods/v/Giphy.svg" alt="CocoaPods"></a>
 <a href=""><img src="https://img.shields.io/badge/OS%20X-10.9%2B-lightgrey.svg" alt=""></a>
-<a href=""><img src="https://img.shields.io/badge/iOS-7.0%2B-lightgrey.svg" alt=""></a></p>
+<a href=""><img src="https://img.shields.io/badge/iOS-7.0%2B-lightgrey.svg" alt=""></a>
+<a href=""><img src="https://img.shields.io/badge/Swift-3.0.x-orange.svg" alt="Swift Version"></a></p>
 
 <p><a href="https://www.giphy.com">Giphy</a> is the best way to search, share, and discover GIFs on the Internet. Similar to the way other search engines work, the majority of our content comes from indexing based on the best and most popular GIFs and search terms across the web. We organize all those GIFs so you can find the good content easier and share it out through your social channels. We also feature some of our favorite GIF artists and work with brands to create and promote their original GIF content.</p>
 
 <p><a href=""><img src="https://media.giphy.com/media/5xaOcLOqNmWHaLeB14I/giphy.gif" alt=""></a></p>
 <h1 id='getting-started' class='heading'>Getting Started</h1>
-<h2 id='supported-platforms' class='heading'>Supported platforms</h2>
-
-<p><strong>iOS</strong>, <strong>macOS</strong>, <strong>tvOS</strong> and <strong>watchOS</strong>,</p>
-<h2 id='supported-languages' class='heading'>Supported languages</h2>
-
-<p><strong>Swift</strong> and <strong>Objective-C</strong>.</p>
-<h2 id='supported-end-points' class='heading'>Supported End-points</h2>
+<h3 id='supported-platforms' class='heading'>Supported Platforms</h3>
 
 <ul>
-<li>Search Gifs/Stickers</li>
-<li>Trending Gifs/Stickers</li>
-<li>Translate Gifs/Stickers</li>
-<li>Random Gifs/Stickers</li>
-<li>GIF by ID(s)</li>
-<li>Categories for Gifs</li>
-<li>Subcategories for Gifs</li>
-<li>GIFs by Category</li>
-<li>Query Suggestions</li>
+<li>iOS</li>
+<li>macOS</li>
+<li>tvOS</li>
+<li>watchOS</li>
+</ul>
+<h3 id='supported-end-points' class='heading'>Supported End-points</h3>
+
+<ul>
+<li><a href="#search-endpoint">Search Gifs/Stickers</a></li>
+<li><a href="#trending-endpoint">Trending Gifs/Stickers</a></li>
+<li><a href="#translate-endpoint">Translate Gifs/Stickers</a></li>
+<li><a href="#random-endpoint">Random Gifs/Stickers</a></li>
+<li><a href="#get-gif-by-id-endpoint">GIF by ID</a></li>
+<li><a href="#get-gifs-by-ids-endpoint">GIFs by IDs</a></li>
+<li><a href="#translate-endpoint">Categories for Gifs</a></li>
+<li><a href="#translate-endpoint">Subcategories for Gifs</a></li>
+<li><a href="#translate-endpoint">GIFs by Category</a></li>
+<li><a href="#translate-endpoint">Query Suggestions</a></li>
 </ul>
 <h1 id='setup' class='heading'>Setup</h1>
-<h2 id='cocoapods-setup' class='heading'>CocoaPods Setup</h2>
+<h3 id='cocoapods-setup' class='heading'>CocoaPods Setup</h3>
 
 <p>Add the GiphyCoreSDK entry to your Podfile</p>
 <pre class="highlight plaintext"><code>pod 'GiphyCoreSDK'
@@ -181,17 +186,35 @@
 <p>Run pods to grab the GiphyCoreSDK framework</p>
 <pre class="highlight shell"><code>pod install
 </code></pre>
-<h2 id='initialize-giphy-sdk' class='heading'>Initialize Giphy SDK</h2>
+<h3 id='initialize-giphy-sdk' class='heading'>Initialize Giphy SDK</h3>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">client</span> <span class="o">=</span> <span class="kt">GPHClient</span><span class="p">(</span><span class="nv">apiKey</span><span class="p">:</span> <span class="s">"YOUR_API_KEY"</span><span class="p">)</span>
 </code></pre>
-<h2 id='search-gifs-stickers' class='heading'>Search Gifs / Stickers</h2>
+<h3 id='search-endpoint' class='heading'>Search Endpoint</h3>
 
-<p>You can now search for contacts using firstname, lastname, company, etc. (even with typos):</p>
-<pre class="highlight swift"><code><span class="c1">/// Simple Gif Search</span>
-<span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="nf">search</span><span class="p">(</span><span class="s">"ryan gosling"</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+<p>Search all Giphy GIFs for a word or phrase. Punctuation will be stripped and ignored. </p>
+<pre class="highlight swift"><code><span class="c1">/// Gif Search</span>
+<span class="k">let</span> <span class="nv">op</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="nf">search</span><span class="p">(</span><span class="s">"cats"</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
 
     <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="k">as</span> <span class="kt">NSError</span><span class="p">?</span> <span class="p">{</span>
-        <span class="c1">// Do what you want to do with the error</span>
+        <span class="c1">// Do what you want with the error</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">,</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="k">let</span> <span class="nv">pagination</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">pagination</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">pagination</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">result</span> <span class="k">in</span> <span class="n">data</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"No Result Found"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">/// Sticker Search</span>
+<span class="k">let</span> <span class="nv">op</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="nf">search</span><span class="p">(</span><span class="s">"dogs"</span><span class="p">,</span> <span class="nv">media</span><span class="p">:</span> <span class="o">.</span><span class="n">sticker</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="k">as</span> <span class="kt">NSError</span><span class="p">?</span> <span class="p">{</span>
+        <span class="c1">// Do what you want with the error</span>
     <span class="p">}</span>
 
     <span class="k">if</span> <span class="k">let</span> <span class="nv">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">,</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="k">let</span> <span class="nv">pagination</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">pagination</span> <span class="p">{</span>
@@ -205,26 +228,162 @@
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
-<h1 id='contributing' class='heading'>CONTRIBUTING</h1>
+<h3 id='trending-endpoint' class='heading'>Trending Endpoint</h3>
 
-<p>Managing git repositories can be hard, so we&rsquo;ve laid out a few simple guidelines to help keep things organized.</p>
-<h3 id='guidelines' class='heading'>Guidelines</h3>
+<p>Fetch GIFs currently trending online. Hand curated by the Giphy editorial team. The data returned mirrors the GIFs showcased on the <a href="https://www.giphy.com">Giphy</a> homepage.</p>
+<pre class="highlight swift"><code><span class="c1">/// Trending Gifs</span>
+<span class="k">let</span> <span class="nv">op</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="nf">trending</span><span class="p">()</span> <span class="p">{</span> <span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
 
-<ol>
-<li><p>Create a <strong>Pull Request</strong>; instead of pushing directly to <code>master</code>.</p></li>
-<li><p>Give your branch a <strong>descriptive name</strong> like <code>dh-network-fix</code> instead of something ambiguous like <code>my-branch</code>.</p></li>
-<li><p>Write a <strong>descriptive summary</strong> in the comment section on Github.</p></li>
-<li><p><strong>Don&rsquo;t merge your own Pull Request</strong>; send it to your teammate for review.</p></li>
-<li><p>If you think something could be improved: <strong>write a comment on the Pull Request</strong> and send it to the author.</p></li>
-<li><p>Make sure your branch is based off <code>master</code>, and not some other outdated branch.</p></li>
-<li><p><strong>Don&rsquo;t reuse branches.</strong> Once they&rsquo;re merged to <code>master</code> you should consider deleting them.</p></li>
-<li><p>Prefer <strong>squash</strong> when doing a <strong>Pull Request</strong>, as it simplifies the commit history.</p></li>
-</ol>
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="k">as</span> <span class="kt">NSError</span><span class="p">?</span> <span class="p">{</span>
+        <span class="c1">// Do what you want with the error</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">,</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="k">let</span> <span class="nv">pagination</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">pagination</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">pagination</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">result</span> <span class="k">in</span> <span class="n">data</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"No Result Found"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">/// Trending Stickers</span>
+<span class="k">let</span> <span class="nv">op</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="nf">trending</span><span class="p">(</span><span class="o">.</span><span class="n">sticker</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="k">as</span> <span class="kt">NSError</span><span class="p">?</span> <span class="p">{</span>
+        <span class="c1">// Do what you want with the error</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">,</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="k">let</span> <span class="nv">pagination</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">pagination</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">pagination</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">result</span> <span class="k">in</span> <span class="n">data</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"No Result Found"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='translate-endpoint' class='heading'>Translate Endpoint</h3>
+
+<p>The translate API draws on search, but uses the Giphy <q>special sauce</q> to handle translating from one vocabulary to another. In this case, words and phrases to GIFs. Example implementations of translate can be found in the Giphy Slack, Hipchat, Wire, or Dasher integrations. Use a plus or url encode for phrases.</p>
+<pre class="highlight swift"><code><span class="c1">/// Translate to a Gif</span>
+<span class="k">let</span> <span class="nv">op</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="nf">translate</span><span class="p">(</span><span class="s">"cats"</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="k">as</span> <span class="kt">NSError</span><span class="p">?</span> <span class="p">{</span>
+        <span class="c1">// Do what you want with the error</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">,</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span>  <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">promise</span><span class="o">.</span><span class="nf">fulfill</span><span class="p">()</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"No Result Found"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">/// Translate to a Sticker</span>
+<span class="k">let</span> <span class="nv">op</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="nf">translate</span><span class="p">(</span><span class="s">"cats"</span><span class="p">,</span> <span class="nv">media</span><span class="p">:</span> <span class="o">.</span><span class="n">sticker</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="k">as</span> <span class="kt">NSError</span><span class="p">?</span> <span class="p">{</span>
+        <span class="c1">// Do what you want with the error</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">,</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span>  <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">promise</span><span class="o">.</span><span class="nf">fulfill</span><span class="p">()</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"No Result Found"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='random-endpoint' class='heading'>Random Endpoint</h3>
+
+<p>Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the Giphy catalog.</p>
+<pre class="highlight swift"><code><span class="c1">/// Random Gif</span>
+<span class="k">let</span> <span class="nv">op</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="nf">random</span><span class="p">(</span><span class="s">"cats"</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="k">as</span> <span class="kt">NSError</span><span class="p">?</span> <span class="p">{</span>
+        <span class="c1">// Do what you want with the error</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">,</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span>  <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">promise</span><span class="o">.</span><span class="nf">fulfill</span><span class="p">()</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"No Result Found"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">/// Random Sticker</span>
+<span class="k">let</span> <span class="nv">op</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="nf">random</span><span class="p">(</span><span class="s">"cats"</span><span class="p">,</span> <span class="nv">media</span><span class="p">:</span> <span class="o">.</span><span class="n">sticker</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="k">as</span> <span class="kt">NSError</span><span class="p">?</span> <span class="p">{</span>
+        <span class="c1">// Do what you want with the error</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">,</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span>  <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">promise</span><span class="o">.</span><span class="nf">fulfill</span><span class="p">()</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"No Result Found"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='get-gif-by-id-endpoint' class='heading'>Get GIF by ID Endpoint</h3>
+
+<p>Returns meta data about a GIF, by GIF id. In the below example, the GIF ID is <q>feqkVgjJpYtjy</q></p>
+<pre class="highlight swift"><code><span class="c1">/// Gif by Id</span>
+<span class="k">let</span> <span class="nv">op</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="nf">gifByID</span><span class="p">(</span><span class="s">"feqkVgjJpYtjy"</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="k">as</span> <span class="kt">NSError</span><span class="p">?</span> <span class="p">{</span>
+        <span class="c1">// Do what you want with the error</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">,</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span>  <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">promise</span><span class="o">.</span><span class="nf">fulfill</span><span class="p">()</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"No Result Found"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='get-gifs-by-ids-endpoint' class='heading'>Get GIFs by IDs Endpoint</h3>
+
+<p>A multiget version of the get GIF by ID endpoint. In this case the IDs are feqkVgjJpYtjy and 7rzbxdu0ZEXLy.</p>
+<pre class="highlight swift"><code><span class="c1">/// Gifs by Ids</span>
+<span class="k">let</span> <span class="nv">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s">"feqkVgjJpYtjy"</span><span class="p">,</span> <span class="s">"7rzbxdu0ZEXLy"</span><span class="p">]</span>
+
+<span class="k">let</span> <span class="nv">op</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="nf">gifsByIDs</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="k">as</span> <span class="kt">NSError</span><span class="p">?</span> <span class="p">{</span>
+        <span class="c1">// Do what you want with the error</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">,</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="k">let</span> <span class="nv">pagination</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">pagination</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">pagination</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">result</span> <span class="k">in</span> <span class="n">data</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"No Result Found"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2017 <a class="link" href="https://www.giphy.com" target="_blank" rel="external">Giphy</a>. All rights reserved. (Last updated: 2017-05-09)</p>
+          <p>&copy; 2017 <a class="link" href="https://www.giphy.com" target="_blank" rel="external">Giphy</a>. All rights reserved. (Last updated: 2017-05-10)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

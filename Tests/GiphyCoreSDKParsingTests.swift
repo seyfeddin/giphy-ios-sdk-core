@@ -148,7 +148,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
     
     func testClientTranslateGIFMapJsonToObject() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Translate Result & Map it to Object")
+        let _ = expectation(description: "Status 200 & Recieve Translate Result & Map it to Object")
         
         let _ = client.translate("cats") { (response, error) in
             
@@ -170,7 +170,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
     
     func testClientTranslateStickerMapJsonToObject() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Translate Result & Map it to Object")
+        let _ = expectation(description: "Status 200 & Recieve Translate Result & Map it to Object")
         
         let _ = client.translate("cats", media: .sticker) { (response, error) in
             
