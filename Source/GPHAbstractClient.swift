@@ -67,7 +67,7 @@ import Foundation
     
     // MARK: Initialization
     
-    @objc public init(apiKey: String?) {
+    init(_ apiKey: String?) {
         self._apiKey = apiKey
 
         // WARNING:

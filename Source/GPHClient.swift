@@ -59,6 +59,10 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     }
     
     
+    @objc public convenience init(apiKey: String) {
+        self.init(apiKey)
+    }
+    
     //MARK: Search Endpoint
     
     /// Perform a search.
