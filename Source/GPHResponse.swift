@@ -29,24 +29,34 @@ import Foundation
 /// Represents a Giphy Response Meta Info
 ///
 @objc public class GPHResponse: NSObject {
-    
-    /// Message description
+    // MARK: Properties
+
+    /// Message description.
     public internal(set) var meta: GPHMeta
     
+    
+    // MARK: Initilizers
+    
+    /// Initilizer
+    ///
     override public init() {
         self.meta = GPHMeta()
         super.init()
     }
     
+    /// Convenience Initilizer
+    ///
+    /// - parameter meta: init with a GPHMeta object.
+    ///
     convenience public init(_ meta: GPHMeta) {
         self.init()
         self.meta = meta
     }
 }
 
-// MARK: Human readable
+// MARK: Extension -- Human readable
 
-/// Make objects human readable
+/// Make objects human readable.
 ///
 extension GPHResponse {
     

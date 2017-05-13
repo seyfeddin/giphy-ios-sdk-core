@@ -30,12 +30,13 @@ import Foundation
 /// Represents a Giphy Object Type (Gif/Sticker/...)
 ///
 @objc public enum GPHMediaType: Int, RawRepresentable {
+    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values.
+
     /// Gif Media Type
     case gif
     
     /// Sticker Media Type
     case sticker
-    
     
     public typealias RawValue = String
     
@@ -47,6 +48,7 @@ import Foundation
             return "sticker"
         }
     }
+    
     public init?(rawValue: RawValue) {
         switch rawValue.lowercased() {
         case "gif":
@@ -63,7 +65,7 @@ import Foundation
 /// Represents a Giphy Object Type (Gif/Sticker/...)
 ///
 @objc public enum GPHRenditionType: Int, RawRepresentable {
-    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values
+    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values.
     
     /// Original file size and file dimensions. Good for desktop use.
     case original
@@ -221,7 +223,7 @@ import Foundation
 /// Represents Giphy APIs Supported Languages
 ///
 @objc public enum GPHLanguageType: Int, RawRepresentable {
-    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values
+    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values.
     
     /// English (en)
     case english
@@ -468,7 +470,7 @@ import Foundation
 /// Represents content rating (y,g, pg, pg-13 or r)
 ///
 @objc public enum GPHRatingType: Int, RawRepresentable {
-    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values
+    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values.
     
     /// Rated R
     case ratedR

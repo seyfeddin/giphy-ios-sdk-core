@@ -29,55 +29,68 @@ import Foundation
 /// Represents a Giphy Image (Gif/Sticker)
 ///
 @objc public class GPHImage: NSObject, NSCoding {
-    
-    /// ID of the Represented GPHMedia Object
+    // MARK: Properties
+
+    /// ID of the Represented GPHMedia Object.
     public fileprivate(set) var mediaId: String
 
-    /// ID of the Represented Object
+    /// ID of the Represented Object.
     public fileprivate(set) var rendition: GPHRenditionType
     
-    /// URL of the Gif file
+    /// URL of the Gif file.
     public fileprivate(set) var gifUrl: String?
 
-    /// URL of the Still Gif file
+    /// URL of the Still Gif file.
     public fileprivate(set) var stillGifUrl: String?
     
-    /// Width
+    /// Width.
     public fileprivate(set) var width: Int?
     
-    /// Height
+    /// Height.
     public fileprivate(set) var height: Int?
 
-    /// # of Frames
+    /// # of Frames.
     public fileprivate(set) var frames: Int?
     
-    /// Gif file size in bytes
+    /// Gif file size in bytes.
     public fileprivate(set) var gifSize: Int?
     
-    /// URL of the WebP file
+    /// URL of the WebP file.
     public fileprivate(set) var webPUrl: String?
 
-    /// Gif file size in bytes
+    /// Gif file size in bytes.
     public fileprivate(set) var webPSize: Int?
     
-    /// URL of the mp4 file
+    /// URL of the mp4 file.
     public fileprivate(set) var mp4Url: String?
     
-    /// Gif file size in bytes
+    /// Gif file size in bytes.
     public fileprivate(set) var mp4Size: Int?
     
+    
+    // MARK: Initilizers
+    
+    /// Initilizer
+    ///
     override public init() {
         self.mediaId = ""
         self.rendition = .original
         super.init()
     }
     
+    /// Convenience Initilizer
+    ///
+    /// - parameter mediaId: Media Objects ID.
+    /// - parameter username: Rendition Type of the Image.
+    ///
     convenience init(_ mediaId: String,
                      rendition: GPHRenditionType) {
         self.init()
         self.mediaId = mediaId
         self.rendition = rendition
     }
+    
+    //MARK: NSCoding
     
     required convenience public init?(coder aDecoder: NSCoder) {
         guard
@@ -99,7 +112,6 @@ import Foundation
         self.webPSize = aDecoder.decodeObject(forKey: "webPSize") as? Int
         self.mp4Url = aDecoder.decodeObject(forKey: "mp4Url") as? String
         self.mp4Size = aDecoder.decodeObject(forKey: "mp4Size") as? Int
-        
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -117,7 +129,8 @@ import Foundation
         aCoder.encode(self.mp4Size, forKey: "mp4Size")
     }
     
-    // MARK: NSCoder Hash and Equality/Identity
+    // MARK: NSObject
+    
     override public func isEqual(_ object: Any?) -> Bool {
         if object as? GPHImage === self {
             return true
@@ -134,9 +147,9 @@ import Foundation
     
 }
 
-// MARK: Human readable
+// MARK: Extension -- Human readable
 
-/// Make objects human readable
+/// Make objects human readable.
 ///
 extension GPHImage {
     
@@ -146,13 +159,13 @@ extension GPHImage {
     
 }
 
-// MARK: Parsing & Mapping
+// MARK: Extension -- Parsing & Mapping
 
-/// For parsing/mapping protocol
+/// For parsing/mapping protocol.
 ///
 extension GPHImage: GPHMappable {
     
-    /// this is where the magic will happen + error handling
+    /// This is where the magic/mapping happens + error handling.
     public static func mapData(_ root: GPHMedia?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,

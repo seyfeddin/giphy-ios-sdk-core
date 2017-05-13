@@ -29,20 +29,32 @@ import Foundation
 /// Represents a Giphy Term Suggestion
 ///
 @objc public class GPHTermSuggestion: NSObject, NSCoding {
-    
-    /// Username
+    // MARK: Properties
+
+    /// Term suggestion.
     public private(set) var term: String
     
+    
+    // MARK: Initilizers
+    
+    /// Initilizer
+    ///
     override public init() {
         self.term = ""
         super.init()
     }
     
+    /// Convenience Initilizer
+    ///
+    /// - parameter term: Term suggestion.
+    ///
     convenience init(_ term: String) {
         self.init()
         self.term = term
     }
     
+    //MARK: NSCoding
+
     required convenience public init?(coder aDecoder: NSCoder) {
         guard let term = aDecoder.decodeObject(forKey: "term") as? String
             else { return nil }
@@ -55,7 +67,8 @@ import Foundation
         aCoder.encode(self.term, forKey: "term")
     }
     
-    // MARK: NSCoder Hash and Equality/Identity
+    // MARK: NSObject
+    
     override public func isEqual(_ object: Any?) -> Bool {
         if object as? GPHTermSuggestion === self {
             return true
@@ -72,9 +85,9 @@ import Foundation
     
 }
 
-// MARK: Human readable
+// MARK: Extension -- Human readable
 
-/// Make objects human readable
+/// Make objects human readable.
 ///
 extension GPHTermSuggestion {
     
@@ -84,13 +97,13 @@ extension GPHTermSuggestion {
     
 }
 
-// MARK: Parsing & Mapping
+// MARK: Extension -- Parsing & Mapping
 
-/// For parsing/mapping protocol
+/// For parsing/mapping protocol.
 ///
 extension GPHTermSuggestion: GPHMappable {
     
-    /// this is where the magic will happen + error handling
+    /// This is where the magic/mapping happens + error handling.
     public static func mapData(_ root: GPHTermSuggestion?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,

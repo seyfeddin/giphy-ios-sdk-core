@@ -26,18 +26,31 @@
 
 import Foundation
 
-/// Represents a Giphy Categories & Sub-categories
+/// Represents Giphy Categories & Subcategories
 ///
 @objc public class GPHCategory: NSObject, NSCoding {
-    
-    /// Username
+    // MARK: Properties
+
+    /// Name of the Category.
     public fileprivate(set) var name: String
+    
+    /// Encoded name of the Category.
     public fileprivate(set) var nameEncoded: String
+    
+    /// URL Encoded path of the Category (to make sure we have the full-path for subcategories).
     public fileprivate(set) var encodedPath: String
+    
+    /// GIF representation of the Category.
     public fileprivate(set) var gif: GPHMedia?
+    
+    /// Subcategories of the Category.
     public fileprivate(set) var subCategories: [GPHCategory]?
     
-
+    
+    // MARK: Initilizers
+    
+    /// Initilizer
+    ///
     override public init() {
         self.name = ""
         self.nameEncoded = ""
@@ -45,12 +58,20 @@ import Foundation
         super.init()
     }
     
+    /// Convenience Initilizer
+    ///
+    /// - parameter name: Name of the Category.
+    /// - parameter nameEncoded: URL Encoded name of the Category.
+    /// - parameter encodedPath: URL Encoded path of the Category (to make sure we have the full-path for subcategories).
+    ///
     convenience init(_ name: String, nameEncoded: String, encodedPath: String) {
         self.init()
         self.name = name
         self.nameEncoded = nameEncoded
         self.encodedPath = encodedPath
     }
+    
+    //MARK: NSCoding
     
     required convenience public init?(coder aDecoder: NSCoder) {
         guard
@@ -65,7 +86,6 @@ import Foundation
         
         self.gif = aDecoder.decodeObject(forKey: "gif") as? GPHMedia
         self.subCategories = aDecoder.decodeObject(forKey: "subCategories") as? [GPHCategory]
-
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -75,7 +95,8 @@ import Foundation
         aCoder.encode(self.subCategories, forKey: "subCategories")
     }
     
-    // MARK: NSCoder Hash and Equality/Identity
+    // MARK: NSObject
+
     override public func isEqual(_ object: Any?) -> Bool {
         if object as? GPHCategory === self {
             return true
@@ -92,9 +113,9 @@ import Foundation
     
 }
 
-// MARK: Human readable
+// MARK: Extension -- Human readable
 
-/// Make objects human readable
+/// Make objects human readable.
 ///
 extension GPHCategory {
     
@@ -104,13 +125,13 @@ extension GPHCategory {
     
 }
 
-// MARK: Parsing & Mapping
+// MARK: Extension -- Parsing & Mapping
 
-/// For parsing/mapping protocol
+/// For parsing/mapping protocol.
 ///
 extension GPHCategory: GPHMappable {
     
-    /// this is where the magic will happen + error handling
+    /// This is where the magic/mapping happens + error handling.
     public static func mapData(_ root: GPHCategory?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,

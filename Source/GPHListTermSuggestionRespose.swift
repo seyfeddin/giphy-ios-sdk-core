@@ -1,5 +1,5 @@
 //
-//  GPHListTermSuggestionRespose.swift
+//  GPHListTermSuggestionResponse.swift
 //  GiphyCoreSDK
 //
 //  Created by Cem Kozinoglu on 5/8/17.
@@ -26,13 +26,22 @@
 
 import Foundation
 
-/// Represents a Giphy List Media Response (multiple results)
+/// Represents a Giphy List Term Suggestions Response (multiple results)
 ///
-@objc public class GPHListTermSuggestionRespose: GPHResponse {
-    
-    /// Terms Suggested
+@objc public class GPHListTermSuggestionResponse: GPHResponse {
+    // MARK: Properties
+
+    /// Terms Suggested.
     public fileprivate(set) var data: [GPHTermSuggestion]?
     
+    
+    // MARK: Initilizers
+    
+    /// Convenience Initilizer
+    ///
+    /// - parameter meta: init with a GPHMeta object.
+    /// - parameter data: GPHTermSuggestion array (optional).
+    ///
     convenience public init(_ meta:GPHMeta, data: [GPHTermSuggestion]?) {
         self.init()
         self.data = data
@@ -41,30 +50,30 @@ import Foundation
     
 }
 
-// MARK: Human readable
+// MARK: Extension -- Human readable
 
-/// Make objects human readable
+/// Make objects human readable.
 ///
-extension GPHListTermSuggestionRespose {
+extension GPHListTermSuggestionResponse {
     
     override public var description: String {
-        return "GPHListTermSuggestionRespose(\(self.meta.responseId) status: \(self.meta.status) msg: \(self.meta.msg))"
+        return "GPHListTermSuggestionResponse(\(self.meta.responseId) status: \(self.meta.status) msg: \(self.meta.msg))"
     }
     
 }
 
-// MARK: Parsing & Mapping
+// MARK: Extension -- Parsing & Mapping
 
-/// For parsing/mapping protocol
+/// For parsing/mapping protocol.
 ///
-extension GPHListTermSuggestionRespose: GPHMappable {
+extension GPHListTermSuggestionResponse: GPHMappable {
     
-    /// this is where the magic will happen + error handling
+    /// This is where the magic/mapping happens + error handling.
     public static func mapData(_ root: GPHTermSuggestion?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHListTermSuggestionRespose?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHListTermSuggestionResponse?, error: GPHJSONMappingError?) {
         
         guard
             let metaData = jsonData["meta"] as? GPHJSONObject
@@ -95,12 +104,12 @@ extension GPHListTermSuggestionRespose: GPHMappable {
                 }
                 
                 // We have images and the meta data and pagination
-                let obj = GPHListTermSuggestionRespose(metaObj, data: resultObjs)
+                let obj = GPHListTermSuggestionResponse(metaObj, data: resultObjs)
                 return (obj, nil)
             }
             
             // No image and pagination data, return the meta data
-            let obj = GPHListTermSuggestionRespose(metaObj, data: nil)
+            let obj = GPHListTermSuggestionResponse(metaObj, data: nil)
             return (obj, nil)
         }
         

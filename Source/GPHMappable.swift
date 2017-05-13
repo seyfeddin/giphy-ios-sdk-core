@@ -26,13 +26,18 @@
 
 import Foundation
 
+/// Protocol to Map JSON > GPH Objects.
 /// Make sure Models implement this protocol to be able to map JSON>Obj
 protocol GPHMappable {
     
+    /// Generic Root object.
     associatedtype GPHRootObject
+    
+    /// Generic Mappable object to return.
     associatedtype GPHMappableObject
-    /// mapData
-    /// Static function to map JSON to objects
+    
+    
+    /// Static function for mapping JSON to objects.
     ///
     /// - parameter root: root object to be used for passing extra data
     /// - parameter data: GPHJSONObect data to be mapped
@@ -49,11 +54,14 @@ protocol GPHMappable {
     
 }
 
+
+// MARK: Extension -- Parsing Helper Implementations
+
 /// Extend protocol to have default behavior
 /// We will use this to map JSON to particular types of objs we want like Date, URL, ...
 extension GPHMappable {
     
-    /// parseDate
+    /// Map a String to a Date.
     ///
     /// - parameter date: String version of the Date to be mapped to Date type
     /// - returns: a Date object or nil
@@ -74,9 +82,9 @@ extension GPHMappable {
         return nil
     }
 
-    /// parseURL
+    /// Map a String to a URL.
     ///
-    /// - parameter date: String version of the Date to be mapped to Date type
+    /// - parameter urk: String version of the URL to be mapped to URL type
     /// - returns: a Date object or nil
     ///
     static func parseURL(_ url: String?) -> URL? {
@@ -87,9 +95,9 @@ extension GPHMappable {
     }
     
     
-    /// parseRating
+    /// Map a String to a GPHRatingType.
     ///
-    /// - parameter date: String version of the Date to be mapped to Date type
+    /// - parameter rating: String version of the rating to be mapped to GPHRatingType type
     /// - returns: a GPHRatingType object or nil
     ///
     static func parseRating(_ rating: String?) -> GPHRatingType? {
@@ -100,7 +108,7 @@ extension GPHMappable {
     }
     
 
-    /// parseInt
+    /// Map a String to an Int.
     ///
     /// - parameter number: String version of the Int to be mapped to Int type
     /// - returns: a Int object or nil

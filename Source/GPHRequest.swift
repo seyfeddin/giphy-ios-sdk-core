@@ -29,34 +29,34 @@ import Foundation
 /// Represents a Giphy URLRequest Type
 ///
 @objc public enum GPHRequestType: Int {
-    /// Search Request
+    /// Search Request.
     case search
     
-    /// Trending Request
+    /// Trending Request.
     case trending
     
-    /// Translate Request
+    /// Translate Request.
     case translate
     
-    /// Random Item Request
+    /// Random Item Request.
     case random
     
-    /// Get an Item with ID
+    /// Get an Item with ID.
     case get
     
-    /// Get items with IDs
+    /// Get items with IDs.
     case getAll
     
-    /// Get Term Suggestions
+    /// Get Term Suggestions.
     case termSuggestions
     
-    /// Top Categories
+    /// Top Categories.
     case categories
     
-    /// SubCategories of a Category
+    /// SubCategories of a Category.
     case subCategories
 
-    /// Category Content
+    /// Category Content.
     case categoryContent
 }
 
@@ -64,16 +64,28 @@ import Foundation
 /// Async Request Operations with Completion Handler Support
 ///
 class GPHRequest: GPHAsyncOperationWithCompletion {
-    /// URLRequest obj to handle the networking
+    // MARK: Properties
+
+    /// URLRequest obj to handle the networking.
     var request: URLRequest
     
     /// The client to which this request is related.
     let client: GPHAbstractClient
     
     /// Type of the request so we do some edge-case handling (JSON/Mapping etc)
-    /// More than anything so we can map JSON > GPH objs
+    /// More than anything so we can map JSON > GPH objs.
     let type: GPHRequestType
     
+    
+    // MARK: Initilizers
+    
+    /// Convenience Initilizer
+    ///
+    /// - parameter client: GPHClient object to handle the request.
+    /// - parameter request: URLRequest to execute.
+    /// - parameter type: Request type (GPHRequestType).
+    /// - parameter completionHandler: GPHJSONCompletionHandler to return JSON or Error.
+    ///
     init(_ client: GPHAbstractClient, request: URLRequest, type: GPHRequestType, completionHandler: @escaping GPHJSONCompletionHandler) {
         self.client = client
         self.request = request
@@ -81,6 +93,10 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
         super.init(completionHandler: completionHandler)
     }
     
+    // MARK: Operation function
+    
+    /// Override the Operation function main to handle the request
+    ///
     override func main() {
         client.session.dataTask(with: request) { data, response, error in
             
@@ -120,24 +136,46 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
     }
 }
 
-public enum GPHRequestRouter {
+
+/// Router to generate URLRequest objects.
+///
+enum GPHRequestRouter {
+    // MARK: Properties
+
+    /// Search endpoint: query, type, offset, limit, rating, lang
+    case search(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType)
     
-    // End-point requests that we will cover
-    case search(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType) // query, type, offset, limit, rating, lang
-    case trending(GPHMediaType, Int, Int, GPHRatingType) // type, offset, limit, rating
-    case translate(String, GPHMediaType, GPHRatingType, GPHLanguageType) // term, type, rating, lang
-    case random(String, GPHMediaType, GPHRatingType) // query, type, rating
-    case get(String) // id
-    case getAll([String]) // ids
-    case termSuggestions(String) // term to query
-    case categories(GPHMediaType, Int, Int, String) // type, offset, limit, sort
-    case subCategories(String, GPHMediaType, Int, Int, String) // category, type, offset, limit, sort
-    case categoryContent(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType) // subCategory, type, offset, limit, rating, lang
+    /// Trending endpoint: type, offset, limit, rating
+    case trending(GPHMediaType, Int, Int, GPHRatingType)
     
-    // Base endpoint
+    /// Translate endpoint: term, type, rating, lang
+    case translate(String, GPHMediaType, GPHRatingType, GPHLanguageType)
+    
+    /// Random endpoint: query, type, rating
+    case random(String, GPHMediaType, GPHRatingType)
+    
+    /// Get object endpoint: id
+    case get(String)
+    
+    /// Get objects endpoint: ids
+    case getAll([String])
+    
+    /// Term Suggestions endpoint: term to query
+    case termSuggestions(String)
+    
+    /// Categories endpoint: type, offset, limit, sort
+    case categories(GPHMediaType, Int, Int, String)
+    
+    /// Categories endpoint for subcategories: category, type, offset, limit, sort
+    case subCategories(String, GPHMediaType, Int, Int, String)
+    
+    /// Category content endpoint: category, type, offset, limit, rating, lang
+    case categoryContent(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType)
+    
+    /// Base endpoint url.
     static let baseURLString = "https://api.giphy.com/v1/"
     
-    // Set the method
+    /// HTTP Method type.
     var method: String {
         switch self {
         default: return "GET"
@@ -145,10 +183,16 @@ public enum GPHRequestRouter {
         }
     }
     
-    // Construct the request from url, method and parameters
+    // MARK: Helper functions
+    
+    /// Construct the request from url, method and parameters.
+    ///
+    /// - parameter apiKey: Api-key for the request.
+    /// - returns: A URLRequest object constructed from the current type of the request.
+    ///
     public func asURLRequest(_ apiKey: String) -> URLRequest {
-        // Build the request endpoint
         
+        // Build the request endpoint
         var queryItems:[URLQueryItem] = []
         queryItems.append(URLQueryItem(name: "api_key", value: apiKey))
         
@@ -214,7 +258,7 @@ public enum GPHRequestRouter {
             return fullUrl
         }()
         
-        // Set up request parameters
+        // Set up request parameters.
         let parameters: GPHJSONObject? = {
             switch self {
             default: return nil
@@ -222,7 +266,7 @@ public enum GPHRequestRouter {
             }
         }()
         
-        // Create request
+        // Create the request.
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.addValue("application/json", forHTTPHeaderField: "content-type")

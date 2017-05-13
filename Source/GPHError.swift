@@ -26,49 +26,77 @@
 
 import Foundation
 
-/// Our Custom Error codes
+/// Custom JSON Mapper Error
 ///
 public struct GPHJSONMappingError: CustomNSError {
-    
-    /// Human readable issue
+    // MARK: Properties
+
+    /// Human readable issue.
     public let description: String
     
+    /// Custom error code.
+    public var errorCode: Int { return 1001 }
+    
+    
+    // MARK: Initilizers
+
+    /// Initilizer
+    ///
+    /// - parameter description: init with a GPHMeta object.
+    ///
     public init(description: String) {
         self.description = description
     }
     
+    
+    // MARK: Helpers
+    
     /// Creates a string with a detailed representation of the given value, suitable for debugging.
     public static var errorDomain: String = String(reflecting: GPHJSONMappingError.self)
     
-    /// Custom error code
-    public var errorCode: Int { return 1001 }
-    
-    /// NSError style, return the dict for the error with description in place
+    /// NSError style, return the dict for the error with description in place.
     public var errorUserInfo: GPHJSONObject {
         return [
             NSLocalizedDescriptionKey: description
         ]
     }
+    
 }
 
-/// Our Custom HTTP Error
+/// Custom HTTP Error
 ///
 public struct GPHHTTPError: CustomNSError {
+    // MARK: Properties
+    
+    /// Human readable issue, return by the server.
+    public let description: String?
+    
     /// The HTTP status code returned by the server.
     public let statusCode: Int
     
-    /// Optional message returned by the server.
-    public let description: String?
+    /// Custom error code.
+    public var errorCode: Int { return statusCode }
     
+
+    // MARK: Initilizers
+    
+    /// Initilizer
+    ///
+    /// - parameter statusCode: Status code from the server.
+    /// - parameter description: Description returned from the server.
+    ///
     public init(statusCode: Int, description: String? = nil) {
         self.statusCode = statusCode
         self.description = description
     }
     
+    
+    // MARK: Helpers
+    
+    /// Creates a string with a detailed representation of the given value, suitable for debugging.
     public static var errorDomain: String = String(reflecting: GPHJSONMappingError.self)
     
-    public var errorCode: Int { return statusCode }
-    
+    /// NSError style, return the dict for the error with description in place.
     public var errorUserInfo: GPHJSONObject {
         var userInfo = GPHJSONObject()
         if let description = description {
@@ -76,4 +104,5 @@ public struct GPHHTTPError: CustomNSError {
         }
         return userInfo
     }
+
 }

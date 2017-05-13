@@ -237,7 +237,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E7365A471EC1052100997C5C /* Responses */ = {
+		E7365A471EC1052100997C5C /* Response Models */ = {
 			isa = PBXGroup;
 			children = (
 				E7365A451EBFD87900997C5C /* GPHPagination.swift */,
@@ -248,7 +248,7 @@
 				E7365A521EC132BA00997C5C /* GPHListCategoryResponse.swift */,
 				E7365A501EC1305700997C5C /* GPHListTermSuggestionRespose.swift */,
 			);
-			name = Responses;
+			name = "Response Models";
 			sourceTree = "<group>";
 		};
 		E7AF4E1E1EABCFFF00489AB7 = {
@@ -281,7 +281,6 @@
 				E7AF4E541EAE382D00489AB7 /* GPHAbstractClient.swift */,
 				E7AF4E421EABF58100489AB7 /* Models */,
 				E7AF4E511EAE370E00489AB7 /* Network */,
-				E7147E0F1EC2B97200DC5CFF /* Supporting Files */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -300,14 +299,14 @@
 		E7AF4E421EABF58100489AB7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E7AF4E431EABF5C200489AB7 /* GPHMedia.swift */,
 				E7AF4E451EAC17C200489AB7 /* GPHTypes.swift */,
+				E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */,
+				E7AF4E431EABF5C200489AB7 /* GPHMedia.swift */,
 				E7AF4E471EAC181C00489AB7 /* GPHUser.swift */,
 				E7AF4E491EAC2B5500489AB7 /* GPHImage.swift */,
 				E7F102701EB9407000F0FF34 /* GPHImages.swift */,
 				E7AF4E4B1EAC390700489AB7 /* GPHCategory.swift */,
 				E7AF4E4D1EAC3A4A00489AB7 /* GPHTermSuggestion.swift */,
-				E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -315,11 +314,12 @@
 		E7AF4E511EAE370E00489AB7 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				E7365A471EC1052100997C5C /* Responses */,
+				E7365A471EC1052100997C5C /* Response Models */,
 				E7AF4E521EAE380700489AB7 /* GPHRequest.swift */,
 				E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */,
 				E7AF4E561EAE387100489AB7 /* GPHAsyncOperation.swift */,
 				E7AF4E581EAE3E1900489AB7 /* GPHNetworkReachability.swift */,
+				E7147E0F1EC2B97200DC5CFF /* Supporting Files */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -1164,6 +1164,7 @@
 				E78FAD421EC374EA006D2803 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E7AF4E221EABCFFF00489AB7 /* Build configuration list for PBXProject "GiphyCoreSDK" */ = {
 			isa = XCConfigurationList;

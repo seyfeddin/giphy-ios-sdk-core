@@ -29,31 +29,75 @@ import Foundation
 /// Represents a Giphy Media Object
 ///
 @objc public class GPHMedia: NSObject, NSCoding {
+    // MARK: Properties
     
+    /// ID of the Object.
     public fileprivate(set) var id: String
+    
+    /// Media Type (GIF|Sticker).
     public fileprivate(set) var type: GPHMediaType
+    
+    /// URL of the GIF/Sticker.
     public fileprivate(set) var url: String
+    
+    /// Content Rating (Default G).
     public fileprivate(set) var rating: GPHRatingType?
+    
+    /// Caption.
     public fileprivate(set) var caption: String?
+    
+    /// URL Slug.
     public fileprivate(set) var slug: String?
+    
+    /// Indexable or Not.
     public fileprivate(set) var indexable: String?
+    
+    /// Content.
     public fileprivate(set) var content: String?
+    
+    /// Bitly Short URL.
     public fileprivate(set) var bitly: String?
+    
+    /// Bitly Short URL for Gif.
     public fileprivate(set) var bitlyGif: String?
+    
+    /// Embed URL.
     public fileprivate(set) var embed: String?
+    
+    /// Attribution Source
     public fileprivate(set) var source: String?
+    
+    /// Attribution Source Domain TLD.
     public fileprivate(set) var sourceTld: String?
+    
+    /// Attribution Source Post URL.
     public fileprivate(set) var sourcePostUrl: String?
+    
+    /// Atrribution / User.
     public fileprivate(set) var user: GPHUser?
+    
+    /// Renditions of the Media Object.
     public fileprivate(set) var images: GPHImages?
+    
+    /// Tags representing the Media Object.
     public fileprivate(set) var tags: [String]?
+    
+    /// Featured Tags.
     public fileprivate(set) var featuredTags: [String]?
+    
+    /// Import Date/Time.
     public fileprivate(set) var importDate: Date?
+    
+    /// Creation Date/Time.
     public fileprivate(set) var createDate: Date?
+    
+    /// Last Update Date/Time.
     public fileprivate(set) var updateDate: Date?
+    
+    /// Trending Date/Time.
     public fileprivate(set) var trendingDate: Date?
     
-    // NOTE: Categories endpoint
+    // NOTE: Categories endpoint.
     // Example: http://api.giphy.com/v1/gifs/categories/actions?api_key=4OMJYpPoYwVpe
     public fileprivate(set) var isHidden: Bool?
     public fileprivate(set) var isRemoved: Bool?
@@ -64,8 +108,8 @@ import Foundation
     public fileprivate(set) var isIndexable: Bool?
     public fileprivate(set) var isSticker: Bool?
 
-
-    
+    /// Initilizer
+    ///
     override public init() {
         self.id = ""
         self.type = .gif
@@ -73,12 +117,20 @@ import Foundation
         super.init()
     }
     
+    /// Convenience Initilizer
+    ///
+    /// - parameter id: Media Object ID.
+    /// - parameter type: Media Type (Gif/Sticker).
+    /// - parameter url: URL of the Media Object.
+    ///
     convenience init(_ id: String, type: GPHMediaType, url: String) {
         self.init()
         self.id = id
         self.type = type
         self.url = url
     }
+    
+    //MARK: NSCoding
     
     required public convenience init?(coder aDecoder: NSCoder) {
         guard let id = aDecoder.decodeObject(forKey: "id") as? String,
@@ -117,7 +169,6 @@ import Foundation
         self.isSticker = aDecoder.decodeObject(forKey: "isSticker") as? Bool
         self.updateDate = aDecoder.decodeObject(forKey: "updateDate") as? Date
         self.createDate = aDecoder.decodeObject(forKey: "createDate") as? Date
-        
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -152,10 +203,10 @@ import Foundation
         aCoder.encode(self.isSticker, forKey: "isSticker")
         aCoder.encode(self.updateDate, forKey: "updateDate")
         aCoder.encode(self.createDate, forKey: "createDate")
-        
     }
     
-    // MARK: NSCoder Hash and Equality/Identity
+    // MARK: NSObject
+    
     override public func isEqual(_ object: Any?) -> Bool {
         if object as? GPHMedia === self {
             return true
@@ -172,9 +223,9 @@ import Foundation
     
 }
 
-// MARK: Human readable
+// MARK: Extension -- Human readable
 
-/// Make objects human readable
+/// Make objects human readable.
 ///
 extension GPHMedia {
     
@@ -184,13 +235,13 @@ extension GPHMedia {
     
 }
 
-// MARK: Parsing & Mapping
+// MARK: Extension -- Parsing & Mapping
 
-/// For parsing/mapping protocol
+/// For parsing/mapping protocol.
 ///
 extension GPHMedia: GPHMappable {
 
-    /// this is where the magic will happen + error handling
+    /// This is where the magic/mapping happens + error handling.
     public static func mapData(_ root: GPHMedia?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,

@@ -29,10 +29,19 @@ import Foundation
 /// Represents a Giphy Media Response (single result)
 ///
 @objc public class GPHMediaResponse: GPHResponse {
-    
-    /// Message description
+    // MARK: Properties
+
+    /// Message description.
     public fileprivate(set) var data: GPHMedia?
     
+    
+    // MARK: Initilizers
+    
+    /// Convenience Initilizer
+    ///
+    /// - parameter meta: init with a GPHMeta object.
+    /// - parameter data: GPHMedia object (optional).
+    ///
     convenience public init(_ meta:GPHMeta, data: GPHMedia?) {
         self.init()
         self.data = data
@@ -41,9 +50,9 @@ import Foundation
     
 }
 
-// MARK: Human readable
+// MARK: Extension -- Human readable
 
-/// Make objects human readable
+/// Make objects human readable.
 ///
 extension GPHMediaResponse {
     
@@ -53,9 +62,9 @@ extension GPHMediaResponse {
     
 }
 
-// MARK: Parsing & Mapping
+// MARK: Extension -- Parsing & Mapping
 
-/// For parsing/mapping protocol
+/// For parsing/mapping protocol.
 ///
 extension GPHMediaResponse: GPHMappable {
     

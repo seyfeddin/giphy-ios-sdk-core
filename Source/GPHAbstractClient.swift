@@ -26,25 +26,19 @@
 
 import Foundation
 
-/// An abstract API client.
+/// GIPHY Abstract API Client.
 ///
 @objc public class GPHAbstractClient : NSObject {
     // MARK: Properties
     
     /// Giphy API key.
-    @objc internal var _apiKey: String?
+    @objc var _apiKey: String?
 
     /// Session
     var session: URLSession
     
     /// Default timeout for network requests. Default: 10 seconds.
     @objc public var timeout: TimeInterval = 10
-    
-    /// Time delay before a search request is fired or cancelled
-    @objc public var searchDelay: TimeInterval = 0.200
-    
-    /// Number of characters before a search request is fired
-    @objc public var searchDelayMinCharacters: Int = 2
     
     /// Operation queue used to keep track of network requests.
     let requestQueue: OperationQueue
@@ -57,16 +51,17 @@ import Foundation
     /// Network reachability detecter.
     var reachability: GPHNetworkReachability = GPHNetworkReachability()
     
-    /// Whether to use network reachability to decide if online requests should be attempted.
-    ///
-    /// + Note: Not available on watchOS (the System Configuration framework is not available there).
-    ///
+    /// Network reachability status. Not supported in watchOS.
     @objc public var useReachability: Bool = true
     
-    #endif // !os(watchOS)
+    #endif
     
     // MARK: Initialization
     
+    /// Initilizer
+    ///
+    /// - parameter apiKey: Apps api-key to access end-points.
+    ///
     init(_ apiKey: String?) {
         self._apiKey = apiKey
 
@@ -85,12 +80,23 @@ import Foundation
         super.init()
     }
     
+    // MARK: Request Methods and Helpers
+    
     /// User-agent to be used per client
+    ///
+    /// - returns: Default User-Agent for the SDK
+    ///
     private static func defaultUserAgent() -> String {
         return "Giphy SDK v1.0 (iOS)"
     }
     
-    /// Encode Strings for appending to URLS for endpoints like Term Suggestions
+    
+    /// Encode Strings for appending to URLS for endpoints like Term Suggestions/Categories
+    ///
+    /// - parameter string: String to be encoded.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
     func encodedStringForUrl(_ string: String) -> String {
         guard
             let encoded = string.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
@@ -98,7 +104,8 @@ import Foundation
         return encoded
     }
 
-    /// Perform a request.
+    
+    /// Perform a request
     ///
     /// - parameter request: URLRequest
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
@@ -186,12 +193,12 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func listTermSuggestionsRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionRespose>) -> Operation {
+    @discardableResult func listTermSuggestionsRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionResponse>) -> Operation {
         
         return self.httpRequest(with: request, type: type) { (data, response, error) in
             // Do the parsing and return:
             if let data = data {
-                let resultObj = GPHListTermSuggestionRespose.mapData(nil, data: data, request: type, media: media)
+                let resultObj = GPHListTermSuggestionResponse.mapData(nil, data: data, request: type, media: media)
                 
                 if resultObj.object == nil {
                     if let jsonError = resultObj.error {
@@ -241,14 +248,13 @@ import Foundation
     
     #if !os(watchOS)
     
-    /// Decide whether a network request should be attempted in the current conditions.
+    /// Figure out network connectivity
     ///
-    /// - returns: `true` if a network request should be attempted, `false` if the client should fail fast with a
-    ///            network error.
+    /// - returns: `true` if network is reachable, `false` if network is not reachable
     ///
     func shouldMakeNetworkCall() -> Bool {
         return !useReachability || reachability.isReachable()
     }
     
-    #endif // !os(watchOS)
+    #endif
 }

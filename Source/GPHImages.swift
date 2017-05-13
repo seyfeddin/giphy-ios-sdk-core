@@ -29,8 +29,9 @@ import Foundation
 /// Represents a Giphy Images (Renditions) for a GPHMedia
 ///
 @objc public class GPHImages: NSObject, NSCoding {
-    
-    /// ID of the Represented Object
+    // MARK: Properties
+
+    /// ID of the Represented Object.
     public fileprivate(set) var mediaId: String
     
     /// Original file size and file dimensions. Good for desktop use.
@@ -48,7 +49,7 @@ import Foundation
     /// Height set to 200px. Good for mobile use.
     public fileprivate(set) var fixedHeight: GPHImage?
     
-    /// Static preview image for fixed_height
+    /// Static preview image for fixed_height.
     public fileprivate(set) var fixedHeightStill: GPHImage?
     
     /// Height set to 200px. Reduced to 6 frames to minimize file size to the lowest.
@@ -58,13 +59,13 @@ import Foundation
     /// Height set to 100px. Good for mobile keyboards.
     public fileprivate(set) var fixedHeightSmall: GPHImage?
     
-    /// Static preview image for fixed_height_small
+    /// Static preview image for fixed_height_small.
     public fileprivate(set) var fixedHeightSmallStill: GPHImage?
 
     /// Width set to 200px. Good for mobile use.
     public fileprivate(set) var fixedWidth: GPHImage?
     
-    /// Static preview image for fixed_width
+    /// Static preview image for fixed_width.
     public fileprivate(set) var fixedWidthStill: GPHImage?
     
     /// Width set to 200px. Reduced to 6 frames. Works well for unlimited scroll on mobile and as animated previews.
@@ -73,7 +74,7 @@ import Foundation
     /// Width set to 100px. Good for mobile keyboards.
     public fileprivate(set) var fixedWidthSmall: GPHImage?
     
-    /// Static preview image for fixed_width_small
+    /// Static preview image for fixed_width_small.
     public fileprivate(set) var fixedWidthSmallStill: GPHImage?
     
     /// File size under 2mb.
@@ -91,16 +92,27 @@ import Foundation
     /// Static preview image for downsized.
     public fileprivate(set) var downsizedStill: GPHImage?
     
+    
+    // MARK: Initilizers
+    
+    /// Initilizer
+    ///
     override public init() {
         self.mediaId = ""
         super.init()
     }
     
+    /// Convenience Initilizer
+    ///
+    /// - parameter mediaId: Media Objects ID.
+    ///
     convenience init(_ mediaId: String) {
         self.init()
         self.mediaId = mediaId
     }
     
+    //MARK: NSCoding
+
     required convenience public init?(coder aDecoder: NSCoder) {
         guard
             let mediaId = aDecoder.decodeObject(forKey: "mediaId") as? String
@@ -129,7 +141,6 @@ import Foundation
         self.downsizedMedium = aDecoder.decodeObject(forKey: "downsizedMedium") as? GPHImage
         self.downsizedLarge = aDecoder.decodeObject(forKey: "downsizedLarge") as? GPHImage
         self.downsizedStill = aDecoder.decodeObject(forKey: "downsizedStill") as? GPHImage
-
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -152,10 +163,10 @@ import Foundation
         aCoder.encode(self.downsizedMedium, forKey: "downsizedMedium")
         aCoder.encode(self.downsizedLarge, forKey: "downsizedLarge")
         aCoder.encode(self.downsizedStill, forKey: "downsizedStill")
-
     }
     
-    // MARK: NSCoder Hash and Equality/Identity
+    // MARK: NSObject
+
     override public func isEqual(_ object: Any?) -> Bool {
         if object as? GPHImages === self {
             return true
@@ -172,9 +183,9 @@ import Foundation
 
 }
 
-// MARK: Human readable
+// MARK: Extension -- Human readable
 
-/// Make objects human readable
+/// Make objects human readable.
 ///
 extension GPHImages {
     
@@ -184,9 +195,9 @@ extension GPHImages {
     
 }
 
-// MARK: Parsing & Mapping
+// MARK: Extension -- Parsing & Mapping
 
-/// For parsing/mapping protocol
+/// For parsing/mapping protocol.
 ///
 extension GPHImages: GPHMappable {
     
@@ -246,7 +257,7 @@ extension GPHImages: GPHMappable {
         return (nil, GPHJSONMappingError(description: "Couldn't map GPHImage for the rendition \(renditionType.rawValue)"))
     }
     
-    /// this is where the magic happens + error handling
+    /// This is where the magic/mapping happens + error handling.
     public static func mapData(_ root: GPHMedia?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,

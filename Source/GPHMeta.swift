@@ -29,17 +29,22 @@ import Foundation
 /// Represents a Giphy Response Meta Info
 ///
 @objc public class GPHMeta: NSObject {
-    
-    /// Unique response id
+    // MARK: Properties
+
+    /// Unique response id.
     public fileprivate(set) var responseId: String
     
     /// Status (200, 404...)
     public fileprivate(set) var status: Int
     
-    /// Message description
+    /// Message description.
     public fileprivate(set) var msg: String
     
     
+    // MARK: Initilizers
+    
+    /// Initilizer
+    ///
     override public init() {
         self.responseId = ""
         self.status = 0
@@ -47,6 +52,12 @@ import Foundation
         super.init()
     }
     
+    /// Convenience Initilizer
+    ///
+    /// - parameter responseId: Unique response id.
+    /// - parameter status: Status (200, 404...)
+    /// - parameter msg: Message description.
+    ///
     convenience init(_ responseId: String, status: Int, msg: String) {
         self.init()
         self.status = status
@@ -56,9 +67,9 @@ import Foundation
     
 }
 
-// MARK: Human readable
+// MARK: Extension -- Human readable
 
-/// Make objects human readable
+/// Make objects human readable.
 ///
 extension GPHMeta {
     
@@ -68,13 +79,13 @@ extension GPHMeta {
     
 }
 
-// MARK: Parsing & Mapping
+// MARK: Extension -- Parsing & Mapping
 
-/// For parsing/mapping protocol
+/// For parsing/mapping protocol.
 ///
 extension GPHMeta: GPHMappable {
     
-    /// this is where the magic will happen + error handling
+    /// This is where the magic/mapping happens + error handling.
     public static func mapData(_ root: GPHMeta?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,

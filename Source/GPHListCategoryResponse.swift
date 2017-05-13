@@ -26,16 +26,26 @@
 
 import Foundation
 
-/// Represents a Giphy List Media Response (multiple results)
+/// Represents a Giphy List Category Response (multiple results)
 ///
 @objc public class GPHListCategoryResponse: GPHResponse {
+    // MARK: Properties
     
-    /// Category Objects
+    /// Category Objects.
     public fileprivate(set) var data: [GPHCategory]?
     
-    /// Pagination info
+    /// Pagination info.
     public fileprivate(set) var pagination: GPHPagination?
     
+    
+    // MARK: Initilizers
+    
+    /// Convenience Initilizer
+    ///
+    /// - parameter meta: init with a GPHMeta object.
+    /// - parameter data: GPHMedia array (optional).
+    /// - parameter pagination: GPHPagination object (optional).
+    ///
     convenience public init(_ meta:GPHMeta, data: [GPHCategory]?, pagination: GPHPagination?) {
         self.init()
         self.data = data
@@ -45,9 +55,9 @@ import Foundation
     
 }
 
-// MARK: Human readable
+// MARK: Extension -- Human readable
 
-/// Make objects human readable
+/// Make objects human readable.
 ///
 extension GPHListCategoryResponse {
     
@@ -57,13 +67,13 @@ extension GPHListCategoryResponse {
     
 }
 
-// MARK: Parsing & Mapping
+// MARK: Extension -- Parsing & Mapping
 
-/// For parsing/mapping protocol
+/// For parsing/mapping protocol.
 ///
 extension GPHListCategoryResponse: GPHMappable {
     
-    /// this is where the magic will happen + error handling
+    /// This is where the magic/mapping happens + error handling.
     public static func mapData(_ root: GPHCategory?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,

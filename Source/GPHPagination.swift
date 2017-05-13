@@ -29,16 +29,22 @@ import Foundation
 /// Represents a Giphy Response Pagination Info
 ///
 @objc public class GPHPagination: NSObject {
-    
-    /// Total Result Count
+    // MARK: Properties
+
+    /// Total Result Count.
     public private(set) var totalCount: Int
     
     /// Returned Result Count (not always == limit)
     public private(set) var count: Int
     
-    /// Offset to start next set of results
+    /// Offset to start next set of results.
     public private(set) var offset: Int
     
+    
+    // MARK: Initilizers
+    
+    /// Initilizer
+    ///
     override public init() {
         self.totalCount = 0
         self.count = 0
@@ -46,6 +52,12 @@ import Foundation
         super.init()
     }
     
+    /// Convenience Initilizer
+    ///
+    /// - parameter totalCount: Total number of results available.
+    /// - parameter count: Number of results returned.
+    /// - parameter offset: Current offset of the result set.
+    ///
     convenience init(_ totalCount: Int, count: Int, offset: Int) {
         self.init()
         self.totalCount = totalCount
@@ -55,9 +67,9 @@ import Foundation
     
 }
 
-// MARK: Human readable
+// MARK: Extension -- Human readable
 
-/// Make objects human readable
+/// Make objects human readable.
 ///
 extension GPHPagination {
     
@@ -67,13 +79,13 @@ extension GPHPagination {
     
 }
 
-// MARK: Parsing & Mapping
+// MARK: Extension -- Parsing & Mapping
 
-/// For parsing/mapping protocol
+/// For parsing/mapping protocol.
 ///
 extension GPHPagination: GPHMappable {
     
-    /// this is where the magic will happen + error handling
+    /// This is where the magic/mapping happens + error handling.
     public static func mapData(_ root: GPHPagination?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,

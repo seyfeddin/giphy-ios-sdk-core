@@ -58,7 +58,10 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         set { _apiKey = newValue }
     }
     
-    /// Public init
+    /// Initilizer
+    ///
+    /// - parameter apiKey: Apps api-key to access end-points.
+    ///
     @objc public init(apiKey: String) {
         super.init(apiKey)
     }
@@ -69,10 +72,10 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     ///
     /// - parameter query: Search parameters.
     /// - parameter media: Media type / optional (default: .gif)
-    /// - parameter offset: offset of results (default: 0)
-    /// - parameter limit: total hits you request (default: 25)
-    /// - parameter rating: rating of the content / optional (default R)
-    /// - parameter lang: language of the content / optional (default English)
+    /// - parameter offset: Offset of results (default: 0)
+    /// - parameter limit: Total hits you request (default: 25)
+    /// - parameter rating: Rating of the content / optional (default R)
+    /// - parameter lang: Language of the content / optional (default English)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -278,7 +281,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     ///
     @objc
     @discardableResult public func termSuggestions(_ term: String,
-                                                   completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionRespose>) -> Operation {
+                                                   completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionResponse>) -> Operation {
         
         let request = GPHRequestRouter.termSuggestions(encodedStringForUrl(term)).asURLRequest(apiKey)
         

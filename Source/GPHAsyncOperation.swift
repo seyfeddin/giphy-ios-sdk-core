@@ -29,16 +29,22 @@ import Foundation
 /// Sub-classing Operation to make sure we manage its state correctly
 ///
 class GPHAsyncOperation: Operation {
+    // MARK: Properties
+
+    /// State enum to use KVO trick. (cool trick from raywenderlich)
     public enum State: String {
         case ready, executing, finished
         
-        /// cool trick from raywenderlich
+        /// Keypath for KVO
         fileprivate var keyPath: String {
             return "is" + rawValue.capitalized
         }
     }
-    /// Using KVO to update state
+    
+    /// State of the operation.
     open var state = State.ready {
+        
+        // Using KVO to update state
         willSet {
             willChangeValue(forKey: newValue.keyPath)
             willChangeValue(forKey: state.keyPath)
@@ -53,23 +59,29 @@ class GPHAsyncOperation: Operation {
 /// State management
 ///
 extension GPHAsyncOperation {
+    // MARK: Properties
     
+    /// To handle KVO for ready state
     override open var isReady: Bool {
         return super.isReady && state == .ready
     }
     
+    /// To handle KVO for ready executing
     override open var isExecuting: Bool {
         return state == .executing
     }
     
+    /// To handle KVO for finished state
     override open var isFinished: Bool {
         return state == .finished
     }
     
+    /// Override so we can claim to be async.
     override open var isAsynchronous: Bool {
         return true
     }
     
+    /// Override to manage the state correctly for async.
     override open func start() {
         if isCancelled {
             state = .finished
@@ -80,6 +92,7 @@ extension GPHAsyncOperation {
         state = .executing
     }
     
+    /// Override to handle canceling so we can change the state to trigger KVO.
     override open func cancel() {
         super.cancel()
         state = .finished
@@ -89,6 +102,8 @@ extension GPHAsyncOperation {
 /// A specific type of async operation with a completion handler.
 ///
 class GPHAsyncOperationWithCompletion: GPHAsyncOperation {
+    // MARK: Properties
+
     /// User completion block to be called.
     let completion: GPHJSONCompletionHandler?
     

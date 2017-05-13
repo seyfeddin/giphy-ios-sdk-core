@@ -31,71 +31,82 @@ import Foundation
 /// http://api.giphy.com/v1/gifs/categories/animals/cats?api_key=4OMJYpPoYwVpe
 
 @objc public class GPHUser: NSObject, NSCoding {
+    // MARK: Properties
     
-    /// Username
+    /// Username.
     public fileprivate(set) var username: String
 
-    /// User Public/Private
+    /// User Public/Private.
     public fileprivate(set) var isPublic: Bool?
 
-    /// User Id
+    /// User ID.
     public fileprivate(set) var id: Int?
     
-    /// Name of the User
+    /// Name of the User.
     public fileprivate(set) var name: String?
     
-    /// Description of the User
+    /// Description of the User.
     public fileprivate(set) var userDescription: String?
 
-    /// Attribution Display Name
+    /// Attribution Display Name.
     public fileprivate(set) var attributionDisplayName: String?
     
-    /// Display Name for the User
+    /// Display Name for the User.
     public fileprivate(set) var displayName: String?
     
-    /// Twitter Handler
+    /// Twitter Handler.
     public fileprivate(set) var twitter: String?
 
-    /// URL of the Twitter Handler
+    /// URL of the Twitter Handler.
     public fileprivate(set) var twitterUrl: String?
 
-    /// URL of the Facebook Handler
+    /// URL of the Facebook Handler.
     public fileprivate(set) var facebookUrl: String?
 
-    /// URL of the Instagram Handler
+    /// URL of the Instagram Handler.
     public fileprivate(set) var instagramUrl: String?
     
     /// URL of the Website
     public fileprivate(set) var websiteUrl: String?
 
-    /// Displayable URL of the Website
+    /// Displayable URL of the Website.
     public fileprivate(set) var websiteDisplayUrl: String?
     
-    /// URL of the Tumblr Handler
+    /// URL of the Tumblr Handler.
     public fileprivate(set) var tumblrUrl: String?
     
-    /// URL of the Avatar
+    /// URL of the Avatar.
     public fileprivate(set) var avatarUrl: String?
     
-    /// URL of the Banner
+    /// URL of the Banner.
     public fileprivate(set) var bannerUrl: String?
     
-    /// URL of the Profile
+    /// URL of the Profile.
     public fileprivate(set) var profileUrl: String?
 
-    /// Suppress Chrome
+    /// Suppress Chrome.
     public fileprivate(set) var suppressChrome: Bool?
     
     
+    // MARK: Initilizers
+    
+    /// Initilizer
+    ///
     override public init() {
         self.username = ""
         super.init()
     }
     
+    /// Convenience Initilizer
+    ///
+    /// - parameter username: Username of the User.
+    ///
     convenience init(_ username: String) {
         self.init()
         self.username = username
     }
+    
+    //MARK: NSCoding
     
     required convenience public init?(coder aDecoder: NSCoder) {
         guard
@@ -123,7 +134,6 @@ import Foundation
         self.avatarUrl = aDecoder.decodeObject(forKey: "avatarUrl") as? String
         self.bannerUrl = aDecoder.decodeObject(forKey: "bannerUrl") as? String
         self.profileUrl = aDecoder.decodeObject(forKey: "profileUrl") as? String
-        
     }
 
     public func encode(with aCoder: NSCoder) {
@@ -147,7 +157,8 @@ import Foundation
         aCoder.encode(self.profileUrl, forKey: "profileUrl")
     }
     
-    // MARK: NSCoder Hash and Equality/Identity
+    // MARK: NSObject
+
     override public func isEqual(_ object: Any?) -> Bool {
         if object as? GPHUser === self {
             return true
@@ -164,9 +175,9 @@ import Foundation
     
 }
 
-// MARK: Human readable
+// MARK: Extension -- Human readable
 
-/// Make objects human readable
+/// Make objects human readable.
 ///
 extension GPHUser {
     
@@ -176,13 +187,13 @@ extension GPHUser {
     
 }
 
-// MARK: Parsing & Mapping
+// MARK: Extension -- Parsing & Mapping
 
-/// For parsing/mapping protocol
+/// For parsing/mapping protocol.
 ///
 extension GPHUser: GPHMappable {
     
-    /// this is where the magic will happen + error handling
+    /// This is where the magic/mapping happens + error handling.
     public static func mapData(_ root: GPHMedia?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
