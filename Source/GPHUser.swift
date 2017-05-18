@@ -87,6 +87,8 @@ import Foundation
     /// Suppress Chrome.
     public fileprivate(set) var suppressChrome: Bool?
     
+    /// JSON Representation
+    public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initilizers
     
@@ -134,6 +136,7 @@ import Foundation
         self.avatarUrl = aDecoder.decodeObject(forKey: "avatarUrl") as? String
         self.bannerUrl = aDecoder.decodeObject(forKey: "bannerUrl") as? String
         self.profileUrl = aDecoder.decodeObject(forKey: "profileUrl") as? String
+        self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
     }
 
     public func encode(with aCoder: NSCoder) {
@@ -155,6 +158,7 @@ import Foundation
         aCoder.encode(self.avatarUrl, forKey: "avatarUrl")
         aCoder.encode(self.bannerUrl, forKey: "bannerUrl")
         aCoder.encode(self.profileUrl, forKey: "profileUrl")
+        aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
     }
     
     // MARK: NSObject
@@ -225,6 +229,7 @@ extension GPHUser: GPHMappable {
         obj.avatarUrl = jsonData["avatarUrl"] as? String
         obj.bannerUrl = jsonData["bannerUrl"] as? String
         obj.profileUrl = jsonData["profileUrl"] as? String
+        obj.jsonRepresentation = jsonData
         
         return (obj, nil)
     }

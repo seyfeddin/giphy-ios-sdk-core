@@ -92,6 +92,8 @@ import Foundation
     /// Static preview image for downsized.
     public fileprivate(set) var downsizedStill: GPHImage?
     
+    /// JSON Representation
+    public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initilizers
     
@@ -141,6 +143,7 @@ import Foundation
         self.downsizedMedium = aDecoder.decodeObject(forKey: "downsizedMedium") as? GPHImage
         self.downsizedLarge = aDecoder.decodeObject(forKey: "downsizedLarge") as? GPHImage
         self.downsizedStill = aDecoder.decodeObject(forKey: "downsizedStill") as? GPHImage
+        self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -163,6 +166,7 @@ import Foundation
         aCoder.encode(self.downsizedMedium, forKey: "downsizedMedium")
         aCoder.encode(self.downsizedLarge, forKey: "downsizedLarge")
         aCoder.encode(self.downsizedStill, forKey: "downsizedStill")
+        aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
     }
     
     // MARK: NSObject
@@ -344,6 +348,7 @@ extension GPHImages: GPHMappable {
         obj.downsizedMedium = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .downsizedMedium).object
         obj.downsizedLarge = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .downsizedLarge).object
         obj.downsizedStill = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .downsizedStill).object
+        obj.jsonRepresentation = jsonData
         
         return (obj, nil)
 

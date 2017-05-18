@@ -67,6 +67,8 @@ import Foundation
     /// Gif file size in bytes.
     public fileprivate(set) var mp4Size: Int?
     
+    /// JSON Representation
+    public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initilizers
     
@@ -112,6 +114,7 @@ import Foundation
         self.webPSize = aDecoder.decodeObject(forKey: "webPSize") as? Int
         self.mp4Url = aDecoder.decodeObject(forKey: "mp4Url") as? String
         self.mp4Size = aDecoder.decodeObject(forKey: "mp4Size") as? Int
+        self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -127,6 +130,7 @@ import Foundation
         aCoder.encode(self.webPSize, forKey: "webPSize")
         aCoder.encode(self.mp4Url, forKey: "mp4Url")
         aCoder.encode(self.mp4Size, forKey: "mp4Size")
+        aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
     }
     
     // MARK: NSObject
@@ -188,7 +192,8 @@ extension GPHImage: GPHMappable {
         obj.webPSize = parseInt(jsonData["webp_size"] as? String)
         obj.mp4Url = jsonData["mp4_url"] as? String
         obj.mp4Size = parseInt(jsonData["mp4_size"] as? String)
-
+        obj.jsonRepresentation = jsonData
+        
         return (obj, nil)
     }
     

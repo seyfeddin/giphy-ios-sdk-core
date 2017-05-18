@@ -46,6 +46,8 @@ import Foundation
     /// Subcategories of the Category.
     public fileprivate(set) var subCategories: [GPHCategory]?
     
+    /// JSON Representation
+    public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initilizers
     
@@ -86,6 +88,7 @@ import Foundation
         
         self.gif = aDecoder.decodeObject(forKey: "gif") as? GPHMedia
         self.subCategories = aDecoder.decodeObject(forKey: "subCategories") as? [GPHCategory]
+        self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -93,6 +96,7 @@ import Foundation
         aCoder.encode(self.nameEncoded, forKey: "nameEncoded")
         aCoder.encode(self.gif, forKey: "gif")
         aCoder.encode(self.subCategories, forKey: "subCategories")
+        aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
     }
     
     // MARK: NSObject
@@ -185,6 +189,8 @@ extension GPHCategory: GPHMappable {
         default:
            return (nil, GPHJSONMappingError(description: "Request type is not valid for Categories"))
         }
+        
+        obj.jsonRepresentation = jsonData
         
         return (obj, nil)
     }

@@ -34,6 +34,8 @@ import Foundation
     /// Term suggestion.
     public private(set) var term: String
     
+    /// JSON Representation
+    public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initilizers
     
@@ -60,11 +62,12 @@ import Foundation
             else { return nil }
         
         self.init(term)
-        
+        self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
     }
     
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.term, forKey: "term")
+        aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
     }
     
     // MARK: NSObject
@@ -117,6 +120,7 @@ extension GPHTermSuggestion: GPHMappable {
         }
         
         let obj = GPHTermSuggestion(term)
+        obj.jsonRepresentation = jsonData
         
         return (obj, nil)
     }

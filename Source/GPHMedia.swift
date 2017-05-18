@@ -108,6 +108,9 @@ import Foundation
     public fileprivate(set) var isIndexable: Bool?
     public fileprivate(set) var isSticker: Bool?
 
+    /// JSON Representation
+    public fileprivate(set) var jsonRepresentation: GPHJSONObject?
+    
     /// Initilizer
     ///
     override public init() {
@@ -157,8 +160,6 @@ import Foundation
         self.images = aDecoder.decodeObject(forKey: "images") as? GPHImages
         self.tags = aDecoder.decodeObject(forKey: "tags") as? [String]
         self.featuredTags = aDecoder.decodeObject(forKey: "featuredTags") as? [String]
-        
-        // NOTE: Categories endpoint
         self.isHidden = aDecoder.decodeObject(forKey: "isHidden") as? Bool
         self.isRemoved = aDecoder.decodeObject(forKey: "isRemoved") as? Bool
         self.isCommunity = aDecoder.decodeObject(forKey: "isCommunity") as? Bool
@@ -169,6 +170,7 @@ import Foundation
         self.isSticker = aDecoder.decodeObject(forKey: "isSticker") as? Bool
         self.updateDate = aDecoder.decodeObject(forKey: "updateDate") as? Date
         self.createDate = aDecoder.decodeObject(forKey: "createDate") as? Date
+        self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -191,8 +193,6 @@ import Foundation
         aCoder.encode(self.images, forKey: "images")
         aCoder.encode(self.tags, forKey: "tags")
         aCoder.encode(self.featuredTags, forKey: "featuredTags")
-
-        // NOTE: Categories endpoint
         aCoder.encode(self.isHidden, forKey: "isHidden")
         aCoder.encode(self.isRemoved, forKey: "isRemoved")
         aCoder.encode(self.isCommunity, forKey: "isCommunity")
@@ -203,6 +203,7 @@ import Foundation
         aCoder.encode(self.isSticker, forKey: "isSticker")
         aCoder.encode(self.updateDate, forKey: "updateDate")
         aCoder.encode(self.createDate, forKey: "createDate")
+        aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
     }
     
     // MARK: NSObject
@@ -281,6 +282,7 @@ extension GPHMedia: GPHMappable {
         obj.isSticker = jsonData["is_sticker"] as? Bool
         obj.updateDate = parseDate(jsonData["update_datetime"] as? String)
         obj.createDate = parseDate(jsonData["create_datetime"] as? String)
+        obj.jsonRepresentation = jsonData
         
         // Handle User Data
         if let userData = jsonData["user"] as? GPHJSONObject {
