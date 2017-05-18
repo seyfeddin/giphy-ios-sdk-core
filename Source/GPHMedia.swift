@@ -109,7 +109,7 @@ import Foundation
     public fileprivate(set) var isSticker: Bool?
 
     /// JSON Representation
-    public fileprivate(set) var jsonRepresentation: GPHJSONObject?
+    public var jsonRepresentation: GPHJSONObject?
     
     /// Initilizer
     ///
