@@ -189,6 +189,7 @@ import Foundation
 ///
 extension GPHImages {
     
+    @objc
     public func rendition(_ rendition: GPHRenditionType = .original) -> GPHImage? {
         
         switch rendition {
