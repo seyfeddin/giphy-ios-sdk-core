@@ -183,6 +183,60 @@ import Foundation
 
 }
 
+// MARK: Extension -- Helper Methods
+
+/// Picking renditions and stuff.
+///
+extension GPHImages {
+    
+    public func rendition(_ rendition: GPHRenditionType = .original) -> GPHImage? {
+        
+        switch rendition {
+        case .original:
+            return self.original
+        case .originalStill:
+            return self.originalStill
+        case .preview:
+            return self.preview
+        case .looping:
+            return self.looping
+        case .fixedHeight:
+            return self.fixedHeight
+        case .fixedHeightStill:
+            return self.fixedHeightStill
+        case .fixedHeightDownsampled:
+            return self.fixedHeightDownsampled
+        case .fixedHeightSmall:
+            return self.fixedHeightSmall
+        case .fixedHeightSmallStill:
+            return self.fixedHeightSmallStill
+        case .fixedWidth:
+            return self.fixedWidth
+        case .fixedWidthStill:
+            return self.fixedWidthStill
+        case .fixedWidthDownsampled:
+            return self.fixedWidthDownsampled
+        case .fixedWidthSmall:
+            return self.fixedWidthSmall
+        case .fixedWidthSmallStill:
+            return self.fixedWidthSmallStill
+        case .downsized:
+            return self.downsized
+        case .downsizedSmall:
+            return self.downsizedSmall
+        case .downsizedMedium:
+            return self.downsizedMedium
+        case .downsizedLarge:
+            return self.downsizedLarge
+        case .downsizedStill:
+            return self.downsizedStill
+        // NOTE: not including default for future, so this errors out to exhaust to cover all new types
+        }
+    }
+    
+}
+
+
 // MARK: Extension -- Human readable
 
 /// Make objects human readable.
