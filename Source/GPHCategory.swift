@@ -117,6 +117,23 @@ import Foundation
     
 }
 
+// MARK: Extension -- Helper Methods
+
+/// Picking renditions and stuff.
+///
+extension GPHCategory {
+    
+    @objc
+    public func addSubCategory(_ subCategory: GPHCategory) {
+        if self.subCategories != nil {
+            self.subCategories?.append(subCategory)
+        } else {
+            self.subCategories = [subCategory];
+        }
+    }
+    
+}
+
 // MARK: Extension -- Human readable
 
 /// Make objects human readable.
