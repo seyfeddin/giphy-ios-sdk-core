@@ -108,7 +108,7 @@ import Foundation
     ///
     /// - parameter mediaId: Media Objects ID.
     ///
-    convenience init(_ mediaId: String) {
+    convenience public init(_ mediaId: String) {
         self.init()
         self.mediaId = mediaId
     }

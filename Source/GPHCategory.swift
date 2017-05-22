@@ -66,7 +66,7 @@ import Foundation
     /// - parameter nameEncoded: URL Encoded name of the Category.
     /// - parameter encodedPath: URL Encoded path of the Category (to make sure we have the full-path for subcategories).
     ///
-    convenience init(_ name: String, nameEncoded: String, encodedPath: String) {
+    convenience public init(_ name: String, nameEncoded: String, encodedPath: String) {
         self.init()
         self.name = name
         self.nameEncoded = nameEncoded

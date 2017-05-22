@@ -103,7 +103,7 @@ import Foundation
     ///
     /// - parameter username: Username of the User.
     ///
-    convenience init(_ username: String) {
+    convenience public init(_ username: String) {
         self.init()
         self.username = username
     }

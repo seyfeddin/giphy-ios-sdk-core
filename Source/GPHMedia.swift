@@ -126,7 +126,7 @@ import Foundation
     /// - parameter type: Media Type (Gif/Sticker).
     /// - parameter url: URL of the Media Object.
     ///
-    convenience init(_ id: String, type: GPHMediaType, url: String) {
+    convenience public init(_ id: String, type: GPHMediaType, url: String) {
         self.init()
         self.id = id
         self.type = type

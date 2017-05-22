@@ -50,7 +50,7 @@ import Foundation
     ///
     /// - parameter term: Term suggestion.
     ///
-    convenience init(_ term: String) {
+    convenience public init(_ term: String) {
         self.init()
         self.term = term
     }

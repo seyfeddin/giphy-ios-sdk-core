@@ -85,7 +85,7 @@ import Foundation
     /// - parameter mediaId: Media Objects ID.
     /// - parameter username: Rendition Type of the Image.
     ///
-    convenience init(_ mediaId: String,
+    convenience public init(_ mediaId: String,
                      rendition: GPHRenditionType) {
         self.init()
         self.mediaId = mediaId
