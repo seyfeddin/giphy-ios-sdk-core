@@ -205,18 +205,16 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     ///
     /// - parameter offset: offset of results (default: 0)
     /// - parameter limit: total hits you request (default: 25)
-    /// - parameter rating: rating of the content / optional (default R)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
     @discardableResult public func categoriesForGifs(_  offset: Int = 0,
                                                         limit: Int = 25,
-                                                        sort: String = "giphy",
                                                         completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
         
         
-        let request = GPHRequestRouter.categories(.gif, offset, limit, sort).asURLRequest(apiKey)
+        let request = GPHRequestRouter.categories(.gif, offset, limit).asURLRequest(apiKey)
         return self.listCategoriesRequest(with: request, type: .categories, media: .gif, completionHandler: completionHandler)
 
     }
@@ -226,7 +224,6 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     /// - parameter category: top category to get sub-categories from
     /// - parameter offset: offset of results (default: 0)
     /// - parameter limit: total hits you request (default: 25)
-    /// - parameter rating: rating of the content / optional (default R)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -234,11 +231,10 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     @discardableResult public func subCategoriesForGifs(_ category: String,
                                                           offset: Int = 0,
                                                           limit: Int = 25,
-                                                          sort: String = "giphy",
                                                           completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
         
         let categoryObj = GPHCategory(category, nameEncoded: encodedStringForUrl(category), encodedPath:encodedStringForUrl(category))
-        let request = GPHRequestRouter.subCategories(categoryObj.encodedPath, .gif, offset, limit, sort).asURLRequest(apiKey)
+        let request = GPHRequestRouter.subCategories(categoryObj.encodedPath, .gif, offset, limit).asURLRequest(apiKey)
         return self.listCategoriesRequest(categoryObj, with: request, type: .subCategories, media: .gif, completionHandler: completionHandler)
 
         
