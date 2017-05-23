@@ -94,6 +94,7 @@ import Foundation
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.name, forKey: "name")
         aCoder.encode(self.nameEncoded, forKey: "nameEncoded")
+        aCoder.encode(self.encodedPath, forKey: "encodedPath")
         aCoder.encode(self.gif, forKey: "gif")
         aCoder.encode(self.subCategories, forKey: "subCategories")
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
