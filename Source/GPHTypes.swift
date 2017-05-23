@@ -487,6 +487,12 @@ import Foundation
     /// Rated PG-13
     case ratedPG13
     
+    /// Not Safe for Work
+    case nsfw
+    
+    /// Unrated
+    case unrated
+    
     public typealias RawValue = String
     
     public var rawValue: RawValue {
@@ -501,6 +507,10 @@ import Foundation
             return "pg"
         case .ratedPG13:
             return "pg-13"
+        case .nsfw:
+            return "nsfw"
+        case .unrated:
+            return "unrated"
         }
     }
     
@@ -516,6 +526,10 @@ import Foundation
             self = .ratedPG
         case "pg-13":
             self = .ratedPG13
+        case "nsfw":
+            self = .nsfw
+        case "unrated":
+            self = .unrated        
         default:
             self = .ratedR
         }
