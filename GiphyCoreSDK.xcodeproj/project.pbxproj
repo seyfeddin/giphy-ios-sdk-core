@@ -87,6 +87,9 @@
 		E78FAD561EC37557006D2803 /* GPHError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */; };
 		E78FAD571EC37557006D2803 /* GPHAsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E561EAE387100489AB7 /* GPHAsyncOperation.swift */; };
 		E78FAD581EC37557006D2803 /* GPHNetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E581EAE3E1900489AB7 /* GPHNetworkReachability.swift */; };
+		E799D5AF1ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E799D5AE1ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift */; };
+		E799D5B01ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E799D5AE1ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift */; };
+		E799D5B11ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E799D5AE1ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift */; };
 		E7AF4E321EABCFFF00489AB7 /* GiphyCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7AF4E281EABCFFF00489AB7 /* GiphyCoreSDK.framework */; };
 		E7AF4E441EABF5C200489AB7 /* GPHMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E431EABF5C200489AB7 /* GPHMedia.swift */; };
 		E7AF4E461EAC17C200489AB7 /* GPHTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E451EAC17C200489AB7 /* GPHTypes.swift */; };
@@ -144,6 +147,7 @@
 		E78FAD081EC370B6006D2803 /* GiphyCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GiphyCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E78FAD101EC370B6006D2803 /* GiphyCoreSDK-OSX-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GiphyCoreSDK-OSX-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E78FAD3C1EC374EA006D2803 /* GiphyCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GiphyCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E799D5AE1ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiphyCoreSDKNSCodingTests.swift; sourceTree = "<group>"; };
 		E7AF4E281EABCFFF00489AB7 /* GiphyCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GiphyCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7AF4E2C1EABCFFF00489AB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7AF4E311EABCFFF00489AB7 /* GiphyCoreSDK-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GiphyCoreSDK-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -288,6 +292,7 @@
 		E7AF4E351EABCFFF00489AB7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				E799D5AE1ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift */,
 				E7365A541EC136FC00997C5C /* GiphyCoreSDKOffsetTests.swift */,
 				E7365A431EBFBD8200997C5C /* GiphyCoreSDKStatusCodeTests.swift */,
 				E7F102741EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift */,
@@ -635,6 +640,7 @@
 			files = (
 				E7147E061EC2B0C300DC5CFF /* GiphyCoreSDKStatusCodeTests.swift in Sources */,
 				E7147E071EC2B0C300DC5CFF /* GiphyCoreSDKParsingTests.swift in Sources */,
+				E799D5B01ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift in Sources */,
 				E7147E051EC2B0C300DC5CFF /* GiphyCoreSDKOffsetTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -673,6 +679,7 @@
 			files = (
 				E78FAD201EC371D4006D2803 /* GiphyCoreSDKStatusCodeTests.swift in Sources */,
 				E78FAD211EC371D4006D2803 /* GiphyCoreSDKParsingTests.swift in Sources */,
+				E799D5B11ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift in Sources */,
 				E78FAD1F1EC371D4006D2803 /* GiphyCoreSDKOffsetTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -739,6 +746,7 @@
 			files = (
 				E7F102751EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift in Sources */,
 				E7365A441EBFBD8200997C5C /* GiphyCoreSDKStatusCodeTests.swift in Sources */,
+				E799D5AF1ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift in Sources */,
 				E7365A551EC136FC00997C5C /* GiphyCoreSDKOffsetTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

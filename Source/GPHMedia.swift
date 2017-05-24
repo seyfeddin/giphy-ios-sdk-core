@@ -137,13 +137,15 @@ import Foundation
     
     required public convenience init?(coder aDecoder: NSCoder) {
         guard let id = aDecoder.decodeObject(forKey: "id") as? String,
-            let type = aDecoder.decodeObject(forKey: "type") as? GPHMediaType,
+            let type = GPHMediaType(rawValue: aDecoder.decodeObject(forKey: "type") as! String),
             let url = aDecoder.decodeObject(forKey: "url") as? String
             else { return nil }
         
         self.init(id, type: type, url: url)
         
-        self.rating = aDecoder.decodeObject(forKey: "rating") as? GPHRatingType
+        let _rating = aDecoder.decodeObject(forKey: "rating") as? String
+        self.rating = (_rating != nil ? GPHRatingType(rawValue: _rating!) : nil)
+        
         self.caption = aDecoder.decodeObject(forKey: "caption") as? String
         self.slug = aDecoder.decodeObject(forKey: "slug") as? String
         self.importDate = aDecoder.decodeObject(forKey: "importDate") as? Date
@@ -175,9 +177,9 @@ import Foundation
     
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.id, forKey: "id")
-        aCoder.encode(self.type, forKey: "type")
+        aCoder.encode(self.type.rawValue, forKey: "type")
         aCoder.encode(self.url, forKey: "url")
-        aCoder.encode(self.rating, forKey: "rating")
+        aCoder.encode(self.rating?.rawValue, forKey: "rating")
         aCoder.encode(self.caption, forKey: "caption")
         aCoder.encode(self.importDate, forKey: "importDate")
         aCoder.encode(self.trendingDate, forKey: "trendingDate")

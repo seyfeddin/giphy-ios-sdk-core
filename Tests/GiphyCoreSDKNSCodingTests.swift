@@ -1,34 +1,26 @@
 //
-//  GiphyCoreSDKParsingTests.swift
+//  GiphyCoreSDKNSCodingTests.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu on 5/4/17.
+//  Created by Cem Kozinoglu on 5/23/17.
 //  Copyright © 2017 Giphy. All rights reserved.
-//
-//  Permission is hereby granted, free of charge, to any person obtaining a copy
-//  of this software and associated documentation files (the "Software"), to
-//  deal in the Software without restriction, including without limitation the
-//  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-//  sell copies of the Software, and to permit persons to whom the Software is
-//  furnished to do so, subject to the following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in
-//  all copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-//  IN THE SOFTWARE.
 //
 
 import XCTest
 @testable import GiphyCoreSDK
 
-class GiphyCoreSDKParsingTests: XCTestCase {
+extension XCTestCase {
+    func cloneViaCoding<T: NSCoding>(root: T) throws -> T {
+        let data = NSKeyedArchiver.archivedData(withRootObject: root)
+        guard let res = NSKeyedUnarchiver.unarchiveObject(with: data) as? T else {
+            throw NSError(domain: "com.giphy.sdk", code: 100, userInfo: [NSLocalizedDescriptionKey: "Can not unarchive object"])
+        }
+        return res
+    }
+}
 
+class GiphyCoreSDKNSCodingTests: XCTestCase {
+    
     // MARK: Setup Client and Tests
     
     let client = GPHClient(apiKey: "4OMJYpPoYwVpe")
@@ -43,13 +35,11 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK: Test Search
-
-    func testClientSearchGIFsMapJsonToObject() {
+    func testNSCodingForSearchGIFs() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
         
-        let _ = client.search("ryan gosling") { (response, error) in
+        let _ = client.search("cats") { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
@@ -59,8 +49,15 @@ class GiphyCoreSDKParsingTests: XCTestCase {
                 print(response.meta)
                 print(pagination)
                 for result in data {
-                    print(result)
+                    do {
+                        try _ = self.cloneViaCoding(root: result)
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
+                    }
                 }
+                
                 promise.fulfill()
             } else {
                 XCTFail("No Result Found")
@@ -69,7 +66,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testClientSearchStickersMapJsonToObject() {
+    func testNSCodingForSearchStickers() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
         
@@ -83,8 +80,15 @@ class GiphyCoreSDKParsingTests: XCTestCase {
                 print(response.meta)
                 print(pagination)
                 for result in data {
-                    print(result)
+                    do {
+                        try _ = self.cloneViaCoding(root: result)
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
+                    }
                 }
+                
                 promise.fulfill()
             } else {
                 XCTFail("No Result Found")
@@ -92,10 +96,8 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
-    
-    // MARK: Test Trending
 
-    func testClientTrendingGIFsMapJsonToObject() {
+    func testNSCodingForTrendingGIFs() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
         
@@ -109,7 +111,13 @@ class GiphyCoreSDKParsingTests: XCTestCase {
                 print(response.meta)
                 print(pagination)
                 for result in data {
-                    print(result)
+                    do {
+                        try _ = self.cloneViaCoding(root: result)
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
+                    }
                 }
                 promise.fulfill()
             } else {
@@ -120,7 +128,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testClientTrendingStickersMapJsonToObject() {
+    func testNSCodingForTrendingStickers() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
         
@@ -134,7 +142,13 @@ class GiphyCoreSDKParsingTests: XCTestCase {
                 print(response.meta)
                 print(pagination)
                 for result in data {
-                    print(result)
+                    do {
+                        try _ = self.cloneViaCoding(root: result)
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
+                    }
                 }
                 promise.fulfill()
             } else {
@@ -146,7 +160,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
     
     // MARK: Test Translate
     
-    func testClientTranslateGIFMapJsonToObject() {
+    func testNSCodingForTranslateGIF() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Translate Result & Map it to Object")
         
@@ -158,7 +172,13 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             
             if let response = response, let result = response.data  {
                 print(response.meta)
-                print(result)
+                do {
+                    try _ = self.cloneViaCoding(root: result)
+                } catch let error as NSError {
+                    print(result)
+                    print(error)
+                    XCTFail("Failed to archive and unarchive")
+                }
                 promise.fulfill()
             } else {
                 XCTFail("No Result Found")
@@ -168,7 +188,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testClientTranslateStickerMapJsonToObject() {
+    func testNSCodingForTranslateSticker() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Translate Result & Map it to Object")
         
@@ -180,7 +200,13 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             
             if let response = response, let result = response.data  {
                 print(response.meta)
-                print(result)
+                do {
+                    try _ = self.cloneViaCoding(root: result)
+                } catch let error as NSError {
+                    print(result)
+                    print(error)
+                    XCTFail("Failed to archive and unarchive")
+                }
                 promise.fulfill()
             } else {
                 XCTFail("No Result Found")
@@ -192,7 +218,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
     
     // MARK: Test Random
     
-    func testClientRandomGIFMapJsonToObject() {
+    func testNSCodingForRandomGIF() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Random Result & Map it to Object")
         
@@ -204,7 +230,13 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             
             if let response = response, let result = response.data  {
                 print(response.meta)
-                print(result)
+                do {
+                    try _ = self.cloneViaCoding(root: result)
+                } catch let error as NSError {
+                    print(result)
+                    print(error)
+                    XCTFail("Failed to archive and unarchive")
+                }
                 promise.fulfill()
             } else {
                 XCTFail("No Result Found")
@@ -214,7 +246,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testClientRandomStickerMapJsonToObject() {
+    func testNSCodingForRandomSticker() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Random Result & Map it to Object")
         
@@ -226,7 +258,13 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             
             if let response = response, let result = response.data  {
                 print(response.meta)
-                print(result)
+                do {
+                    try _ = self.cloneViaCoding(root: result)
+                } catch let error as NSError {
+                    print(result)
+                    print(error)
+                    XCTFail("Failed to archive and unarchive")
+                }
                 promise.fulfill()
             } else {
                 XCTFail("No Result Found")
@@ -238,8 +276,8 @@ class GiphyCoreSDKParsingTests: XCTestCase {
     
     
     // MARK: Test Gif by ID
-
-    func testClientGetGIFbyIDMapJsonToObject() {
+    
+    func testNSCodingForGetGIFbyID() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve a Gif by its id & Map it to Object")
         
@@ -251,7 +289,13 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             
             if let response = response, let result = response.data  {
                 print(response.meta)
-                print(result)
+                do {
+                    try _ = self.cloneViaCoding(root: result)
+                } catch let error as NSError {
+                    print(result)
+                    print(error)
+                    XCTFail("Failed to archive and unarchive")
+                }
                 promise.fulfill()
             } else {
                 XCTFail("No Result Found")
@@ -260,10 +304,10 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
-
+    
     // MARK: Test Gifs by IDs
-
-    func testClientGetGIFsbyIDsMapJsonToObject() {
+    
+    func testNSCodingForGetGIFsbyIDs() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Gifs by Ids & Map them to Objects")
         let ids = ["PwyQ8ase9nuyQ", "mztEiyM7hzjDG", "5w4QZx27jDM8U"]
@@ -278,7 +322,13 @@ class GiphyCoreSDKParsingTests: XCTestCase {
                 print(response.meta)
                 print(pagination)
                 for result in data {
-                    print(result)
+                    do {
+                        try _ = self.cloneViaCoding(root: result)
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
+                    }
                 }
                 promise.fulfill()
             } else {
@@ -290,7 +340,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
     
     // MARK: Test Term Suggestions
     
-    func testClientTermSuggestionsMapJsonToObject() {
+    func testNSCodingForTermSuggestions() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Term Suggestions & Map them to Objects")
         
@@ -303,7 +353,13 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             if let response = response, let data = response.data {
                 print(response.meta)
                 for result in data {
-                    print(result)
+                    do {
+                        try _ = self.cloneViaCoding(root: result)
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
+                    }
                 }
                 promise.fulfill()
             } else {
@@ -315,7 +371,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
     
     // MARK: Test Categories
     
-    func testClientCategoriesMapJsonToObject() {
+    func testNSCodingForCategories() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Categories & Map them to Objects")
         
@@ -329,9 +385,12 @@ class GiphyCoreSDKParsingTests: XCTestCase {
                 print(response.meta)
                 print(pagination)
                 for result in data {
-                    print(result)
-                    if result.subCategories == nil {
-                        XCTFail("No SubCategories Found")
+                    do {
+                        try _ = self.cloneViaCoding(root: result)
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
                     }
                 }
                 promise.fulfill()
@@ -342,7 +401,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testClientSubCategoriesMapJsonToObject() {
+    func testNSCodingForSubCategories() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Categories & Map them to Objects")
         
@@ -356,7 +415,13 @@ class GiphyCoreSDKParsingTests: XCTestCase {
                 print(response.meta)
                 print(pagination)
                 for result in data {
-                    print(result)
+                    do {
+                        try _ = self.cloneViaCoding(root: result)
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
+                    }
                 }
                 promise.fulfill()
             } else {
@@ -365,8 +430,8 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
-
-    func testClientCategoryContentMapJsonToObject() {
+    
+    func testNSCodingForCategoryContent() {
         // Test to see if we can do a valid search request with our Client Api Key
         let promise = expectation(description: "Status 200 & Recieve Categories & Map them to Objects")
         
@@ -380,7 +445,13 @@ class GiphyCoreSDKParsingTests: XCTestCase {
                 print(response.meta)
                 print(pagination)
                 for result in data {
-                    print(result)
+                    do {
+                        try _ = self.cloneViaCoding(root: result)
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
+                    }
                 }
                 promise.fulfill()
             } else {
@@ -389,5 +460,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
+
+    
     
 }

@@ -97,7 +97,7 @@ import Foundation
     required convenience public init?(coder aDecoder: NSCoder) {
         guard
             let mediaId = aDecoder.decodeObject(forKey: "mediaId") as? String,
-            let rendition = aDecoder.decodeObject(forKey: "rendition") as? GPHRenditionType
+            let rendition = GPHRenditionType(rawValue: aDecoder.decodeObject(forKey: "rendition") as! String)
         else {
             return nil
         }
@@ -119,7 +119,7 @@ import Foundation
     
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.mediaId, forKey: "mediaId")
-        aCoder.encode(self.rendition, forKey: "rendition")
+        aCoder.encode(self.rendition.rawValue, forKey: "rendition")
         aCoder.encode(self.gifUrl, forKey: "gifUrl")
         aCoder.encode(self.gifUrl, forKey: "stillGifUrl")
         aCoder.encode(self.gifSize, forKey: "gifSize")
