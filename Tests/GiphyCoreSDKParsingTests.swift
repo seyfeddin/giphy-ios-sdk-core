@@ -330,6 +330,9 @@ class GiphyCoreSDKParsingTests: XCTestCase {
                 print(pagination)
                 for result in data {
                     print(result)
+                    if result.subCategories == nil {
+                        XCTFail("No SubCategories Found")
+                    }
                 }
                 promise.fulfill()
             } else {

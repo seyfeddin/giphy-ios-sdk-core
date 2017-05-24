@@ -181,7 +181,7 @@ extension GPHCategory: GPHMappable {
             
             obj.encodedPath = nameEncoded
             
-            if let subCategoriesJSON = jsonData["subCategories"] as? [GPHJSONObject] {
+            if let subCategoriesJSON = jsonData["subcategories"] as? [GPHJSONObject] {
                 if subCategoriesJSON.count > 0 {
                     obj.subCategories = []
                     for subCategoryJSON in subCategoriesJSON {
