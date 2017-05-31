@@ -215,7 +215,7 @@ import Foundation
         }
     }
 
-    /// Perform a request to get a list of term suggestions
+    /// Perform a request to get a list of categories
     ///
     /// - parameter request: URLRequest
     /// - parameter type: GPHRequestType to figure out what endpoint to hit

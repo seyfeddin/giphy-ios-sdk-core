@@ -213,22 +213,22 @@ extension GPHUser: GPHMappable {
         let obj = GPHUser(username)
 
         obj.id = parseInt(jsonData["id"] as? String)
-        obj.isPublic = jsonData["isPublic"] as? Bool
-        obj.suppressChrome = jsonData["suppressChrome"] as? Bool
+        obj.isPublic = jsonData["is_public"] as? Bool
+        obj.suppressChrome = jsonData["suppress_chrome"] as? Bool
         obj.name = jsonData["name"] as? String
-        obj.displayName = jsonData["displayName"] as? String
-        obj.userDescription = jsonData["userDescription"] as? String
-        obj.attributionDisplayName = jsonData["attributionDisplayName"] as? String
+        obj.displayName = jsonData["display_name"] as? String
+        obj.userDescription = jsonData["user_description"] as? String
+        obj.attributionDisplayName = jsonData["attribution_display_name"] as? String
         obj.twitter = jsonData["twitter"] as? String
-        obj.twitterUrl = jsonData["twitterUrl"] as? String
-        obj.facebookUrl = jsonData["facebookUrl"] as? String
-        obj.instagramUrl = jsonData["instagramUrl"] as? String
-        obj.websiteUrl = jsonData["websiteUrl"] as? String
-        obj.websiteDisplayUrl = jsonData["websiteDisplayUrl"] as? String
-        obj.tumblrUrl = jsonData["tumblrUrl"] as? String
-        obj.avatarUrl = jsonData["avatarUrl"] as? String
-        obj.bannerUrl = jsonData["bannerUrl"] as? String
-        obj.profileUrl = jsonData["profileUrl"] as? String
+        obj.twitterUrl = jsonData["twitter_url"] as? String
+        obj.facebookUrl = jsonData["facebook_url"] as? String
+        obj.instagramUrl = jsonData["instagram_url"] as? String
+        obj.websiteUrl = jsonData["website_url"] as? String
+        obj.websiteDisplayUrl = jsonData["website_display_url"] as? String
+        obj.tumblrUrl = jsonData["tumblr_url"] as? String
+        obj.avatarUrl = jsonData["avatar_url"] as? String
+        obj.bannerUrl = jsonData["banner_url"] as? String
+        obj.profileUrl = jsonData["profile_url"] as? String
         obj.jsonRepresentation = jsonData
         
         return (obj, nil)

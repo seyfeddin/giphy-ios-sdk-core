@@ -48,7 +48,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     do {
                         try _ = self.cloneViaCoding(root: result)
                     } catch let error as NSError {
@@ -79,7 +79,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     do {
                         try _ = self.cloneViaCoding(root: result)
                     } catch let error as NSError {
@@ -110,7 +110,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     do {
                         try _ = self.cloneViaCoding(root: result)
                     } catch let error as NSError {
@@ -141,7 +141,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     do {
                         try _ = self.cloneViaCoding(root: result)
                     } catch let error as NSError {
@@ -321,7 +321,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     do {
                         try _ = self.cloneViaCoding(root: result)
                     } catch let error as NSError {
@@ -352,7 +352,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             
             if let response = response, let data = response.data {
                 print(response.meta)
-                for result in data {
+                data.forEach { result in
                     do {
                         try _ = self.cloneViaCoding(root: result)
                     } catch let error as NSError {
@@ -384,7 +384,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     do {
                         try _ = self.cloneViaCoding(root: result)
                     } catch let error as NSError {
@@ -414,7 +414,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     do {
                         try _ = self.cloneViaCoding(root: result)
                     } catch let error as NSError {
@@ -444,7 +444,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     do {
                         try _ = self.cloneViaCoding(root: result)
                     } catch let error as NSError {

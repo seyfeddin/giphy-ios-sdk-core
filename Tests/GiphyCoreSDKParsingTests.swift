@@ -58,7 +58,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     print(result)
                 }
                 promise.fulfill()
@@ -82,7 +82,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     print(result)
                 }
                 promise.fulfill()
@@ -108,7 +108,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     print(result)
                 }
                 promise.fulfill()
@@ -133,7 +133,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     print(result)
                 }
                 promise.fulfill()
@@ -277,7 +277,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     print(result)
                 }
                 promise.fulfill()
@@ -302,7 +302,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             
             if let response = response, let data = response.data {
                 print(response.meta)
-                for result in data {
+                data.forEach { result in
                     print(result)
                 }
                 promise.fulfill()
@@ -328,12 +328,14 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                
+                data.forEach { result in
                     print(result)
                     if result.subCategories == nil {
                         XCTFail("No SubCategories Found")
                     }
                 }
+                
                 promise.fulfill()
             } else {
                 XCTFail("No Result Found")
@@ -355,7 +357,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     print(result)
                 }
                 promise.fulfill()
@@ -379,7 +381,7 @@ class GiphyCoreSDKParsingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
-                for result in data {
+                data.forEach { result in
                     print(result)
                 }
                 promise.fulfill()
