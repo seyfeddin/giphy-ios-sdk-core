@@ -74,7 +74,7 @@ extension GPHListCategoryResponse {
 extension GPHListCategoryResponse: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    public static func mapData(_ root: GPHCategory?,
+    static func mapData(_ root: GPHCategory?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,

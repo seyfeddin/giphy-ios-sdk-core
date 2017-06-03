@@ -86,7 +86,7 @@ extension GPHPagination {
 extension GPHPagination: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    public static func mapData(_ root: GPHPagination?,
+    static func mapData(_ root: GPHPagination?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,

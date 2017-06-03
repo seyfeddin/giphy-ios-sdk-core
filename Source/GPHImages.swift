@@ -261,7 +261,7 @@ extension GPHImages {
 extension GPHImages: GPHMappable {
     
     // convinience method to convert Random endpoint results to structured renditions
-    private static func mapRandomData(_ keyPrefix: String, data: GPHJSONObject) -> GPHJSONObject? {
+    static func mapRandomData(_ keyPrefix: String, data: GPHJSONObject) -> GPHJSONObject? {
         
         var keyPrefixMap = keyPrefix
         if keyPrefix == "original" {
@@ -285,7 +285,7 @@ extension GPHImages: GPHMappable {
     
     
     // convinience method to get GPHImage or nil safely
-    private static func image(_ root: GPHMedia?,
+    static func image(_ root: GPHMedia?,
                               data jsonData: GPHJSONObject,
                               request requestType: GPHRequestType,
                               media mediaType: GPHMediaType,
@@ -317,7 +317,7 @@ extension GPHImages: GPHMappable {
     }
     
     /// This is where the magic/mapping happens + error handling.
-    public static func mapData(_ root: GPHMedia?,
+    static func mapData(_ root: GPHMedia?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,

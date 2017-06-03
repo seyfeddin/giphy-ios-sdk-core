@@ -86,7 +86,7 @@ extension GPHMeta {
 extension GPHMeta: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    public static func mapData(_ root: GPHMeta?,
+    static func mapData(_ root: GPHMeta?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,

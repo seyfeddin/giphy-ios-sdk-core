@@ -69,7 +69,7 @@ extension GPHMediaResponse {
 extension GPHMediaResponse: GPHMappable {
     
     /// this is where the magic will happen + error handling
-    public static func mapData(_ root: GPHMedia?,
+    static func mapData(_ root: GPHMedia?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,

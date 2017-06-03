@@ -109,7 +109,7 @@ import Foundation
     public fileprivate(set) var isSticker: Bool?
 
     /// JSON Representation
-    public var jsonRepresentation: GPHJSONObject?
+    public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     /// Initilizer
     ///
@@ -238,6 +238,20 @@ extension GPHMedia {
     
 }
 
+// MARK: Extension -- Allow setting JSON
+
+/// Make objects human readable.
+///
+public extension GPHMedia {
+    
+    @objc public static func mapJSON(_ json: GPHJSONObject, for request:GPHRequestType,  media: GPHMediaType) throws -> GPHMedia {
+        let result = GPHMedia.mapData(nil, data: json, request: request, media: media)
+        if result.error != nil { throw GPHJSONMappingError(description: "Couldn't map GPHMedia for \(json)") }
+        return result.object!
+    }
+    
+}
+
 // MARK: Extension -- Parsing & Mapping
 
 /// For parsing/mapping protocol.
@@ -245,7 +259,7 @@ extension GPHMedia {
 extension GPHMedia: GPHMappable {
 
     /// This is where the magic/mapping happens + error handling.
-    public static func mapData(_ root: GPHMedia?,
+    static func mapData(_ root: GPHMedia?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
@@ -317,3 +331,5 @@ extension GPHMedia: GPHMappable {
     }
 
 }
+
+

@@ -69,7 +69,7 @@ extension GPHListTermSuggestionResponse {
 extension GPHListTermSuggestionResponse: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    public static func mapData(_ root: GPHTermSuggestion?,
+    static func mapData(_ root: GPHTermSuggestion?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,

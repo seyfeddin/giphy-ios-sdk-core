@@ -170,7 +170,7 @@ extension GPHImage {
 extension GPHImage: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    public static func mapData(_ root: GPHMedia?,
+    static func mapData(_ root: GPHMedia?,
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
