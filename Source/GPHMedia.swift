@@ -244,7 +244,7 @@ extension GPHMedia {
 ///
 public extension GPHMedia {
     
-    @objc public static func mapJSON(_ json: GPHJSONObject, for request:GPHRequestType,  media: GPHMediaType) throws -> GPHMedia {
+    @objc public static func mapJSON(_ json: GPHJSONObject, request:GPHRequestType,  media: GPHMediaType) throws -> GPHMedia {
         let result = GPHMedia.mapData(nil, data: json, request: request, media: media)
         if result.error != nil { throw GPHJSONMappingError(description: "Couldn't map GPHMedia for \(json)") }
         return result.object!
@@ -280,8 +280,8 @@ extension GPHMedia: GPHMappable {
         obj.trendingDate = parseDate(jsonData["trending_datetime"] as? String)
         obj.indexable = jsonData["indexable"] as? String
         obj.content = jsonData["content"] as? String
-        obj.bitly = jsonData["bitly"] as? String
-        obj.bitlyGif = jsonData["bitly_gif"] as? String
+        obj.bitly = jsonData["bitly_url"] as? String
+        obj.bitlyGif = jsonData["bitly_gif_url"] as? String
         obj.embed = jsonData["embed"] as? String
         obj.source = jsonData["source"] as? String
         obj.sourceTld = jsonData["source_tld"] as? String
