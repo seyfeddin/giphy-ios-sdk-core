@@ -70,9 +70,9 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Initilizer
+    /// Initializer
     ///
     override public init() {
         self.mediaId = ""
@@ -80,7 +80,7 @@ import Foundation
         super.init()
     }
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter mediaId: Media Objects ID.
     /// - parameter username: Rendition Type of the Image.

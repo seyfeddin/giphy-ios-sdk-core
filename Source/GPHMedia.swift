@@ -111,7 +111,7 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
-    /// Initilizer
+    /// Initializer
     ///
     override public init() {
         self.id = ""
@@ -120,7 +120,7 @@ import Foundation
         super.init()
     }
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter id: Media Object ID.
     /// - parameter type: Media Type (GIF/Sticker).

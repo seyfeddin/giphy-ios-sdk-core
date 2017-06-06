@@ -58,7 +58,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         set { _apiKey = newValue }
     }
     
-    /// Initilizer
+    /// Initializer
     ///
     /// - parameter apiKey: Apps api-key to access end-points.
     ///

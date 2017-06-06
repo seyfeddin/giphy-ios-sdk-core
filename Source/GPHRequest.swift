@@ -77,9 +77,9 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
     let type: GPHRequestType
     
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter client: GPHClient object to handle the request.
     /// - parameter request: URLRequest to execute.

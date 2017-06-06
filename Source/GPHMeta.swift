@@ -41,9 +41,9 @@ import Foundation
     public fileprivate(set) var msg: String
     
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Initilizer
+    /// Initializer
     ///
     override public init() {
         self.responseId = ""
@@ -52,7 +52,7 @@ import Foundation
         super.init()
     }
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter responseId: Unique response id.
     /// - parameter status: Status (200, 404...)

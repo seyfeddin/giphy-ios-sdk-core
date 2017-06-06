@@ -49,9 +49,9 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Initilizer
+    /// Initializer
     ///
     override public init() {
         self.name = ""
@@ -60,7 +60,7 @@ import Foundation
         super.init()
     }
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter name: Name of the Category.
     /// - parameter nameEncoded: URL Encoded name of the Category.

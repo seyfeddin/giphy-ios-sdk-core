@@ -90,16 +90,16 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Initilizer
+    /// Initializer
     ///
     override public init() {
         self.username = ""
         super.init()
     }
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter username: Username of the User.
     ///

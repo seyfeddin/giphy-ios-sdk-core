@@ -38,9 +38,9 @@ import Foundation
     public fileprivate(set) var pagination: GPHPagination?
     
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter meta: init with a GPHMeta object.
     /// - parameter data: GPHMedia array (optional).

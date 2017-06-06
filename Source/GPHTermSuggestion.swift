@@ -37,16 +37,16 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Initilizer
+    /// Initializer
     ///
     override public init() {
         self.term = ""
         super.init()
     }
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter term: Term suggestion.
     ///
