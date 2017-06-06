@@ -71,11 +71,11 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     /// Perform a search.
     ///
     /// - parameter query: Search parameters.
-    /// - parameter media: Media type / optional (default: .gif)
+    /// - parameter media: Media type (default: .gif)
     /// - parameter offset: Offset of results (default: 0)
     /// - parameter limit: Total hits you request (default: 25)
-    /// - parameter rating: Rating of the content / optional (default R)
-    /// - parameter lang: Language of the content / optional (default English)
+    /// - parameter rating: Rating of the content (default R)
+    /// - parameter lang: Language of the content (default English)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -99,10 +99,10 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
     /// Trending
     ///
-    /// - parameter media: Media type / optional (default: .gif)
+    /// - parameter media: Media type (default: .gif)
     /// - parameter offset: offset of results (default: 0)
     /// - parameter limit: total hits you request (default: 25)
-    /// - parameter rating: rating of the content / optional (default R)
+    /// - parameter rating: rating of the content (default R)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -124,9 +124,9 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     /// Translate
     ///
     /// - parameter term: term or phrase to translate into a GIF|Sticker
-    /// - parameter media: Media type / optional (default: .gif)
-    /// - parameter rating: rating of the content / optional (default R)
-    /// - parameter lang: language of the content / optional (default English)
+    /// - parameter media: Media type (default: .gif)
+    /// - parameter rating: rating of the content (default R)
+    /// - parameter lang: language of the content (default English)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -149,8 +149,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     ///
     /// Example: http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=cats
     /// - parameter query: Search parameters.
-    /// - parameter media: Media type / optional (default: .gif)
-    /// - parameter rating: rating of the content / optional (default R)
+    /// - parameter media: Media type (default: .gif)
+    /// - parameter rating: rating of the content (default R)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -246,8 +246,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     /// - parameter subCategory: sub-category to get contents from
     /// - parameter offset: offset of results (default: 0)
     /// - parameter limit: total hits you request (default: 25)
-    /// - parameter rating: rating of the content / optional (default R)
-    /// - parameter lang: language of the content / optional (default English)
+    /// - parameter rating: rating of the content (default R)
+    /// - parameter lang: language of the content (default English)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
