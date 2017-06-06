@@ -27,7 +27,7 @@
 import Foundation
 
 
-func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, rendition: GPHRenditionType = .original, completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
+private func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, rendition: GPHRenditionType = .original, completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
         return { (data, response, error) in
             // Do the parsing and return
             
@@ -195,7 +195,8 @@ func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, rendition: 
     @objc
     @discardableResult func listRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
 
-        return self.httpRequest(with: request, type: type) { (data, response, error) in
+        return self.httpRequest(with: request, type: type, completionHandler: parseJSONResponse(type: type, media: media, completionHandler: completionHandler))
+        /* { (data, response, error) in
             // Do the parsing and return:
             if let data = data {
                 let resultObj = GPHListMediaResponse.mapData(nil, data: data, request: type, media: media)
@@ -212,7 +213,7 @@ func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, rendition: 
                 return
             }
             completionHandler(nil, error)
-        }
+        } */
     }
     
     /// Perform a request to get a list of term suggestions
@@ -226,7 +227,8 @@ func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, rendition: 
     @objc
     @discardableResult func listTermSuggestionsRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionResponse>) -> Operation {
         
-        return self.httpRequest(with: request, type: type) { (data, response, error) in
+        return self.httpRequest(with: request, type: type, completionHandler: parseJSONResponse(type: type, media: media, completionHandler: completionHandler))
+        /*{ (data, response, error) in
             // Do the parsing and return:
             if let data = data {
                 let resultObj = GPHListTermSuggestionResponse.mapData(nil, data: data, request: type, media: media)
@@ -244,6 +246,7 @@ func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, rendition: 
             }
             completionHandler(nil, error)
         }
+ */
     }
 
     /// Perform a request to get a list of categories
@@ -257,7 +260,8 @@ func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, rendition: 
     @objc
     @discardableResult func listCategoriesRequest(_ root:GPHCategory? = nil, with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
         
-        return self.httpRequest(with: request, type: type) { (data, response, error) in
+        return self.httpRequest(with: request, type: type, completionHandler: parseJSONResponse(type: type, media: media, completionHandler: completionHandler))
+/* { (data, response, error) in
             // Do the parsing and return:
             if let data = data {
                 let resultObj = GPHListCategoryResponse.mapData(root, data: data, request: type, media: media)
@@ -275,6 +279,7 @@ func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, rendition: 
             }
             completionHandler(nil, error)
         }
+ */
     }
     
     #if !os(watchOS)
