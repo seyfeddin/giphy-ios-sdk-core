@@ -28,16 +28,16 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 
 ### Supported End-points
 
-* [Search Gifs/Stickers](#search-endpoint)
-* [Trending Gifs/Stickers](#trending-endpoint)
-* [Translate Gifs/Stickers](#translate-endpoint)
-* [Random Gifs/Stickers](#random-endpoint)
+* [Search GIFs/Stickers](#search-endpoint)
+* [Trending GIFs/Stickers](#trending-endpoint)
+* [Translate GIFs/Stickers](#translate-endpoint)
+* [Random GIFs/Stickers](#random-endpoint)
 * [GIF by ID](#get-gif-by-id-endpoint)
 * [GIFs by IDs](#get-gifs-by-ids-endpoint)
-* [Categories for Gifs](#translate-endpoint)
-* [Subcategories for Gifs](#translate-endpoint)
-* [GIFs by Category](#translate-endpoint)
-* [Query Suggestions](#translate-endpoint)
+* [Categories for GIFs](#categories-endpoint)
+* [Subcategories for GIFs](#sub-categories-endpoint)
+* [GIFs for a Subcategory](#sub-category-content-endpoint)
+* [Term Suggestions](#term-suggestions-endpoint)
 
 
 # Setup
@@ -89,11 +89,12 @@ let op = client.search("dogs", media: .sticker) { (response, error) in
     //...
 }
 ```
+
 ### Trending Endpoint
 Fetch GIFs currently trending online. Hand curated by the Giphy editorial team. The data returned mirrors the GIFs showcased on the [Giphy](https://www.giphy.com) homepage.
 
 ```swift
-/// Trending Gifs
+/// Trending GIFs
 let op = client.trending() { (response, error) in
     //...
 }
@@ -108,7 +109,7 @@ let op = client.trending(.sticker) { (response, error) in
 The translate API draws on search, but uses the Giphy "special sauce" to handle translating from one vocabulary to another. In this case, words and phrases to GIFs. Example implementations of translate can be found in the Giphy Slack, Hipchat, Wire, or Dasher integrations. Use a plus or url encode for phrases.
 
 ```swift
-/// Translate to a Gif
+/// Translate to a GIF
 let op = client.translate("cats") { (response, error) in
     //...
 }
@@ -123,7 +124,7 @@ let op = client.translate("cats", media: .sticker) { (response, error) in
 Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the Giphy catalog.
 
 ```swift
-/// Random Gif
+/// Random GIF
 let op = client.random("cats") { (response, error) in
 
     if let error = error as NSError? {
@@ -158,7 +159,7 @@ let op = client.gifByID("feqkVgjJpYtjy") { (response, error) in
 A multiget version of the get GIF by ID endpoint. In this case the IDs are feqkVgjJpYtjy and 7rzbxdu0ZEXLy.
 
 ```swift
-/// Gifs by Ids
+/// GIFs by Ids
 let ids = ["feqkVgjJpYtjy", "7rzbxdu0ZEXLy"]
 
 let op = client.gifsByIDs(ids) { (response, error) in
@@ -178,3 +179,101 @@ let op = client.gifsByIDs(ids) { (response, error) in
     }
 }
 ```
+
+### Categories Endpoint
+A multiget version of the get GIF by ID endpoint. In this case the IDs are feqkVgjJpYtjy and 7rzbxdu0ZEXLy.
+
+```swift
+/// Get top trending categories for GIFs.
+let op = client.categoriesForGifs() { (response, error) in
+
+    if let error = error as NSError? {
+        // Do what you want with the error
+    }
+
+    if let response = response, let data = response.data, let pagination = response.pagination {
+        print(response.meta)
+        print(pagination)
+        for result in data {
+            print(result)
+        }
+    } else {
+        print("No Top Categories Found")
+    }
+}
+```
+
+### Sub-Categories Endpoint
+Get Sub-Categories for GIFs given a cateory. You will need this sub-category object to pull GIFs for this category.
+
+```swift
+/// Sub-Categories for a given category.
+let category = "actions"
+
+let op = client.subCategoriesForGifs(category) { (response, error) in
+
+    if let error = error as NSError? {
+        // Do what you want with the error
+    }
+
+    if let response = response, let data = response.data, let pagination = response.pagination {
+        print(response.meta)
+        print(pagination)
+        for subcategory in data {
+            print(subcategory)
+        }
+    } else {
+        print("No Result Found")
+    }
+}
+```
+
+### Sub-Category Content Endpoint
+Get GIFs for a given Sub-Category. 
+
+```swift
+/// Sub-Category Content
+let category = "actions"
+let subCategory = "cooking"
+
+let op = client.gifsByCategory(category, subCategory: subCategory) { (response, error) in
+
+    if let error = error as NSError? {
+        // Do what you want with the error
+    }
+
+    if let response = response, let data = response.data, let pagination = response.pagination {
+        print(response.meta)
+        print(pagination)
+        for result in data {
+            print(result)
+        }
+    } else {
+        print("No GIFs Found")
+    }
+}
+```
+
+
+### Term Suggestions Endpoint
+Get term suggestions give a search term, or a substring.
+
+```swift
+/// Term Suggestions
+let op = client.termSuggestions("carm") { (response, error) in
+
+    if let error = error as NSError? {
+        // Do what you want with the error
+    }
+
+    if let response = response, let data = response.data {
+        print(response.meta)
+        for term in data {
+            print(term)
+        }
+    } else {
+        print("No Terms Suggestions Found")
+    }
+}
+```
+
