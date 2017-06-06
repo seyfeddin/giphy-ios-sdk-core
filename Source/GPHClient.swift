@@ -74,7 +74,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     /// - parameter media: Media type (default: .gif)
     /// - parameter offset: Offset of results (default: 0)
     /// - parameter limit: Total hits you request (default: 25)
-    /// - parameter rating: Rating of the content (default R)
+    /// - parameter rating: maximum rating of returned content (default R)
     /// - parameter lang: Language of the content (default English)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
@@ -102,7 +102,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     /// - parameter media: Media type (default: .gif)
     /// - parameter offset: offset of results (default: 0)
     /// - parameter limit: total hits you request (default: 25)
-    /// - parameter rating: rating of the content (default R)
+    /// - parameter rating: maximum rating of returned content (default R)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -125,7 +125,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     ///
     /// - parameter term: term or phrase to translate into a GIF|Sticker
     /// - parameter media: Media type (default: .gif)
-    /// - parameter rating: rating of the content (default R)
+    /// - parameter rating: maximum rating of returned content (default R)
     /// - parameter lang: language of the content (default English)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
@@ -150,7 +150,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     /// Example: http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=cats
     /// - parameter query: Search parameters.
     /// - parameter media: Media type (default: .gif)
-    /// - parameter rating: rating of the content (default R)
+    /// - parameter rating: maximum rating of returned content (default R)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -166,11 +166,11 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     }
     
     
-    //MARK: Gifs by ID(s)
+    //MARK: GIFs by ID(s)
     
     /// GIF by ID
     ///
-    /// - parameter id: Gif ID.
+    /// - parameter id: GIF ID.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -186,7 +186,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
     /// GIFs by IDs
     ///
-    /// - parameter ids: Gif ID.
+    /// - parameter ids: array of GIF IDs.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -201,7 +201,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
     //MARK: Categories Endpoint
     
-    /// Top Categories for Gifs
+    /// Top Categories for GIFs
     ///
     /// - parameter offset: offset of results (default: 0)
     /// - parameter limit: total hits you request (default: 25)
@@ -219,7 +219,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
 
     }
     
-    /// Sub-Categories for Gifs
+    /// Sub-Categories for GIFs
     ///
     /// - parameter category: top category to get sub-categories from
     /// - parameter offset: offset of results (default: 0)
@@ -246,7 +246,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     /// - parameter subCategory: sub-category to get contents from
     /// - parameter offset: offset of results (default: 0)
     /// - parameter limit: total hits you request (default: 25)
-    /// - parameter rating: rating of the content (default R)
+    /// - parameter rating: maximum rating of returned content (default R)
     /// - parameter lang: language of the content (default English)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
