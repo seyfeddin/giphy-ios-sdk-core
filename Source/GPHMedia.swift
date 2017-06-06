@@ -58,13 +58,13 @@ import Foundation
     /// Bitly Short URL.
     public fileprivate(set) var bitly: String?
     
-    /// Bitly Short URL for Gif.
+    /// Bitly Short URL for GIF.
     public fileprivate(set) var bitlyGif: String?
     
     /// Embed URL.
     public fileprivate(set) var embed: String?
     
-    /// Attribution Source
+    /// Attribution Source.
     public fileprivate(set) var source: String?
     
     /// Attribution Source Domain TLD.
@@ -123,7 +123,7 @@ import Foundation
     /// Convenience Initilizer
     ///
     /// - parameter id: Media Object ID.
-    /// - parameter type: Media Type (Gif/Sticker).
+    /// - parameter type: Media Type (GIF/Sticker).
     /// - parameter url: URL of the Media Object.
     ///
     convenience public init(_ id: String, type: GPHMediaType, url: String) {

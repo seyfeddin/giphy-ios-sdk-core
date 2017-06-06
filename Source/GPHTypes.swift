@@ -27,7 +27,7 @@
 import Foundation
 
 
-/// Represents a Giphy Object Type (Gif/Sticker/...)
+/// Represents a Giphy Object Type (GIF/Sticker/...)
 ///
 @objc public enum GPHMediaType: Int, RawRepresentable {
     /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without losing String values.
@@ -62,7 +62,7 @@ import Foundation
     
 }
 
-/// Represents a Giphy Object Type (Gif/Sticker/...)
+/// Represents a Giphy Object Type (GIF/Sticker/...)
 ///
 @objc public enum GPHRenditionType: Int, RawRepresentable {
     /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without losing String values.
