@@ -161,26 +161,11 @@ private func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, ren
     @objc
     @discardableResult func getRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
         
-        return self.httpRequest(with: request, type: type, completionHandler: parseJSONResponse(type: type, media: media, completionHandler: completionHandler))
-        
-        /* { (data, response, error) in
-            // Do the parsing and return:
-            if let data = data {
-                let resultObj = GPHMediaResponse.mapData(nil, data: data, request: type, media: media)
-                
-                if resultObj.object == nil {
-                    if let jsonError = resultObj.error {
-                        completionHandler(nil, jsonError)
-                    } else {
-                        completionHandler(nil, GPHJSONMappingError(description: "Unexpected error"))
-                    }
-                    return
-                }
-                completionHandler(resultObj.object, error)
-                return
-            }
-            completionHandler(nil, error)
-        } */
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: parseJSONResponse(type: type,
+                                                                     media: media,
+                                                                     completionHandler: completionHandler))
     }
     
     
@@ -195,25 +180,11 @@ private func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, ren
     @objc
     @discardableResult func listRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
 
-        return self.httpRequest(with: request, type: type, completionHandler: parseJSONResponse(type: type, media: media, completionHandler: completionHandler))
-        /* { (data, response, error) in
-            // Do the parsing and return:
-            if let data = data {
-                let resultObj = GPHListMediaResponse.mapData(nil, data: data, request: type, media: media)
-                
-                if resultObj.object == nil {
-                    if let jsonError = resultObj.error {
-                        completionHandler(nil, jsonError)
-                    } else {
-                        completionHandler(nil, GPHJSONMappingError(description: "Unexpected error"))
-                    }
-                    return
-                }
-                completionHandler(resultObj.object, error)
-                return
-            }
-            completionHandler(nil, error)
-        } */
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: parseJSONResponse(type: type,
+                                                                     media: media,
+                                                                     completionHandler: completionHandler))
     }
     
     /// Perform a request to get a list of term suggestions
@@ -227,26 +198,11 @@ private func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, ren
     @objc
     @discardableResult func listTermSuggestionsRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionResponse>) -> Operation {
         
-        return self.httpRequest(with: request, type: type, completionHandler: parseJSONResponse(type: type, media: media, completionHandler: completionHandler))
-        /*{ (data, response, error) in
-            // Do the parsing and return:
-            if let data = data {
-                let resultObj = GPHListTermSuggestionResponse.mapData(nil, data: data, request: type, media: media)
-                
-                if resultObj.object == nil {
-                    if let jsonError = resultObj.error {
-                        completionHandler(nil, jsonError)
-                    } else {
-                        completionHandler(nil, GPHJSONMappingError(description: "Unexpected error"))
-                    }
-                    return
-                }
-                completionHandler(resultObj.object, error)
-                return
-            }
-            completionHandler(nil, error)
-        }
- */
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: parseJSONResponse(type: type,
+                                                                     media: media,
+                                                                     completionHandler: completionHandler))
     }
 
     /// Perform a request to get a list of categories
@@ -260,26 +216,11 @@ private func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, ren
     @objc
     @discardableResult func listCategoriesRequest(_ root:GPHCategory? = nil, with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
         
-        return self.httpRequest(with: request, type: type, completionHandler: parseJSONResponse(type: type, media: media, completionHandler: completionHandler))
-/* { (data, response, error) in
-            // Do the parsing and return:
-            if let data = data {
-                let resultObj = GPHListCategoryResponse.mapData(root, data: data, request: type, media: media)
-                
-                if resultObj.object == nil {
-                    if let jsonError = resultObj.error {
-                        completionHandler(nil, jsonError)
-                    } else {
-                        completionHandler(nil, GPHJSONMappingError(description: "Unexpected error"))
-                    }
-                    return
-                }
-                completionHandler(resultObj.object, error)
-                return
-            }
-            completionHandler(nil, error)
-        }
- */
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: parseJSONResponse(type: type,
+                                                                     media: media,
+                                                                     completionHandler: completionHandler))
     }
     
     #if !os(watchOS)
