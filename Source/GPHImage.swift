@@ -121,7 +121,7 @@ import Foundation
         aCoder.encode(self.mediaId, forKey: "mediaId")
         aCoder.encode(self.rendition.rawValue, forKey: "rendition")
         aCoder.encode(self.gifUrl, forKey: "gifUrl")
-        aCoder.encode(self.gifUrl, forKey: "stillGifUrl")
+        aCoder.encode(self.stillGifUrl, forKey: "stillGifUrl")
         aCoder.encode(self.gifSize, forKey: "gifSize")
         aCoder.encode(self.width, forKey: "width")
         aCoder.encode(self.height, forKey: "height")

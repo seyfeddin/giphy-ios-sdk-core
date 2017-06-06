@@ -24,7 +24,6 @@
 		E7147E041EC2AFAE00DC5CFF /* GPHAbstractClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E541EAE382D00489AB7 /* GPHAbstractClient.swift */; };
 		E7147E051EC2B0C300DC5CFF /* GiphyCoreSDKOffsetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A541EC136FC00997C5C /* GiphyCoreSDKOffsetTests.swift */; };
 		E7147E061EC2B0C300DC5CFF /* GiphyCoreSDKStatusCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A431EBFBD8200997C5C /* GiphyCoreSDKStatusCodeTests.swift */; };
-		E7147E071EC2B0C300DC5CFF /* GiphyCoreSDKParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102741EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift */; };
 		E7147E081EC2B12500DC5CFF /* GPHPagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A451EBFD87900997C5C /* GPHPagination.swift */; };
 		E7147E091EC2B12500DC5CFF /* GPHMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A481EC1065B00997C5C /* GPHMeta.swift */; };
 		E7147E0A1EC2B12500DC5CFF /* GPHResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A4A1EC10A8E00997C5C /* GPHResponse.swift */; };
@@ -32,6 +31,9 @@
 		E7147E0C1EC2B12500DC5CFF /* GPHListMediaResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A4E1EC124AC00997C5C /* GPHListMediaResponse.swift */; };
 		E7147E0D1EC2B12500DC5CFF /* GPHListCategoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A521EC132BA00997C5C /* GPHListCategoryResponse.swift */; };
 		E7147E0E1EC2B12500DC5CFF /* GPHListTermSuggestionRespose.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A501EC1305700997C5C /* GPHListTermSuggestionRespose.swift */; };
+		E733E4631EE5FCA7002E192B /* GiphyCoreSDK+XCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E733E4621EE5FCA7002E192B /* GiphyCoreSDK+XCTest.swift */; };
+		E733E4641EE5FCA7002E192B /* GiphyCoreSDK+XCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E733E4621EE5FCA7002E192B /* GiphyCoreSDK+XCTest.swift */; };
+		E733E4651EE5FCA7002E192B /* GiphyCoreSDK+XCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E733E4621EE5FCA7002E192B /* GiphyCoreSDK+XCTest.swift */; };
 		E7365A441EBFBD8200997C5C /* GiphyCoreSDKStatusCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A431EBFBD8200997C5C /* GiphyCoreSDKStatusCodeTests.swift */; };
 		E7365A461EBFD87900997C5C /* GPHPagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A451EBFD87900997C5C /* GPHPagination.swift */; };
 		E7365A491EC1065B00997C5C /* GPHMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A481EC1065B00997C5C /* GPHMeta.swift */; };
@@ -44,7 +46,6 @@
 		E78FAD111EC370B6006D2803 /* GiphyCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E78FAD081EC370B6006D2803 /* GiphyCoreSDK.framework */; };
 		E78FAD1F1EC371D4006D2803 /* GiphyCoreSDKOffsetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A541EC136FC00997C5C /* GiphyCoreSDKOffsetTests.swift */; };
 		E78FAD201EC371D4006D2803 /* GiphyCoreSDKStatusCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A431EBFBD8200997C5C /* GiphyCoreSDKStatusCodeTests.swift */; };
-		E78FAD211EC371D4006D2803 /* GiphyCoreSDKParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102741EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift */; };
 		E78FAD221EC371E2006D2803 /* GPHRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E521EAE380700489AB7 /* GPHRequest.swift */; };
 		E78FAD231EC371E2006D2803 /* GPHError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */; };
 		E78FAD241EC371E2006D2803 /* GPHAsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E561EAE387100489AB7 /* GPHAsyncOperation.swift */; };
@@ -105,7 +106,6 @@
 		E7F1026F1EB8EFF400F0FF34 /* GPHError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */; };
 		E7F102711EB9407000F0FF34 /* GPHImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102701EB9407000F0FF34 /* GPHImages.swift */; };
 		E7F102731EBA6E5B00F0FF34 /* GPHMappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */; };
-		E7F102751EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102741EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +135,7 @@
 /* Begin PBXFileReference section */
 		E7147DE01EC2AF7700DC5CFF /* GiphyCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GiphyCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7147DE81EC2AF7700DC5CFF /* GiphyCoreSDK-tvOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GiphyCoreSDK-tvOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E733E4621EE5FCA7002E192B /* GiphyCoreSDK+XCTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GiphyCoreSDK+XCTest.swift"; sourceTree = "<group>"; };
 		E7365A431EBFBD8200997C5C /* GiphyCoreSDKStatusCodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiphyCoreSDKStatusCodeTests.swift; sourceTree = "<group>"; };
 		E7365A451EBFD87900997C5C /* GPHPagination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHPagination.swift; sourceTree = "<group>"; };
 		E7365A481EC1065B00997C5C /* GPHMeta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHMeta.swift; sourceTree = "<group>"; };
@@ -166,7 +167,6 @@
 		E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHError.swift; sourceTree = "<group>"; };
 		E7F102701EB9407000F0FF34 /* GPHImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHImages.swift; sourceTree = "<group>"; };
 		E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHMappable.swift; sourceTree = "<group>"; };
-		E7F102741EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiphyCoreSDKParsingTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +285,7 @@
 				E7AF4E541EAE382D00489AB7 /* GPHAbstractClient.swift */,
 				E7AF4E421EABF58100489AB7 /* Models */,
 				E7AF4E511EAE370E00489AB7 /* Network */,
+				E7147E0F1EC2B97200DC5CFF /* Supporting Files */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -292,10 +293,10 @@
 		E7AF4E351EABCFFF00489AB7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				E733E4621EE5FCA7002E192B /* GiphyCoreSDK+XCTest.swift */,
 				E799D5AE1ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift */,
 				E7365A541EC136FC00997C5C /* GiphyCoreSDKOffsetTests.swift */,
 				E7365A431EBFBD8200997C5C /* GiphyCoreSDKStatusCodeTests.swift */,
-				E7F102741EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift */,
 				E7147E101EC2B98300DC5CFF /* Supporting Files */,
 			);
 			path = Tests;
@@ -324,7 +325,6 @@
 				E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */,
 				E7AF4E561EAE387100489AB7 /* GPHAsyncOperation.swift */,
 				E7AF4E581EAE3E1900489AB7 /* GPHNetworkReachability.swift */,
-				E7147E0F1EC2B97200DC5CFF /* Supporting Files */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -639,9 +639,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7147E061EC2B0C300DC5CFF /* GiphyCoreSDKStatusCodeTests.swift in Sources */,
-				E7147E071EC2B0C300DC5CFF /* GiphyCoreSDKParsingTests.swift in Sources */,
 				E799D5B01ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift in Sources */,
 				E7147E051EC2B0C300DC5CFF /* GiphyCoreSDKOffsetTests.swift in Sources */,
+				E733E4641EE5FCA7002E192B /* GiphyCoreSDK+XCTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,9 +678,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E78FAD201EC371D4006D2803 /* GiphyCoreSDKStatusCodeTests.swift in Sources */,
-				E78FAD211EC371D4006D2803 /* GiphyCoreSDKParsingTests.swift in Sources */,
 				E799D5B11ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift in Sources */,
 				E78FAD1F1EC371D4006D2803 /* GiphyCoreSDKOffsetTests.swift in Sources */,
+				E733E4651EE5FCA7002E192B /* GiphyCoreSDK+XCTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -744,10 +744,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7F102751EBB8ED000F0FF34 /* GiphyCoreSDKParsingTests.swift in Sources */,
 				E7365A441EBFBD8200997C5C /* GiphyCoreSDKStatusCodeTests.swift in Sources */,
 				E799D5AF1ED4D2FE0056C040 /* GiphyCoreSDKNSCodingTests.swift in Sources */,
 				E7365A551EC136FC00997C5C /* GiphyCoreSDKOffsetTests.swift in Sources */,
+				E733E4631EE5FCA7002E192B /* GiphyCoreSDK+XCTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

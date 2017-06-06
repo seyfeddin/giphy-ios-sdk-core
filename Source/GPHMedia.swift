@@ -181,6 +181,7 @@ import Foundation
         aCoder.encode(self.url, forKey: "url")
         aCoder.encode(self.rating?.rawValue, forKey: "rating")
         aCoder.encode(self.caption, forKey: "caption")
+        aCoder.encode(self.slug, forKey: "slug")
         aCoder.encode(self.importDate, forKey: "importDate")
         aCoder.encode(self.trendingDate, forKey: "trendingDate")
         aCoder.encode(self.indexable, forKey: "indexable")
@@ -282,7 +283,7 @@ extension GPHMedia: GPHMappable {
         obj.content = jsonData["content"] as? String
         obj.bitly = jsonData["bitly_url"] as? String
         obj.bitlyGif = jsonData["bitly_gif_url"] as? String
-        obj.embed = jsonData["embed"] as? String
+        obj.embed = jsonData["embed_url"] as? String
         obj.source = jsonData["source"] as? String
         obj.sourceTld = jsonData["source_tld"] as? String
         obj.sourcePostUrl = jsonData["source_post_url"] as? String

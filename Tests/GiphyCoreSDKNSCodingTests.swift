@@ -9,15 +9,6 @@
 import XCTest
 @testable import GiphyCoreSDK
 
-extension XCTestCase {
-    func cloneViaCoding<T: NSCoding>(root: T) throws -> T {
-        let data = NSKeyedArchiver.archivedData(withRootObject: root)
-        guard let res = NSKeyedUnarchiver.unarchiveObject(with: data) as? T else {
-            throw NSError(domain: "com.giphy.sdk", code: 100, userInfo: [NSLocalizedDescriptionKey: "Can not unarchive object"])
-        }
-        return res
-    }
-}
 
 class GiphyCoreSDKNSCodingTests: XCTestCase {
     
@@ -37,7 +28,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     func testNSCodingForSearchGIFs() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
+        let promise = expectation(description: "Status 200 & Receive Search Results & Map them to Objects")
         
         let _ = client.search("cats") { (response, error) in
             
@@ -50,7 +41,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                 print(pagination)
                 data.forEach { result in
                     do {
-                        try _ = self.cloneViaCoding(root: result)
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForMedia(result, media: .gif, request: .search)
+                        
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForMedia(obj, media: .gif, request: .search)
+                        
                     } catch let error as NSError {
                         print(result)
                         print(error)
@@ -68,7 +67,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     func testNSCodingForSearchStickers() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
+        let promise = expectation(description: "Status 200 & Receive Search Results & Map them to Objects")
         
         let _ = client.search("cats", media: .sticker) { (response, error) in
             
@@ -81,7 +80,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                 print(pagination)
                 data.forEach { result in
                     do {
-                        try _ = self.cloneViaCoding(root: result)
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForMedia(result, media: .sticker, request: .search)
+                        
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForMedia(obj, media: .sticker, request: .search)
+                        
                     } catch let error as NSError {
                         print(result)
                         print(error)
@@ -99,7 +106,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
 
     func testNSCodingForTrendingGIFs() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
+        let promise = expectation(description: "Status 200 & Receive Search Results & Map them to Objects")
         
         let _ = client.trending(completionHandler: { (response, error) in
             
@@ -112,7 +119,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                 print(pagination)
                 data.forEach { result in
                     do {
-                        try _ = self.cloneViaCoding(root: result)
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForMedia(result, media: .gif, request: .trending)
+                        
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForMedia(obj, media: .gif, request: .trending)
+                        
                     } catch let error as NSError {
                         print(result)
                         print(error)
@@ -130,7 +145,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     func testNSCodingForTrendingStickers() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Search Results & Map them to Objects")
+        let promise = expectation(description: "Status 200 & Receive Search Results & Map them to Objects")
         
         let _ = client.trending(.sticker) { (response, error) in
             
@@ -143,7 +158,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                 print(pagination)
                 data.forEach { result in
                     do {
-                        try _ = self.cloneViaCoding(root: result)
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForMedia(result, media: .sticker, request: .trending)
+                        
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForMedia(obj, media: .sticker, request: .trending)
+                        
                     } catch let error as NSError {
                         print(result)
                         print(error)
@@ -162,7 +185,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     func testNSCodingForTranslateGIF() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Translate Result & Map it to Object")
+        let promise = expectation(description: "Status 200 & Receive Translate Result & Map it to Object")
         
         let _ = client.translate("cats") { (response, error) in
             
@@ -173,7 +196,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let result = response.data  {
                 print(response.meta)
                 do {
-                    try _ = self.cloneViaCoding(root: result)
+                    // Test the initial mapping before archiving
+                    try? self.validateJSONForMedia(result, media: .gif, request: .translate)
+                    
+                    // Test if we can archive & unarchive
+                    let obj = try self.cloneViaCoding(root: result)
+                    
+                    // Test mapping after archive & unarchive
+                    try? self.validateJSONForMedia(obj, media: .gif, request: .translate)
+                    
                 } catch let error as NSError {
                     print(result)
                     print(error)
@@ -190,7 +221,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     func testNSCodingForTranslateSticker() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Translate Result & Map it to Object")
+        let promise = expectation(description: "Status 200 & Receive Translate Result & Map it to Object")
         
         let _ = client.translate("cats", media: .sticker) { (response, error) in
             
@@ -201,7 +232,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let result = response.data  {
                 print(response.meta)
                 do {
-                    try _ = self.cloneViaCoding(root: result)
+                    // Test the initial mapping before archiving
+                    try? self.validateJSONForMedia(result, media: .sticker, request: .translate)
+                    
+                    // Test if we can archive & unarchive
+                    let obj = try self.cloneViaCoding(root: result)
+                    
+                    // Test mapping after archive & unarchive
+                    try? self.validateJSONForMedia(obj, media: .sticker, request: .translate)
+                    
                 } catch let error as NSError {
                     print(result)
                     print(error)
@@ -220,7 +259,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     func testNSCodingForRandomGIF() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Random Result & Map it to Object")
+        let promise = expectation(description: "Status 200 & Receive Random Result & Map it to Object")
         
         let _ = client.random("cats") { (response, error) in
             
@@ -231,7 +270,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let result = response.data  {
                 print(response.meta)
                 do {
-                    try _ = self.cloneViaCoding(root: result)
+                    // Test the initial mapping before archiving
+                    try? self.validateJSONForMedia(result, media: .gif, request: .random)
+                    
+                    // Test if we can archive & unarchive
+                    let obj = try self.cloneViaCoding(root: result)
+                    
+                    // Test mapping after archive & unarchive
+                    try? self.validateJSONForMedia(obj, media: .gif, request: .random)
+                    
                 } catch let error as NSError {
                     print(result)
                     print(error)
@@ -248,7 +295,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     func testNSCodingForRandomSticker() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Random Result & Map it to Object")
+        let promise = expectation(description: "Status 200 & Receive Random Result & Map it to Object")
         
         let _ = client.random("cats", media: .sticker) { (response, error) in
             
@@ -259,7 +306,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let result = response.data  {
                 print(response.meta)
                 do {
-                    try _ = self.cloneViaCoding(root: result)
+                    // Test the initial mapping before archiving
+                    try? self.validateJSONForMedia(result, media: .sticker, request: .random)
+                    
+                    // Test if we can archive & unarchive
+                    let obj = try self.cloneViaCoding(root: result)
+                    
+                    // Test mapping after archive & unarchive
+                    try? self.validateJSONForMedia(obj, media: .sticker, request: .random)
+                    
                 } catch let error as NSError {
                     print(result)
                     print(error)
@@ -279,7 +334,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     func testNSCodingForGetGIFbyID() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve a Gif by its id & Map it to Object")
+        let promise = expectation(description: "Status 200 & Receive a Gif by its id & Map it to Object")
         
         let _ = client.gifByID("FiGiRei2ICzzG") { (response, error) in
             
@@ -290,7 +345,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let result = response.data  {
                 print(response.meta)
                 do {
-                    try _ = self.cloneViaCoding(root: result)
+                    // Test the initial mapping before archiving
+                    try? self.validateJSONForMedia(result, media: .gif, request: .get)
+                    
+                    // Test if we can archive & unarchive
+                    let obj = try self.cloneViaCoding(root: result)
+                    
+                    // Test mapping after archive & unarchive
+                    try? self.validateJSONForMedia(obj, media: .gif, request: .get)
+                    
                 } catch let error as NSError {
                     print(result)
                     print(error)
@@ -309,7 +372,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     func testNSCodingForGetGIFsbyIDs() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Gifs by Ids & Map them to Objects")
+        let promise = expectation(description: "Status 200 & Receive Gifs by Ids & Map them to Objects")
         let ids = ["PwyQ8ase9nuyQ", "mztEiyM7hzjDG", "5w4QZx27jDM8U"]
         
         let _ = client.gifsByIDs(ids) { (response, error) in
@@ -323,7 +386,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                 print(pagination)
                 data.forEach { result in
                     do {
-                        try _ = self.cloneViaCoding(root: result)
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForMedia(result, media: .gif, request: .getAll)
+                        
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForMedia(obj, media: .gif, request: .getAll)
+                        
                     } catch let error as NSError {
                         print(result)
                         print(error)
@@ -342,7 +413,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     func testNSCodingForTermSuggestions() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Term Suggestions & Map them to Objects")
+        let promise = expectation(description: "Status 200 & Receive Term Suggestions & Map them to Objects")
         
         let _ = client.termSuggestions("carm") { (response, error) in
             
@@ -354,7 +425,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                 print(response.meta)
                 data.forEach { result in
                     do {
-                        try _ = self.cloneViaCoding(root: result)
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForTerm(result)
+                        
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForTerm(obj)
+                        
                     } catch let error as NSError {
                         print(result)
                         print(error)
@@ -373,7 +452,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     func testNSCodingForCategories() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Categories & Map them to Objects")
+        let promise = expectation(description: "Status 200 & Receive Categories & Map them to Objects")
         
         let _ = client.categoriesForGifs() { (response, error) in
             
@@ -386,7 +465,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                 print(pagination)
                 data.forEach { result in
                     do {
-                        try _ = self.cloneViaCoding(root: result)
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForCategory(result, root: nil, request: .categories)
+                        
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForCategory(obj, root: nil, request: .categories)
+                        
                     } catch let error as NSError {
                         print(result)
                         print(error)
@@ -403,9 +490,11 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     func testNSCodingForSubCategories() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Categories & Map them to Objects")
+        let promise = expectation(description: "Status 200 & Receive Categories & Map them to Objects")
         
-        let _ = client.subCategoriesForGifs("actions") { (response, error) in
+        let category = "actions"
+        
+        let _ = client.subCategoriesForGifs(category) { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
@@ -416,7 +505,18 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                 print(pagination)
                 data.forEach { result in
                     do {
-                        try _ = self.cloneViaCoding(root: result)
+                        
+                        let categoryObj = GPHCategory(category, nameEncoded: self.client.encodedStringForUrl(category), encodedPath: self.client.encodedStringForUrl(category))
+                        
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForCategory(result, root: categoryObj, request: .subCategories)
+                        
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForCategory(obj, root: categoryObj, request: .subCategories)
+                        
                     } catch let error as NSError {
                         print(result)
                         print(error)
@@ -433,7 +533,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     func testNSCodingForCategoryContent() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Categories & Map them to Objects")
+        let promise = expectation(description: "Status 200 & Receive Categories & Map them to Objects")
         
         let _ = client.gifsByCategory("actions", subCategory: "cooking") { (response, error) in
             
@@ -446,7 +546,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                 print(pagination)
                 data.forEach { result in
                     do {
-                        try _ = self.cloneViaCoding(root: result)
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForMedia(result, media: .gif, request: .categoryContent)
+                        
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForMedia(obj, media: .gif, request: .categoryContent)
+                    
                     } catch let error as NSError {
                         print(result)
                         print(error)
