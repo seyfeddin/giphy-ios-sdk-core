@@ -46,7 +46,7 @@ class GiphyCoreSDKStatusCodeTests: XCTestCase {
     // MARK: Test 401 / Not Authorized
     func testClient401() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 401 & Recieve 401 Error")
+        let promise = expectation(description: "Status 401 & Receive 401 Error")
         
         let _ = clientProblematicApiKey.gifByID("some_fake_id") { (response, error) in
             
@@ -66,7 +66,7 @@ class GiphyCoreSDKStatusCodeTests: XCTestCase {
     // MARK: Test 404 / Not Found
     func testClient404() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 404 & Recieve 404 Error")
+        let promise = expectation(description: "Status 404 & Receive 404 Error")
         
         let _ = client.gifByID("some_fake_id") { (response, error) in
             

@@ -28,7 +28,7 @@ class GiphyCoreSDKOffsetTests: XCTestCase {
 
     func testClientSearchGIFsOffsetLimit() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Search Results")
+        let promise = expectation(description: "Status 200 & Receive Search Results")
         
         let _ = client.search("cats", media:.gif, offset: 0, limit: 4) { (response, error) in
             
@@ -58,7 +58,7 @@ class GiphyCoreSDKOffsetTests: XCTestCase {
     
     func testClientSearchStickersOffsetLimit() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Recieve Search Results")
+        let promise = expectation(description: "Status 200 & Receive Search Results")
         
         let _ = client.search("cats", media:.sticker, offset: 0, limit: 4) { (response, error) in
             

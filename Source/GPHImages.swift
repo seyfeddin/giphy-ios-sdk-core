@@ -147,6 +147,7 @@ import Foundation
     }
     
     public func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.mediaId, forKey: "mediaId")
         aCoder.encode(self.original, forKey: "original")
         aCoder.encode(self.originalStill, forKey: "originalStill")
         aCoder.encode(self.preview, forKey: "preview")
