@@ -216,7 +216,6 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         
         let request = GPHRequestRouter.categories(.gif, offset, limit).asURLRequest(apiKey)
         return self.listCategoriesRequest(with: request, type: .categories, media: .gif, completionHandler: completionHandler)
-
     }
     
     /// Sub-Categories for GIFs
@@ -236,8 +235,6 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         let categoryObj = GPHCategory(category, nameEncoded: encodedStringForUrl(category), encodedPath:encodedStringForUrl(category))
         let request = GPHRequestRouter.subCategories(categoryObj.encodedPath, .gif, offset, limit).asURLRequest(apiKey)
         return self.listCategoriesRequest(categoryObj, with: request, type: .subCategories, media: .gif, completionHandler: completionHandler)
-
-        
     }
     
     /// Category Content (only works with Sub-categories / top categories won't return content)
@@ -283,5 +280,4 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         
         return self.listTermSuggestionsRequest(with: request, type: .termSuggestions, media: .gif, completionHandler: completionHandler)
     }
-    
 }
