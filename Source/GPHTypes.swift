@@ -30,7 +30,7 @@ import Foundation
 /// Represents a Giphy Object Type (Gif/Sticker/...)
 ///
 @objc public enum GPHMediaType: Int, RawRepresentable {
-    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values.
+    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without losing String values.
 
     /// Gif Media Type
     case gif
@@ -65,7 +65,7 @@ import Foundation
 /// Represents a Giphy Object Type (Gif/Sticker/...)
 ///
 @objc public enum GPHRenditionType: Int, RawRepresentable {
-    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values.
+    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without losing String values.
     
     /// Original file size and file dimensions. Good for desktop use.
     case original
@@ -466,14 +466,10 @@ import Foundation
 }
 
 
-
 /// Represents content rating (y,g, pg, pg-13 or r)
 ///
 @objc public enum GPHRatingType: Int, RawRepresentable {
     /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values.
-    
-    /// Rated R
-    case ratedR
     
     /// Rated Y
     case ratedY
@@ -487,6 +483,9 @@ import Foundation
     /// Rated PG-13
     case ratedPG13
     
+    /// Rated R
+    case ratedR
+    
     /// Not Safe for Work
     case nsfw
     
@@ -497,8 +496,6 @@ import Foundation
     
     public var rawValue: RawValue {
         switch self {
-        case .ratedR:
-            return "r"
         case .ratedY:
             return "y"
         case .ratedG:
@@ -507,6 +504,8 @@ import Foundation
             return "pg"
         case .ratedPG13:
             return "pg-13"
+        case .ratedR:
+            return "r"
         case .nsfw:
             return "nsfw"
         case .unrated:
@@ -516,8 +515,6 @@ import Foundation
     
     public init?(rawValue: RawValue) {
         switch rawValue.lowercased() {
-        case "r":
-            self = .ratedR
         case "y":
             self = .ratedY
         case "g":
@@ -526,6 +523,8 @@ import Foundation
             self = .ratedPG
         case "pg-13":
             self = .ratedPG13
+        case "r":
+            self = .ratedR
         case "nsfw":
             self = .nsfw
         case "unrated":
@@ -534,5 +533,4 @@ import Foundation
             self = .ratedR
         }
     }
-    
 }
