@@ -67,7 +67,7 @@ import Foundation
     /// Gif file size in bytes.
     public fileprivate(set) var mp4Size: Int?
     
-    /// JSON Representation
+    /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initilizers

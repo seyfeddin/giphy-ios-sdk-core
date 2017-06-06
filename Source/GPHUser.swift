@@ -87,7 +87,7 @@ import Foundation
     /// Suppress Chrome.
     public fileprivate(set) var suppressChrome: Bool?
     
-    /// JSON Representation
+    /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initilizers

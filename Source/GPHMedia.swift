@@ -108,7 +108,7 @@ import Foundation
     public fileprivate(set) var isIndexable: Bool?
     public fileprivate(set) var isSticker: Bool?
 
-    /// JSON Representation
+    /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     /// Initilizer

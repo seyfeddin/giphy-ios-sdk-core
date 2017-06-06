@@ -34,7 +34,7 @@ import Foundation
     /// Term suggestion.
     public private(set) var term: String
     
-    /// JSON Representation
+    /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initilizers

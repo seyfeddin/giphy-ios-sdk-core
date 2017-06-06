@@ -46,7 +46,7 @@ import Foundation
     /// Subcategories of the Category.
     public fileprivate(set) var subCategories: [GPHCategory]?
     
-    /// JSON Representation
+    /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initilizers
