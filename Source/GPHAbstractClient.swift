@@ -27,7 +27,7 @@
 import Foundation
 
 
-func jsonCompletionHandler<T>(type: GPHRequestType, media: GPHMediaType, rendition: GPHRenditionType, completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
+func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, rendition: GPHRenditionType = .original, completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
         return { (data, response, error) in
             // Do the parsing and return
             
@@ -161,7 +161,7 @@ func jsonCompletionHandler<T>(type: GPHRequestType, media: GPHMediaType, renditi
     @objc
     @discardableResult func getRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
         
-        return self.httpRequest(with: request, type: type, completionHandler: jsonCompletionHandler(type: type, media: media, rendition: GPHRenditionType.original, completionHandler: completionHandler))
+        return self.httpRequest(with: request, type: type, completionHandler: parseJSONResponse(type: type, media: media, completionHandler: completionHandler))
         
         /* { (data, response, error) in
             // Do the parsing and return:
