@@ -27,7 +27,8 @@
 import Foundation
 
 
-private func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, rendition: GPHRenditionType = .original, completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
+private func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, rendition: GPHRenditionType = .original, completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler
+    where T : GPHResponse, T : GPHMappable {
         return { (data, response, error) in
             // Do the parsing and return
             
