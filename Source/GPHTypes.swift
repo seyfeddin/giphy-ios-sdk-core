@@ -533,4 +533,5 @@ import Foundation
             self = .ratedR
         }
     }
+    
 }

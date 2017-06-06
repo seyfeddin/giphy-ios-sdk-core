@@ -26,9 +26,19 @@
 
 import Foundation
 
-
-private func parseJSONResponse<T>(type: GPHRequestType, media: GPHMediaType, rendition: GPHRenditionType = .original, completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler
-    where T : GPHResponse, T : GPHMappable {
+/// Parses a JSON response to an HTTP request expected to return a particular GPHMappable response.
+///
+/// - parameter type: GPHRequestType to figure out what endpoint to hit
+/// - parameter media: GPHMediaType to figure out GIF/Sticker
+/// - parameter rendition: GPHRenditionType GIF rendition to prefer, if applicable.
+/// - parameter completionHandler: Completion handler to be notified of the parser's outcome.
+/// - returns: GPHJSONCompletionHandler to be used as a completion handler for an HTTP request.
+///
+private func parseJSONResponse<T>(type: GPHRequestType,
+                               media: GPHMediaType,
+                               rendition: GPHRenditionType = .original,
+                               completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
+    
         return { (data, response, error) in
             // Do the parsing and return
             
