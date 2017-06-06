@@ -1,5 +1,5 @@
 //
-//  GPHClientAbstract.swift
+//  GPHAbstractClient.swift
 //  GiphyCoreSDK
 //
 //  Created by Cem Kozinoglu on 4/24/17.
@@ -60,7 +60,7 @@ import Foundation
     
     /// Initilizer
     ///
-    /// - parameter apiKey: Apps api-key to access end-points.
+    /// - parameter apiKey: Application api-key to access GIPHY endpoints.
     ///
     init(_ apiKey: String?) {
         self._apiKey = apiKey
@@ -74,7 +74,7 @@ import Foundation
         session = Foundation.URLSession(configuration: configuration)
         
         requestQueue = OperationQueue()
-        requestQueue.name = "Giphy Api Requests"
+        requestQueue.name = "Giphy API Requests"
         requestQueue.maxConcurrentOperationCount = configuration.httpMaximumConnectionsPerHost * maxConcurrentRequestsPerConnection
         
         super.init()
@@ -87,7 +87,11 @@ import Foundation
     /// - returns: Default User-Agent for the SDK
     ///
     private static func defaultUserAgent() -> String {
-        return "Giphy SDK v1.0 (iOS)"
+      guard let dictionary = Bundle.main.infoDictionary,
+        let version = dictionary["CFBundleShortVersionString"] as? String else {
+          return "Giphy SDK v1.0 (iOS)"
+      }
+      return "Giphy SDK v\(version) (iOS)"
     }
     
     
