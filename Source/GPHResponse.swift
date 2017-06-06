@@ -65,3 +65,26 @@ extension GPHResponse {
     }
     
 }
+
+func jsonCompletionHandler<T>(type: GPHRequestType, media: GPHMediaType, rendition: GPHRenditionType, completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
+        return { (data, response, error) in
+            // Do the parsing and return:
+            if let data = data {
+                let resultObj = T.mapData(nil, data: data, request: type, media: media, rendition: rendition)
+                
+                if resultObj.object == nil {
+                    if let jsonError = resultObj.error {
+                        completionHandler(nil, jsonError)
+                    } else {
+                        completionHandler(nil, GPHJSONMappingError(description: "Unexpected error"))
+                    }
+                    return
+                }
+                if let mappableObject = resultObj.object as? T {
+                    completionHandler(mappableObject, error)
+                }
+                return
+            }
+            completionHandler(nil, error)
+        }
+}

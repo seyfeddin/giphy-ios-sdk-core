@@ -126,7 +126,7 @@ import Foundation
         return operation
     }
     
-    
+
     /// Perform a request to get a single result
     ///
     /// - parameter request: URLRequest

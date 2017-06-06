@@ -262,7 +262,9 @@
 				E7AF4E351EABCFFF00489AB7 /* Tests */,
 				E7AF4E291EABCFFF00489AB7 /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		E7AF4E291EABCFFF00489AB7 /* Products */ = {
 			isa = PBXGroup;
