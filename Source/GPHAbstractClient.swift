@@ -89,7 +89,7 @@ import Foundation
     private static func defaultUserAgent() -> String {
       guard let dictionary = Bundle.main.infoDictionary,
         let version = dictionary["CFBundleShortVersionString"] as? String else {
-          return "Giphy SDK v1.0 (iOS)"
+          return "Giphy SDK (iOS)"
       }
       return "Giphy SDK v\(version) (iOS)"
     }
