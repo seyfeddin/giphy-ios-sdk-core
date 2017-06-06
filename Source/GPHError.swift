@@ -38,11 +38,11 @@ public struct GPHJSONMappingError: CustomNSError {
     public var errorCode: Int { return 1001 }
     
     
-    // MARK: Initilizers
+    // MARK: Initializers
 
-    /// Initilizer
+    /// Initializer
     ///
-    /// - parameter description: init with a GPHMeta object.
+    /// - parameter description: textual description of the error.
     ///
     public init(description: String) {
         self.description = description
@@ -68,7 +68,7 @@ public struct GPHJSONMappingError: CustomNSError {
 public struct GPHHTTPError: CustomNSError {
     // MARK: Properties
     
-    /// Human readable issue, return by the server.
+    /// Human readable issue, returned by the server.
     public let description: String?
     
     /// The HTTP status code returned by the server.
@@ -78,9 +78,9 @@ public struct GPHHTTPError: CustomNSError {
     public var errorCode: Int { return statusCode }
     
 
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Initilizer
+    /// Initializer
     ///
     /// - parameter statusCode: Status code from the server.
     /// - parameter description: Description returned from the server.

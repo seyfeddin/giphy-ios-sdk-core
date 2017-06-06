@@ -58,7 +58,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         set { _apiKey = newValue }
     }
     
-    /// Initilizer
+    /// Initializer
     ///
     /// - parameter apiKey: Apps api-key to access end-points.
     ///
@@ -71,11 +71,11 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     /// Perform a search.
     ///
     /// - parameter query: Search parameters.
-    /// - parameter media: Media type / optional (default: .gif)
+    /// - parameter media: Media type (default: .gif)
     /// - parameter offset: Offset of results (default: 0)
     /// - parameter limit: Total hits you request (default: 25)
-    /// - parameter rating: Rating of the content / optional (default R)
-    /// - parameter lang: Language of the content / optional (default English)
+    /// - parameter rating: maximum rating of returned content (default R)
+    /// - parameter lang: Language of the content (default English)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -99,10 +99,10 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
     /// Trending
     ///
-    /// - parameter media: Media type / optional (default: .gif)
+    /// - parameter media: Media type (default: .gif)
     /// - parameter offset: offset of results (default: 0)
     /// - parameter limit: total hits you request (default: 25)
-    /// - parameter rating: rating of the content / optional (default R)
+    /// - parameter rating: maximum rating of returned content (default R)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -124,9 +124,9 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     /// Translate
     ///
     /// - parameter term: term or phrase to translate into a GIF|Sticker
-    /// - parameter media: Media type / optional (default: .gif)
-    /// - parameter rating: rating of the content / optional (default R)
-    /// - parameter lang: language of the content / optional (default English)
+    /// - parameter media: Media type (default: .gif)
+    /// - parameter rating: maximum rating of returned content (default R)
+    /// - parameter lang: language of the content (default English)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -149,8 +149,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     ///
     /// Example: http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=cats
     /// - parameter query: Search parameters.
-    /// - parameter media: Media type / optional (default: .gif)
-    /// - parameter rating: rating of the content / optional (default R)
+    /// - parameter media: Media type (default: .gif)
+    /// - parameter rating: maximum rating of returned content (default R)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -166,11 +166,11 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     }
     
     
-    //MARK: Gifs by ID(s)
+    //MARK: GIFs by ID(s)
     
     /// GIF by ID
     ///
-    /// - parameter id: Gif ID.
+    /// - parameter id: GIF ID.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -186,7 +186,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
     /// GIFs by IDs
     ///
-    /// - parameter ids: Gif ID.
+    /// - parameter ids: array of GIF IDs.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -201,7 +201,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
     //MARK: Categories Endpoint
     
-    /// Top Categories for Gifs
+    /// Top Categories for GIFs
     ///
     /// - parameter offset: offset of results (default: 0)
     /// - parameter limit: total hits you request (default: 25)
@@ -216,10 +216,9 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         
         let request = GPHRequestRouter.categories(.gif, offset, limit).asURLRequest(apiKey)
         return self.listCategoriesRequest(with: request, type: .categories, media: .gif, completionHandler: completionHandler)
-
     }
     
-    /// Sub-Categories for Gifs
+    /// Sub-Categories for GIFs
     ///
     /// - parameter category: top category to get sub-categories from
     /// - parameter offset: offset of results (default: 0)
@@ -236,8 +235,6 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         let categoryObj = GPHCategory(category, nameEncoded: encodedStringForUrl(category), encodedPath:encodedStringForUrl(category))
         let request = GPHRequestRouter.subCategories(categoryObj.encodedPath, .gif, offset, limit).asURLRequest(apiKey)
         return self.listCategoriesRequest(categoryObj, with: request, type: .subCategories, media: .gif, completionHandler: completionHandler)
-
-        
     }
     
     /// Category Content (only works with Sub-categories / top categories won't return content)
@@ -246,8 +243,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     /// - parameter subCategory: sub-category to get contents from
     /// - parameter offset: offset of results (default: 0)
     /// - parameter limit: total hits you request (default: 25)
-    /// - parameter rating: rating of the content / optional (default R)
-    /// - parameter lang: language of the content / optional (default English)
+    /// - parameter rating: maximum rating of returned content (default R)
+    /// - parameter lang: language of the content (default English)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -283,5 +280,4 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         
         return self.listTermSuggestionsRequest(with: request, type: .termSuggestions, media: .gif, completionHandler: completionHandler)
     }
-    
 }

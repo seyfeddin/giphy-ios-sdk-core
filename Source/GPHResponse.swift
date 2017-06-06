@@ -35,16 +35,16 @@ import Foundation
     public internal(set) var meta: GPHMeta
     
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Initilizer
+    /// Initializer
     ///
     override public init() {
         self.meta = GPHMeta()
         super.init()
     }
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter meta: init with a GPHMeta object.
     ///

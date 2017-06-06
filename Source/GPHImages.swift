@@ -92,19 +92,19 @@ import Foundation
     /// Static preview image for downsized.
     public fileprivate(set) var downsizedStill: GPHImage?
     
-    /// JSON Representation
+    /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Initilizer
+    /// Initializer
     ///
     override public init() {
         self.mediaId = ""
         super.init()
     }
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter mediaId: Media Objects ID.
     ///
@@ -352,10 +352,6 @@ extension GPHImages: GPHMappable {
         obj.jsonRepresentation = jsonData
         
         return (obj, nil)
-
     }
     
 }
-
-
-

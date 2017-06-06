@@ -1,5 +1,5 @@
 //
-//  GPHClientAbstract.swift
+//  GPHAbstractClient.swift
 //  GiphyCoreSDK
 //
 //  Created by Cem Kozinoglu on 4/24/17.
@@ -25,6 +25,7 @@
 //
 
 import Foundation
+
 
 /// GIPHY Abstract API Client.
 ///
@@ -58,14 +59,13 @@ import Foundation
     
     // MARK: Initialization
     
-    /// Initilizer
+    /// Initializer
     ///
-    /// - parameter apiKey: Apps api-key to access end-points.
+    /// - parameter apiKey: Application api-key to access GIPHY endpoints.
     ///
     init(_ apiKey: String?) {
         self._apiKey = apiKey
 
-        // WARNING:
         var clientHTTPHeaders: [String: String] = [:]
         clientHTTPHeaders["User-Agent"] = GPHAbstractClient.defaultUserAgent()
         let configuration = URLSessionConfiguration.default
@@ -74,7 +74,7 @@ import Foundation
         session = Foundation.URLSession(configuration: configuration)
         
         requestQueue = OperationQueue()
-        requestQueue.name = "Giphy Api Requests"
+        requestQueue.name = "Giphy API Requests"
         requestQueue.maxConcurrentOperationCount = configuration.httpMaximumConnectionsPerHost * maxConcurrentRequestsPerConnection
         
         super.init()
@@ -87,17 +87,23 @@ import Foundation
     /// - returns: Default User-Agent for the SDK
     ///
     private static func defaultUserAgent() -> String {
-        return "Giphy SDK v1.0 (iOS)"
+        
+        guard
+            let dictionary = Bundle.main.infoDictionary,
+            let version = dictionary["CFBundleShortVersionString"] as? String
+            else { return "Giphy SDK (iOS)" }
+        return "Giphy SDK v\(version) (iOS)"
     }
     
     
-    /// Encode Strings for appending to URLS for endpoints like Term Suggestions/Categories
+    /// Encode Strings for appending to URLs for endpoints like Term Suggestions/Categories
     ///
     /// - parameter string: String to be encoded.
     /// - returns: A cancellable operation.
     ///
     @objc
     func encodedStringForUrl(_ string: String) -> String {
+        
         guard
             let encoded = string.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
             else { return string }
@@ -108,6 +114,7 @@ import Foundation
     /// Perform a request
     ///
     /// - parameter request: URLRequest
+    /// - parameter type: GPHRequestType to figure out what endpoint to hit
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -120,7 +127,7 @@ import Foundation
         return operation
     }
     
-    
+
     /// Perform a request to get a single result
     ///
     /// - parameter request: URLRequest
@@ -132,24 +139,11 @@ import Foundation
     @objc
     @discardableResult func getRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
         
-         return self.httpRequest(with: request, type: type) { (data, response, error) in
-             // Do the parsing and return:
-             if let data = data {
-                 let resultObj = GPHMediaResponse.mapData(nil, data: data, request: type, media: media)
-                 
-                 if resultObj.object == nil {
-                     if let jsonError = resultObj.error {
-                        completionHandler(nil, jsonError)
-                     } else {
-                        completionHandler(nil, GPHJSONMappingError(description: "Unexpected error"))
-                     }
-                     return
-                 }
-                 completionHandler(resultObj.object, error)
-                return
-             }
-             completionHandler(nil, error)
-         }
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
+                                                                                       media: media,
+                                                                                       completionHandler: completionHandler))
     }
     
     
@@ -164,24 +158,11 @@ import Foundation
     @objc
     @discardableResult func listRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
 
-        return self.httpRequest(with: request, type: type) { (data, response, error) in
-            // Do the parsing and return:
-            if let data = data {
-                let resultObj = GPHListMediaResponse.mapData(nil, data: data, request: type, media: media)
-                
-                if resultObj.object == nil {
-                    if let jsonError = resultObj.error {
-                        completionHandler(nil, jsonError)
-                    } else {
-                        completionHandler(nil, GPHJSONMappingError(description: "Unexpected error"))
-                    }
-                    return
-                }
-                completionHandler(resultObj.object, error)
-                return
-            }
-            completionHandler(nil, error)
-        }
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
+                                                                                       media: media,
+                                                                                       completionHandler: completionHandler))
     }
     
     /// Perform a request to get a list of term suggestions
@@ -195,28 +176,16 @@ import Foundation
     @objc
     @discardableResult func listTermSuggestionsRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionResponse>) -> Operation {
         
-        return self.httpRequest(with: request, type: type) { (data, response, error) in
-            // Do the parsing and return:
-            if let data = data {
-                let resultObj = GPHListTermSuggestionResponse.mapData(nil, data: data, request: type, media: media)
-                
-                if resultObj.object == nil {
-                    if let jsonError = resultObj.error {
-                        completionHandler(nil, jsonError)
-                    } else {
-                        completionHandler(nil, GPHJSONMappingError(description: "Unexpected error"))
-                    }
-                    return
-                }
-                completionHandler(resultObj.object, error)
-                return
-            }
-            completionHandler(nil, error)
-        }
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
+                                                                                       media: media,
+                                                                                       completionHandler: completionHandler))
     }
 
     /// Perform a request to get a list of categories
     ///
+    /// - parameter root: GPHCategory for which to obtain subcategories, or nil.
     /// - parameter request: URLRequest
     /// - parameter type: GPHRequestType to figure out what endpoint to hit
     /// - parameter media: GPHMediaType to figure out GIF/Sticker
@@ -224,14 +193,37 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func listCategoriesRequest(_ root:GPHCategory? = nil, with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
+    @discardableResult func listCategoriesRequest(_ root: GPHCategory? = nil, with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
         
-        return self.httpRequest(with: request, type: type) { (data, response, error) in
-            // Do the parsing and return:
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(root: root,
+                                                                                       type: type,
+                                                                                       media: media,
+                                                                                       completionHandler: completionHandler))
+    }
+    
+    /// Parses a JSON response to an HTTP request expected to return a particular GPHMappable response.
+    ///
+    /// - parameter root: root object under which to parse results
+    /// - parameter type: GPHRequestType to figure out what endpoint to hit
+    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    /// - parameter rendition: GPHRenditionType GIF rendition to prefer, if applicable.
+    /// - parameter completionHandler: Completion handler to be notified of the parser's outcome.
+    /// - returns: GPHJSONCompletionHandler to be used as a completion handler for an HTTP request.
+    ///
+    class func parseJSONResponse<T>(root: T.GPHRootObject? = nil,
+                                 type: GPHRequestType,
+                                 media: GPHMediaType,
+                                 rendition: GPHRenditionType = .original,
+                                 completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
+        
+        return { (data, response, error) in
+            // Do the parsing and return
+            
             if let data = data {
-                let resultObj = GPHListCategoryResponse.mapData(root, data: data, request: type, media: media)
-                
-                if resultObj.object == nil {
+                let resultObj = T.mapData(root, data: data, request: type, media: media, rendition: rendition)
+                guard let mappableObject = resultObj.object as? T else {
                     if let jsonError = resultObj.error {
                         completionHandler(nil, jsonError)
                     } else {
@@ -239,12 +231,14 @@ import Foundation
                     }
                     return
                 }
-                completionHandler(resultObj.object, error)
+                completionHandler(mappableObject, error)
                 return
             }
             completionHandler(nil, error)
         }
     }
+    
+    
     
     #if !os(watchOS)
     

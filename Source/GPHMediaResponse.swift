@@ -35,9 +35,9 @@ import Foundation
     public fileprivate(set) var data: GPHMedia?
     
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter meta: init with a GPHMeta object.
     /// - parameter data: GPHMedia object (optional).

@@ -26,7 +26,7 @@
 
 import Foundation
 
-/// Represents a Giphy Image (Gif/Sticker)
+/// Represents a Giphy Image (GIF/Sticker)
 ///
 @objc public class GPHImage: NSObject, NSCoding {
     // MARK: Properties
@@ -67,12 +67,12 @@ import Foundation
     /// Gif file size in bytes.
     public fileprivate(set) var mp4Size: Int?
     
-    /// JSON Representation
+    /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Initilizer
+    /// Initializer
     ///
     override public init() {
         self.mediaId = ""
@@ -80,7 +80,7 @@ import Foundation
         super.init()
     }
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter mediaId: Media Objects ID.
     /// - parameter username: Rendition Type of the Image.

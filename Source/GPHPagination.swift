@@ -41,9 +41,9 @@ import Foundation
     public private(set) var offset: Int
     
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Initilizer
+    /// Initializer
     ///
     override public init() {
         self.totalCount = 0
@@ -52,7 +52,7 @@ import Foundation
         super.init()
     }
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter totalCount: Total number of results available.
     /// - parameter count: Number of results returned.

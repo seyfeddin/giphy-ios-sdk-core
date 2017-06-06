@@ -35,9 +35,9 @@ import Foundation
     public fileprivate(set) var data: [GPHTermSuggestion]?
     
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter meta: init with a GPHMeta object.
     /// - parameter data: GPHTermSuggestion array (optional).

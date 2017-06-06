@@ -1,5 +1,5 @@
 //
-//  GPHSuggestion.swift
+//  GPHTermSuggestion.swift
 //  GiphyCoreSDK
 //
 //  Created by Cem Kozinoglu on 4/22/17.
@@ -34,19 +34,19 @@ import Foundation
     /// Term suggestion.
     public private(set) var term: String
     
-    /// JSON Representation
+    /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Initilizer
+    /// Initializer
     ///
     override public init() {
         self.term = ""
         super.init()
     }
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter term: Term suggestion.
     ///

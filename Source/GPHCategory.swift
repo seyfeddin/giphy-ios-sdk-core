@@ -46,12 +46,12 @@ import Foundation
     /// Subcategories of the Category.
     public fileprivate(set) var subCategories: [GPHCategory]?
     
-    /// JSON Representation
+    /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
-    // MARK: Initilizers
+    // MARK: Initializers
     
-    /// Initilizer
+    /// Initializer
     ///
     override public init() {
         self.name = ""
@@ -60,7 +60,7 @@ import Foundation
         super.init()
     }
     
-    /// Convenience Initilizer
+    /// Convenience Initializer
     ///
     /// - parameter name: Name of the Category.
     /// - parameter nameEncoded: URL Encoded name of the Category.
@@ -169,7 +169,7 @@ extension GPHCategory: GPHMappable {
         
         let obj = GPHCategory(name, nameEncoded: nameEncoded, encodedPath: "")
         
-        var gif:GPHMedia? = nil
+        var gif: GPHMedia? = nil
         
         if let gifData = jsonData["gif"] as? GPHJSONObject {
             gif = GPHMedia.mapData(nil, data: gifData, request: requestType, media: mediaType).object
@@ -201,7 +201,7 @@ extension GPHCategory: GPHMappable {
             if let root = root {
                 obj.encodedPath = root.nameEncoded + "/" + nameEncoded
             } else {
-                return (nil, GPHJSONMappingError(description: "You need to root category to get sub-categories"))
+                return (nil, GPHJSONMappingError(description: "You need a root category to get sub-categories"))
             }
             obj.subCategories = nil
         default:
