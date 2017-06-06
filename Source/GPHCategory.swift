@@ -201,7 +201,7 @@ extension GPHCategory: GPHMappable {
             if let root = root {
                 obj.encodedPath = root.nameEncoded + "/" + nameEncoded
             } else {
-                return (nil, GPHJSONMappingError(description: "You need to root category to get sub-categories"))
+                return (nil, GPHJSONMappingError(description: "You need a root category to get sub-categories"))
             }
             obj.subCategories = nil
         default:

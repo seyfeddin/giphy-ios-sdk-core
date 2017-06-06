@@ -28,13 +28,15 @@ import Foundation
 
 /// Parses a JSON response to an HTTP request expected to return a particular GPHMappable response.
 ///
+/// - parameter root: root object under which to parse results
 /// - parameter type: GPHRequestType to figure out what endpoint to hit
 /// - parameter media: GPHMediaType to figure out GIF/Sticker
 /// - parameter rendition: GPHRenditionType GIF rendition to prefer, if applicable.
 /// - parameter completionHandler: Completion handler to be notified of the parser's outcome.
 /// - returns: GPHJSONCompletionHandler to be used as a completion handler for an HTTP request.
 ///
-private func parseJSONResponse<T>(type: GPHRequestType,
+private func parseJSONResponse<T>(root: T.GPHRootObject? = nil,
+                               type: GPHRequestType,
                                media: GPHMediaType,
                                rendition: GPHRenditionType = .original,
                                completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
@@ -43,7 +45,7 @@ private func parseJSONResponse<T>(type: GPHRequestType,
             // Do the parsing and return
             
             if let data = data {
-                let resultObj = T.mapData(nil, data: data, request: type, media: media, rendition: rendition)
+                let resultObj = T.mapData(root, data: data, request: type, media: media, rendition: rendition)
                 guard let mappableObject = resultObj.object as? T else {
                     if let jsonError = resultObj.error {
                         completionHandler(nil, jsonError)
@@ -229,7 +231,8 @@ private func parseJSONResponse<T>(type: GPHRequestType,
         
         return self.httpRequest(with: request,
                                 type: type,
-                                completionHandler: parseJSONResponse(type: type,
+                                completionHandler: parseJSONResponse(root: root,
+                                                                     type: type,
                                                                      media: media,
                                                                      completionHandler: completionHandler))
     }
