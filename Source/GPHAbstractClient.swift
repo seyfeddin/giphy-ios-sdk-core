@@ -220,6 +220,7 @@ private func parseJSONResponse<T>(root: T.GPHRootObject? = nil,
 
     /// Perform a request to get a list of categories
     ///
+    /// - parameter root: GPHCategory for which to obtain subcategories, or nil.
     /// - parameter request: URLRequest
     /// - parameter type: GPHRequestType to figure out what endpoint to hit
     /// - parameter media: GPHMediaType to figure out GIF/Sticker
@@ -227,7 +228,7 @@ private func parseJSONResponse<T>(root: T.GPHRootObject? = nil,
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func listCategoriesRequest(_ root:GPHCategory? = nil, with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
+    @discardableResult func listCategoriesRequest(_ root: GPHCategory? = nil, with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
         
         return self.httpRequest(with: request,
                                 type: type,
