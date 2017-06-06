@@ -331,5 +331,3 @@ extension GPHMedia: GPHMappable {
     }
 
 }
-
-
