@@ -80,26 +80,13 @@ let op = client.search("cats") { (response, error) in
             print(result)
         }
     } else {
-        print("No Result Found")
+        print("No Results Found")
     }
 }
 
 /// Sticker Search
 let op = client.search("dogs", media: .sticker) { (response, error) in
-
-    if let error = error as NSError? {
-        // Do what you want with the error
-    }
-
-    if let response = response, let data = response.data, let pagination = response.pagination {
-        print(response.meta)
-        print(pagination)
-        for result in data {
-            print(result)
-        }
-    } else {
-        print("No Result Found")
-    }
+    //...
 }
 ```
 ### Trending Endpoint
@@ -108,38 +95,12 @@ Fetch GIFs currently trending online. Hand curated by the Giphy editorial team. 
 ```swift
 /// Trending Gifs
 let op = client.trending() { (response, error) in
-
-    if let error = error as NSError? {
-        // Do what you want with the error
-    }
-
-    if let response = response, let data = response.data, let pagination = response.pagination {
-        print(response.meta)
-        print(pagination)
-        for result in data {
-            print(result)
-        }
-    } else {
-        print("No Result Found")
-    }
+    //...
 }
 
 /// Trending Stickers
 let op = client.trending(.sticker) { (response, error) in
-
-    if let error = error as NSError? {
-        // Do what you want with the error
-    }
-
-    if let response = response, let data = response.data, let pagination = response.pagination {
-        print(response.meta)
-        print(pagination)
-        for result in data {
-            print(result)
-        }
-    } else {
-        print("No Result Found")
-    }
+    //...
 }
 ```
 
@@ -149,34 +110,12 @@ The translate API draws on search, but uses the Giphy "special sauce" to handle 
 ```swift
 /// Translate to a Gif
 let op = client.translate("cats") { (response, error) in
-
-    if let error = error as NSError? {
-        // Do what you want with the error
-    }
-
-    if let response = response, let data = response.data  {
-        print(response.meta)
-        print(data)
-        promise.fulfill()
-    } else {
-        print("No Result Found")
-    }
+    //...
 }
 
 /// Translate to a Sticker
 let op = client.translate("cats", media: .sticker) { (response, error) in
-
-    if let error = error as NSError? {
-        // Do what you want with the error
-    }
-
-    if let response = response, let data = response.data  {
-        print(response.meta)
-        print(data)
-        promise.fulfill()
-    } else {
-        print("No Result Found")
-    }
+    //...
 }
 ```
 
@@ -194,7 +133,6 @@ let op = client.random("cats") { (response, error) in
     if let response = response, let data = response.data  {
         print(response.meta)
         print(data)
-        promise.fulfill()
     } else {
         print("No Result Found")
     }
@@ -202,18 +140,7 @@ let op = client.random("cats") { (response, error) in
 
 /// Random Sticker
 let op = client.random("cats", media: .sticker) { (response, error) in
-
-    if let error = error as NSError? {
-        // Do what you want with the error
-    }
-
-    if let response = response, let data = response.data  {
-        print(response.meta)
-        print(data)
-        promise.fulfill()
-    } else {
-        print("No Result Found")
-    }
+    //...
 }
 ```
 
@@ -223,18 +150,7 @@ Returns meta data about a GIF, by GIF id. In the below example, the GIF ID is "f
 ```swift
 /// Gif by Id
 let op = client.gifByID("feqkVgjJpYtjy") { (response, error) in
-
-    if let error = error as NSError? {
-        // Do what you want with the error
-    }
-
-    if let response = response, let data = response.data  {
-        print(response.meta)
-        print(data)
-        promise.fulfill()
-    } else {
-        print("No Result Found")
-    }
+    //...
 }
 ```
 
