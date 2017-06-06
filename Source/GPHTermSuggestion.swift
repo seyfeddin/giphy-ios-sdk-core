@@ -1,5 +1,5 @@
 //
-//  GPHSuggestion.swift
+//  GPHTermSuggestion.swift
 //  GiphyCoreSDK
 //
 //  Created by Cem Kozinoglu on 4/22/17.

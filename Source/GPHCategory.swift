@@ -169,7 +169,7 @@ extension GPHCategory: GPHMappable {
         
         let obj = GPHCategory(name, nameEncoded: nameEncoded, encodedPath: "")
         
-        var gif:GPHMedia? = nil
+        var gif: GPHMedia? = nil
         
         if let gifData = jsonData["gif"] as? GPHJSONObject {
             gif = GPHMedia.mapData(nil, data: gifData, request: requestType, media: mediaType).object
