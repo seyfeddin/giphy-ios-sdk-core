@@ -164,10 +164,10 @@ enum GPHRequestRouter {
     case termSuggestions(String)
     
     /// Categories endpoint: type, offset, limit
-    case categories(GPHMediaType, Int, Int)
+    case categories(GPHMediaType, Int, Int, String)
     
     /// Categories endpoint for subcategories: category, type, offset, limit
-    case subCategories(String, GPHMediaType, Int, Int)
+    case subCategories(String, GPHMediaType, Int, Int, String)
     
     /// Category content endpoint: category, type, offset, limit, rating, lang
     case categoryContent(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType)
@@ -227,12 +227,14 @@ enum GPHRequestRouter {
                 relativePath = "gifs"
             case .termSuggestions(let term):
                 relativePath = "queries/suggest/\(term)"
-            case .categories(let type, let offset, let limit):
+            case .categories(let type, let offset, let limit, let sort):
                 relativePath = "\(type.rawValue)s/categories"
+                queryItems.append(URLQueryItem(name: "sort", value: "\(sort)"))
                 queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
                 queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
-            case .subCategories(let category, let type, let offset, let limit):
+            case .subCategories(let category, let type, let offset, let limit, let sort):
                 relativePath = "\(type.rawValue)s/categories/\(category)"
+                queryItems.append(URLQueryItem(name: "sort", value: "\(sort)"))
                 queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
                 queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
             case .categoryContent(let category, let type, let offset, let limit, let rating, let lang):
