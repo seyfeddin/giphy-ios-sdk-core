@@ -87,19 +87,19 @@ extension XCTestCase {
                        obj.jsonRepresentation!["indexable"] as? String,
                        "Indexable won't match")
         
-        XCTAssertEqual(obj.content,
-                       obj.jsonRepresentation!["content"] as? String,
+        XCTAssertEqual(obj.contentUrl,
+                       obj.jsonRepresentation!["content_url"] as? String,
                        "Content won't match")
         
-        XCTAssertEqual(obj.bitly,
+        XCTAssertEqual(obj.bitlyUrl,
                        obj.jsonRepresentation!["bitly_url"] as? String,
                        "Bitly won't match")
         
-        XCTAssertEqual(obj.bitlyGif,
+        XCTAssertEqual(obj.bitlyGifUrl,
                        obj.jsonRepresentation!["bitly_gif_url"] as? String,
                        "Bitly Gif won't match")
         
-        XCTAssertEqual(obj.embed,
+        XCTAssertEqual(obj.embedUrl,
                        obj.jsonRepresentation!["embed_url"] as? String,
                        "Embed won't match")
 

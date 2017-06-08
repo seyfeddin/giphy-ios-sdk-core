@@ -53,16 +53,16 @@ import Foundation
     public fileprivate(set) var indexable: String?
     
     /// Content.
-    public fileprivate(set) var content: String?
+    public fileprivate(set) var contentUrl: String?
     
     /// Bitly Short URL.
-    public fileprivate(set) var bitly: String?
+    public fileprivate(set) var bitlyUrl: String?
     
     /// Bitly Short URL for GIF.
-    public fileprivate(set) var bitlyGif: String?
+    public fileprivate(set) var bitlyGifUrl: String?
     
     /// Embed URL.
-    public fileprivate(set) var embed: String?
+    public fileprivate(set) var embedUrl: String?
     
     /// Attribution Source.
     public fileprivate(set) var source: String?
@@ -151,10 +151,10 @@ import Foundation
         self.importDate = aDecoder.decodeObject(forKey: "importDate") as? Date
         self.trendingDate = aDecoder.decodeObject(forKey: "trendingDate") as? Date
         self.indexable = aDecoder.decodeObject(forKey: "indexable") as? String
-        self.content = aDecoder.decodeObject(forKey: "content") as? String
-        self.bitly = aDecoder.decodeObject(forKey: "bitly") as? String
-        self.bitlyGif = aDecoder.decodeObject(forKey: "bitlyGif") as? String
-        self.embed = aDecoder.decodeObject(forKey: "embed") as? String
+        self.contentUrl = aDecoder.decodeObject(forKey: "contentUrl") as? String
+        self.bitlyUrl = aDecoder.decodeObject(forKey: "bitlyUrl") as? String
+        self.bitlyGifUrl = aDecoder.decodeObject(forKey: "bitlyGifUrl") as? String
+        self.embedUrl = aDecoder.decodeObject(forKey: "embedUrl") as? String
         self.source = aDecoder.decodeObject(forKey: "source") as? String
         self.sourceTld = aDecoder.decodeObject(forKey: "sourceTld") as? String
         self.sourcePostUrl = aDecoder.decodeObject(forKey: "sourcePostUrl") as? String
@@ -185,10 +185,10 @@ import Foundation
         aCoder.encode(self.importDate, forKey: "importDate")
         aCoder.encode(self.trendingDate, forKey: "trendingDate")
         aCoder.encode(self.indexable, forKey: "indexable")
-        aCoder.encode(self.content, forKey: "content")
-        aCoder.encode(self.bitly, forKey: "bitly")
-        aCoder.encode(self.bitlyGif, forKey: "bitlyGif")
-        aCoder.encode(self.embed, forKey: "embed")
+        aCoder.encode(self.contentUrl, forKey: "contentUrl")
+        aCoder.encode(self.bitlyUrl, forKey: "bitlyUrl")
+        aCoder.encode(self.bitlyGifUrl, forKey: "bitlyGifUrl")
+        aCoder.encode(self.embedUrl, forKey: "embedUrl")
         aCoder.encode(self.source, forKey: "source")
         aCoder.encode(self.sourceTld, forKey: "sourceTld")
         aCoder.encode(self.sourcePostUrl, forKey: "sourcePostUrl")
@@ -279,10 +279,10 @@ extension GPHMedia: GPHMappable {
         obj.importDate = parseDate(jsonData["import_datetime"] as? String)
         obj.trendingDate = parseDate(jsonData["trending_datetime"] as? String)
         obj.indexable = jsonData["indexable"] as? String
-        obj.content = jsonData["content"] as? String
-        obj.bitly = jsonData["bitly_url"] as? String
-        obj.bitlyGif = jsonData["bitly_gif_url"] as? String
-        obj.embed = jsonData["embed_url"] as? String
+        obj.contentUrl = jsonData["content_url"] as? String
+        obj.bitlyUrl = jsonData["bitly_url"] as? String
+        obj.bitlyGifUrl = jsonData["bitly_gif_url"] as? String
+        obj.embedUrl = jsonData["embed_url"] as? String
         obj.source = jsonData["source"] as? String
         obj.sourceTld = jsonData["source_tld"] as? String
         obj.sourcePostUrl = jsonData["source_post_url"] as? String
