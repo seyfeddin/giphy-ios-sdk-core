@@ -253,9 +253,9 @@ import Foundation
     
     /// Figure out network connectivity
     ///
-    /// - returns: `true` if network is reachable, `false` if network is not reachable
+    /// - returns: `true` if network is reachable
     ///
-    func shouldMakeNetworkCall() -> Bool {
+    func isNetworkReachable() -> Bool {
         return !useReachability || reachability.isReachable()
     }
     

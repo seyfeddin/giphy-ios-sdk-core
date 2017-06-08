@@ -104,8 +104,20 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
                 return
             }
             
+            #if !os(watchOS)
+                if !self.client.isNetworkReachable() {
+                    self.callCompletion(data: nil, response: response, error: GPHHTTPError(statusCode:100, description: "Network is not reachable"))
+                    return
+                }
+            #endif
+
             do {
-                let result = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                guard let data = data else {
+                    self.callCompletion(data: nil, response: response, error:GPHJSONMappingError(description: "Can not map API response to JSON, there is no data"))
+                    return
+                }
+                
+                let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                 
                 if let result = result as? GPHJSONObject {
                     // Got the JSON
