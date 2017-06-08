@@ -44,13 +44,13 @@ protocol GPHMappable {
     /// - parameter request: request type to manipulate the data (if .search vs .translate, mapping will be different)
     /// - parameter media: media type, GIF|Sticker|...
     /// - parameter rendition: rendition type
-    /// - returns: (object: Self?, error: GPHJSONMappingError?) pretty much either an instance of itself mapped OR an error (mutually exclusive)
+    /// - returns: object: Self
     ///
     static func mapData(_ root: GPHRootObject?,
                         data jsonData: GPHJSONObject,
                         request requestType: GPHRequestType,
                         media mediaType: GPHMediaType,
-                        rendition renditionType: GPHRenditionType) -> (object: GPHMappableObject?, error: GPHJSONMappingError?)
+                        rendition renditionType: GPHRenditionType) throws -> GPHMappableObject
     
 }
 

@@ -90,19 +90,18 @@ extension GPHMeta: GPHMappable {
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHMeta?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) throws -> GPHMeta {
         
         guard
             let responseId = jsonData["response_id"] as? String,
             let status = jsonData["status"] as? Int,
             let msg = jsonData["msg"] as? String
             else {
-                return (nil, GPHJSONMappingError(description: "Couldn't map GPHMeta for \(jsonData)"))
+                throw GPHJSONMappingError(description: "Couldn't map GPHMeta for \(jsonData)")
         }
         
         let obj = GPHMeta(responseId, status: status, msg: msg)
-        
-        return (obj, nil)
+        return obj
     }
     
 }

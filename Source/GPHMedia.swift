@@ -246,9 +246,8 @@ extension GPHMedia {
 public extension GPHMedia {
     
     @objc public static func mapJSON(_ json: GPHJSONObject, request:GPHRequestType,  media: GPHMediaType) throws -> GPHMedia {
-        let result = GPHMedia.mapData(nil, data: json, request: request, media: media)
-        if result.error != nil { throw GPHJSONMappingError(description: "Couldn't map GPHMedia for \(json)") }
-        return result.object!
+        let media = try GPHMedia.mapData(nil, data: json, request: request, media: media)
+        return media
     }
     
 }
@@ -264,12 +263,12 @@ extension GPHMedia: GPHMappable {
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHMedia?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) throws -> GPHMedia {
         guard
             let objId: String = jsonData["id"] as? String,
             let url: String = jsonData["url"] as? String
         else {
-            return (nil, GPHJSONMappingError(description: "Couldn't map GPHMedia for \(jsonData)"))
+            throw GPHJSONMappingError(description: "Couldn't map GPHMedia for \(jsonData)")
         }
         
         let obj = GPHMedia(objId, type: mediaType, url: url)
@@ -303,32 +302,23 @@ extension GPHMedia: GPHMappable {
         
         // Handle User Data
         if let userData = jsonData["user"] as? GPHJSONObject {
-            obj.user = GPHUser.mapData(obj, data: userData, request: requestType, media: mediaType).object
+            obj.user = try GPHUser.mapData(obj, data: userData, request: requestType, media: mediaType)
         }
         
         // Handling exception of the Random endpoint structure
         switch requestType {
         case .random:
-            let renditionResults = GPHImages.mapData(obj, data: jsonData, request: requestType, media: mediaType)
-            if let renditions = renditionResults.object {
-                obj.images = renditions
-            } else {
-                // fail? or return nil -- this is conditional depending on the end-point
-                return (nil, renditionResults.error)
-            }
+            let renditions = try GPHImages.mapData(obj, data: jsonData, request: requestType, media: mediaType)
+            obj.images = renditions
+
         default:
             if let renditionData = jsonData["images"] as? GPHJSONObject {
-                let renditionResults = GPHImages.mapData(obj, data: renditionData, request: requestType, media: mediaType)
-                if let renditions = renditionResults.object {
-                    obj.images = renditions
-                } else {
-                    // fail? or return nil -- this is conditional depending on the end-point
-                    return (nil, renditionResults.error)
-                }
+                let renditions = try GPHImages.mapData(obj, data: renditionData, request: requestType, media: mediaType)
+                obj.images = renditions
             }
         }
         
-        return (obj, nil)
+        return obj
     }
 
 }

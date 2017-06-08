@@ -144,6 +144,7 @@ import Foundation
                                 completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
                                                                                        media: media,
                                                                                        completionHandler: completionHandler))
+
     }
     
     
@@ -219,25 +220,33 @@ import Foundation
                                  completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
         
         return { (data, response, error) in
-            // Do the parsing and return
+            // Error returned
             
-            if let data = data {
-                let resultObj = T.mapData(root, data: data, request: type, media: media, rendition: rendition)
-                guard let mappableObject = resultObj.object as? T else {
-                    if let jsonError = resultObj.error {
-                        completionHandler(nil, jsonError)
-                    } else {
-                        completionHandler(nil, GPHJSONMappingError(description: "Unexpected error"))
-                    }
-                    return
-                }
-                completionHandler(mappableObject, error)
+            if let error = error {
+                completionHandler(nil, error)
                 return
             }
-            completionHandler(nil, error)
+            
+            // Handle the (impossible?) case where there is no data back from the server,
+            // but there is no error returned
+            
+            guard let data = data else {
+                completionHandler(nil, GPHJSONMappingError(description: "No data returned from the server, but no error reported."))
+                return
+            }
+
+            do {
+                let mappableObject: T.GPHMappableObject = try T.mapData(root, data: data, request: type, media: media, rendition: rendition)
+                guard let obj = mappableObject as? T else {
+                    completionHandler(nil, GPHJSONMappingError(description: "Couldn't cast " + String(describing: T.GPHMappableObject.self) + " to " + String(describing: T.self) + " during JSON response parsing."))
+                    return
+                }
+                completionHandler(obj, nil)
+            } catch {
+                completionHandler(nil, error)
+            }
         }
     }
-    
     
     
     #if !os(watchOS)

@@ -282,7 +282,7 @@ extension XCTestCase {
                        "Media Id won't match")
         
         switch request {
-        case .search, .trending, .get, .getAll, .translate, .categoryContent:
+        case .search, .get, .getAll, .translate, .categoryContent:
             try? self.validateJSONForImage(obj.original!, mediaId: mediaId, rendition: .original, media: media, request: request)
             try? self.validateJSONForImage(obj.originalStill!, mediaId: mediaId, rendition: .originalStill, media: media, request: request)
             try? self.validateJSONForImage(obj.preview!, mediaId: mediaId, rendition: .preview, media: media, request: request)
@@ -299,6 +299,24 @@ extension XCTestCase {
             try? self.validateJSONForImage(obj.fixedWidthSmallStill!, mediaId: mediaId, rendition: .fixedWidthSmallStill, media: media, request: request)
             try? self.validateJSONForImage(obj.downsized!, mediaId: mediaId, rendition: .downsized, media: media, request: request)
             try? self.validateJSONForImage(obj.downsizedSmall!, mediaId: mediaId, rendition: .downsizedSmall, media: media, request: request)
+            try? self.validateJSONForImage(obj.downsizedMedium!, mediaId: mediaId, rendition: .downsizedMedium, media: media, request: request)
+            try? self.validateJSONForImage(obj.downsizedLarge!, mediaId: mediaId, rendition: .downsizedLarge, media: media, request: request)
+            try? self.validateJSONForImage(obj.downsizedStill!, mediaId: mediaId, rendition: .downsizedStill, media: media, request: request)
+        case .trending:
+            try? self.validateJSONForImage(obj.original!, mediaId: mediaId, rendition: .original, media: media, request: request)
+            try? self.validateJSONForImage(obj.originalStill!, mediaId: mediaId, rendition: .originalStill, media: media, request: request)
+            try? self.validateJSONForImage(obj.looping!, mediaId: mediaId, rendition: .looping, media: media, request: request)
+            try? self.validateJSONForImage(obj.fixedHeight!, mediaId: mediaId, rendition: .fixedHeight, media: media, request: request)
+            try? self.validateJSONForImage(obj.fixedHeightStill!, mediaId: mediaId, rendition: .fixedHeightStill, media: media, request: request)
+            try? self.validateJSONForImage(obj.fixedHeightDownsampled!, mediaId: mediaId, rendition: .fixedHeightDownsampled, media: media, request: request)
+            try? self.validateJSONForImage(obj.fixedHeightSmall!, mediaId: mediaId, rendition:.fixedHeightSmall, media: media, request: request)
+            try? self.validateJSONForImage(obj.fixedHeightSmallStill!, mediaId: mediaId, rendition: .fixedHeightSmallStill, media: media, request: request)
+            try? self.validateJSONForImage(obj.fixedWidth!, mediaId: mediaId, rendition: .fixedWidth, media: media, request: request)
+            try? self.validateJSONForImage(obj.fixedWidthStill!, mediaId: mediaId, rendition: .fixedWidthStill, media: media, request: request)
+            try? self.validateJSONForImage(obj.fixedWidthDownsampled!, mediaId: mediaId, rendition: .fixedWidthDownsampled, media: media, request: request)
+            try? self.validateJSONForImage(obj.fixedWidthSmall!, mediaId: mediaId, rendition: .fixedWidthSmall, media: media, request: request)
+            try? self.validateJSONForImage(obj.fixedWidthSmallStill!, mediaId: mediaId, rendition: .fixedWidthSmallStill, media: media, request: request)
+            try? self.validateJSONForImage(obj.downsized!, mediaId: mediaId, rendition: .downsized, media: media, request: request)
             try? self.validateJSONForImage(obj.downsizedMedium!, mediaId: mediaId, rendition: .downsizedMedium, media: media, request: request)
             try? self.validateJSONForImage(obj.downsizedLarge!, mediaId: mediaId, rendition: .downsizedLarge, media: media, request: request)
             try? self.validateJSONForImage(obj.downsizedStill!, mediaId: mediaId, rendition: .downsizedStill, media: media, request: request)

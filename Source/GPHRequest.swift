@@ -110,12 +110,13 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
                 if let result = result as? GPHJSONObject {
                     // Got the JSON
                     let httpResponse = response! as! HTTPURLResponse
-                    if httpResponse.statusCode != 200 {
+                    // Get the status code from the JSON if available and prefer it over the response code from HTTPURLRespons
+                    // If not found return the actual response code from http
+                    let statusCode = ((result["meta"] as? GPHJSONObject)?["status"] as? Int) ?? httpResponse.statusCode
+                    
+                    if httpResponse.statusCode != 200 || statusCode != 200 {
                         // Get the error message from JSON if available.
                         let errorMessage = (result["meta"] as? GPHJSONObject)?["msg"] as? String
-                        // Get the status code from the JSON if available and prefer it over the response code from HTTPURLRespons
-                        // If not found return the actual response code from http
-                        let statusCode = ((result["meta"] as? GPHJSONObject)?["status"] as? Int) ?? httpResponse.statusCode
                         // Prep the error
                         let errorAPIorHTTP = GPHHTTPError(statusCode: statusCode, description: errorMessage)
                         self.callCompletion(data: result, response: response, error: errorAPIorHTTP)

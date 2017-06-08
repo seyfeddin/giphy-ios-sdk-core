@@ -73,51 +73,35 @@ extension GPHListTermSuggestionResponse: GPHMappable {
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHListTermSuggestionResponse?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) throws -> GPHListTermSuggestionResponse {
         
         guard
             let metaData = jsonData["meta"] as? GPHJSONObject
             else {
-                return (nil, GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(jsonData)"))
+                throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(jsonData)")
         }
         
-        let meta = GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
+        let meta = try GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
         
-        if let metaObj = meta.object {
-            // Try to see if we can get the Media object
-            if let termData = jsonData["data"] as? [GPHJSONObject] {
-                
-                // Get Results
-                var resultObjs:[GPHTermSuggestion] = []
-                
-                for result in termData {
-                    let resultObj = GPHTermSuggestion.mapData(nil, data: result, request: requestType, media: mediaType)
-                    
-                    if resultObj.object == nil {
-                        if let jsonError = resultObj.error {
-                            return (nil, jsonError)
-                        }
-                        return (nil, GPHJSONMappingError(description: "Unexpected term suggestion data error"))
-                        
-                    }
-                    resultObjs.append(resultObj.object!)
-                }
-                
-                // We have images and the meta data and pagination
-                let obj = GPHListTermSuggestionResponse(metaObj, data: resultObjs)
-                return (obj, nil)
+        // Try to see if we can get the Media object
+        if let termData = jsonData["data"] as? [GPHJSONObject] {
+            
+            // Get Results
+            var results: [GPHTermSuggestion] = []
+            
+            for result in termData {
+                let result = try GPHTermSuggestion.mapData(nil, data: result, request: requestType, media: mediaType)
+                results.append(result)
             }
             
-            // No image and pagination data, return the meta data
-            let obj = GPHListTermSuggestionResponse(metaObj, data: nil)
-            return (obj, nil)
+            // We have images and the meta data and pagination
+            let obj = GPHListTermSuggestionResponse(meta, data: results)
+            return obj
         }
         
-        // fail? or return nil -- this is conditional depending on the end-point
-        if meta.error == nil {
-            return (nil, GPHJSONMappingError(description: "Fatal error, this should never happen"))
-        }
-        return (nil, meta.error)
+        // No image and pagination data, return the meta data
+        let obj = GPHListTermSuggestionResponse(meta, data: nil)
+        return obj
     }
     
 }

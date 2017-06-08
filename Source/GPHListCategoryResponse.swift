@@ -78,62 +78,40 @@ extension GPHListCategoryResponse: GPHMappable {
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHListCategoryResponse?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) throws -> GPHListCategoryResponse {
         
         guard
             let metaData = jsonData["meta"] as? GPHJSONObject
             else {
-                return (nil, GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(jsonData)"))
+                throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(jsonData)")
         }
         
-        let meta = GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
+        let meta = try GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
         
-        if let metaObj = meta.object {
-            // Try to see if we can get the Media object
-            if let mediaData = jsonData["data"] as? [GPHJSONObject], let paginationData = jsonData["pagination"] as? GPHJSONObject {
-                
-                // Get Pagination
-                let paginationObj = GPHPagination.mapData(nil, data: paginationData, request: requestType, media: mediaType)
-                guard
-                    let pagination = paginationObj.object
-                    else {
-                        if let jsonError = paginationObj.error {
-                            return (nil, jsonError)
-                        }
-                        return (nil, GPHJSONMappingError(description: "Unexpected pagination error"))
-                }
-                
-                // Get Results
-                var resultObjs:[GPHCategory] = []
-                
-                for result in mediaData {
-                    let resultObj = GPHCategory.mapData(root, data: result, request: requestType, media: mediaType)
-                    
-                    if resultObj.object == nil {
-                        if let jsonError = resultObj.error {
-                            return (nil, jsonError)
-                        }
-                        return (nil, GPHJSONMappingError(description: "Unexpected media data error"))
-                        
-                    }
-                    resultObjs.append(resultObj.object!)
-                }
-                
-                // We have images and the meta data and pagination
-                let obj = GPHListCategoryResponse(metaObj, data: resultObjs, pagination: pagination)
-                return (obj, nil)
+        // Try to see if we can get the Media object
+        if let mediaData = jsonData["data"] as? [GPHJSONObject], let paginationData = jsonData["pagination"] as? GPHJSONObject {
+            
+            // Get Pagination
+            let pagination = try GPHPagination.mapData(nil, data: paginationData, request: requestType, media: mediaType)
+            
+            // Get Results
+            var results: [GPHCategory] = []
+            
+            for result in mediaData {
+                let result = try GPHCategory.mapData(root, data: result, request: requestType, media: mediaType)
+                results.append(result)
             }
             
-            // No image and pagination data, return the meta data
-            let obj = GPHListCategoryResponse(metaObj, data: nil, pagination: nil)
-            return (obj, nil)
+            // We have images and the meta data and pagination
+            let obj = GPHListCategoryResponse(meta, data: results, pagination: pagination)
+            return obj
         }
         
-        // fail? or return nil -- this is conditional depending on the end-point
-        if meta.error == nil {
-            return (nil, GPHJSONMappingError(description: "Fatal error, this should never happen"))
-        }
-        return (nil, meta.error)
+        // No image and pagination data, return the meta data
+        let obj = GPHListCategoryResponse(meta, data: nil, pagination: nil)
+        return obj
     }
     
 }
+
+

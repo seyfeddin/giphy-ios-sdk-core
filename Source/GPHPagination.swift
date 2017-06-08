@@ -90,20 +90,19 @@ extension GPHPagination: GPHMappable {
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHPagination?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) throws -> GPHPagination {
         
         guard
             let count = jsonData["count"] as? Int
         else {
-            return (nil, GPHJSONMappingError(description: "Couldn't map GPHPagination for \(jsonData)"))
+            throw GPHJSONMappingError(description: "Couldn't map GPHPagination for \(jsonData)")
         }
         
         let totalCount = jsonData["total_count"] as? Int ?? count
         let offset = jsonData["offset"] as? Int ?? 0
         
         let obj = GPHPagination(totalCount, count: count, offset: offset)
-        
-        return (obj, nil)
+        return obj
     }
     
 }

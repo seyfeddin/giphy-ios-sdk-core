@@ -217,6 +217,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         
         
         let request = GPHRequestRouter.categories(.gif, offset, limit, sort).asURLRequest(apiKey)
+        
         return self.listCategoriesRequest(with: request, type: .categories, media: .gif, completionHandler: completionHandler)
     }
     
@@ -238,6 +239,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         
         let categoryObj = GPHCategory(category, nameEncoded: encodedStringForUrl(category), encodedPath:encodedStringForUrl(category))
         let request = GPHRequestRouter.subCategories(categoryObj.encodedPath, .gif, offset, limit, sort).asURLRequest(apiKey)
+        
         return self.listCategoriesRequest(categoryObj, with: request, type: .subCategories, media: .gif, completionHandler: completionHandler)
     }
     
@@ -263,8 +265,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         
         let encodedPath = "\(encodedStringForUrl(category))/\(encodedStringForUrl(subCategory))"
         let categoryObj = GPHCategory(category, nameEncoded: encodedStringForUrl(category), encodedPath:encodedPath)
-        
         let request = GPHRequestRouter.categoryContent(categoryObj.encodedPath, .gif, offset, limit, rating, lang).asURLRequest(apiKey)
+        
         return self.listRequest(with: request, type: .categoryContent, media: .gif, completionHandler: completionHandler)
     }
     

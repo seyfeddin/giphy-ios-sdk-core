@@ -158,13 +158,13 @@ extension GPHCategory: GPHMappable {
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHCategory?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) throws -> GPHCategory {
         
         
         guard let name = jsonData["name"] as? String,
               let nameEncoded = jsonData["name_encoded"] as? String
         else {
-            return (nil, GPHJSONMappingError(description: "Couldn't map GPHCategory for \(jsonData)"))
+            throw GPHJSONMappingError(description: "Couldn't map GPHCategory for \(jsonData)")
         }
         
         let obj = GPHCategory(name, nameEncoded: nameEncoded, encodedPath: "")
@@ -172,7 +172,7 @@ extension GPHCategory: GPHMappable {
         var gif: GPHMedia? = nil
         
         if let gifData = jsonData["gif"] as? GPHJSONObject {
-            gif = GPHMedia.mapData(nil, data: gifData, request: requestType, media: mediaType).object
+            gif = try GPHMedia.mapData(nil, data: gifData, request: requestType, media: mediaType)
         }
         
         obj.gif = gif
@@ -187,12 +187,8 @@ extension GPHCategory: GPHMappable {
                     obj.subCategories = []
                     for subCategoryJSON in subCategoriesJSON {
                         // Create all the sub categories
-                        let subObjResult = GPHCategory.mapData(obj, data: subCategoryJSON, request: .subCategories)
-                        if let subObj = subObjResult.object {
-                            obj.subCategories?.append(subObj)
-                        } else {
-                            return (nil, GPHJSONMappingError(description: "Couldn't map subCategory GPHCategory for \(subCategoryJSON)"))
-                        }
+                        let subObj = try GPHCategory.mapData(obj, data: subCategoryJSON, request: .subCategories)
+                        obj.subCategories?.append(subObj)
                     }
                 }
             }
@@ -201,18 +197,16 @@ extension GPHCategory: GPHMappable {
             if let root = root {
                 obj.encodedPath = root.nameEncoded + "/" + nameEncoded
             } else {
-                return (nil, GPHJSONMappingError(description: "You need a root category to get sub-categories"))
+                throw GPHJSONMappingError(description: "You need a root category to get sub-categories")
             }
             obj.subCategories = nil
         default:
-           return (nil, GPHJSONMappingError(description: "Request type is not valid for Categories"))
+           throw GPHJSONMappingError(description: "Request type is not valid for Categories")
         }
         
         obj.jsonRepresentation = jsonData
         
-        return (obj, nil)
+        return obj
     }
     
 }
-
-

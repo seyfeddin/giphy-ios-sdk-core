@@ -202,12 +202,12 @@ extension GPHUser: GPHMappable {
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHUser?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) throws -> GPHUser {
         
         guard
             let username = jsonData["username"] as? String
         else {
-            return (nil, GPHJSONMappingError(description: "Couldn't map GPHUser for \(jsonData)"))
+            throw GPHJSONMappingError(description: "Couldn't map GPHUser for \(jsonData)")
         }
        
         let obj = GPHUser(username)
@@ -231,7 +231,7 @@ extension GPHUser: GPHMappable {
         obj.profileUrl = jsonData["profile_url"] as? String
         obj.jsonRepresentation = jsonData
         
-        return (obj, nil)
+        return obj
     }
     
 }

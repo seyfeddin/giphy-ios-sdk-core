@@ -44,20 +44,20 @@ class GiphyCoreSDKStatusCodeTests: XCTestCase {
         super.tearDown()
     }
     // MARK: Test 401 / Not Authorized
-    func testClient401() {
+    func testClient403() {
         // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 401 & Receive 401 Error")
+        let promise = expectation(description: "Status 403 & Receive 403 Error")
         
         let _ = clientProblematicApiKey.gifByID("some_fake_id") { (response, error) in
             
             if let error = error as NSError? {
-                if error.code == 401 {
+                if error.code == 403 {
                     promise.fulfill()
                 } else {
-                    XCTFail("Error(\(error.code)): \(error.localizedDescription) does not match 401!")
+                    XCTFail("Error(\(error.code)): \(error.localizedDescription) does not match 403!")
                 }
             } else {
-                XCTFail("Didn't return 401")
+                XCTFail("Didn't return 403")
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
@@ -69,7 +69,6 @@ class GiphyCoreSDKStatusCodeTests: XCTestCase {
         let promise = expectation(description: "Status 404 & Receive 404 Error")
         
         let _ = client.gifByID("some_fake_id") { (response, error) in
-            
             if let error = error as NSError? {
                 if error.code == 404 {
                   promise.fulfill()

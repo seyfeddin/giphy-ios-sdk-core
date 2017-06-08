@@ -174,10 +174,10 @@ extension GPHImage: GPHMappable {
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHImage?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) throws -> GPHImage {
         
         guard let mediaId = root?.id else {
-            return (nil, GPHJSONMappingError(description: "Root object can not be nil, expected a GPHImages"))
+            throw GPHJSONMappingError(description: "Root object can not be nil, expected a GPHMedia")
         }
         
         let obj = GPHImage(mediaId, rendition: renditionType)
@@ -194,7 +194,7 @@ extension GPHImage: GPHMappable {
         obj.mp4Size = parseInt(jsonData["mp4_size"] as? String)
         obj.jsonRepresentation = jsonData
         
-        return (obj, nil)
+        return obj
     }
     
 }

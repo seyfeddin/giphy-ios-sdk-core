@@ -111,18 +111,17 @@ extension GPHTermSuggestion: GPHMappable {
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHTermSuggestion?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) throws -> GPHTermSuggestion {
         
         guard
             let term = jsonData["name"] as? String
             else {
-                return (nil, GPHJSONMappingError(description: "Couldn't map GPHTermSuggestion for \(jsonData)"))
+                throw GPHJSONMappingError(description: "Couldn't map GPHTermSuggestion for \(jsonData)")
         }
         
         let obj = GPHTermSuggestion(term)
         obj.jsonRepresentation = jsonData
-        
-        return (obj, nil)
+        return obj
     }
     
 }

@@ -73,42 +73,28 @@ extension GPHMediaResponse: GPHMappable {
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHMediaResponse?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) throws -> GPHMediaResponse {
         
         guard
             let metaData = jsonData["meta"] as? GPHJSONObject
             else {
-                return (nil, GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(jsonData)"))
+                throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(jsonData)")
         }
         
-        let meta = GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
+        let meta = try GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
         
-        if let metaObj = meta.object {
-            // Try to see if we can get the Media object
-            if let mediaData = jsonData ["data"] as? GPHJSONObject {
-                let data = GPHMedia.mapData(nil, data: mediaData, request: requestType, media: mediaType, rendition: renditionType)
-                
-                if let dataObj = data.object {
-                    // We got the image and the meta data
-                    let obj = GPHMediaResponse(metaObj, data: dataObj)
-                    return (obj, nil)
-                }
-                
-                if data.error != nil {
-                    return (nil, data.error)
-                }
-            }
+        // Try to see if we can get the Media object
+        if let mediaData = jsonData ["data"] as? GPHJSONObject {
+            let data = try GPHMedia.mapData(nil, data: mediaData, request: requestType, media: mediaType, rendition: renditionType)
             
-            // No image and the meta data
-            let obj = GPHMediaResponse(metaObj, data: nil)
-            return (obj, nil)
+            // We got the image and the meta data
+            let obj = GPHMediaResponse(meta, data: data)
+            return obj
         }
         
-        // fail? or return nil -- this is conditional depending on the end-point
-        if meta.error == nil {
-            return (nil, GPHJSONMappingError(description: "Fatal error, this should never happen"))
-        }
-        return (nil, meta.error)
+        // No image and the meta data
+        let obj = GPHMediaResponse(meta, data: nil)
+        return obj
     }
     
 }

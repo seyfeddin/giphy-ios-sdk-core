@@ -303,15 +303,13 @@ extension GPHImages: GPHMappable {
         }
         
         if let jsonKeyData = jsonKeyData {
-            let keyImage = GPHImage.mapData(root, data: jsonKeyData, request: requestType, media: mediaType, rendition: renditionType)
-            if let image = keyImage.object {
-                return (image, nil)
-            } else {
-                // fail? or return nil -- this is conditional depending on the end-point
-                if keyImage.error == nil {
-                    return (nil, GPHJSONMappingError(description: "Fatal error, this should never happen"))
-                }
-                return (nil, keyImage.error)
+            do {
+                let keyImage = try GPHImage.mapData(root, data: jsonKeyData, request: requestType, media: mediaType, rendition: renditionType)
+                return (keyImage, nil)
+            } catch let error as GPHJSONMappingError {
+                return (nil, error)
+            } catch {
+                return (nil, GPHJSONMappingError(description: "Fatal error, this should never happen"))
             }
         }
         return (nil, GPHJSONMappingError(description: "Couldn't map GPHImage for the rendition \(renditionType.rawValue)"))
@@ -322,10 +320,10 @@ extension GPHImages: GPHMappable {
                                data jsonData: GPHJSONObject,
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) -> (object: GPHImages?, error: GPHJSONMappingError?) {
+                               rendition renditionType: GPHRenditionType = .original) throws -> GPHImages {
         
         guard let mediaId = root?.id else {
-            return (nil, GPHJSONMappingError(description: "Root object can not be nil, expected a GPHMedia"))
+            throw GPHJSONMappingError(description: "Root object can not be nil, expected a GPHMedia")
         }
         
         let obj = GPHImages(mediaId)
@@ -351,7 +349,7 @@ extension GPHImages: GPHMappable {
         obj.downsizedStill = GPHImages.image(root, data: jsonData, request: requestType, media: mediaType, rendition: .downsizedStill).object
         obj.jsonRepresentation = jsonData
         
-        return (obj, nil)
+        return obj
     }
     
 }
