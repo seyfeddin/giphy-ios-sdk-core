@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
     s.name = 'GiphyCoreSDK'
     s.module_name = 'GiphyCoreSDK'
-    s.version = '1.0.0'
+    s.version = '0.9.9'
     s.license = 'MIT'
     s.summary = 'Giphy API wrapper for iOS, tvOS, watchOS & OS X.'
     s.homepage = 'https://github.com/Giphy/giphy-ios-sdk-core'
