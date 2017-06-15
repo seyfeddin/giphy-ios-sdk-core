@@ -99,14 +99,14 @@ import Foundation
     
     // NOTE: Categories endpoint.
     // Example: http://api.giphy.com/v1/gifs/categories/actions?api_key=4OMJYpPoYwVpe
-    public fileprivate(set) var isHidden: Bool?
-    public fileprivate(set) var isRemoved: Bool?
-    public fileprivate(set) var isCommunity: Bool?
-    public fileprivate(set) var isAnonymous: Bool?
-    public fileprivate(set) var isFeatured: Bool?
-    public fileprivate(set) var isRealtime: Bool?
-    public fileprivate(set) var isIndexable: Bool?
-    public fileprivate(set) var isSticker: Bool?
+    public fileprivate(set) var isHidden: Bool = false
+    public fileprivate(set) var isRemoved: Bool = false
+    public fileprivate(set) var isCommunity: Bool = false
+    public fileprivate(set) var isAnonymous: Bool = false
+    public fileprivate(set) var isFeatured: Bool = false
+    public fileprivate(set) var isRealtime: Bool = false
+    public fileprivate(set) var isIndexable: Bool = false
+    public fileprivate(set) var isSticker: Bool = false
 
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
@@ -162,14 +162,14 @@ import Foundation
         self.images = aDecoder.decodeObject(forKey: "images") as? GPHImages
         self.tags = aDecoder.decodeObject(forKey: "tags") as? [String]
         self.featuredTags = aDecoder.decodeObject(forKey: "featuredTags") as? [String]
-        self.isHidden = aDecoder.decodeObject(forKey: "isHidden") as? Bool
-        self.isRemoved = aDecoder.decodeObject(forKey: "isRemoved") as? Bool
-        self.isCommunity = aDecoder.decodeObject(forKey: "isCommunity") as? Bool
-        self.isAnonymous = aDecoder.decodeObject(forKey: "isAnonymous") as? Bool
-        self.isFeatured = aDecoder.decodeObject(forKey: "isFeatured") as? Bool
-        self.isRealtime = aDecoder.decodeObject(forKey: "isRealtime") as? Bool
-        self.isIndexable = aDecoder.decodeObject(forKey: "isIndexable") as? Bool
-        self.isSticker = aDecoder.decodeObject(forKey: "isSticker") as? Bool
+        self.isHidden = aDecoder.decodeBool(forKey: "isHidden")
+        self.isRemoved = aDecoder.decodeBool(forKey: "isRemoved")
+        self.isCommunity = aDecoder.decodeBool(forKey: "isCommunity")
+        self.isAnonymous = aDecoder.decodeBool(forKey: "isAnonymous")
+        self.isFeatured = aDecoder.decodeBool(forKey: "isFeatured")
+        self.isRealtime = aDecoder.decodeBool(forKey: "isRealtime")
+        self.isIndexable = aDecoder.decodeBool(forKey: "isIndexable")
+        self.isSticker = aDecoder.decodeBool(forKey: "isSticker")
         self.updateDate = aDecoder.decodeObject(forKey: "updateDate") as? Date
         self.createDate = aDecoder.decodeObject(forKey: "createDate") as? Date
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
@@ -288,14 +288,14 @@ extension GPHMedia: GPHMappable {
         obj.sourcePostUrl = jsonData["source_post_url"] as? String
         obj.tags = jsonData["tags"] as? [String]
         obj.featuredTags = jsonData["featured_tags"] as? [String]
-        obj.isHidden = jsonData["is_hidden"] as? Bool
-        obj.isRemoved = jsonData["is_removed"] as? Bool
-        obj.isCommunity = jsonData["is_community"] as? Bool
-        obj.isAnonymous = jsonData["is_anonymous"] as? Bool
-        obj.isFeatured = jsonData["is_featured"] as? Bool
-        obj.isRealtime = jsonData["is_realtime"] as? Bool
-        obj.isIndexable = jsonData["is_indexable"] as? Bool
-        obj.isSticker = jsonData["is_sticker"] as? Bool
+        obj.isHidden = jsonData["is_hidden"] as? Bool ?? false
+        obj.isRemoved = jsonData["is_removed"] as? Bool ?? false
+        obj.isCommunity = jsonData["is_community"] as? Bool ?? false
+        obj.isAnonymous = jsonData["is_anonymous"] as? Bool ?? false
+        obj.isFeatured = jsonData["is_featured"] as? Bool ?? false
+        obj.isRealtime = jsonData["is_realtime"] as? Bool ?? false
+        obj.isIndexable = jsonData["is_indexable"] as? Bool ?? false
+        obj.isSticker = jsonData["is_sticker"] as? Bool ?? false
         obj.updateDate = parseDate(jsonData["update_datetime"] as? String)
         obj.createDate = parseDate(jsonData["create_datetime"] as? String)
         obj.jsonRepresentation = jsonData

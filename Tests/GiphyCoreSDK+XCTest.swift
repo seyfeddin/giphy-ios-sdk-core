@@ -134,35 +134,35 @@ extension XCTestCase {
         }
         
         XCTAssertEqual(obj.isHidden,
-                       obj.jsonRepresentation!["is_hidden"] as? Bool,
+                       obj.jsonRepresentation!["is_hidden"] as? Bool ?? false,
                        "is Hidden won't match")
 
         XCTAssertEqual(obj.isRemoved,
-                       obj.jsonRepresentation!["is_removed"] as? Bool,
+                       obj.jsonRepresentation!["is_removed"] as? Bool ?? false,
                        "is Removed won't match")
         
         XCTAssertEqual(obj.isCommunity,
-                       obj.jsonRepresentation!["is_community"] as? Bool,
+                       obj.jsonRepresentation!["is_community"] as? Bool ?? false,
                        "is Community won't match")
         
         XCTAssertEqual(obj.isAnonymous,
-                       obj.jsonRepresentation!["is_anonymous"] as? Bool,
+                       obj.jsonRepresentation!["is_anonymous"] as? Bool ?? false,
                        "is Anonymous won't match")
         
         XCTAssertEqual(obj.isFeatured,
-                       obj.jsonRepresentation!["is_featured"] as? Bool,
+                       obj.jsonRepresentation!["is_featured"] as? Bool ?? false,
                        "is Featured won't match")
         
         XCTAssertEqual(obj.isRealtime,
-                       obj.jsonRepresentation!["is_realtime"] as? Bool,
+                       obj.jsonRepresentation!["is_realtime"] as? Bool ?? false,
                        "is Realtime won't match")
 
         XCTAssertEqual(obj.isIndexable,
-                       obj.jsonRepresentation!["is_indexable"] as? Bool,
+                       obj.jsonRepresentation!["is_indexable"] as? Bool ?? false,
                        "is Indexable won't match")
 
         XCTAssertEqual(obj.isSticker,
-                       obj.jsonRepresentation!["is_sticker"] as? Bool,
+                       obj.jsonRepresentation!["is_sticker"] as? Bool ?? false,
                        "is Sticker won't match")
         
         if obj.jsonRepresentation!["user"] != nil {
@@ -197,11 +197,11 @@ extension XCTestCase {
                        "Id won't match")
         
         XCTAssertEqual(obj.isPublic,
-                       obj.jsonRepresentation!["is_public"] as? Bool,
+                       obj.jsonRepresentation!["is_public"] as? Bool ?? false,
                        "is Public won't match")
 
         XCTAssertEqual(obj.suppressChrome,
-                       obj.jsonRepresentation!["suppress_chrome"] as? Bool,
+                       obj.jsonRepresentation!["suppress_chrome"] as? Bool ?? false,
                        "is Public won't match")
         
         XCTAssertEqual(obj.name,

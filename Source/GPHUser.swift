@@ -36,9 +36,6 @@ import Foundation
     /// Username.
     public fileprivate(set) var username: String
 
-    /// User Public/Private.
-    public fileprivate(set) var isPublic: Bool?
-
     /// User ID.
     public fileprivate(set) var id: Int?
     
@@ -84,8 +81,11 @@ import Foundation
     /// URL of the Profile.
     public fileprivate(set) var profileUrl: String?
 
+    /// User Public/Private.
+    public fileprivate(set) var isPublic: Bool = false
+    
     /// Suppress Chrome.
-    public fileprivate(set) var suppressChrome: Bool?
+    public fileprivate(set) var suppressChrome: Bool = false
     
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
@@ -120,8 +120,8 @@ import Foundation
         self.init(username)
         
         self.id = aDecoder.decodeObject(forKey: "id") as? Int
-        self.isPublic = aDecoder.decodeObject(forKey: "isPublic") as? Bool
-        self.suppressChrome = aDecoder.decodeObject(forKey: "suppressChrome") as? Bool
+        self.isPublic = aDecoder.decodeBool(forKey: "isPublic")
+        self.suppressChrome = aDecoder.decodeBool(forKey: "suppressChrome")
         self.name = aDecoder.decodeObject(forKey: "name") as? String
         self.displayName = aDecoder.decodeObject(forKey: "displayName") as? String
         self.userDescription = aDecoder.decodeObject(forKey: "userDescription") as? String
@@ -213,8 +213,8 @@ extension GPHUser: GPHMappable {
         let obj = GPHUser(username)
 
         obj.id = parseInt(jsonData["id"] as? String)
-        obj.isPublic = jsonData["is_public"] as? Bool
-        obj.suppressChrome = jsonData["suppress_chrome"] as? Bool
+        obj.isPublic = jsonData["is_public"] as? Bool ?? false
+        obj.suppressChrome = jsonData["suppress_chrome"] as? Bool ?? false
         obj.name = jsonData["name"] as? String
         obj.displayName = jsonData["display_name"] as? String
         obj.userDescription = jsonData["user_description"] as? String
