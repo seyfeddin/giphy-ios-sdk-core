@@ -2,7 +2,7 @@
 //  GPHListMediaResponse.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu on 5/8/17.
+//  Created by Cem Kozinoglu, Gene Goykhman on 5/8/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
