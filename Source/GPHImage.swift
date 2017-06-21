@@ -83,7 +83,7 @@ import Foundation
     /// Convenience Initializer
     ///
     /// - parameter mediaId: Media Objects ID.
-    /// - parameter username: Rendition Type of the Image.
+    /// - parameter rendition: Rendition Type of the Image.
     ///
     convenience public init(_ mediaId: String,
                      rendition: GPHRenditionType) {
