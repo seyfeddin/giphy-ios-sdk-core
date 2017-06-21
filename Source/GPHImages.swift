@@ -198,45 +198,46 @@ extension GPHImages {
     public func rendition(_ rendition: GPHRenditionType = .original) -> GPHImage? {
         
         switch rendition {
-        case .original:
+        case GPHRenditionType.original:
             return self.original
-        case .originalStill:
+        case GPHRenditionType.originalStill:
             return self.originalStill
-        case .preview:
+        case GPHRenditionType.preview:
             return self.preview
-        case .looping:
+        case GPHRenditionType.looping:
             return self.looping
-        case .fixedHeight:
+        case GPHRenditionType.fixedHeight:
             return self.fixedHeight
-        case .fixedHeightStill:
+        case GPHRenditionType.fixedHeightStill:
             return self.fixedHeightStill
-        case .fixedHeightDownsampled:
+        case GPHRenditionType.fixedHeightDownsampled:
             return self.fixedHeightDownsampled
-        case .fixedHeightSmall:
+        case GPHRenditionType.fixedHeightSmall:
             return self.fixedHeightSmall
-        case .fixedHeightSmallStill:
+        case GPHRenditionType.fixedHeightSmallStill:
             return self.fixedHeightSmallStill
-        case .fixedWidth:
+        case GPHRenditionType.fixedWidth:
             return self.fixedWidth
-        case .fixedWidthStill:
+        case GPHRenditionType.fixedWidthStill:
             return self.fixedWidthStill
-        case .fixedWidthDownsampled:
+        case GPHRenditionType.fixedWidthDownsampled:
             return self.fixedWidthDownsampled
-        case .fixedWidthSmall:
+        case GPHRenditionType.fixedWidthSmall:
             return self.fixedWidthSmall
-        case .fixedWidthSmallStill:
+        case GPHRenditionType.fixedWidthSmallStill:
             return self.fixedWidthSmallStill
-        case .downsized:
+        case GPHRenditionType.downsized:
             return self.downsized
-        case .downsizedSmall:
+        case GPHRenditionType.downsizedSmall:
             return self.downsizedSmall
-        case .downsizedMedium:
+        case GPHRenditionType.downsizedMedium:
             return self.downsizedMedium
-        case .downsizedLarge:
+        case GPHRenditionType.downsizedLarge:
             return self.downsizedLarge
-        case .downsizedStill:
+        case GPHRenditionType.downsizedStill:
             return self.downsizedStill
-        // NOTE: not including default for future, so this errors out to exhaust to cover all new types
+        default:
+            return self.original
         }
     }
     
