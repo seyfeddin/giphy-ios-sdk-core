@@ -2,7 +2,7 @@
 //  GPHClient.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu on 4/24/17.
+//  Created by Cem Kozinoglu, Gene Goykhman on 4/24/17.
 //  Additional contributions by Gene Goykhman.
 //  Copyright © 2017 Giphy. All rights reserved.
 //

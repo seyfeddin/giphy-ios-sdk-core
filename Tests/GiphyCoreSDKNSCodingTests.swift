@@ -2,7 +2,7 @@
 //  GiphyCoreSDKNSCodingTests.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu on 5/23/17.
+//  Created by Cem Kozinoglu, Gene Goykhman on 5/23/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
 
