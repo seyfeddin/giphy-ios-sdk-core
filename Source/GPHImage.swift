@@ -32,10 +32,10 @@ import Foundation
     // MARK: Properties
 
     /// ID of the Represented GPHMedia Object.
-    public fileprivate(set) var mediaId: String
+    public fileprivate(set) var mediaId: String = ""
 
     /// ID of the Represented Object.
-    public fileprivate(set) var rendition: GPHRenditionType
+    public fileprivate(set) var rendition: GPHRenditionType = .original
     
     /// URL of the Gif file.
     public fileprivate(set) var gifUrl: String?
@@ -71,14 +71,6 @@ import Foundation
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initializers
-    
-    /// Initializer
-    ///
-    override public init() {
-        self.mediaId = ""
-        self.rendition = .original
-        super.init()
-    }
     
     /// Convenience Initializer
     ///

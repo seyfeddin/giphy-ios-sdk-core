@@ -32,16 +32,16 @@ import Foundation
     // MARK: Properties
     
     /// ID of the Object.
-    public fileprivate(set) var id: String
+    public fileprivate(set) var id: String = ""
     
     /// Media Type (GIF|Sticker).
-    public fileprivate(set) var type: GPHMediaType
+    public fileprivate(set) var type: GPHMediaType = .gif
     
     /// URL of the GIF/Sticker.
-    public fileprivate(set) var url: String
+    public fileprivate(set) var url: String = ""
     
     /// Content Rating (Default G).
-    public fileprivate(set) var rating: GPHRatingType?
+    public fileprivate(set) var rating: GPHRatingType = .unrated
     
     /// Caption.
     public fileprivate(set) var caption: String?
@@ -111,15 +111,6 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
-    /// Initializer
-    ///
-    override public init() {
-        self.id = ""
-        self.type = .gif
-        self.url = ""
-        super.init()
-    }
-    
     /// Convenience Initializer
     ///
     /// - parameter id: Media Object ID.
@@ -143,9 +134,7 @@ import Foundation
         
         self.init(id, type: type, url: url)
         
-        let _rating = aDecoder.decodeObject(forKey: "rating") as? String
-        self.rating = (_rating != nil ? GPHRatingType(rawValue: _rating!) : nil)
-        
+        self.rating = GPHRatingType(rawValue: aDecoder.decodeObject(forKey: "rating") as? String ?? "") ?? .unrated
         self.caption = aDecoder.decodeObject(forKey: "caption") as? String
         self.slug = aDecoder.decodeObject(forKey: "slug") as? String
         self.importDate = aDecoder.decodeObject(forKey: "importDate") as? Date
@@ -179,7 +168,7 @@ import Foundation
         aCoder.encode(self.id, forKey: "id")
         aCoder.encode(self.type.rawValue, forKey: "type")
         aCoder.encode(self.url, forKey: "url")
-        aCoder.encode(self.rating?.rawValue, forKey: "rating")
+        aCoder.encode(self.rating.rawValue, forKey: "rating")
         aCoder.encode(self.caption, forKey: "caption")
         aCoder.encode(self.slug, forKey: "slug")
         aCoder.encode(self.importDate, forKey: "importDate")

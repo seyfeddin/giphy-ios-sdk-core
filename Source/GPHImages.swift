@@ -32,7 +32,7 @@ import Foundation
     // MARK: Properties
 
     /// ID of the Represented Object.
-    public fileprivate(set) var mediaId: String
+    public fileprivate(set) var mediaId: String = ""
     
     /// Original file size and file dimensions. Good for desktop use.
     public fileprivate(set) var original: GPHImage?
@@ -96,13 +96,6 @@ import Foundation
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initializers
-    
-    /// Initializer
-    ///
-    override public init() {
-        self.mediaId = ""
-        super.init()
-    }
     
     /// Convenience Initializer
     ///
@@ -198,46 +191,46 @@ extension GPHImages {
     public func rendition(_ rendition: GPHRenditionType = .original) -> GPHImage? {
         
         switch rendition {
-        case GPHRenditionType.original:
+        case .original:
             return self.original
-        case GPHRenditionType.originalStill:
+        case .originalStill:
             return self.originalStill
-        case GPHRenditionType.preview:
+        case .preview:
             return self.preview
-        case GPHRenditionType.looping:
+        case .looping:
             return self.looping
-        case GPHRenditionType.fixedHeight:
+        case .fixedHeight:
             return self.fixedHeight
-        case GPHRenditionType.fixedHeightStill:
+        case .fixedHeightStill:
             return self.fixedHeightStill
-        case GPHRenditionType.fixedHeightDownsampled:
+        case .fixedHeightDownsampled:
             return self.fixedHeightDownsampled
-        case GPHRenditionType.fixedHeightSmall:
+        case .fixedHeightSmall:
             return self.fixedHeightSmall
-        case GPHRenditionType.fixedHeightSmallStill:
+        case .fixedHeightSmallStill:
             return self.fixedHeightSmallStill
-        case GPHRenditionType.fixedWidth:
+        case .fixedWidth:
             return self.fixedWidth
-        case GPHRenditionType.fixedWidthStill:
+        case .fixedWidthStill:
             return self.fixedWidthStill
-        case GPHRenditionType.fixedWidthDownsampled:
+        case .fixedWidthDownsampled:
             return self.fixedWidthDownsampled
-        case GPHRenditionType.fixedWidthSmall:
+        case .fixedWidthSmall:
             return self.fixedWidthSmall
-        case GPHRenditionType.fixedWidthSmallStill:
+        case .fixedWidthSmallStill:
             return self.fixedWidthSmallStill
-        case GPHRenditionType.downsized:
+        case .downsized:
             return self.downsized
-        case GPHRenditionType.downsizedSmall:
+        case .downsizedSmall:
             return self.downsizedSmall
-        case GPHRenditionType.downsizedMedium:
+        case .downsizedMedium:
             return self.downsizedMedium
-        case GPHRenditionType.downsizedLarge:
+        case .downsizedLarge:
             return self.downsizedLarge
-        case GPHRenditionType.downsizedStill:
+        case .downsizedStill:
             return self.downsizedStill
-        default:
-            return self.original
+//        default:
+//            return self.original
         }
     }
     

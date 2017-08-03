@@ -26,226 +26,512 @@
 
 import Foundation
 
-/// A simple NSObject replacement for native swift enums, which are creating memory leaks
-/// in Xcode 8.3 and 9 Beta on iOS 10 and 11. Likely a regression of this issue:
-/// http://www.openradar.me/30549163
-/// "Memory leak when storing enum in class"
-///
-@objc public class GPHEnum : NSObject {
-    public typealias RawValue = String
-    
-    public let rawValue: RawValue
-    
-    public init?(rawValue: RawValue) {
-        self.rawValue = rawValue.lowercased()
-        super.init()
-    }
-    
-    override public func isEqual(_ object: Any?) -> Bool {
-        guard let object = object as? GPHEnum else {
-            return false
-        }
-        return object.rawValue == self.rawValue
-    }
-}
-
 
 /// Represents a Giphy Object Type (GIF/Sticker/...)
 ///
-@objc public class GPHMediaType: GPHEnum {
-    /// GIF
-    public static let gif = GPHMediaType(rawValue: "gif")!
+@objc public enum GPHMediaType: Int, RawRepresentable {
+    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without losing String values.
     
-    /// Sticker
-    public static let sticker = GPHMediaType(rawValue: "sticker")!
+    /// Gif Media Type
+    case gif
+    
+    /// Sticker Media Type
+    case sticker
+    
+    public typealias RawValue = String
+    
+    public var rawValue: RawValue {
+        switch self {
+        case .gif:
+            return "gif"
+        case .sticker:
+            return "sticker"
+        }
+    }
+    
+    public init?(rawValue: RawValue) {
+        switch rawValue.lowercased() {
+        case "gif":
+            self = .gif
+        case "sticker":
+            self = .sticker
+        default:
+            self = .gif
+        }
+    }
+    
 }
 
-
-/// Represents a Giphy Rendition Type
+/// Represents a Giphy Rendition Type (Original/Preview/...)
 ///
-@objc public class GPHRenditionType: GPHEnum {
+@objc public enum GPHRenditionType: Int, RawRepresentable {
+    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without losing String values.
+    
     /// Original file size and file dimensions. Good for desktop use.
-    public static let original = GPHRenditionType(rawValue: "original")!
+    case original
     
     /// Preview image for original.
-    public static let originalStill = GPHRenditionType(rawValue: "original_still")!
+    case originalStill
     
     /// File size under 50kb. Duration may be truncated to meet file size requirements. Good for thumbnails and previews.
-    public static let preview = GPHRenditionType(rawValue: "preview")!
+    case preview
     
     /// Duration set to loop for 15 seconds. Only recommended for this exact use case.
-    public static let looping = GPHRenditionType(rawValue: "looping")!
+    case looping
     
     /// Height set to 200px. Good for mobile use.
-    public static let fixedHeight = GPHRenditionType(rawValue: "fixed_height")!
+    case fixedHeight
     
     /// Static preview image for fixed_height
-    public static let fixedHeightStill = GPHRenditionType(rawValue: "fixed_height_still")!
+    case fixedHeightStill
     
     /// Height set to 200px. Reduced to 6 frames to minimize file size to the lowest.
     /// Works well for unlimited scroll on mobile and as animated previews. See Giphy.com on mobile web as an example.
-    public static let fixedHeightDownsampled = GPHRenditionType(rawValue: "fixed_height_downsampled")!
+    case fixedHeightDownsampled
     
-    /// Static preview image for fixed_height
-    public static let fixedHeightSmall = GPHRenditionType(rawValue: "fixed_height_small")!
+    /// Height set to 100px. Good for mobile keyboards.
+    case fixedHeightSmall
     
     /// Static preview image for fixed_height_small
-    public static let fixedHeightSmallStill = GPHRenditionType(rawValue: "fixed_height_small_still")!
+    case fixedHeightSmallStill
     
     /// Width set to 200px. Good for mobile use.
-    public static let fixedWidth = GPHRenditionType(rawValue: "fixed_width")!
+    case fixedWidth
     
-    /// Static preview image for fixed_height_small
-    public static let fixedWidthStill = GPHRenditionType(rawValue: "fixed_width_still")!
+    /// Static preview image for fixed_width
+    case fixedWidthStill
     
     /// Width set to 200px. Reduced to 6 frames. Works well for unlimited scroll on mobile and as animated previews.
-    public static let fixedWidthDownsampled = GPHRenditionType(rawValue: "fixed_width_downsampled")!
+    case fixedWidthDownsampled
     
     /// Width set to 100px. Good for mobile keyboards.
-    public static let fixedWidthSmall = GPHRenditionType(rawValue: "fixed_width_small")!
-
+    case fixedWidthSmall
+    
     /// Static preview image for fixed_width_small
-    public static let fixedWidthSmallStill = GPHRenditionType(rawValue: "fixed_width_small_still")!
+    case fixedWidthSmallStill
     
     /// File size under 2mb.
-    public static let downsized = GPHRenditionType(rawValue: "downsized")!
+    case downsized
     
     /// File size under 200kb.
-    public static let downsizedSmall = GPHRenditionType(rawValue: "downsized_small")!
+    case downsizedSmall
     
     /// File size under 5mb.
-    public static let downsizedMedium = GPHRenditionType(rawValue: "downsized_medium")!
+    case downsizedMedium
     
     /// File size under 8mb.
-    public static let downsizedLarge = GPHRenditionType(rawValue: "downsized_large")!
+    case downsizedLarge
     
     /// Static preview image for downsized.
-    public static let downsizedStill = GPHRenditionType(rawValue: "downsized_still")!
+    case downsizedStill
+    
+    
+    public typealias RawValue = String
+    
+    public var rawValue: RawValue {
+        switch self {
+        case .original:
+            return "original"
+        case .originalStill:
+            return "original_still"
+        case .preview:
+            return "preview"
+        case .looping:
+            return "looping"
+        case .fixedHeight:
+            return "fixed_height"
+        case .fixedHeightStill:
+            return "fixed_height_still"
+        case .fixedHeightDownsampled:
+            return "fixed_height_downsampled"
+        case .fixedHeightSmall:
+            return "fixed_height_small"
+        case .fixedHeightSmallStill:
+            return "fixed_height_small_still"
+        case .fixedWidth:
+            return "fixed_width"
+        case .fixedWidthStill:
+            return "fixed_width_still"
+        case .fixedWidthDownsampled:
+            return "fixed_width_downsampled"
+        case .fixedWidthSmall:
+            return "fixed_width_small"
+        case .fixedWidthSmallStill:
+            return "fixed_width_small_still"
+        case .downsized:
+            return "downsized"
+        case .downsizedSmall:
+            return "downsized_small"
+        case .downsizedMedium:
+            return "downsized_medium"
+        case .downsizedLarge:
+            return "downsized_large"
+        case .downsizedStill:
+            return "downsized_still"
+        }
+    }
+    
+    public init?(rawValue: RawValue) {
+        switch rawValue.lowercased() {
+            
+        case "original":
+            self = .original
+        case "original_still":
+            self = .originalStill
+        case "preview":
+            self = .preview
+        case "looping":
+            self = .looping
+        case "fixed_height":
+            self = .fixedHeight
+        case "fixed_height_still":
+            self = .fixedHeightStill
+        case "fixed_height_downsampled":
+            self = .fixedHeightDownsampled
+        case "fixed_height_small":
+            self = .fixedHeightSmall
+        case "fixed_height_small_still":
+            self = .fixedHeightSmallStill
+        case "fixed_width":
+            self = .fixedWidth
+        case "fixed_width_still":
+            self = .fixedWidthStill
+        case "fixed_width_downsampled":
+            self = .fixedWidthDownsampled
+        case "fixed_width_small":
+            self = .fixedWidthSmall
+        case "fixed_width_small_still":
+            self = .fixedWidthSmallStill
+        case "downsized":
+            self = .downsized
+        case "downsized_small":
+            self = .downsizedSmall
+        case "downsized_medium":
+            self = .downsizedMedium
+        case "downsized_large":
+            self = .downsizedLarge
+        case "downsized_still":
+            self = .downsizedStill
+            
+        default:
+            self = .original
+        }
+    }
 }
 
 
 /// Represents Giphy APIs Supported Languages
 ///
-@objc public class GPHLanguageType: GPHEnum {
+@objc public enum GPHLanguageType: Int, RawRepresentable {
+    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values.
+    
     /// English (en)
-    public static let english = GPHLanguageType(rawValue: "en")!
+    case english
     
     /// Spanish (es)
-    public static let spanish = GPHLanguageType(rawValue: "es")!
+    case spanish
     
-    /// Portugese (pt)
-    public static let portuguese = GPHLanguageType(rawValue: "pt")!
+    /// Portuguese (pt)
+    case portuguese
     
     /// Indonesian (id)
-    public static let indonesian = GPHLanguageType(rawValue: "id")!
+    case indonesian
     
     /// French (fr)
-    public static let french = GPHLanguageType(rawValue: "fr")!
+    case french
     
     /// Arabic (ar)
-    public static let arabic = GPHLanguageType(rawValue: "ar")!
+    case arabic
     
     /// Turkish (tr)
-    public static let turkish = GPHLanguageType(rawValue: "tr")!
+    case turkish
     
     /// Thai (th)
-    public static let thai = GPHLanguageType(rawValue: "th")!
+    case thai
     
     /// Vietnamese (vi)
-    public static let vietnamese = GPHLanguageType(rawValue: "vi")!
+    case vietnamese
     
     /// German (de)
-    public static let german = GPHLanguageType(rawValue: "de")!
+    case german
     
     /// Italian (it)
-    public static let italian = GPHLanguageType(rawValue: "it")!
+    case italian
     
     /// Japanese (ja)
-    public static let japanese = GPHLanguageType(rawValue: "ja")!
+    case japanese
     
     /// Chinese Simplified (zh-cn)
-    public static let chineseSimplified = GPHLanguageType(rawValue: "zh-cn")!
+    case chineseSimplified
     
     /// Chinese Traditional (zh-tw)
-    public static let chineseTraditional = GPHLanguageType(rawValue: "zh-tw")!
+    case chineseTraditional
     
     /// Russian (ru)
-    public static let russian = GPHLanguageType(rawValue: "ru")!
+    case russian
     
     /// Korean (ko)
-    public static let korean = GPHLanguageType(rawValue: "ko")!
+    case korean
     
     /// Polish (pl)
-    public static let polish = GPHLanguageType(rawValue: "pl")!
+    case polish
     
     /// Dutch (nl)
-    public static let dutch = GPHLanguageType(rawValue: "nl")!
+    case dutch
     
     /// Romanian (ro)
-    public static let romanian = GPHLanguageType(rawValue: "ro")!
+    case romanian
     
     /// Hungarian (hu)
-    public static let hungarian = GPHLanguageType(rawValue: "hu")!
+    case hungarian
     
     /// Swedish (sv)
-    public static let swedish = GPHLanguageType(rawValue: "sv")!
+    case swedish
     
     /// Czech (cs)
-    public static let czech = GPHLanguageType(rawValue: "cs")!
+    case czech
     
     /// Hindi (hi)
-    public static let hindi = GPHLanguageType(rawValue: "hi")!
+    case hindi
     
     /// Bengali (bn)
-    public static let bengali = GPHLanguageType(rawValue: "bn")!
+    case bengali
     
     /// Danish (da)
-    public static let danish = GPHLanguageType(rawValue: "da")!
+    case danish
     
     /// Farsi (fa)
-    public static let farsi = GPHLanguageType(rawValue: "fa")!
+    case farsi
     
     /// Filipino (tl)
-    public static let filipino = GPHLanguageType(rawValue: "tl")!
+    case filipino
     
     /// Finnish (fi)
-    public static let finnish = GPHLanguageType(rawValue: "fi")!
+    case finnish
     
     /// Hebrew (iw)
-    public static let hebrew = GPHLanguageType(rawValue: "iw")!
+    case hebrew
     
     /// Malay (ms)
-    public static let malay = GPHLanguageType(rawValue: "ms")!
+    case malay
     
     /// Norwegian (no)
-    public static let norwegian = GPHLanguageType(rawValue: "no")!
+    case norwegian
     
-    /// Ukranian (uk)
-    public static let ukrainian = GPHLanguageType(rawValue: "uk")!
+    /// Ukrainian (uk)
+    case ukrainian
+    
+    public typealias RawValue = String
+    
+    public var rawValue: RawValue {
+        switch self {
+        case .english:
+            return "en"
+        case .spanish:
+            return "es"
+        case .portuguese:
+            return "pt"
+        case .indonesian:
+            return "id"
+        case .french:
+            return "fr"
+        case .arabic:
+            return "ar"
+        case .turkish:
+            return "tr"
+        case .thai:
+            return "th"
+        case .vietnamese:
+            return "vi"
+        case .german:
+            return "de"
+        case .italian:
+            return "it"
+        case .japanese:
+            return "ja"
+        case .chineseSimplified:
+            return "zh-cn"
+        case .chineseTraditional:
+            return "zh-tw"
+        case .russian:
+            return "ru"
+        case .korean:
+            return "ko"
+        case .polish:
+            return "pl"
+        case .dutch:
+            return "nl"
+        case .romanian:
+            return "ro"
+        case .hungarian:
+            return "hu"
+        case .swedish:
+            return "sv"
+        case .czech:
+            return "cs"
+        case .hindi:
+            return "hi"
+        case .bengali:
+            return "bn"
+        case .danish:
+            return "da"
+        case .farsi:
+            return "fa"
+        case .filipino:
+            return "tl"
+        case .finnish:
+            return "fi"
+        case .hebrew:
+            return "iw"
+        case .malay:
+            return "ms"
+        case .norwegian:
+            return "no"
+        case .ukrainian:
+            return "uk"
+        }
+    }
+    
+    public init?(rawValue: RawValue) {
+        switch rawValue.lowercased() {
+            
+        case "en":
+            self = .english
+        case "es":
+            self = .spanish
+        case "pt":
+            self = .portuguese
+        case "id":
+            self = .indonesian
+        case "fr":
+            self = .french
+        case "ar":
+            self = .arabic
+        case "tr":
+            self = .turkish
+        case "th":
+            self = .thai
+        case "vi":
+            self = .vietnamese
+        case "de":
+            self = .german
+        case "it":
+            self = .italian
+        case "ja":
+            self = .japanese
+        case "zh-cn":
+            self = .chineseSimplified
+        case "zh-tw":
+            self = .chineseTraditional
+        case "ru":
+            self = .russian
+        case "ko":
+            self = .korean
+        case "pl":
+            self = .polish
+        case "nl":
+            self = .dutch
+        case "ro":
+            self = .romanian
+        case "hu":
+            self = .hungarian
+        case "sv":
+            self = .swedish
+        case "cs":
+            self = .czech
+        case "hi":
+            self = .hindi
+        case "bn":
+            self = .bengali
+        case "da":
+            self = .danish
+        case "fa":
+            self = .farsi
+        case "tl":
+            self = .filipino
+        case "fi":
+            self = .finnish
+        case "iw":
+            self = .hebrew
+        case "ms":
+            self = .malay
+        case "no":
+            self = .norwegian
+        case "uk":
+            self = .ukrainian
+        default:
+            self = .english
+        }
+    }
 }
 
 
 /// Represents content rating (y,g, pg, pg-13 or r)
 ///
-@objc public class GPHRatingType: GPHEnum {
+@objc public enum GPHRatingType: Int, RawRepresentable {
+    /// We use Int, RawRepresentable to be able to bridge btw ObjC<>Swift without loosing String values.
+    
     /// Rated Y
-    public static let ratedY = GPHRatingType(rawValue: "y")!
+    case ratedY
     
     /// Rated G
-    public static let ratedG = GPHRatingType(rawValue: "g")!
+    case ratedG
     
     /// Rated PG
-    public static let ratedPG = GPHRatingType(rawValue: "pg")!
+    case ratedPG
     
     /// Rated PG-13
-    public static let ratedPG13 = GPHRatingType(rawValue: "pg-13")!
+    case ratedPG13
     
     /// Rated R
-    public static let ratedR = GPHRatingType(rawValue: "r")!
+    case ratedR
     
     /// Not Safe for Work
-    public static let nsfw = GPHRatingType(rawValue: "nsfw")!
+    case nsfw
     
     /// Unrated
-    public static let unrated = GPHRatingType(rawValue: "unrated")!
+    case unrated
+    
+    public typealias RawValue = String
+    
+    public var rawValue: RawValue {
+        switch self {
+        case .ratedY:
+            return "y"
+        case .ratedG:
+            return "g"
+        case .ratedPG:
+            return "pg"
+        case .ratedPG13:
+            return "pg-13"
+        case .ratedR:
+            return "r"
+        case .nsfw:
+            return "nsfw"
+        case .unrated:
+            return "unrated"
+        }
+    }
+    
+    public init?(rawValue: RawValue) {
+        switch rawValue.lowercased() {
+        case "y":
+            self = .ratedY
+        case "g":
+            self = .ratedG
+        case "pg":
+            self = .ratedPG
+        case "pg-13":
+            self = .ratedPG13
+        case "r":
+            self = .ratedR
+        case "nsfw":
+            self = .nsfw
+        case "unrated":
+            self = .unrated
+        default:
+            self = .ratedR
+        }
+    }
+    
 }

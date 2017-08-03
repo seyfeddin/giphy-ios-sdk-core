@@ -34,7 +34,7 @@ import Foundation
     // MARK: Properties
     
     /// Username.
-    public fileprivate(set) var username: String
+    public fileprivate(set) var username: String = ""
 
     /// User ID.
     public fileprivate(set) var id: Int?
@@ -91,13 +91,6 @@ import Foundation
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initializers
-    
-    /// Initializer
-    ///
-    override public init() {
-        self.username = ""
-        super.init()
-    }
     
     /// Convenience Initializer
     ///

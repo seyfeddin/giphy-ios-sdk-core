@@ -32,13 +32,13 @@ import Foundation
     // MARK: Properties
 
     /// Name of the Category.
-    public fileprivate(set) var name: String
+    public fileprivate(set) var name: String = ""
     
     /// Encoded name of the Category.
-    public fileprivate(set) var nameEncoded: String
+    public fileprivate(set) var nameEncoded: String = ""
     
     /// URL Encoded path of the Category (to make sure we have the full-path for subcategories).
-    public fileprivate(set) var encodedPath: String
+    public fileprivate(set) var encodedPath: String = ""
     
     /// GIF representation of the Category.
     public fileprivate(set) var gif: GPHMedia?
@@ -50,15 +50,6 @@ import Foundation
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initializers
-    
-    /// Initializer
-    ///
-    override public init() {
-        self.name = ""
-        self.nameEncoded = ""
-        self.encodedPath = ""
-        super.init()
-    }
     
     /// Convenience Initializer
     ///

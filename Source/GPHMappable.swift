@@ -100,11 +100,11 @@ extension GPHMappable {
     /// - parameter rating: String version of the rating to be mapped to GPHRatingType type
     /// - returns: a GPHRatingType object or nil
     ///
-    static func parseRating(_ rating: String?) -> GPHRatingType? {
+    static func parseRating(_ rating: String?) -> GPHRatingType {
         if let rating = rating {
-            return GPHRatingType(rawValue: rating)
+            return GPHRatingType(rawValue: rating) ?? .unrated
         }
-        return nil
+        return .unrated
     }
     
 

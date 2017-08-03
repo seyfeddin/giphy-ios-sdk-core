@@ -32,19 +32,12 @@ import Foundation
     // MARK: Properties
 
     /// Term suggestion.
-    public private(set) var term: String
+    public private(set) var term: String = ""
     
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
     // MARK: Initializers
-    
-    /// Initializer
-    ///
-    override public init() {
-        self.term = ""
-        super.init()
-    }
     
     /// Convenience Initializer
     ///
