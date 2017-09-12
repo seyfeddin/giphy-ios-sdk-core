@@ -273,6 +273,65 @@ extension XCTestCase {
     ///
     /// - parameter root: object to check mapping.
     ///
+    func validateJSONForChannel(_ obj: GPHChannel, channelId: Int, media: GPHMediaType, request: GPHRequestType) throws {
+        
+        XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
+        
+        XCTAssertEqual(obj.id,
+                       channelId,
+                       "Media Id won't match")
+        
+        XCTAssertEqual(obj.id,
+                       obj.jsonRepresentation!["id"] as? Int,
+                       "id field won't match")
+        
+        XCTAssertEqual(obj.slug,
+                       obj.jsonRepresentation!["slug"] as? String,
+                       "slug field won't match")
+        
+        XCTAssertEqual(obj.type,
+                       obj.jsonRepresentation!["type"] as? String,
+                       "type field won't match")
+        
+        XCTAssertEqual(obj.contentType,
+                       obj.jsonRepresentation!["content_type"] as? String,
+                       "content_type field won't match")
+        
+        XCTAssertEqual(obj.bannerImage,
+                       obj.jsonRepresentation!["banner_image"] as? String,
+                       "banner_image field won't match")
+        
+        XCTAssertEqual(obj.displayName,
+                       obj.jsonRepresentation!["display_name"] as? String,
+                       "display_name field won't match")
+        
+        XCTAssertEqual(obj.shortDisplayName,
+                       obj.jsonRepresentation!["short_display_name"] as? String,
+                       "short_display_name field won't match")
+        
+        XCTAssertEqual(obj.descriptionText,
+                       obj.jsonRepresentation!["description"] as? String,
+                       "description field won't match")
+        
+        XCTAssertEqual(obj.tags,
+                       obj.jsonRepresentation!["tags"] as? Array<String> ?? [],
+                       "tags field won't match")
+        
+        if obj.jsonRepresentation!["user"] != nil {
+            try? self.validateJSONForUser(obj.user!, request: request)
+        }
+    }
+    
+}
+
+/// Extension for GPHImages JSON<>Obj roundtrip check
+///
+extension XCTestCase {
+    
+    /// Function to test Archiving&Unarchiving an object
+    ///
+    /// - parameter root: object to check mapping.
+    ///
     func validateJSONForImages(_ obj: GPHImages, mediaId: String, media: GPHMediaType, request: GPHRequestType) throws {
         
         XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
@@ -282,7 +341,7 @@ extension XCTestCase {
                        "Media Id won't match")
         
         switch request {
-        case .search, .get, .getAll, .translate, .categoryContent:
+        case .search, .get, .getAll, .translate, .categoryContent, .channel, .channelContent, .channelChildren:
             try? self.validateJSONForImage(obj.original!, mediaId: mediaId, rendition: .original, media: media, request: request)
             try? self.validateJSONForImage(obj.originalStill!, mediaId: mediaId, rendition: .originalStill, media: media, request: request)
             try? self.validateJSONForImage(obj.preview!, mediaId: mediaId, rendition: .preview, media: media, request: request)

@@ -286,4 +286,72 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         
         return self.listTermSuggestionsRequest(with: request, type: .termSuggestions, media: .gif, completionHandler: completionHandler)
     }
+    
+    /// Get a channel by id
+    ///
+    /// - parameter id: channel id
+    /// - parameter offset: Offset of results (default: 0)
+    /// - parameter limit: Total hits you request (default: 25)
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
+    @discardableResult public func channel(_ channelId: Int,
+                                          media: GPHMediaType,
+                                          completionHandler: @escaping GPHCompletionHandler<GPHChannelResponse>) -> Operation {
+        
+        let request = GPHRequestRouter.channel(channelId).asURLRequest(apiKey)
+        
+        return self.channelRequest(with: request,
+                                type: .channel,
+                                media: media,
+                                completionHandler: completionHandler)
+    }
+    
+    /// Get a channel children
+    ///
+    /// - parameter id: channel id
+    /// - parameter offset: Offset of results (default: 0)
+    /// - parameter limit: Total hits you request (default: 25)
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
+    @discardableResult public func channelChildren(_ channelId: Int,
+                                              offset: Int = 0,
+                                              limit: Int = 25,
+                                              media: GPHMediaType,
+                                              completionHandler: @escaping GPHCompletionHandler<GPHListChannelResponse>) -> Operation {
+        
+        let request = GPHRequestRouter.channelChildren(channelId, offset, limit).asURLRequest(apiKey)
+        
+        return self.channelChildrenRequest(with: request,
+                                      type: .channelChildren,
+                                      media: media,
+                                      completionHandler: completionHandler)
+    }
+
+    /// Get a channel gifs
+    ///
+    /// - parameter id: channel id
+    /// - parameter offset: Offset of results (default: 0)
+    /// - parameter limit: Total hits you request (default: 25)
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
+    @discardableResult public func channelContent(_ id: Int,
+                                              offset: Int = 0,
+                                              limit: Int = 25,
+                                              media: GPHMediaType,
+                                              completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
+        
+        let request = GPHRequestRouter.channelContent(id, offset, limit).asURLRequest(apiKey)
+        
+        return self.channelContentRequest(with: request,
+                                      type: .channel,
+                                      media: media,
+                                      completionHandler: completionHandler)
+    }
+
 }

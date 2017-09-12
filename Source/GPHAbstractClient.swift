@@ -204,6 +204,61 @@ import Foundation
                                                                                        completionHandler: completionHandler))
     }
     
+    /// Perform a request to get a channels object.
+    ///
+    /// - parameter type: GPHRequestType to figure out what endpoint to hit
+    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    ///
+    @objc
+    @discardableResult func channelRequest(with request: URLRequest,
+                                              type: GPHRequestType,
+                                              media: GPHMediaType,
+                                              completionHandler: @escaping GPHCompletionHandler<GPHChannelResponse>) -> Operation {
+        
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
+                                                                                       media: media,
+                                                                                       completionHandler: completionHandler))
+    }
+    
+    /// Get a list of children of a given channel
+    ///
+    /// - parameter type: GPHRequestType to figure out what endpoint to hit
+    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    ///
+    @objc
+    @discardableResult func channelChildrenRequest(with request: URLRequest,
+                                              type: GPHRequestType,
+                                              media: GPHMediaType,
+                                              completionHandler: @escaping GPHCompletionHandler<GPHListChannelResponse>) -> Operation {
+        
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
+                                                                                       media: media,
+                                                                                       completionHandler: completionHandler))
+    }
+    
+    /// Get a list of gifs for a given channel.
+    /// NOTE: this has the same response structure as any other getGifs
+    ///
+    /// - parameter type: GPHRequestType to figure out what endpoint to hit
+    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    ///
+    @objc
+    @discardableResult func channelContentRequest(with request: URLRequest,
+                                              type: GPHRequestType,
+                                              media: GPHMediaType,
+                                              completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
+        
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
+                                                                                       media: media,
+                                                                                       completionHandler: completionHandler))
+    }
+    
     /// Parses a JSON response to an HTTP request expected to return a particular GPHMappable response.
     ///
     /// - parameter root: root object under which to parse results

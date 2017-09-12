@@ -568,7 +568,82 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
-
     
+    func testNSCodingForGetChannel() {
+        let promise = expectation(description: "Status 200 & Receive Channel")
+        
+        let _ = client.channel(GPHChannel.StickersRootId, media: .sticker) { (response, error) in
+            if let data = response?.data {
+                print(data)
+                try? self.validateJSONForChannel(data, channelId: data.id, media: .sticker, request: .channel)
+                if let featuredGif = data.featuredGif {
+                    try? self.validateJSONForMedia(featuredGif, media: .sticker, request: .channel)
+                }
+            } else {
+                print(response)
+                print(error)
+                XCTFail("Failed to fetch channel object.")
+            }
+            promise.fulfill()
+        }
+        
+        waitForExpectations(timeout: 10, handler: nil)
+    }
     
+    func testNSCodingForGetChannelGifs() {
+        let promise = expectation(description: "Status 200 & Map gif objects")
+        
+        let _ = client.channelContent(GPHChannel.StickersRootId, offset: 0, limit: 1, media: .sticker) { (response, error) in
+            if let data = response?.data {
+                print(data)
+                data.forEach { result in
+                    do {
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForMedia(result, media: .sticker, request: .channelContent)
+                        
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForMedia(obj, media: .sticker, request: .channelContent)
+                        
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
+                    }
+                }
+            } else {
+                print(response)
+                print(error)
+                XCTFail("Failed to fetch gifs.")
+            }
+            promise.fulfill()
+        }
+        
+        waitForExpectations(timeout: 10, handler: nil)
+    }
+    
+    func testNSCodingForGetChannelChildren() {
+        let promise = expectation(description: "Status 200 & Receive Map Channel objects")
+        
+        let _ = client.channelChildren(GPHChannel.StickersRootId, offset: 0, limit: 1, media: .sticker) { (response, error) in
+            if let data = response?.data {
+                data.forEach { channel in
+                    print(data)
+                    try? self.validateJSONForChannel(channel, channelId: channel.id, media: .sticker, request: .channelChildren)
+                    if let featuredGif = channel.featuredGif {
+                        try? self.validateJSONForMedia(featuredGif, media: .sticker, request: .channelChildren)
+                    }
+                }
+            } else {
+                print(response)
+                print(error)
+                XCTFail("Failed to fetch Channel children.")
+            }
+            promise.fulfill()
+        }
+        
+        waitForExpectations(timeout: 10, handler: nil)
+    }
 }

@@ -58,6 +58,15 @@ import Foundation
 
     /// Category Content.
     case categoryContent
+    
+    /// Get Channel by id.
+    case channel
+    
+    /// Get Channel Children (sub Channels).
+    case channelChildren
+    
+    /// Get Channel Gifs (media).
+    case channelContent
 }
 
 
@@ -185,6 +194,16 @@ enum GPHRequestRouter {
     /// Category content endpoint: category, type, offset, limit, rating, lang
     case categoryContent(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType)
     
+    /// TODO: don't need offset/limit on all of these yet
+    /// Get a channel by id endpoint: id, offset, limit (TODO: the id will be abstracted away, just pass in a channel object.)
+    case channel(Int)
+    
+    /// Get channel children endpoint: id, offset, limit
+    case channelChildren(Int, Int, Int)
+    
+    /// Get channel gifs+stickers endpoint: id, offset, limit
+    case channelContent(Int, Int, Int)
+    
     /// Base endpoint url.
     static let baseURLString = "https://api.giphy.com/v1/"
     
@@ -256,7 +275,16 @@ enum GPHRequestRouter {
                 queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
                 queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
                 queryItems.append(URLQueryItem(name: "lang", value: lang.rawValue))
-
+            case .channel(let id):
+                relativePath = "stickers/packs/\(id)"
+            case .channelChildren(let id, let limit, let offset):
+                relativePath = "stickers/packs/\(id)/children"
+                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
+            case .channelContent(let id, let limit, let offset):
+                relativePath = "stickers/packs/\(id)/stickers"
+                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
             }
             
             var url = URL(string: GPHRequestRouter.baseURLString)!
