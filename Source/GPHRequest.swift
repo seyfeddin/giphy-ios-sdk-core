@@ -194,8 +194,7 @@ enum GPHRequestRouter {
     /// Category content endpoint: category, type, offset, limit, rating, lang
     case categoryContent(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType)
     
-    /// TODO: don't need offset/limit on all of these yet
-    /// Get a channel by id endpoint: id, offset, limit (TODO: the id will be abstracted away, just pass in a channel object.)
+    /// Get a channel by id endpoint: id, offset, limit
     case channel(Int)
     
     /// Get channel children endpoint: id, offset, limit
