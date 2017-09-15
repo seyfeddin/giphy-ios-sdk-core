@@ -264,6 +264,36 @@ extension XCTestCase {
 
 }
 
+/// Extension for GPHImages JSON<>Obj roundtrip check
+///
+extension XCTestCase {
+    
+    /// Function to test Archiving&Unarchiving an object
+    ///
+    /// - parameter root: object to check mapping.
+    ///
+    func validateJSONForChannelTag(_ obj: GPHChannelTag) throws {
+        
+        XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
+        
+        XCTAssertEqual(obj.id,
+                       obj.jsonRepresentation!["id"] as? Int,
+                       "Id won't match")
+        
+        XCTAssertEqual(obj.tag,
+                       obj.jsonRepresentation!["tag"] as? String,
+                       "tag field won't match")
+        
+        XCTAssertEqual(obj.channel,
+                       obj.jsonRepresentation!["channel"] as? Int,
+                       "channel field won't match")
+        
+        XCTAssertEqual(obj.rank,
+                       obj.jsonRepresentation!["rank"] as? Int,
+                       "rank field won't match")
+    }
+    
+}
 
 /// Extension for GPHImages JSON<>Obj roundtrip check
 ///
@@ -313,9 +343,16 @@ extension XCTestCase {
                        obj.jsonRepresentation!["description"] as? String,
                        "description field won't match")
         
-        XCTAssertEqual(obj.tags,
-                       obj.jsonRepresentation!["tags"] as? Array<String> ?? [],
-                       "tags field won't match")
+        if obj.jsonRepresentation!["tags"] != nil {
+            if let tagsJSON = obj.jsonRepresentation!["tags"] as? [GPHChannelTag] {
+                XCTAssertEqual(obj.tags!.count,
+                               tagsJSON.count,
+                               "Tags count is not matching")
+                obj.tags?.forEach({ tag in
+                    try? self.validateJSONForChannelTag(tag)
+                })
+            }
+        }
         
         if obj.jsonRepresentation!["user"] != nil {
             try? self.validateJSONForUser(obj.user!, request: request)

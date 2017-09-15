@@ -28,18 +28,14 @@ import Foundation
 
 /// Represents Giphy Channels
 ///
-/// Open Question:
-///     The channels under `children` have less data -
-///     should we make a GPHChannelChild object to make this clearer?
-///
 @objc public class GPHChannel: NSObject, NSCoding {
     // MARK: Properties
     
     // Stickers Packs Channel Root ID
     public static let StickersRootId = 3143
     
-    /// ID of this Channel TODO: not sure if we want this.
-    public fileprivate(set) var id: Int = -1
+    /// ID of this Channel.
+    public fileprivate(set) var id: Int = 0
     
     /// Slug of the Channel.
     public fileprivate(set) var slug: String?
@@ -50,7 +46,7 @@ import Foundation
     /// Shortd display name of the Channel.
     public fileprivate(set) var shortDisplayName: String?
 
-    /// TODO: Make this an enum
+    /// Type for this Channel.
     public fileprivate(set) var type: String?
     
     /// Content Type (Gif or Sticker) of the Channel
@@ -68,8 +64,8 @@ import Foundation
     /// User who owns this Channel.
     public fileprivate(set) var user: GPHUser?
     
-    /// TODO: GPHChannelTag?
-    public fileprivate(set) var tags: Array<String> = []
+    /// A list of tags for this Channel.
+    public fileprivate(set) var tags: Array<GPHChannelTag>?
     
     /// A list of direct ancestors of this Channel.
     public fileprivate(set) var ancestors: Array<GPHChannel> = []
@@ -104,7 +100,7 @@ import Foundation
         self.descriptionText = aDecoder.decodeObject(forKey: "description") as? String
         self.user = aDecoder.decodeObject(forKey: "user") as? GPHUser
         self.featuredGif = aDecoder.decodeObject(forKey: "featuredGif") as? GPHMedia ?? nil
-        self.tags = aDecoder.decodeObject(forKey: "tags") as? Array<String> ?? []
+        self.tags = aDecoder.decodeObject(forKey: "tags") as? Array<GPHChannelTag> ?? []
         self.ancestors = aDecoder.decodeObject(forKey: "ancestors") as? Array<GPHChannel> ?? []
         
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
@@ -166,6 +162,7 @@ extension GPHChannel: GPHMappable {
         obj.descriptionText = (jsonData["description"] as? String)
         obj.bannerImage = (jsonData["banner_image"] as? String)
         obj.featuredGif = (jsonData["featured_gif"] as? GPHMedia)
+        obj.tags = (jsonData["tags"] as? Array<GPHChannelTag>)
         
         obj.jsonRepresentation = jsonData
         
