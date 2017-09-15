@@ -569,7 +569,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testNSCodingForGetChannel() {
+    func testNSCodingForChannel() {
         let promise = expectation(description: "Status 200 & Receive Channel")
         
         let _ = client.channel(GPHChannel.StickersRootId, media: .sticker) { (response, error) in
@@ -590,7 +590,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testNSCodingForGetChannelGifs() {
+    func testNSCodingForChannelContent() {
         let promise = expectation(description: "Status 200 & Map gif objects")
         
         let _ = client.channelContent(GPHChannel.StickersRootId, offset: 0, limit: 1, media: .sticker) { (response, error) in
@@ -624,7 +624,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testNSCodingForGetChannelChildren() {
+    func testNSCodingForChannelChildren() {
         let promise = expectation(description: "Status 200 & Receive Map Channel objects")
         
         let _ = client.channelChildren(GPHChannel.StickersRootId, offset: 0, limit: 1, media: .sticker) { (response, error) in
