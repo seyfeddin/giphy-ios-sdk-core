@@ -99,7 +99,7 @@ import Foundation
         self.shortDisplayName = aDecoder.decodeObject(forKey: "short_display_name") as? String
         self.descriptionText = aDecoder.decodeObject(forKey: "description") as? String
         self.user = aDecoder.decodeObject(forKey: "user") as? GPHUser
-        self.featuredGif = aDecoder.decodeObject(forKey: "featuredGif") as? GPHMedia ?? nil
+        self.featuredGif = aDecoder.decodeObject(forKey: "featured_gif") as? GPHMedia ?? nil
         self.tags = aDecoder.decodeObject(forKey: "tags") as? Array<GPHChannelTag> ?? []
         self.ancestors = aDecoder.decodeObject(forKey: "ancestors") as? Array<GPHChannel> ?? []
         
