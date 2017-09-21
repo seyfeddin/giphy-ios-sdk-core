@@ -161,10 +161,13 @@ extension GPHChannel: GPHMappable {
         obj.contentType = (jsonData["content_type"] as? String)
         obj.descriptionText = (jsonData["description"] as? String)
         obj.bannerImage = (jsonData["banner_image"] as? String)
-        obj.featuredGif = (jsonData["featured_gif"] as? GPHMedia)
         obj.tags = (jsonData["tags"] as? Array<GPHChannelTag>)
         
         obj.jsonRepresentation = jsonData
+        
+        if let imageData = jsonData["featured_gif"] as? GPHJSONObject {
+            obj.featuredGif = try GPHMedia.mapData(nil, data: imageData, request: requestType)
+        }
         
         // Handle User Data
         if let userData = jsonData["user"] as? GPHJSONObject {
