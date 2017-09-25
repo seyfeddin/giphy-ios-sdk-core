@@ -180,9 +180,9 @@ extension GPHImage: GPHMappable {
         obj.width = parseInt(jsonData["width"] as? String)
         obj.height = parseInt(jsonData["height"] as? String)
         obj.frames = parseInt(jsonData["frames"] as? String)
-        obj.webPUrl = jsonData["webp_url"] as? String
+        obj.webPUrl = jsonData["webp"] as? String
         obj.webPSize = parseInt(jsonData["webp_size"] as? String)
-        obj.mp4Url = jsonData["mp4_url"] as? String
+        obj.mp4Url = jsonData["mp4"] as? String
         obj.mp4Size = parseInt(jsonData["mp4_size"] as? String)
         obj.jsonRepresentation = jsonData
         
