@@ -276,11 +276,11 @@ enum GPHRequestRouter {
                 queryItems.append(URLQueryItem(name: "lang", value: lang.rawValue))
             case .channel(let id):
                 relativePath = "stickers/packs/\(id)"
-            case .channelChildren(let id, let limit, let offset):
+            case .channelChildren(let id, let offset, let limit):
                 relativePath = "stickers/packs/\(id)/children"
                 queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
                 queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
-            case .channelContent(let id, let limit, let offset):
+            case .channelContent(let id, let offset, let limit):
                 relativePath = "stickers/packs/\(id)/stickers"
                 queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
                 queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))

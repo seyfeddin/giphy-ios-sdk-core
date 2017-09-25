@@ -593,7 +593,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     func testNSCodingForChannelContent() {
         let promise = expectation(description: "Status 200 & Map gif objects")
         
-        let _ = client.channelContent(3203, offset: 0, limit: 10, media: .sticker) { (response, error) in
+        let _ = client.channelContent(3203, offset: 0, limit: 50, media: .sticker) { (response, error) in
             if let data = response?.data {
                 print(data)
                 data.forEach { result in
