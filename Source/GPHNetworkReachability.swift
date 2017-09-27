@@ -10,7 +10,8 @@
 //  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 //
 
-// Credit goes to Algolia here!
+// Credit goes to Algolia here:
+// https://github.com/algolia/algoliasearch-client-swift/blob/master/Source/NetworkReachability.swift
 
 #if !os(watchOS)
     
