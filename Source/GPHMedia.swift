@@ -2,7 +2,7 @@
 //  GPHMedia.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu, Gene Goykhman, David Hargat on 4/24/17.
+//  Created by Cem Kozinoglu, Gene Goykhman on 4/24/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public
@@ -28,6 +28,9 @@ import Foundation
     
     /// Content Rating (Default G).
     public fileprivate(set) var rating: GPHRatingType = .unrated
+    
+    /// Title.
+    public fileprivate(set) var title: String?
     
     /// Caption.
     public fileprivate(set) var caption: String?
@@ -121,6 +124,7 @@ import Foundation
         self.init(id, type: type, url: url)
         
         self.rating = GPHRatingType(rawValue: aDecoder.decodeObject(forKey: "rating") as? String ?? "") ?? .unrated
+        self.title = aDecoder.decodeObject(forKey: "title") as? String
         self.caption = aDecoder.decodeObject(forKey: "caption") as? String
         self.slug = aDecoder.decodeObject(forKey: "slug") as? String
         self.importDate = aDecoder.decodeObject(forKey: "importDate") as? Date
@@ -155,6 +159,7 @@ import Foundation
         aCoder.encode(self.type.rawValue, forKey: "type")
         aCoder.encode(self.url, forKey: "url")
         aCoder.encode(self.rating.rawValue, forKey: "rating")
+        aCoder.encode(self.title, forKey: "title")
         aCoder.encode(self.caption, forKey: "caption")
         aCoder.encode(self.slug, forKey: "slug")
         aCoder.encode(self.importDate, forKey: "importDate")
@@ -249,6 +254,7 @@ extension GPHMedia: GPHMappable {
         let obj = GPHMedia(objId, type: mediaType, url: url)
         
         obj.rating = parseRating(jsonData["rating"] as? String)
+        obj.title = jsonData["title"] as? String
         obj.caption = jsonData["caption"] as? String
         obj.slug = jsonData["slug"] as? String
         obj.importDate = parseDate(jsonData["import_datetime"] as? String)
