@@ -825,7 +825,7 @@
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.giphy.GiphyCoreSDKTV;
+				PRODUCT_BUNDLE_IDENTIFIER = com.giphy.GiphyCoreSDK;
 				PRODUCT_NAME = GiphyCoreSDK;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
@@ -846,7 +846,7 @@
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.giphy.GiphyCoreSDKTV;
+				PRODUCT_BUNDLE_IDENTIFIER = com.giphy.GiphyCoreSDK;
 				PRODUCT_NAME = GiphyCoreSDK;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
@@ -972,7 +972,7 @@
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.giphy.GiphyCoreSDK-watchOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.giphy.GiphyCoreSDK;
 				PRODUCT_NAME = GiphyCoreSDK;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -994,7 +994,7 @@
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.giphy.GiphyCoreSDK-watchOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.giphy.GiphyCoreSDK;
 				PRODUCT_NAME = GiphyCoreSDK;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
