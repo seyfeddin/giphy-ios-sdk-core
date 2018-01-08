@@ -479,7 +479,7 @@ extension XCTestCase {
                        "Gif frames won't match")
         
         XCTAssertEqual(obj.webPUrl,
-                       obj.jsonRepresentation!["webp_url"] as? String,
+                       obj.jsonRepresentation!["webp"] as? String,
                        "WebP url won't match")
         
         XCTAssertEqual(obj.webPSize,
@@ -487,7 +487,7 @@ extension XCTestCase {
                        "WebP size won't match")
         
         XCTAssertEqual(obj.mp4Url,
-                       obj.jsonRepresentation!["mp4_url"] as? String,
+                       obj.jsonRepresentation!["mp4"] as? String,
                        "Mp4 url won't match")
         
         XCTAssertEqual(obj.mp4Size,
