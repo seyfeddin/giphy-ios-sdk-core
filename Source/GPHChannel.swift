@@ -152,7 +152,7 @@ extension GPHChannel: GPHMappable {
         obj.jsonRepresentation = jsonData
         
         if let imageData = jsonData["featured_gif"] as? GPHJSONObject {
-            obj.featuredGif = try GPHMedia.mapData(nil, data: imageData, request: requestType)
+            obj.featuredGif = try GPHMedia.mapData(nil, data: imageData, request: requestType, media: mediaType)
         }
         
         // Handle User Data

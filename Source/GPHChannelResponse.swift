@@ -68,7 +68,7 @@ extension GPHChannelResponse: GPHMappable {
         }
         
         let meta = try GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
-        let channel = try GPHChannel.mapData(nil, data: channelData, request: requestType)
+        let channel = try GPHChannel.mapData(nil, data: channelData, request: requestType, media: mediaType)
         
         return GPHChannelResponse(meta, data: channel)
     }
