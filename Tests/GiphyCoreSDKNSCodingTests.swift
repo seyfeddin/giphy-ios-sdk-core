@@ -42,6 +42,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
+                // Test that search always returns some results
                 XCTAssert(data.count != 0, "No results found for [" + term + "]")
                 data.forEach { result in
                     do {
@@ -435,7 +436,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             
             if let response = response, let data = response.data {
                 print(response.meta)
-                // Test that suggestion always returns some values
+                // Test that suggestions always returns some values
                 XCTAssert(data.count != 0, "No suggestions found for [" + term + "]")
                 data.forEach { result in
                     do {
