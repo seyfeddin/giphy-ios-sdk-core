@@ -30,11 +30,10 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         super.tearDown()
     }
     
-    func testNSCodingForSearchGIFs() {
-        // Test to see if we can do a valid search request with our Client Api Key
+    func requestSearch(for term: String) {
         let promise = expectation(description: "Status 200 & Receive Search Results & Map them to Objects")
         
-        let _ = client.search("cats") { (response, error) in
+        let _ = client.search(term) { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
@@ -43,6 +42,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
+                XCTAssert(data.count != 0, "No results found for [" + term + "]")
                 data.forEach { result in
                     do {
                         // Test the initial mapping before archiving
@@ -67,6 +67,16 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
+    }
+    
+    func testNSCodingForSearchGIFs() {
+        // Test to see if we can do a valid search request with our Client Api Key
+        requestSearch(for: "cats")
+        requestSearch(for: "cats smile")
+        requestSearch(for: "cats     smile")
+        requestSearch(for: "cat & dog")
+        requestSearch(for: "cat %20")
+        requestSearch(for: "__ __cat")
     }
     
     func testNSCodingForSearchStickers() {
@@ -414,12 +424,10 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     }
     
     // MARK: Test Term Suggestions
-    
-    func testNSCodingForTermSuggestions() {
-        // Test to see if we can do a valid search request with our Client Api Key
+    func requestSuggestions(for term: String) {
         let promise = expectation(description: "Status 200 & Receive Term Suggestions & Map them to Objects")
         
-        let _ = client.termSuggestions("carm") { (response, error) in
+        let _ = client.termSuggestions(term) { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
@@ -427,6 +435,8 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             
             if let response = response, let data = response.data {
                 print(response.meta)
+                // Test that suggestion always returns some values
+                XCTAssert(data.count != 0, "No suggestions found for [" + term + "]")
                 data.forEach { result in
                     do {
                         // Test the initial mapping before archiving
@@ -450,6 +460,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
+    }
+    
+    func testNSCodingForTermSuggestions() {
+        requestSuggestions(for: "cas fails")
+        requestSuggestions(for: "cat     fails")
+        requestSuggestions(for: "cat & dog")
+        requestSuggestions(for: "cat %20")
+        requestSuggestions(for: "__ __cat")
+        requestSuggestions(for: "carm")
     }
     
     // MARK: Test Categories
