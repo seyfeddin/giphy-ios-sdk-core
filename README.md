@@ -6,9 +6,9 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 [![Build Status](https://travis-ci.com/Giphy/giphy-ios-sdk-core.svg?token=ApviWy5Ne8UKNzA4xUNJ&branch=master)](https://travis-ci.com/Giphy/giphy-ios-sdk-core)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods](https://img.shields.io/cocoapods/v/GiphyCoreSDK.svg)]()
-[![](https://img.shields.io/badge/OS%20X-10.9%2B-lightgrey.svg)]()
-[![](https://img.shields.io/badge/iOS-7.0%2B-lightgrey.svg)]()
-[![Swift Version](https://img.shields.io/badge/Swift-3.2-orange.svg)]()
+[![](https://img.shields.io/badge/OS%20X-10.12%2B-lightgrey.svg)]()
+[![](https://img.shields.io/badge/iOS-8.0%2B-lightgrey.svg)]()
+[![Swift Version](https://img.shields.io/badge/Swift-4-orange.svg)]()
 
 
 
