@@ -604,8 +604,8 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                     try? self.validateJSONForMedia(featuredGif, media: .sticker, request: .channel)
                 }
             } else {
-                print(response)
-                print(error)
+                print(response ?? "no response")
+                print(error ?? "no error")
                 XCTFail("Failed to fetch channel object.")
             }
             promise.fulfill()
@@ -638,8 +638,8 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                     }
                 }
             } else {
-                print(response)
-                print(error)
+                print(response ?? "no response")
+                print(error ?? "no error")
                 XCTFail("Failed to fetch gifs.")
             }
             promise.fulfill()
@@ -661,8 +661,8 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                     }
                 }
             } else {
-                print(response)
-                print(error)
+                print(response ?? "no response")
+                print(error ?? "no error")
                 XCTFail("Failed to fetch Channel children.")
             }
             promise.fulfill()
