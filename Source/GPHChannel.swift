@@ -116,7 +116,7 @@ import Foundation
 extension GPHChannel {
     
     override public var description: String {
-        return "GPHChannel(\(self.displayName)) id: \(self.id)"
+        return "GPHChannel(\(self.displayName ?? "unknown")) id: \(self.id)"
     }
     
 }

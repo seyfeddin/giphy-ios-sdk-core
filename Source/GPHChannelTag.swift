@@ -58,7 +58,7 @@ import Foundation
 extension GPHChannelTag {
     
     override public var description: String {
-        return "GPHChannelTag(\(self.tag))"
+        return "GPHChannelTag(\(self.tag ?? "unknown"))"
     }
     
 }

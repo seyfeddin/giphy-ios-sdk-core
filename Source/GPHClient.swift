@@ -275,9 +275,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
     /// Get a channel by id
     ///
-    /// - parameter id: channel id
-    /// - parameter offset: Offset of results (default: 0)
-    /// - parameter limit: Total hits you request (default: 25)
+    /// - parameter channelId: channel id
+    /// - parameter media: the media type gif/stickers
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -296,9 +295,10 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
     /// Get a channel children
     ///
-    /// - parameter id: channel id
+    /// - parameter channelId: channel id
     /// - parameter offset: Offset of results (default: 0)
     /// - parameter limit: Total hits you request (default: 25)
+    /// - parameter media: the media type gif/stickers
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
