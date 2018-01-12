@@ -35,7 +35,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
 
 /// Entry point into the Swift API.
 ///
-@objc public class GPHClient : GPHAbstractClient {
+@objcMembers public class GPHClient : GPHAbstractClient {
     // MARK: Properties
     
     /// Giphy API key.

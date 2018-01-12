@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy List Channel Response (multiple results)
 ///
-@objc public class GPHChannelResponse: GPHResponse {
+@objcMembers public class GPHChannelResponse: GPHResponse {
     // MARK: Properties
     
     /// Channel object.

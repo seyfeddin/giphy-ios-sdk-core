@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy Response Meta Info
 ///
-@objc public class GPHMeta: NSObject {
+@objcMembers public class GPHMeta: NSObject {
     // MARK: Properties
 
     /// Unique response id.

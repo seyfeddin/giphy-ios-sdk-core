@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents Giphy Categories & Subcategories
 ///
-@objc public class GPHCategory: NSObject, NSCoding {
+@objcMembers public class GPHCategory: NSObject, NSCoding {
     // MARK: Properties
 
     /// Name of the Category.

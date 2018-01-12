@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy List Category Response (multiple results)
 ///
-@objc public class GPHListCategoryResponse: GPHResponse {
+@objcMembers public class GPHListCategoryResponse: GPHResponse {
     // MARK: Properties
     
     /// Category Objects.
