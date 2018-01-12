@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy Image (GIF/Sticker)
 ///
-@objc public class GPHImage: NSObject, NSCoding {
+@objcMembers public class GPHImage: NSObject, NSCoding {
     // MARK: Properties
 
     /// ID of the Represented GPHMedia Object.

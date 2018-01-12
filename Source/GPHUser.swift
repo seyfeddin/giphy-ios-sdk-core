@@ -16,7 +16,7 @@ import Foundation
 ///
 /// http://api.giphy.com/v1/gifs/categories/animals/cats?api_key=4OMJYpPoYwVpe
 
-@objc public class GPHUser: NSObject, NSCoding {
+@objcMembers public class GPHUser: NSObject, NSCoding {
     // MARK: Properties
     
     /// Username.

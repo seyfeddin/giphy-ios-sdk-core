@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy Response Pagination Info
 ///
-@objc public class GPHPagination: NSObject {
+@objcMembers public class GPHPagination: NSObject {
     // MARK: Properties
 
     /// Total Result Count.

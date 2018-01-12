@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy Response Meta Info
 ///
-@objc public class GPHResponse: NSObject {
+@objcMembers public class GPHResponse: NSObject {
     // MARK: Properties
 
     /// Message description.

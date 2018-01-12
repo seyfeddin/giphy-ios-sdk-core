@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy List Media Response (multiple results)
 ///
-@objc public class GPHListMediaResponse: GPHResponse {
+@objcMembers public class GPHListMediaResponse: GPHResponse {
     // MARK: Properties
 
     /// Gifs/Stickers.

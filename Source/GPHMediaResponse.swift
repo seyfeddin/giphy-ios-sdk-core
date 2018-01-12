@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy Media Response (single result)
 ///
-@objc public class GPHMediaResponse: GPHResponse {
+@objcMembers public class GPHMediaResponse: GPHResponse {
     // MARK: Properties
 
     /// Message description.

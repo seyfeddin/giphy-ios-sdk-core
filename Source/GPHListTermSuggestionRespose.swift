@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy List Term Suggestions Response (multiple results)
 ///
-@objc public class GPHListTermSuggestionResponse: GPHResponse {
+@objcMembers public class GPHListTermSuggestionResponse: GPHResponse {
     // MARK: Properties
 
     /// Terms Suggested.
