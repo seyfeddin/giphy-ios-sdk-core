@@ -141,8 +141,8 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
 enum GPHRequestRouter {
     // MARK: Properties
 
-    /// Search endpoint: query, type, offset, limit, rating, lang
-    case search(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType)
+    /// Search endpoint: query, type, offset, limit, rating, lang, pingbackUserId
+    case search(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType, String?)
     
     /// Trending endpoint: type, offset, limit, rating
     case trending(GPHMediaType, Int, Int, GPHRatingType)
@@ -198,13 +198,16 @@ enum GPHRequestRouter {
         let url: URL = {
             let relativePath: String?
             switch self {
-            case .search(let query, let type, let offset, let limit, let rating, let lang):
+            case .search(let query, let type, let offset, let limit, let rating, let lang, let pingbackUserId):
                 relativePath = "\(type.rawValue)s/search"
                 queryItems.append(URLQueryItem(name: "q", value: query))
                 queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
                 queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
                 queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
                 queryItems.append(URLQueryItem(name: "lang", value: lang.rawValue))
+                if let pbId = pingbackUserId {
+                    queryItems.append(URLQueryItem(name: "pingback_id", value: pbId))
+                }
             case .trending(let type, let offset, let limit, let rating):
                 relativePath = "\(type.rawValue)s/trending"
                 queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
