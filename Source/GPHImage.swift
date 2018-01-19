@@ -39,7 +39,7 @@ import Foundation
     public fileprivate(set) var frames: Int?
     
     /// Gif file size in bytes.
-    public fileprivate(set) var gifSize: Int?
+    public fileprivate(set) var gifSize: Int = 0
     
     /// URL of the WebP file.
     public fileprivate(set) var webPUrl: String?
@@ -84,7 +84,7 @@ import Foundation
                   
         self.gifUrl = aDecoder.decodeObject(forKey: "gifUrl") as? String
         self.stillGifUrl = aDecoder.decodeObject(forKey: "stillGifUrl") as? String
-        self.gifSize = aDecoder.decodeObject(forKey: "gifSize") as? Int
+        self.gifSize = aDecoder.decodeObject(forKey: "gifSize") as? Int ?? 0
         self.width = aDecoder.decodeObject(forKey: "width") as? Int ?? 0
         self.height = aDecoder.decodeObject(forKey: "height") as? Int ?? 0
         self.frames = aDecoder.decodeObject(forKey: "frames") as? Int
@@ -161,8 +161,8 @@ extension GPHImage: GPHMappable {
         let obj = GPHImage(mediaId, rendition: renditionType)
         
         obj.gifUrl = jsonData["url"] as? String
-        obj.stillGifUrl = jsonData["still_url"]  as? String
-        obj.gifSize = parseInt(jsonData["size"] as? String)
+        obj.stillGifUrl = jsonData["still_url"] as? String
+        obj.gifSize = parseInt(jsonData["size"] as? String) ?? 0
         obj.width = parseInt(jsonData["width"] as? String) ?? 0
         obj.height = parseInt(jsonData["height"] as? String) ?? 0
         obj.frames = parseInt(jsonData["frames"] as? String)
