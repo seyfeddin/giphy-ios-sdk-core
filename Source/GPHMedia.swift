@@ -96,7 +96,7 @@ import Foundation
     public fileprivate(set) var isRealtime: Bool = false
     public fileprivate(set) var isIndexable: Bool = false
     public fileprivate(set) var isSticker: Bool = false
-
+    
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
@@ -298,7 +298,7 @@ extension GPHMedia: GPHMappable {
                 obj.images = renditions
             }
         }
-        
+
         return obj
     }
 
