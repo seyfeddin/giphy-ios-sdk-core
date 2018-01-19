@@ -97,10 +97,6 @@ import Foundation
     public fileprivate(set) var isIndexable: Bool = false
     public fileprivate(set) var isSticker: Bool = false
     
-    /// Size of the original rendition.
-    public fileprivate(set) var originalRenditionWidth: Float? = 0.0
-    public fileprivate(set) var originalRenditionHeight: Float? = 0.0
-
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
@@ -155,8 +151,6 @@ import Foundation
         self.isSticker = aDecoder.decodeBool(forKey: "isSticker")
         self.updateDate = aDecoder.decodeObject(forKey: "updateDate") as? Date
         self.createDate = aDecoder.decodeObject(forKey: "createDate") as? Date
-        self.originalRenditionWidth = aDecoder.decodeObject(forKey: "originalRenditionWidth") as? Float
-        self.originalRenditionHeight = aDecoder.decodeObject(forKey: "originalRenditionHeight") as? Float
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
     }
     
@@ -192,8 +186,6 @@ import Foundation
         aCoder.encode(self.isSticker, forKey: "isSticker")
         aCoder.encode(self.updateDate, forKey: "updateDate")
         aCoder.encode(self.createDate, forKey: "createDate")
-        aCoder.encode(self.originalRenditionWidth, forKey: "originalRenditionWidth")
-        aCoder.encode(self.originalRenditionHeight, forKey: "originalRenditionHeight")
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
     }
     
@@ -305,17 +297,6 @@ extension GPHMedia: GPHMappable {
                 let renditions = try GPHImages.mapData(obj, data: renditionData, request: requestType, media: mediaType)
                 obj.images = renditions
             }
-        }
-        
-        // Calculate original rendition size
-        
-        obj.originalRenditionWidth = nil
-        obj.originalRenditionHeight = nil
-        if let originalRendition = obj.images?.original,
-            let width = originalRendition.width,
-            let height = originalRendition.height {
-            obj.originalRenditionWidth = Float(width)
-            obj.originalRenditionHeight = Float(height)
         }
 
         return obj
