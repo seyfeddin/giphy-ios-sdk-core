@@ -2,7 +2,7 @@
 //  GPHMeta.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu, Gene Goykhman on 4/24/17.
+//  Created by Cem Kozinoglu, Gene Goykhman, Giorgia Marenda on 4/24/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public
@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy Response Meta Info
 ///
-@objc public class GPHMeta: NSObject {
+@objcMembers public class GPHMeta: NSObject {
     // MARK: Properties
 
     /// Unique response id.

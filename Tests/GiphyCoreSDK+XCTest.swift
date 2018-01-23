@@ -2,7 +2,7 @@
 //  GiphyCoreSDK+XCTest.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu, Gene Goykhman on 4/24/17.
+//  Created by Cem Kozinoglu, Gene Goykhman, Giorgia Marenda on 4/24/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public
@@ -268,6 +268,102 @@ extension XCTestCase {
 
 }
 
+/// Extension for GPHImages JSON<>Obj roundtrip check
+///
+extension XCTestCase {
+    
+    /// Function to test Archiving&Unarchiving an object
+    ///
+    /// - parameter root: object to check mapping.
+    ///
+    func validateJSONForChannelTag(_ obj: GPHChannelTag) throws {
+        
+        XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
+        
+        XCTAssertEqual(obj.id,
+                       obj.jsonRepresentation!["id"] as? Int,
+                       "Id won't match")
+        
+        XCTAssertEqual(obj.tag,
+                       obj.jsonRepresentation!["tag"] as? String,
+                       "tag field won't match")
+        
+        XCTAssertEqual(obj.channel,
+                       obj.jsonRepresentation!["channel"] as? Int,
+                       "channel field won't match")
+        
+        XCTAssertEqual(obj.rank,
+                       obj.jsonRepresentation!["rank"] as? Int,
+                       "rank field won't match")
+    }
+    
+}
+
+/// Extension for GPHImages JSON<>Obj roundtrip check
+///
+extension XCTestCase {
+    
+    /// Function to test Archiving&Unarchiving an object
+    ///
+    /// - parameter root: object to check mapping.
+    ///
+    func validateJSONForChannel(_ obj: GPHChannel, channelId: Int, media: GPHMediaType, request: GPHRequestType) throws {
+        
+        XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
+        
+        XCTAssertEqual(obj.id,
+                       channelId,
+                       "Media Id won't match")
+        
+        XCTAssertEqual(obj.id,
+                       obj.jsonRepresentation!["id"] as? Int,
+                       "id field won't match")
+        
+        XCTAssertEqual(obj.slug,
+                       obj.jsonRepresentation!["slug"] as? String,
+                       "slug field won't match")
+        
+        XCTAssertEqual(obj.type,
+                       obj.jsonRepresentation!["type"] as? String,
+                       "type field won't match")
+        
+        XCTAssertEqual(obj.contentType,
+                       obj.jsonRepresentation!["content_type"] as? String,
+                       "content_type field won't match")
+        
+        XCTAssertEqual(obj.bannerImage,
+                       obj.jsonRepresentation!["banner_image"] as? String,
+                       "banner_image field won't match")
+        
+        XCTAssertEqual(obj.displayName,
+                       obj.jsonRepresentation!["display_name"] as? String,
+                       "display_name field won't match")
+        
+        XCTAssertEqual(obj.shortDisplayName,
+                       obj.jsonRepresentation!["short_display_name"] as? String,
+                       "short_display_name field won't match")
+        
+        XCTAssertEqual(obj.descriptionText,
+                       obj.jsonRepresentation!["description"] as? String,
+                       "description field won't match")
+        
+        if obj.jsonRepresentation!["tags"] != nil {
+            if let tagsJSON = obj.jsonRepresentation!["tags"] as? [GPHChannelTag] {
+                XCTAssertEqual(obj.tags!.count,
+                               tagsJSON.count,
+                               "Tags count is not matching")
+                obj.tags?.forEach({ tag in
+                    try? self.validateJSONForChannelTag(tag)
+                })
+            }
+        }
+        
+        if obj.jsonRepresentation!["user"] != nil {
+            try? self.validateJSONForUser(obj.user!, request: request)
+        }
+    }
+    
+}
 
 /// Extension for GPHImages JSON<>Obj roundtrip check
 ///
@@ -286,7 +382,7 @@ extension XCTestCase {
                        "Media Id won't match")
         
         switch request {
-        case .search, .get, .getAll, .translate, .categoryContent:
+        case .search, .get, .getAll, .translate, .categoryContent, .channel, .channelContent, .channelChildren:
             try? self.validateJSONForImage(obj.original!, mediaId: mediaId, rendition: .original, media: media, request: request)
             try? self.validateJSONForImage(obj.originalStill!, mediaId: mediaId, rendition: .originalStill, media: media, request: request)
             try? self.validateJSONForImage(obj.preview!, mediaId: mediaId, rendition: .preview, media: media, request: request)
@@ -366,36 +462,39 @@ extension XCTestCase {
                        obj.jsonRepresentation!["still_url"] as? String,
                        "Still Gif Url won't match")
         
+        print(obj.gifSize)
+        print(GPHImage.parseInt(obj.jsonRepresentation!["size"] as? String) ?? 0)
+        
         XCTAssertEqual(obj.gifSize,
-                       GPHImage.parseInt(obj.jsonRepresentation!["size"] as? String),
+                       GPHImage.parseInt(obj.jsonRepresentation!["size"] as? String) ?? 0,
                        "Gif size won't match")
 
         XCTAssertEqual(obj.width,
-                       GPHImage.parseInt(obj.jsonRepresentation!["width"] as? String),
+                       GPHImage.parseInt(obj.jsonRepresentation!["width"] as? String) ?? 0,
                        "Gif width won't match")
         
         XCTAssertEqual(obj.height,
-                       GPHImage.parseInt(obj.jsonRepresentation!["height"] as? String),
+                       GPHImage.parseInt(obj.jsonRepresentation!["height"] as? String) ?? 0,
                        "Gif height won't match")
         
         XCTAssertEqual(obj.frames,
-                       GPHImage.parseInt(obj.jsonRepresentation!["frames"] as? String),
+                       GPHImage.parseInt(obj.jsonRepresentation!["frames"] as? String) ?? 0,
                        "Gif frames won't match")
         
         XCTAssertEqual(obj.webPUrl,
-                       obj.jsonRepresentation!["webp_url"] as? String,
+                       obj.jsonRepresentation!["webp"] as? String,
                        "WebP url won't match")
         
         XCTAssertEqual(obj.webPSize,
-                       GPHImage.parseInt(obj.jsonRepresentation!["webp_size"] as? String),
+                       GPHImage.parseInt(obj.jsonRepresentation!["webp_size"] as? String) ?? 0,
                        "WebP size won't match")
         
         XCTAssertEqual(obj.mp4Url,
-                       obj.jsonRepresentation!["mp4_url"] as? String,
+                       obj.jsonRepresentation!["mp4"] as? String,
                        "Mp4 url won't match")
         
         XCTAssertEqual(obj.mp4Size,
-                       GPHImage.parseInt(obj.jsonRepresentation!["mp4_size"] as? String),
+                       GPHImage.parseInt(obj.jsonRepresentation!["mp4_size"] as? String) ?? 0,
                        "Mp4 size frames won't match")
         
     }

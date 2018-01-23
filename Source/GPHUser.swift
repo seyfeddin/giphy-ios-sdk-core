@@ -2,7 +2,7 @@
 //  GPHUser.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu, Gene Goykhman on 4/24/17.
+//  Created by Cem Kozinoglu, Gene Goykhman, Giorgia Marenda on 4/24/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public
@@ -16,7 +16,7 @@ import Foundation
 ///
 /// http://api.giphy.com/v1/gifs/categories/animals/cats?api_key=4OMJYpPoYwVpe
 
-@objc public class GPHUser: NSObject, NSCoding {
+@objcMembers public class GPHUser: NSObject, NSCoding {
     // MARK: Properties
     
     /// Username.

@@ -2,7 +2,7 @@
 //  GPHAbstractClient.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu, Gene Goykhman on 4/24/17.
+//  Created by Cem Kozinoglu, Gene Goykhman, Giorgia Marenda on 4/24/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public
@@ -186,6 +186,61 @@ import Foundation
                                 type: type,
                                 completionHandler: GPHAbstractClient.parseJSONResponse(root: root,
                                                                                        type: type,
+                                                                                       media: media,
+                                                                                       completionHandler: completionHandler))
+    }
+    
+    /// Perform a request to get a channels object.
+    ///
+    /// - parameter type: GPHRequestType to figure out what endpoint to hit
+    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    ///
+    @objc
+    @discardableResult func channelRequest(with request: URLRequest,
+                                              type: GPHRequestType,
+                                              media: GPHMediaType,
+                                              completionHandler: @escaping GPHCompletionHandler<GPHChannelResponse>) -> Operation {
+        
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
+                                                                                       media: media,
+                                                                                       completionHandler: completionHandler))
+    }
+    
+    /// Get a list of children of a given channel
+    ///
+    /// - parameter type: GPHRequestType to figure out what endpoint to hit
+    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    ///
+    @objc
+    @discardableResult func channelChildrenRequest(with request: URLRequest,
+                                              type: GPHRequestType,
+                                              media: GPHMediaType,
+                                              completionHandler: @escaping GPHCompletionHandler<GPHListChannelResponse>) -> Operation {
+        
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
+                                                                                       media: media,
+                                                                                       completionHandler: completionHandler))
+    }
+    
+    /// Get a list of gifs for a given channel.
+    /// NOTE: this has the same response structure as any other getGifs
+    ///
+    /// - parameter type: GPHRequestType to figure out what endpoint to hit
+    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    ///
+    @objc
+    @discardableResult func channelContentRequest(with request: URLRequest,
+                                              type: GPHRequestType,
+                                              media: GPHMediaType,
+                                              completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
+        
+        return self.httpRequest(with: request,
+                                type: type,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
                                                                                        media: media,
                                                                                        completionHandler: completionHandler))
     }

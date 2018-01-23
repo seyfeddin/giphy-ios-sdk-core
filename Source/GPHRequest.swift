@@ -2,7 +2,7 @@
 //  GPHRequest.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu, Gene Goykhman on 4/24/17.
+//  Created by Cem Kozinoglu, Gene Goykhman, Giorgia Marenda on 4/24/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public
@@ -44,6 +44,15 @@ import Foundation
 
     /// Category Content.
     case categoryContent
+    
+    /// Get Channel by id.
+    case channel
+    
+    /// Get Channel Children (sub Channels).
+    case channelChildren
+    
+    /// Get Channel Gifs (media).
+    case channelContent
 }
 
 
@@ -141,8 +150,8 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
 enum GPHRequestRouter {
     // MARK: Properties
 
-    /// Search endpoint: query, type, offset, limit, rating, lang
-    case search(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType)
+    /// Search endpoint: query, type, offset, limit, rating, lang, pingbackUserId
+    case search(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType, String?)
     
     /// Trending endpoint: type, offset, limit, rating
     case trending(GPHMediaType, Int, Int, GPHRatingType)
@@ -171,6 +180,15 @@ enum GPHRequestRouter {
     /// Category content endpoint: category, type, offset, limit, rating, lang
     case categoryContent(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType)
     
+    /// Get a channel by id endpoint: id, offset, limit
+    case channel(Int)
+    
+    /// Get channel children endpoint: id, offset, limit
+    case channelChildren(Int, Int, Int)
+    
+    /// Get channel gifs+stickers endpoint: id, offset, limit
+    case channelContent(Int, Int, Int)
+    
     /// Base endpoint url.
     static let baseURLString = "https://api.giphy.com/v1/"
     
@@ -198,13 +216,16 @@ enum GPHRequestRouter {
         let url: URL = {
             let relativePath: String?
             switch self {
-            case .search(let query, let type, let offset, let limit, let rating, let lang):
+            case .search(let query, let type, let offset, let limit, let rating, let lang, let pingbackUserId):
                 relativePath = "\(type.rawValue)s/search"
                 queryItems.append(URLQueryItem(name: "q", value: query))
                 queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
                 queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
                 queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
                 queryItems.append(URLQueryItem(name: "lang", value: lang.rawValue))
+                if let pbId = pingbackUserId {
+                    queryItems.append(URLQueryItem(name: "pingback_id", value: pbId))
+                }
             case .trending(let type, let offset, let limit, let rating):
                 relativePath = "\(type.rawValue)s/trending"
                 queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
@@ -242,7 +263,16 @@ enum GPHRequestRouter {
                 queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
                 queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
                 queryItems.append(URLQueryItem(name: "lang", value: lang.rawValue))
-
+            case .channel(let id):
+                relativePath = "stickers/packs/\(id)"
+            case .channelChildren(let id, let offset, let limit):
+                relativePath = "stickers/packs/\(id)/children"
+                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
+            case .channelContent(let id, let offset, let limit):
+                relativePath = "stickers/packs/\(id)/stickers"
+                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
             }
             
             var url = URL(string: GPHRequestRouter.baseURLString)!

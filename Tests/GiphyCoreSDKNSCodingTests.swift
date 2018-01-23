@@ -2,7 +2,7 @@
 //  GiphyCoreSDKNSCodingTests.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu, Gene Goykhman on 4/24/17.
+//  Created by Cem Kozinoglu, Gene Goykhman, Giorgia Marenda on 4/24/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public
@@ -30,11 +30,10 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         super.tearDown()
     }
     
-    func testNSCodingForSearchGIFs() {
-        // Test to see if we can do a valid search request with our Client Api Key
+    func requestSearch(for term: String) {
         let promise = expectation(description: "Status 200 & Receive Search Results & Map them to Objects")
         
-        let _ = client.search("cats") { (response, error) in
+        let _ = client.search(term) { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
@@ -43,6 +42,8 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
+                // Test that search always returns some results
+                XCTAssert(data.count != 0, "No results found for [" + term + "]")
                 data.forEach { result in
                     do {
                         // Test the initial mapping before archiving
@@ -67,6 +68,16 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
+    }
+    
+    func testNSCodingForSearchGIFs() {
+        // Test to see if we can do a valid search request with our Client Api Key
+        requestSearch(for: "cats")
+        requestSearch(for: "cats smile")
+        requestSearch(for: "cats     smile")
+        requestSearch(for: "cat & dog")
+        requestSearch(for: "cat %20")
+        requestSearch(for: "__ __cat")
     }
     
     func testNSCodingForSearchStickers() {
@@ -414,12 +425,10 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     }
     
     // MARK: Test Term Suggestions
-    
-    func testNSCodingForTermSuggestions() {
-        // Test to see if we can do a valid search request with our Client Api Key
+    func requestSuggestions(for term: String) {
         let promise = expectation(description: "Status 200 & Receive Term Suggestions & Map them to Objects")
         
-        let _ = client.termSuggestions("carm") { (response, error) in
+        let _ = client.termSuggestions(term) { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
@@ -427,6 +436,8 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             
             if let response = response, let data = response.data {
                 print(response.meta)
+                // Test that suggestions always returns some values
+                XCTAssert(data.count != 0, "No suggestions found for [" + term + "]")
                 data.forEach { result in
                     do {
                         // Test the initial mapping before archiving
@@ -450,6 +461,15 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 10, handler: nil)
+    }
+    
+    func testNSCodingForTermSuggestions() {
+        requestSuggestions(for: "cas fails")
+        requestSuggestions(for: "cat     fails")
+        requestSuggestions(for: "cat & dog")
+        requestSuggestions(for: "cat %20")
+        requestSuggestions(for: "__ __cat")
+        requestSuggestions(for: "carm")
     }
     
     // MARK: Test Categories
@@ -572,7 +592,82 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
-
     
+    func testNSCodingForChannel() {
+        let promise = expectation(description: "Status 200 & Receive Channel")
+        
+        let _ = client.channel(GPHChannel.StickersRootId, media: .sticker) { (response, error) in
+            if let data = response?.data {
+                print(data)
+                try? self.validateJSONForChannel(data, channelId: data.id, media: .sticker, request: .channel)
+                if let featuredGif = data.featuredGif {
+                    try? self.validateJSONForMedia(featuredGif, media: .sticker, request: .channel)
+                }
+            } else {
+                print(response ?? "no response")
+                print(error ?? "no error")
+                XCTFail("Failed to fetch channel object.")
+            }
+            promise.fulfill()
+        }
+        
+        waitForExpectations(timeout: 10, handler: nil)
+    }
     
+    func testNSCodingForChannelContent() {
+        let promise = expectation(description: "Status 200 & Map gif objects")
+        
+        let _ = client.channelContent(3203, offset: 0, limit: 50, media: .sticker) { (response, error) in
+            if let data = response?.data {
+                print(data)
+                data.forEach { result in
+                    do {
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForMedia(result, media: .sticker, request: .channelContent)
+                        
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForMedia(obj, media: .sticker, request: .channelContent)
+                        
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
+                    }
+                }
+            } else {
+                print(response ?? "no response")
+                print(error ?? "no error")
+                XCTFail("Failed to fetch gifs.")
+            }
+            promise.fulfill()
+        }
+        
+        waitForExpectations(timeout: 10, handler: nil)
+    }
+    
+    func testNSCodingForChannelChildren() {
+        let promise = expectation(description: "Status 200 & Receive Map Channel objects")
+        
+        let _ = client.channelChildren(GPHChannel.StickersRootId, offset: 0, limit: 1, media: .sticker) { (response, error) in
+            if let data = response?.data {
+                data.forEach { channel in
+                    print(data)
+                    try? self.validateJSONForChannel(channel, channelId: channel.id, media: .sticker, request: .channelChildren)
+                    if let featuredGif = channel.featuredGif {
+                        try? self.validateJSONForMedia(featuredGif, media: .sticker, request: .channelChildren)
+                    }
+                }
+            } else {
+                print(response ?? "no response")
+                print(error ?? "no error")
+                XCTFail("Failed to fetch Channel children.")
+            }
+            promise.fulfill()
+        }
+        
+        waitForExpectations(timeout: 10, handler: nil)
+    }
 }

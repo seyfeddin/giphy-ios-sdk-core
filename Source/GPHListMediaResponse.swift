@@ -2,7 +2,7 @@
 //  GPHListMediaResponse.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu, Gene Goykhman on 4/24/17.
+//  Created by Cem Kozinoglu, Gene Goykhman, Giorgia Marenda on 4/24/17.
 //  Copyright © 2017 Giphy. All rights reserved.
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public
@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy List Media Response (multiple results)
 ///
-@objc public class GPHListMediaResponse: GPHResponse {
+@objcMembers public class GPHListMediaResponse: GPHResponse {
     // MARK: Properties
 
     /// Gifs/Stickers.
@@ -65,36 +65,29 @@ extension GPHListMediaResponse: GPHMappable {
                                request requestType: GPHRequestType,
                                media mediaType: GPHMediaType = .gif,
                                rendition renditionType: GPHRenditionType = .original) throws -> GPHListMediaResponse {
-        
         guard
             let metaData = jsonData["meta"] as? GPHJSONObject
             else {
                 throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(jsonData)")
         }
-        
         let meta = try GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
         
-        // Try to see if we can get the Media object
-        if let mediaData = jsonData["data"] as? [GPHJSONObject], let paginationData = jsonData["pagination"] as? GPHJSONObject {
-            
-            // Get Pagination
-            let pagination = try GPHPagination.mapData(nil, data: paginationData, request: requestType, media: mediaType)
-            
-            // Get Results
-            var results: [GPHMedia] = []
-            
+        var pagination: GPHPagination? = nil
+        if let paginationData = jsonData["pagination"] as? GPHJSONObject {
+            pagination = try GPHPagination.mapData(nil, data: paginationData, request: requestType, media: mediaType)
+        }
+        
+        var results: [GPHMedia]? = nil
+        if let mediaData = jsonData["data"] as? [GPHJSONObject] {
+            results = []
             for result in mediaData {
                 let result = try GPHMedia.mapData(nil, data: result, request: requestType, media: mediaType)
-                results.append(result)
+                results?.append(result)
             }
-            
-            // We have images and the meta data and pagination
-            let obj = GPHListMediaResponse(meta, data: results, pagination: pagination)
-            return obj
         }
         
         // No image and pagination data, return the meta data
-        let obj = GPHListMediaResponse(meta, data: nil, pagination: nil)
+        let obj = GPHListMediaResponse(meta, data: results, pagination: pagination)
         return obj
     }
     
