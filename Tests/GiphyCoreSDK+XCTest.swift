@@ -462,20 +462,23 @@ extension XCTestCase {
                        obj.jsonRepresentation!["still_url"] as? String,
                        "Still Gif Url won't match")
         
+        print(obj.gifSize)
+        print(GPHImage.parseInt(obj.jsonRepresentation!["size"] as? String) ?? 0)
+        
         XCTAssertEqual(obj.gifSize,
-                       GPHImage.parseInt(obj.jsonRepresentation!["size"] as? String),
+                       GPHImage.parseInt(obj.jsonRepresentation!["size"] as? String) ?? 0,
                        "Gif size won't match")
 
         XCTAssertEqual(obj.width,
-                       GPHImage.parseInt(obj.jsonRepresentation!["width"] as? String),
+                       GPHImage.parseInt(obj.jsonRepresentation!["width"] as? String) ?? 0,
                        "Gif width won't match")
         
         XCTAssertEqual(obj.height,
-                       GPHImage.parseInt(obj.jsonRepresentation!["height"] as? String),
+                       GPHImage.parseInt(obj.jsonRepresentation!["height"] as? String) ?? 0,
                        "Gif height won't match")
         
         XCTAssertEqual(obj.frames,
-                       GPHImage.parseInt(obj.jsonRepresentation!["frames"] as? String),
+                       GPHImage.parseInt(obj.jsonRepresentation!["frames"] as? String) ?? 0,
                        "Gif frames won't match")
         
         XCTAssertEqual(obj.webPUrl,
@@ -483,7 +486,7 @@ extension XCTestCase {
                        "WebP url won't match")
         
         XCTAssertEqual(obj.webPSize,
-                       GPHImage.parseInt(obj.jsonRepresentation!["webp_size"] as? String),
+                       GPHImage.parseInt(obj.jsonRepresentation!["webp_size"] as? String) ?? 0,
                        "WebP size won't match")
         
         XCTAssertEqual(obj.mp4Url,
@@ -491,7 +494,7 @@ extension XCTestCase {
                        "Mp4 url won't match")
         
         XCTAssertEqual(obj.mp4Size,
-                       GPHImage.parseInt(obj.jsonRepresentation!["mp4_size"] as? String),
+                       GPHImage.parseInt(obj.jsonRepresentation!["mp4_size"] as? String) ?? 0,
                        "Mp4 size frames won't match")
         
     }

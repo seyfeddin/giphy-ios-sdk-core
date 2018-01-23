@@ -36,7 +36,7 @@ import Foundation
     public fileprivate(set) var height: Int = 0
 
     /// # of Frames.
-    public fileprivate(set) var frames: Int?
+    public fileprivate(set) var frames: Int = 0
     
     /// Gif file size in bytes.
     public fileprivate(set) var gifSize: Int = 0
@@ -45,13 +45,13 @@ import Foundation
     public fileprivate(set) var webPUrl: String?
 
     /// Gif file size in bytes.
-    public fileprivate(set) var webPSize: Int?
+    public fileprivate(set) var webPSize: Int = 0
     
     /// URL of the mp4 file.
     public fileprivate(set) var mp4Url: String?
     
     /// Gif file size in bytes.
-    public fileprivate(set) var mp4Size: Int?
+    public fileprivate(set) var mp4Size: Int = 0
     
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
@@ -84,14 +84,14 @@ import Foundation
                   
         self.gifUrl = aDecoder.decodeObject(forKey: "gifUrl") as? String
         self.stillGifUrl = aDecoder.decodeObject(forKey: "stillGifUrl") as? String
-        self.gifSize = aDecoder.decodeObject(forKey: "gifSize") as? Int ?? 0
-        self.width = aDecoder.decodeObject(forKey: "width") as? Int ?? 0
-        self.height = aDecoder.decodeObject(forKey: "height") as? Int ?? 0
-        self.frames = aDecoder.decodeObject(forKey: "frames") as? Int
+        self.gifSize = aDecoder.decodeInteger(forKey: "gifSize")
+        self.width = aDecoder.decodeInteger(forKey: "width")
+        self.height = aDecoder.decodeInteger(forKey: "height")
+        self.frames = aDecoder.decodeInteger(forKey: "frames")
         self.webPUrl = aDecoder.decodeObject(forKey: "webPUrl") as? String
-        self.webPSize = aDecoder.decodeObject(forKey: "webPSize") as? Int
+        self.webPSize = aDecoder.decodeInteger(forKey: "webPSize")
         self.mp4Url = aDecoder.decodeObject(forKey: "mp4Url") as? String
-        self.mp4Size = aDecoder.decodeObject(forKey: "mp4Size") as? Int
+        self.mp4Size = aDecoder.decodeInteger(forKey: "mp4Size")
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
     }
     
@@ -165,11 +165,11 @@ extension GPHImage: GPHMappable {
         obj.gifSize = parseInt(jsonData["size"] as? String) ?? 0
         obj.width = parseInt(jsonData["width"] as? String) ?? 0
         obj.height = parseInt(jsonData["height"] as? String) ?? 0
-        obj.frames = parseInt(jsonData["frames"] as? String)
+        obj.frames = parseInt(jsonData["frames"] as? String) ?? 0
         obj.webPUrl = jsonData["webp"] as? String
-        obj.webPSize = parseInt(jsonData["webp_size"] as? String)
+        obj.webPSize = parseInt(jsonData["webp_size"] as? String) ?? 0
         obj.mp4Url = jsonData["mp4"] as? String
-        obj.mp4Size = parseInt(jsonData["mp4_size"] as? String)
+        obj.mp4Size = parseInt(jsonData["mp4_size"] as? String) ?? 0
         obj.jsonRepresentation = jsonData
         
         return obj
