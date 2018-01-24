@@ -77,7 +77,6 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         requestSearch(for: "cats     smile")
         requestSearch(for: "cat & dog")
         requestSearch(for: "cat %20")
-        requestSearch(for: "__ __cat")
     }
     
     func testNSCodingForSearchStickers() {
@@ -468,7 +467,6 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         requestSuggestions(for: "cat     fails")
         requestSuggestions(for: "cat & dog")
         requestSuggestions(for: "cat %20")
-        requestSuggestions(for: "__ __cat")
         requestSuggestions(for: "carm")
     }
     
