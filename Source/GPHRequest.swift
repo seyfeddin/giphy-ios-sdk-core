@@ -127,64 +127,7 @@ enum GPHRequestRouter {
         let url: URL = {
             let relativePath: String?
             switch self {
-            case .search(let query, let type, let offset, let limit, let rating, let lang, let pingbackUserId):
-                relativePath = "\(type.rawValue)s/search"
-                queryItems.append(URLQueryItem(name: "q", value: query))
-                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
-                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
-                queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
-                queryItems.append(URLQueryItem(name: "lang", value: lang.rawValue))
-                if let pbId = pingbackUserId {
-                    queryItems.append(URLQueryItem(name: "pingback_id", value: pbId))
-                }
-            case .trending(let type, let offset, let limit, let rating):
-                relativePath = "\(type.rawValue)s/trending"
-                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
-                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
-                queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
-            case .translate(let term, let type, let rating, let lang):
-                relativePath = "\(type.rawValue)s/translate"
-                queryItems.append(URLQueryItem(name: "s", value: term))
-                queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
-                queryItems.append(URLQueryItem(name: "lang", value: lang.rawValue))
-            case .random(let query, let type, let rating):
-                relativePath = "\(type.rawValue)s/random"
-                queryItems.append(URLQueryItem(name: "tag", value: query))
-                queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
-            case .get(let id):
-                relativePath = "gifs/\(id)"
-            case .getAll(let ids):
-                queryItems.append(URLQueryItem(name: "ids", value: ids.flatMap({$0}).joined(separator:",")))
-                relativePath = "gifs"
-            case .termSuggestions(let term):
-                relativePath = "queries/suggest/\(term)"
-            case .categories(let type, let offset, let limit, let sort):
-                relativePath = "\(type.rawValue)s/categories"
-                queryItems.append(URLQueryItem(name: "sort", value: "\(sort)"))
-                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
-                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
-            case .subCategories(let category, let type, let offset, let limit, let sort):
-                relativePath = "\(type.rawValue)s/categories/\(category)"
-                queryItems.append(URLQueryItem(name: "sort", value: "\(sort)"))
-                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
-                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
-            case .categoryContent(let category, let type, let offset, let limit, let rating, let lang):
-                relativePath = "\(type.rawValue)s/categories/\(category)"
-                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
-                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
-                queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
-                queryItems.append(URLQueryItem(name: "lang", value: lang.rawValue))
-            case .channel(let id):
-                relativePath = "stickers/packs/\(id)"
-            case .channelChildren(let id, let offset, let limit):
-                relativePath = "stickers/packs/\(id)/children"
-                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
-                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
-            case .channelContent(let id, let offset, let limit):
-                relativePath = "stickers/packs/\(id)/stickers"
-                queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
-                queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
-            }
+
             
             var url = URL(string: GPHRequestRouter.baseURLString)!
             if let path = relativePath {

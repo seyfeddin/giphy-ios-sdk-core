@@ -116,6 +116,11 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
         let request = GPHRequestRouter.trending(media, offset, limit, rating).asURLRequest(apiKey)
         
+        relativePath = "\(type.rawValue)s/trending"
+        queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+        queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
+        queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
+        
         return self.listRequest(with: request, type: .trending, media: media, completionHandler: completionHandler)
     }
     
@@ -140,6 +145,11 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
         let request = GPHRequestRouter.translate(term, media, rating, lang).asURLRequest(apiKey)
         
+        relativePath = "\(type.rawValue)s/translate"
+        queryItems.append(URLQueryItem(name: "s", value: term))
+        queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
+        queryItems.append(URLQueryItem(name: "lang", value: lang.rawValue))
+        
         return self.getRequest(with: request, type: .translate, media: media, completionHandler: completionHandler)
     }
     
@@ -163,6 +173,10 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
         let request = GPHRequestRouter.random(query, media, rating).asURLRequest(apiKey)
         
+        relativePath = "\(type.rawValue)s/random"
+        queryItems.append(URLQueryItem(name: "tag", value: query))
+        queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
+        
         return self.getRequest(with: request, type: .random, media: media, completionHandler: completionHandler)
     }
     
@@ -181,6 +195,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
         let request = GPHRequestRouter.get(id).asURLRequest(apiKey)
         
+        relativePath = "gifs/\(id)"
+        
         return self.getRequest(with: request, type: .get, media: .gif, completionHandler: completionHandler)
     }
     
@@ -196,6 +212,9 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                      completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
     
         let request = GPHRequestRouter.getAll(ids).asURLRequest(apiKey)
+        
+        queryItems.append(URLQueryItem(name: "ids", value: ids.flatMap({$0}).joined(separator:",")))
+        relativePath = "gifs"
         
         return self.listRequest(with: request, type: .getAll, media: .gif, completionHandler: completionHandler)
     }
@@ -219,6 +238,11 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         
         let request = GPHRequestRouter.categories(.gif, offset, limit, sort).asURLRequest(apiKey)
         
+        relativePath = "\(type.rawValue)s/categories"
+        queryItems.append(URLQueryItem(name: "sort", value: "\(sort)"))
+        queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+        queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
+        
         return self.listCategoriesRequest(with: request, type: .categories, media: .gif, completionHandler: completionHandler)
     }
     
@@ -240,6 +264,11 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         
         let categoryObj = GPHCategory(category, nameEncoded: encodedStringForUrl(category), encodedPath:encodedStringForUrl(category))
         let request = GPHRequestRouter.subCategories(categoryObj.encodedPath, .gif, offset, limit, sort).asURLRequest(apiKey)
+        
+        relativePath = "\(type.rawValue)s/categories/\(category)"
+        queryItems.append(URLQueryItem(name: "sort", value: "\(sort)"))
+        queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+        queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
         
         return self.listCategoriesRequest(categoryObj, with: request, type: .subCategories, media: .gif, completionHandler: completionHandler)
     }
@@ -268,6 +297,12 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         let categoryObj = GPHCategory(category, nameEncoded: encodedStringForUrl(category), encodedPath:encodedPath)
         let request = GPHRequestRouter.categoryContent(categoryObj.encodedPath, .gif, offset, limit, rating, lang).asURLRequest(apiKey)
         
+        relativePath = "\(type.rawValue)s/categories/\(category)"
+        queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+        queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
+        queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
+        queryItems.append(URLQueryItem(name: "lang", value: lang.rawValue))
+        
         return self.listRequest(with: request, type: .categoryContent, media: .gif, completionHandler: completionHandler)
     }
     
@@ -285,6 +320,9 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         
         let request = GPHRequestRouter.termSuggestions(term).asURLRequest(apiKey)
         
+        relativePath = "queries/suggest/\(term)"
+
+        
         return self.listTermSuggestionsRequest(with: request, type: .termSuggestions, media: .gif, completionHandler: completionHandler)
     }
     
@@ -301,6 +339,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                           completionHandler: @escaping GPHCompletionHandler<GPHChannelResponse>) -> Operation {
         
         let request = GPHRequestRouter.channel(channelId).asURLRequest(apiKey)
+        
+        relativePath = "stickers/packs/\(id)"
         
         return self.channelRequest(with: request,
                                 type: .channel,
@@ -326,6 +366,10 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         
         let request = GPHRequestRouter.channelChildren(channelId, offset, limit).asURLRequest(apiKey)
         
+        relativePath = "stickers/packs/\(id)/children"
+        queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+        queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
+        
         return self.channelChildrenRequest(with: request,
                                       type: .channelChildren,
                                       media: media,
@@ -348,6 +392,10 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                               completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
         
         let request = GPHRequestRouter.channelContent(id, offset, limit).asURLRequest(apiKey)
+        
+        relativePath = "stickers/packs/\(id)/stickers"
+        queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+        queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
         
         return self.channelContentRequest(with: request,
                                       type: .channel,
