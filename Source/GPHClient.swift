@@ -78,7 +78,6 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
         // Build the request endpoint
         var queryItems:[URLQueryItem] = [
-            URLQueryItem(name: "api_key", value: apiKey),
             URLQueryItem(name: "q", value: query),
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
@@ -113,7 +112,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                      completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
         
         // Build the request endpoint
-        var queryItems:[URLQueryItem] = [
+        let queryItems:[URLQueryItem] = [
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
             URLQueryItem(name: "rating", value: rating.rawValue),
@@ -142,7 +141,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                       completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
     
         // Build the request endpoint
-        var queryItems:[URLQueryItem] = [
+        let queryItems:[URLQueryItem] = [
             URLQueryItem(name: "s", value: term),
             URLQueryItem(name: "rating", value: rating.rawValue),
             URLQueryItem(name: "lang", value: lang.rawValue),
@@ -171,7 +170,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
         
         // Build the request endpoint
-        var queryItems:[URLQueryItem] = [
+        let queryItems:[URLQueryItem] = [
             URLQueryItem(name: "tag", value: query),
             URLQueryItem(name: "rating", value: rating.rawValue),
         ]
@@ -209,7 +208,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     
 
         // Build the request endpoint
-        var queryItems:[URLQueryItem] = [
+        let queryItems:[URLQueryItem] = [
             URLQueryItem(name: "ids", value: ids.flatMap({$0}).joined(separator:","))
         ]
         let request = GPHRequestRouter.request("gifs", "GET", queryItems).asURLRequest(apiKey)
@@ -233,7 +232,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                                         completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
         
         // Build the request endpoint
-        var queryItems:[URLQueryItem] = [
+        let queryItems:[URLQueryItem] = [
             URLQueryItem(name: "sort", value: "\(sort)"),
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
@@ -261,12 +260,12 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         let categoryObj = GPHCategory(category, nameEncoded: encodedStringForUrl(category), encodedPath:encodedStringForUrl(category))
         
         // Build the request endpoint
-        var queryItems:[URLQueryItem] = [
+        let queryItems:[URLQueryItem] = [
             URLQueryItem(name: "sort", value: "\(sort)"),
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
         ]
-        let request = GPHRequestRouter.request("gifs/categories/\(category)", "GET", queryItems).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("gifs/categories/\(categoryObj.encodedPath)", "GET", queryItems).asURLRequest(apiKey)
         return self.listCategoriesRequest(categoryObj, with: request, type: .subCategories, media: .gif, completionHandler: completionHandler)
     }
     
@@ -294,13 +293,13 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         let categoryObj = GPHCategory(category, nameEncoded: encodedStringForUrl(category), encodedPath:encodedPath)
         
         // Build the request endpoint
-        var queryItems:[URLQueryItem] = [
+        let queryItems:[URLQueryItem] = [
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
             URLQueryItem(name: "rating", value: rating.rawValue),
             URLQueryItem(name: "lang", value: lang.rawValue),
         ]
-        let request = GPHRequestRouter.request("gifs/categories/\(category)", "GET", queryItems).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("gifs/categories/\(categoryObj.encodedPath)", "GET", queryItems).asURLRequest(apiKey)
         return self.listRequest(with: request, type: .categoryContent, media: .gif, completionHandler: completionHandler)
     }
     
@@ -353,7 +352,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                               completionHandler: @escaping GPHCompletionHandler<GPHListChannelResponse>) -> Operation {
         
         // Build the request endpoint
-        var queryItems:[URLQueryItem] = [
+        let queryItems:[URLQueryItem] = [
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
         ]
@@ -378,7 +377,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         
         
         // Build the request endpoint
-        var queryItems:[URLQueryItem] = [
+        let queryItems:[URLQueryItem] = [
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
         ]

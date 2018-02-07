@@ -24,6 +24,7 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
     /// The client to which this request is related.
     let client: GPHAbstractClient
     
+    let type: GPHRequestType
     // MARK: Initializers
     
     /// Convenience Initializer
@@ -33,9 +34,10 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
     /// - parameter type: Request type (GPHRequestType).
     /// - parameter completionHandler: GPHJSONCompletionHandler to return JSON or Error.
     ///
-    init(_ client: GPHAbstractClient, request: URLRequest, completionHandler: @escaping GPHJSONCompletionHandler) {
+    init(_ client: GPHAbstractClient, request: URLRequest, type: GPHRequestType, completionHandler: @escaping GPHJSONCompletionHandler) {
         self.client = client
         self.request = request
+        self.type = type
         super.init(completionHandler: completionHandler)
     }
     
@@ -112,7 +114,6 @@ enum GPHRequestRouter {
         switch self {
         case .request(_, let method, _):
             return method
-        default: return "GET"
         }
     }
     
@@ -122,7 +123,6 @@ enum GPHRequestRouter {
         switch self {
         case .request(let path, _, _):
             return baseUrl.appendingPathComponent(path)
-        default: return baseUrl
         }
     }
     
@@ -132,7 +132,6 @@ enum GPHRequestRouter {
         switch self {
         case .request(_, _, let queryItems):
             return queryItems ?? items
-        default: return items
         }
     }
     // MARK: Helper functions
@@ -179,4 +178,52 @@ enum GPHRequestRouter {
         
         return request
     }
+}
+
+
+/// Represents a Giphy URLRequest Type
+///
+/// DIS IZ GOING AWAY!!! 
+
+@objc public enum GPHRequestType: Int {
+    
+    /// Search Request.
+    case search
+    
+    /// Trending Request.
+    case trending
+    
+    /// Translate Request.
+    case translate
+    
+    /// Random Item Request.
+    case random
+    
+    /// Get an Item with ID.
+    case get
+    
+    /// Get items with IDs.
+    case getAll
+    
+    /// Get Term Suggestions.
+    case termSuggestions
+    
+    /// Top Categories.
+    case categories
+    
+    /// SubCategories of a Category.
+    case subCategories
+    
+    /// Category Content.
+    case categoryContent
+    
+    /// Get Channel by id.
+    case channel
+    
+    /// Get Channel Children (sub Channels).
+    case channelChildren
+    
+    /// Get Channel Gifs (media).
+    case channelContent
+    
 }
