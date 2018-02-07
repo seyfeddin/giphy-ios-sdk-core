@@ -99,6 +99,10 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
 /// Router to generate URLRequest objects.
 ///
 enum GPHRequestRouter {
+    /// MARK: Properties
+    
+    /// Setup the Request: Path, Method, Parameters)
+    case request(String, String, [URLQueryItem]?)
     
     /// Base endpoint url.
     static let baseURLString = "https://api.giphy.com/v1/"
@@ -106,11 +110,31 @@ enum GPHRequestRouter {
     /// HTTP Method type.
     var method: String {
         switch self {
+        case .request(_, let method, _):
+            return method
         default: return "GET"
-        // in future when we have upload / auth / we will add PUT, DELETE, POST here
         }
     }
     
+    /// Full URL
+    var url: URL {
+        let baseUrl = URL(string: GPHRequestRouter.baseURLString)!
+        switch self {
+        case .request(let path, _, _):
+            return baseUrl.appendingPathComponent(path)
+        default: return baseUrl
+        }
+    }
+    
+    /// Query Parameters
+    var query: [URLQueryItem] {
+        let items:[URLQueryItem] = []
+        switch self {
+        case .request(_, _, let queryItems):
+            return queryItems ?? items
+        default: return items
+        }
+    }
     // MARK: Helper functions
     
     /// Construct the request from url, method and parameters.
@@ -120,43 +144,39 @@ enum GPHRequestRouter {
     ///
     public func asURLRequest(_ apiKey: String) -> URLRequest {
         
-        // Build the request endpoint
-        var queryItems:[URLQueryItem] = []
+        var queryItems = query
         queryItems.append(URLQueryItem(name: "api_key", value: apiKey))
         
-        let url: URL = {
-            let relativePath: String?
-            switch self {
-
-            
-            var url = URL(string: GPHRequestRouter.baseURLString)!
-            if let path = relativePath {
-                url = url.appendingPathComponent(path)
-            }
-            
-            var urlComponents = URLComponents(string: url.absoluteString)
-            urlComponents?.queryItems = queryItems
-            guard let fullUrl = urlComponents?.url else { return url }
-            
-            return fullUrl
-        }()
-        
-        // Set up request parameters.
-        let parameters: GPHJSONObject? = {
-            switch self {
-            default: return nil
-            // in future when we have upload / auth / we will add PUT, DELETE, POST here
+        // Get the final url
+        let finalUrl: URL = {
+            switch method {
+            case "GET":
+                var urlComponents = URLComponents(string: url.absoluteString)
+                urlComponents?.queryItems = queryItems
+                guard let fullUrl = urlComponents?.url else { return url }
+                return fullUrl
+            default:
+                return url
             }
         }()
         
         // Create the request.
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: finalUrl)
         request.httpMethod = method
-        request.addValue("application/json", forHTTPHeaderField: "content-type")
-        if let parameters = parameters,
-            let data = try? JSONSerialization.data(withJSONObject: parameters, options: []) {
-            request.httpBody = data
+            
+        switch method {
+        case "POST", "DELETE", "PUT":
+            // Set up request parameters.
+            request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content-type")
+            
+            var urlComponents = URLComponents(string: url.absoluteString)
+            urlComponents?.queryItems = queryItems
+            request.httpBody = (urlComponents?.percentEncodedQuery ?? "").data(using: String.Encoding.utf8)
+            
+        default:
+            request.addValue("application/json", forHTTPHeaderField: "content-type")
         }
+        
         return request
     }
 }
