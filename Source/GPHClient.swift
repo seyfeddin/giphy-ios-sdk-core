@@ -77,7 +77,21 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                    completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
     
         let request = GPHRequestRouter.search(query, media, offset, limit, rating, lang, pingbackUserId).asURLRequest(apiKey)
-
+        
+        // Build the request endpoint
+        var queryItems:[URLQueryItem] = []
+        queryItems.append(URLQueryItem(name: "api_key", value: apiKey))
+        
+        let relativePath = "\(media.rawValue)s/search"
+        queryItems.append(URLQueryItem(name: "q", value: query))
+        queryItems.append(URLQueryItem(name: "offset", value: "\(offset)"))
+        queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
+        queryItems.append(URLQueryItem(name: "rating", value: rating.rawValue))
+        queryItems.append(URLQueryItem(name: "lang", value: lang.rawValue))
+        if let pbId = pingbackUserId {
+            queryItems.append(URLQueryItem(name: "pingback_id", value: pbId))
+        }
+        
         return self.listRequest(with: request, type: .search, media: media, completionHandler: completionHandler)
     }
     

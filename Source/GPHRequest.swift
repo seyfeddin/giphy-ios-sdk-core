@@ -12,49 +12,6 @@
 
 import Foundation
 
-/// Represents a Giphy URLRequest Type
-///
-@objc public enum GPHRequestType: Int {
-    /// Search Request.
-    case search
-    
-    /// Trending Request.
-    case trending
-    
-    /// Translate Request.
-    case translate
-    
-    /// Random Item Request.
-    case random
-    
-    /// Get an Item with ID.
-    case get
-    
-    /// Get items with IDs.
-    case getAll
-    
-    /// Get Term Suggestions.
-    case termSuggestions
-    
-    /// Top Categories.
-    case categories
-    
-    /// SubCategories of a Category.
-    case subCategories
-
-    /// Category Content.
-    case categoryContent
-    
-    /// Get Channel by id.
-    case channel
-    
-    /// Get Channel Children (sub Channels).
-    case channelChildren
-    
-    /// Get Channel Gifs (media).
-    case channelContent
-}
-
 
 /// Async Request Operations with Completion Handler Support
 ///
@@ -67,11 +24,6 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
     /// The client to which this request is related.
     let client: GPHAbstractClient
     
-    /// Type of the request so we do some edge-case handling (JSON/Mapping etc)
-    /// More than anything so we can map JSON > GPH objs.
-    let type: GPHRequestType
-    
-    
     // MARK: Initializers
     
     /// Convenience Initializer
@@ -81,10 +33,9 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
     /// - parameter type: Request type (GPHRequestType).
     /// - parameter completionHandler: GPHJSONCompletionHandler to return JSON or Error.
     ///
-    init(_ client: GPHAbstractClient, request: URLRequest, type: GPHRequestType, completionHandler: @escaping GPHJSONCompletionHandler) {
+    init(_ client: GPHAbstractClient, request: URLRequest, completionHandler: @escaping GPHJSONCompletionHandler) {
         self.client = client
         self.request = request
-        self.type = type
         super.init(completionHandler: completionHandler)
     }
     
@@ -148,46 +99,6 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
 /// Router to generate URLRequest objects.
 ///
 enum GPHRequestRouter {
-    // MARK: Properties
-
-    /// Search endpoint: query, type, offset, limit, rating, lang, pingbackUserId
-    case search(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType, String?)
-    
-    /// Trending endpoint: type, offset, limit, rating
-    case trending(GPHMediaType, Int, Int, GPHRatingType)
-    
-    /// Translate endpoint: term, type, rating, lang
-    case translate(String, GPHMediaType, GPHRatingType, GPHLanguageType)
-    
-    /// Random endpoint: query, type, rating
-    case random(String, GPHMediaType, GPHRatingType)
-    
-    /// Get object endpoint: id
-    case get(String)
-    
-    /// Get objects endpoint: ids
-    case getAll([String])
-    
-    /// Term Suggestions endpoint: term to query
-    case termSuggestions(String)
-    
-    /// Categories endpoint: type, offset, limit
-    case categories(GPHMediaType, Int, Int, String)
-    
-    /// Categories endpoint for subcategories: category, type, offset, limit
-    case subCategories(String, GPHMediaType, Int, Int, String)
-    
-    /// Category content endpoint: category, type, offset, limit, rating, lang
-    case categoryContent(String, GPHMediaType, Int, Int, GPHRatingType, GPHLanguageType)
-    
-    /// Get a channel by id endpoint: id, offset, limit
-    case channel(Int)
-    
-    /// Get channel children endpoint: id, offset, limit
-    case channelChildren(Int, Int, Int)
-    
-    /// Get channel gifs+stickers endpoint: id, offset, limit
-    case channelContent(Int, Int, Int)
     
     /// Base endpoint url.
     static let baseURLString = "https://api.giphy.com/v1/"
