@@ -98,7 +98,7 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
 
 /// Router to generate URLRequest objects.
 ///
-enum GPHRequestRouter {
+public enum GPHRequestRouter {
     /// MARK: Properties
     
     /// Setup the Request: Path, Method, Parameters)

@@ -14,11 +14,11 @@ import Foundation
 
 /// Represents a Giphy Response Meta Info
 ///
-@objcMembers public class GPHResponse: NSObject {
+@objcMembers open class GPHResponse: NSObject {
     // MARK: Properties
 
     /// Message description.
-    public var meta: GPHMeta
+    open var meta: GPHMeta
     
     
     // MARK: Initializers
@@ -46,7 +46,7 @@ import Foundation
 ///
 extension GPHResponse {
     
-    override public var description: String {
+    override open var description: String {
         return "GPHResponse(\(self.meta.responseId) status: \(self.meta.status) msg: \(self.meta.msg))"
     }
     

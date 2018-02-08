@@ -20,7 +20,7 @@
     
     /// Detects network reachability using the system's built-in mechanism.
     ///
-    class GPHNetworkReachability {
+    public class GPHNetworkReachability {
         
         /// Reachability handle used to test connectivity.
         private var reachability: SCNetworkReachability
