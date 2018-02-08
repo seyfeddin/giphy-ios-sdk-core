@@ -55,7 +55,7 @@ extension GPHMediaResponse {
 extension GPHMediaResponse: GPHMappable {
     
     /// this is where the magic will happen + error handling
-    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHMediaResponse {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHMediaResponse {
         
         guard
             let metaData = data["meta"] as? GPHJSONObject

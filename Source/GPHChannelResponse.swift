@@ -49,7 +49,7 @@ extension GPHChannelResponse {
 // MARK: Extension -- Parsing & Mapping
 extension GPHChannelResponse: GPHMappable {
     
-    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHChannelResponse {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHChannelResponse {
         
         guard
             let metaData = data["meta"] as? GPHJSONObject

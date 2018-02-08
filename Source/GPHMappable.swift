@@ -14,7 +14,7 @@ import Foundation
 
 /// Protocol to Map JSON > GPH Objects.
 /// Make sure Models implement this protocol to be able to map JSON>Obj
-protocol GPHMappable {
+public protocol GPHMappable {
     
     /// Generic Mappable object to return.
     associatedtype GPHMappableObject

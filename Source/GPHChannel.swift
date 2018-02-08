@@ -124,7 +124,7 @@ extension GPHChannel {
 extension GPHChannel: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHChannel {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHChannel {
         guard
             let objId: Int = data["id"] as? Int
             else {

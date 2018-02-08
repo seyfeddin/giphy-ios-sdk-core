@@ -59,7 +59,7 @@ extension GPHListChannelResponse {
 extension GPHListChannelResponse: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHListChannelResponse {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHListChannelResponse {
         guard
             let metaData = data["meta"] as? GPHJSONObject
             else {

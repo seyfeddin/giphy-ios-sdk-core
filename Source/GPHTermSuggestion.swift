@@ -86,7 +86,7 @@ extension GPHTermSuggestion {
 extension GPHTermSuggestion: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHTermSuggestion {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHTermSuggestion {
         
         guard
             let term = data["name"] as? String

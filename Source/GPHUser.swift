@@ -177,7 +177,7 @@ extension GPHUser {
 extension GPHUser: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHUser {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHUser {
         
         guard
             let username = data["username"] as? String

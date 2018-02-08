@@ -243,7 +243,7 @@ public extension GPHMedia {
 extension GPHMedia: GPHMappable {
 
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHMedia {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHMedia {
         guard
             let objId: String = data["id"] as? String,
             let url: String = data["url"] as? String

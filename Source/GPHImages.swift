@@ -305,7 +305,7 @@ extension GPHImages: GPHMappable {
     }
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHImages {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHImages {
         
         guard let root = options["root"] as? GPHMedia else {
             throw GPHJSONMappingError(description: "Root object can not be nil, expected a GPHMedia")

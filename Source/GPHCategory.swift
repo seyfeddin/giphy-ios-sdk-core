@@ -131,7 +131,7 @@ extension GPHCategory {
 extension GPHCategory: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHCategory {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHCategory {
         
         guard let requestType = options["request"] as? String else {
             throw GPHJSONMappingError(description: "Need Request type to map the data")

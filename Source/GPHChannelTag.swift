@@ -66,8 +66,7 @@ extension GPHChannelTag {
 extension GPHChannelTag: GPHMappable {
 
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ data: GPHJSONObject,
-                        options: [String: Any?]) throws -> GPHChannelTag {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHChannelTag {
         
         let obj = GPHChannelTag()
         

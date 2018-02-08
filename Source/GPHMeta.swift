@@ -72,7 +72,7 @@ extension GPHMeta {
 extension GPHMeta: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHMeta {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHMeta {
         
         guard
             let responseId = data["response_id"] as? String,

@@ -55,7 +55,7 @@ extension GPHListTermSuggestionResponse {
 extension GPHListTermSuggestionResponse: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHListTermSuggestionResponse {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHListTermSuggestionResponse {
         
         guard
             let metaData = data["meta"] as? GPHJSONObject

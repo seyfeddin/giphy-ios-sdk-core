@@ -72,7 +72,7 @@ extension GPHPagination {
 extension GPHPagination: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHPagination {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHPagination {
         
         guard
             let count = data["count"] as? Int
