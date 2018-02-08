@@ -19,13 +19,13 @@ import Foundation
     // MARK: Properties
     
     /// Giphy API key.
-    @objc var _apiKey: String?
+    @objc open var _apiKey: String?
 
     /// Session
     var session: URLSession
     
     /// Default timeout for network requests. Default: 10 seconds.
-    @objc public var timeout: TimeInterval = 10
+    @objc open var timeout: TimeInterval = 10
     
     /// Operation queue used to keep track of network requests.
     let requestQueue: OperationQueue
@@ -39,7 +39,7 @@ import Foundation
     var reachability: GPHNetworkReachability = GPHNetworkReachability()
     
     /// Network reachability status. Not supported in watchOS.
-    @objc public var useReachability: Bool = true
+    @objc open var useReachability: Bool = true
     
     #endif
     
@@ -149,7 +149,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func listRequest(with request: URLRequest,
+    @discardableResult public func listRequest(with request: URLRequest,
                                         type: String,
                                         media: GPHMediaType,
                                         completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
@@ -173,7 +173,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func listTermSuggestionsRequest(with request: URLRequest,
+    @discardableResult public func listTermSuggestionsRequest(with request: URLRequest,
                                                        type: String,
                                                        media: GPHMediaType,
                                                        completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionResponse>) -> Operation {
@@ -198,7 +198,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func listCategoriesRequest(_ root: GPHCategory? = nil,
+    @discardableResult public func listCategoriesRequest(_ root: GPHCategory? = nil,
                                                   with request: URLRequest,
                                                   type: String,
                                                   media: GPHMediaType,
@@ -222,7 +222,7 @@ import Foundation
     /// - parameter media: GPHMediaType to figure out GIF/Sticker
     ///
     @objc
-    @discardableResult func channelRequest(with request: URLRequest,
+    @discardableResult public func channelRequest(with request: URLRequest,
                                               type: String,
                                               media: GPHMediaType,
                                               completionHandler: @escaping GPHCompletionHandler<GPHChannelResponse>) -> Operation {
@@ -243,7 +243,7 @@ import Foundation
     /// - parameter media: GPHMediaType to figure out GIF/Sticker
     ///
     @objc
-    @discardableResult func channelChildrenRequest(with request: URLRequest,
+    @discardableResult public func channelChildrenRequest(with request: URLRequest,
                                               type: String,
                                               media: GPHMediaType,
                                               completionHandler: @escaping GPHCompletionHandler<GPHListChannelResponse>) -> Operation {
@@ -265,7 +265,7 @@ import Foundation
     /// - parameter media: GPHMediaType to figure out GIF/Sticker
     ///
     @objc
-    @discardableResult func channelContentRequest(with request: URLRequest,
+    @discardableResult public func channelContentRequest(with request: URLRequest,
                                               type: String,
                                               media: GPHMediaType,
                                               completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
