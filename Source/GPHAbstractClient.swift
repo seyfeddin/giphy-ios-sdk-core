@@ -15,7 +15,7 @@ import Foundation
 
 /// GIPHY Abstract API Client.
 ///
-@objc public class GPHAbstractClient : NSObject {
+@objc open class GPHAbstractClient : NSObject {
     // MARK: Properties
     
     /// Giphy API key.
@@ -49,7 +49,7 @@ import Foundation
     ///
     /// - parameter apiKey: Application api-key to access GIPHY endpoints.
     ///
-    init(_ apiKey: String?) {
+    public init(_ apiKey: String?) {
         self._apiKey = apiKey
 
         var clientHTTPHeaders: [String: String] = [:]
@@ -105,7 +105,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func httpRequest(with request: URLRequest, completionHandler: @escaping GPHJSONCompletionHandler) -> Operation {
+    @discardableResult public func httpRequest(with request: URLRequest, completionHandler: @escaping GPHJSONCompletionHandler) -> Operation {
         
         let operation = GPHRequest(self, request: request, completionHandler: completionHandler)
         self.requestQueue.addOperation(operation)
@@ -123,7 +123,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func getRequest(with request: URLRequest,
+    @discardableResult public func getRequest(with request: URLRequest,
                                        type: String,
                                        media: GPHMediaType,
                                        completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
@@ -287,7 +287,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the parser's outcome.
     /// - returns: GPHJSONCompletionHandler to be used as a completion handler for an HTTP request.
     ///
-    class func parseJSONResponse<T>(_ options: [String: Any?],
+    public class func parseJSONResponse<T>(_ options: [String: Any?],
                                     completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
         
         return { (data, response, error) in
@@ -325,7 +325,7 @@ import Foundation
     ///
     /// - returns: `true` if network is reachable
     ///
-    func isNetworkReachable() -> Bool {
+    public func isNetworkReachable() -> Bool {
         return !useReachability || reachability.isReachable()
     }
     
