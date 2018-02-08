@@ -124,15 +124,11 @@ extension GPHChannel {
 extension GPHChannel: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHChannel?,
-                        data jsonData: GPHJSONObject,
-                        request requestType: GPHRequestType,
-                        media mediaType: GPHMediaType = .gif,
-                        rendition renditionType: GPHRenditionType = .original) throws -> GPHChannel {
+    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHChannel {
         guard
-            let objId: Int = jsonData["id"] as? Int
+            let objId: Int = data["id"] as? Int
             else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHChannel due to missing 'id' field \(jsonData)")
+                throw GPHJSONMappingError(description: "Couldn't map GPHChannel due to missing 'id' field \(data)")
         }
         
         let obj = GPHChannel()
@@ -140,29 +136,29 @@ extension GPHChannel: GPHMappable {
         // These fields are OPTIONAL in the sense that we won't `throw` if they're missing
         // (though we might want to reconsider some of them).
         obj.id = objId
-        obj.slug = (jsonData["slug"] as? String)
-        obj.displayName = (jsonData["display_name"] as? String)
-        obj.shortDisplayName = (jsonData["short_display_name"] as? String)
-        obj.type = (jsonData["type"] as? String)
-        obj.contentType = (jsonData["content_type"] as? String)
-        obj.descriptionText = (jsonData["description"] as? String)
-        obj.bannerImage = (jsonData["banner_image"] as? String)
-        obj.tags = (jsonData["tags"] as? Array<GPHChannelTag>)
+        obj.slug = (data["slug"] as? String)
+        obj.displayName = (data["display_name"] as? String)
+        obj.shortDisplayName = (data["short_display_name"] as? String)
+        obj.type = (data["type"] as? String)
+        obj.contentType = (data["content_type"] as? String)
+        obj.descriptionText = (data["description"] as? String)
+        obj.bannerImage = (data["banner_image"] as? String)
+        obj.tags = (data["tags"] as? Array<GPHChannelTag>)
         
-        obj.jsonRepresentation = jsonData
+        obj.jsonRepresentation = data
         
-        if let imageData = jsonData["featured_gif"] as? GPHJSONObject {
-            obj.featuredGif = try GPHMedia.mapData(nil, data: imageData, request: requestType, media: mediaType)
+        if let imageData = data["featured_gif"] as? GPHJSONObject {
+            obj.featuredGif = try GPHMedia.mapData(imageData, options: options)
         }
         
         // Handle User Data
-        if let userData = jsonData["user"] as? GPHJSONObject {
-            obj.user = try GPHUser.mapData(nil, data: userData, request: requestType, media: mediaType)
+        if let userData = data["user"] as? GPHJSONObject {
+            obj.user = try GPHUser.mapData(userData, options: options)
         }
         
-        if let ancestors = jsonData["ancestors"] as? Array<GPHJSONObject> {
+        if let ancestors = data["ancestors"] as? Array<GPHJSONObject> {
             for ancestor in ancestors {
-                let ancestor = try GPHChannel.mapData(nil, data: ancestor, request: requestType)
+                let ancestor = try GPHChannel.mapData(ancestor, options: options)
                 obj.ancestors.append(ancestor)
             }
         }

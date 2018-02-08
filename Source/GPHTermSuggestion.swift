@@ -86,20 +86,16 @@ extension GPHTermSuggestion {
 extension GPHTermSuggestion: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHTermSuggestion?,
-                               data jsonData: GPHJSONObject,
-                               request requestType: GPHRequestType,
-                               media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) throws -> GPHTermSuggestion {
+    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHTermSuggestion {
         
         guard
-            let term = jsonData["name"] as? String
+            let term = data["name"] as? String
             else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHTermSuggestion for \(jsonData)")
+                throw GPHJSONMappingError(description: "Couldn't map GPHTermSuggestion for \(data)")
         }
         
         let obj = GPHTermSuggestion(term)
-        obj.jsonRepresentation = jsonData
+        obj.jsonRepresentation = data
         return obj
     }
     

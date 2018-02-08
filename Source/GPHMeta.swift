@@ -72,18 +72,14 @@ extension GPHMeta {
 extension GPHMeta: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHMeta?,
-                               data jsonData: GPHJSONObject,
-                               request requestType: GPHRequestType,
-                               media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) throws -> GPHMeta {
+    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHMeta {
         
         guard
-            let responseId = jsonData["response_id"] as? String,
-            let status = jsonData["status"] as? Int,
-            let msg = jsonData["msg"] as? String
+            let responseId = data["response_id"] as? String,
+            let status = data["status"] as? Int,
+            let msg = data["msg"] as? String
             else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHMeta for \(jsonData)")
+                throw GPHJSONMappingError(description: "Couldn't map GPHMeta for \(data)")
         }
         
         let obj = GPHMeta(responseId, status: status, msg: msg)

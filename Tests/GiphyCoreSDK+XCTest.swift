@@ -43,7 +43,7 @@ extension XCTestCase {
     /// - parameter root: object to check mapping.
     /// - parameter media: sticker/gif to take into account type while serializing/deserializing.
     ///
-    func validateJSONForMedia(_ obj: GPHMedia, media: GPHMediaType, request: GPHRequestType) throws {
+    func validateJSONForMedia(_ obj: GPHMedia, media: GPHMediaType, request: String) throws {
         
         XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
                        
@@ -188,7 +188,7 @@ extension XCTestCase {
     ///
     /// - parameter root: object to check mapping.
     ///
-    func validateJSONForUser(_ obj: GPHUser, request: GPHRequestType) throws {
+    func validateJSONForUser(_ obj: GPHUser, request: String) throws {
         
         XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
         
@@ -307,7 +307,7 @@ extension XCTestCase {
     ///
     /// - parameter root: object to check mapping.
     ///
-    func validateJSONForChannel(_ obj: GPHChannel, channelId: Int, media: GPHMediaType, request: GPHRequestType) throws {
+    func validateJSONForChannel(_ obj: GPHChannel, channelId: Int, media: GPHMediaType, request: String) throws {
         
         XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
         
@@ -373,7 +373,7 @@ extension XCTestCase {
     ///
     /// - parameter root: object to check mapping.
     ///
-    func validateJSONForImages(_ obj: GPHImages, mediaId: String, media: GPHMediaType, request: GPHRequestType) throws {
+    func validateJSONForImages(_ obj: GPHImages, mediaId: String, media: GPHMediaType, request: String) throws {
         
         XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
         
@@ -382,7 +382,7 @@ extension XCTestCase {
                        "Media Id won't match")
         
         switch request {
-        case .search, .get, .getAll, .translate, .categoryContent, .channel, .channelContent, .channelChildren:
+        case "search", "get", "getAll", "translate", "categoryContent", "channel", "channelContent", "channelChildren":
             try? self.validateJSONForImage(obj.original!, mediaId: mediaId, rendition: .original, media: media, request: request)
             try? self.validateJSONForImage(obj.originalStill!, mediaId: mediaId, rendition: .originalStill, media: media, request: request)
             try? self.validateJSONForImage(obj.preview!, mediaId: mediaId, rendition: .preview, media: media, request: request)
@@ -402,7 +402,7 @@ extension XCTestCase {
             try? self.validateJSONForImage(obj.downsizedMedium!, mediaId: mediaId, rendition: .downsizedMedium, media: media, request: request)
             try? self.validateJSONForImage(obj.downsizedLarge!, mediaId: mediaId, rendition: .downsizedLarge, media: media, request: request)
             try? self.validateJSONForImage(obj.downsizedStill!, mediaId: mediaId, rendition: .downsizedStill, media: media, request: request)
-        case .trending:
+        case "trending":
             try? self.validateJSONForImage(obj.original!, mediaId: mediaId, rendition: .original, media: media, request: request)
             try? self.validateJSONForImage(obj.originalStill!, mediaId: mediaId, rendition: .originalStill, media: media, request: request)
             try? self.validateJSONForImage(obj.looping!, mediaId: mediaId, rendition: .looping, media: media, request: request)
@@ -420,7 +420,7 @@ extension XCTestCase {
             try? self.validateJSONForImage(obj.downsizedMedium!, mediaId: mediaId, rendition: .downsizedMedium, media: media, request: request)
             try? self.validateJSONForImage(obj.downsizedLarge!, mediaId: mediaId, rendition: .downsizedLarge, media: media, request: request)
             try? self.validateJSONForImage(obj.downsizedStill!, mediaId: mediaId, rendition: .downsizedStill, media: media, request: request)
-        case .random:
+        case "random":
             try? self.validateJSONForImage(obj.original!, mediaId: mediaId, rendition: .original, media: media, request: request)
             try? self.validateJSONForImage(obj.fixedHeightDownsampled!, mediaId: mediaId, rendition: .fixedHeightDownsampled, media: media, request: request)
             try? self.validateJSONForImage(obj.fixedWidthDownsampled!, mediaId: mediaId, rendition: .fixedWidthDownsampled, media: media, request: request)
@@ -442,7 +442,7 @@ extension XCTestCase {
     ///
     /// - parameter root: object to check mapping.
     ///
-    func validateJSONForImage(_ obj: GPHImage, mediaId: String, rendition: GPHRenditionType, media: GPHMediaType, request: GPHRequestType) throws {
+    func validateJSONForImage(_ obj: GPHImage, mediaId: String, rendition: GPHRenditionType, media: GPHMediaType, request: String) throws {
         
         XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
         
@@ -509,7 +509,7 @@ extension XCTestCase {
     ///
     /// - parameter root: object to check mapping.
     ///
-    func validateJSONForCategory(_ obj: GPHCategory, root: GPHCategory?, request: GPHRequestType) throws {
+    func validateJSONForCategory(_ obj: GPHCategory, root: GPHCategory?, request: String) throws {
         
         XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
         
@@ -523,11 +523,11 @@ extension XCTestCase {
         
         
         if obj.jsonRepresentation!["gif"] != nil {
-            try? self.validateJSONForMedia(obj.gif!, media: .gif, request: .search)
+            try? self.validateJSONForMedia(obj.gif!, media: .gif, request: "search")
         }
         
         switch request {
-        case .categories:
+        case "categories":
             
             XCTAssertNotNil(obj.encodedPath, "Encoded path is nil")
             XCTAssertEqual(obj.encodedPath,
@@ -543,12 +543,12 @@ extension XCTestCase {
                 
                 
                 obj.subCategories?.forEach({ subcat in
-                    try? self.validateJSONForCategory(subcat, root: obj, request: .subCategories)
+                    try? self.validateJSONForCategory(subcat, root: obj, request: "subCategories")
                 })
                 
             }
             
-        case .subCategories:
+        case "subCategories":
             if let root = root {
                 XCTAssertEqual(obj.encodedPath,
                               root.nameEncoded + "/" + obj.nameEncoded,

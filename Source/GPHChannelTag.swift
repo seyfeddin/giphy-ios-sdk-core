@@ -64,22 +64,19 @@ extension GPHChannelTag {
 }
 
 extension GPHChannelTag: GPHMappable {
-    
+
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHChannelTag?,
-                        data jsonData: GPHJSONObject,
-                        request requestType: GPHRequestType,
-                        media mediaType: GPHMediaType = .gif,
-                        rendition renditionType: GPHRenditionType = .original) throws -> GPHChannelTag {
+    static func mapData(_ data: GPHJSONObject,
+                        options: [String: Any?]) throws -> GPHChannelTag {
         
         let obj = GPHChannelTag()
         
-        obj.id = (jsonData["id"] as? Int)
-        obj.channel = (jsonData["channel"] as? Int)
-        obj.tag = (jsonData["tag"] as? String)
-        obj.rank = (jsonData["rank"] as? Int)
+        obj.id = (data["id"] as? Int)
+        obj.channel = (data["channel"] as? Int)
+        obj.tag = (data["tag"] as? String)
+        obj.rank = (data["rank"] as? Int)
         
-        obj.jsonRepresentation = jsonData
+        obj.jsonRepresentation = data
         
         return obj
     }

@@ -60,31 +60,27 @@ extension GPHListCategoryResponse {
 extension GPHListCategoryResponse: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHCategory?,
-                               data jsonData: GPHJSONObject,
-                               request requestType: GPHRequestType,
-                               media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) throws -> GPHListCategoryResponse {
+    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHListCategoryResponse {
         
         guard
-            let metaData = jsonData["meta"] as? GPHJSONObject
+            let metaData = data["meta"] as? GPHJSONObject
             else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(jsonData)")
+                throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(data)")
         }
         
-        let meta = try GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
+        let meta = try GPHMeta.mapData(metaData, options: options)
         
         // Try to see if we can get the Media object
-        if let mediaData = jsonData["data"] as? [GPHJSONObject], let paginationData = jsonData["pagination"] as? GPHJSONObject {
+        if let mediaData = data["data"] as? [GPHJSONObject], let paginationData = data["pagination"] as? GPHJSONObject {
             
             // Get Pagination
-            let pagination = try GPHPagination.mapData(nil, data: paginationData, request: requestType, media: mediaType)
+            let pagination = try GPHPagination.mapData(paginationData, options: options)
             
             // Get Results
             var results: [GPHCategory] = []
             
             for result in mediaData {
-                let result = try GPHCategory.mapData(root, data: result, request: requestType, media: mediaType)
+                let result = try GPHCategory.mapData(result, options: options)
                 results.append(result)
             }
             

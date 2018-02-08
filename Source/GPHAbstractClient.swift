@@ -123,12 +123,19 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func getRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
+    @discardableResult func getRequest(with request: URLRequest,
+                                       type: String,
+                                       media: GPHMediaType,
+                                       completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
+        
+        // Build options for the serializer
+        let options:[String: Any?] = [
+            "request": type,
+            "media": media,
+        ]
         
         return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
-                                                                                       media: media,
-                                                                                       completionHandler: completionHandler))
+                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
 
     }
     
@@ -142,12 +149,19 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func listRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
+    @discardableResult func listRequest(with request: URLRequest,
+                                        type: String,
+                                        media: GPHMediaType,
+                                        completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
 
+        // Build options for the serializer
+        let options:[String: Any?] = [
+            "request": type,
+            "media": media,
+        ]
+        
         return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
-                                                                                       media: media,
-                                                                                       completionHandler: completionHandler))
+                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
     }
     
     /// Perform a request to get a list of term suggestions
@@ -159,12 +173,19 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func listTermSuggestionsRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionResponse>) -> Operation {
+    @discardableResult func listTermSuggestionsRequest(with request: URLRequest,
+                                                       type: String,
+                                                       media: GPHMediaType,
+                                                       completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionResponse>) -> Operation {
+        
+        // Build options for the serializer
+        let options:[String: Any?] = [
+            "request": type,
+            "media": media,
+        ]
         
         return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
-                                                                                       media: media,
-                                                                                       completionHandler: completionHandler))
+                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
     }
 
     /// Perform a request to get a list of categories
@@ -177,13 +198,22 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func listCategoriesRequest(_ root: GPHCategory? = nil, with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
+    @discardableResult func listCategoriesRequest(_ root: GPHCategory? = nil,
+                                                  with request: URLRequest,
+                                                  type: String,
+                                                  media: GPHMediaType,
+                                                  completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
+        
+        
+        // Build options for the serializer
+        let options:[String: Any?] = [
+            "root": root,
+            "request": type,
+            "media": media,
+        ]
         
         return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(root: root,
-                                                                                       type: type,
-                                                                                       media: media,
-                                                                                       completionHandler: completionHandler))
+                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
     }
     
     /// Perform a request to get a channels object.
@@ -193,14 +223,18 @@ import Foundation
     ///
     @objc
     @discardableResult func channelRequest(with request: URLRequest,
-                                              type: GPHRequestType,
+                                              type: String,
                                               media: GPHMediaType,
                                               completionHandler: @escaping GPHCompletionHandler<GPHChannelResponse>) -> Operation {
         
+        // Build options for the serializer
+        let options:[String: Any?] = [
+            "request": type,
+            "media": media,
+        ]
+        
         return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
-                                                                                       media: media,
-                                                                                       completionHandler: completionHandler))
+                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
     }
     
     /// Get a list of children of a given channel
@@ -210,14 +244,18 @@ import Foundation
     ///
     @objc
     @discardableResult func channelChildrenRequest(with request: URLRequest,
-                                              type: GPHRequestType,
+                                              type: String,
                                               media: GPHMediaType,
                                               completionHandler: @escaping GPHCompletionHandler<GPHListChannelResponse>) -> Operation {
         
+        // Build options for the serializer
+        let options:[String: Any?] = [
+            "request": type,
+            "media": media,
+        ]
+        
         return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
-                                                                                       media: media,
-                                                                                       completionHandler: completionHandler))
+                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
     }
     
     /// Get a list of gifs for a given channel.
@@ -228,14 +266,19 @@ import Foundation
     ///
     @objc
     @discardableResult func channelContentRequest(with request: URLRequest,
-                                              type: GPHRequestType,
+                                              type: String,
                                               media: GPHMediaType,
                                               completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
         
+        
+        // Build options for the serializer
+        let options:[String: Any?] = [
+            "request": type,
+            "media": media,
+        ]
+        
         return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
-                                                                                       media: media,
-                                                                                       completionHandler: completionHandler))
+                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
     }
     
     /// Parses a JSON response to an HTTP request expected to return a particular GPHMappable response.
@@ -247,11 +290,8 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the parser's outcome.
     /// - returns: GPHJSONCompletionHandler to be used as a completion handler for an HTTP request.
     ///
-    class func parseJSONResponse<T>(root: T.GPHRootObject? = nil,
-                                 type: GPHRequestType,
-                                 media: GPHMediaType,
-                                 rendition: GPHRenditionType = .original,
-                                 completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
+    class func parseJSONResponse<T>(_ options: [String: Any?],
+                                    completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
         
         return { (data, response, error) in
             // Error returned
@@ -263,14 +303,13 @@ import Foundation
             
             // Handle the (impossible?) case where there is no data back from the server,
             // but there is no error returned
-            
             guard let data = data else {
                 completionHandler(nil, GPHJSONMappingError(description: "No data returned from the server, but no error reported."))
                 return
             }
 
             do {
-                let mappableObject: T.GPHMappableObject = try T.mapData(root, data: data, request: type, media: media, rendition: rendition)
+                let mappableObject: T.GPHMappableObject = try T.mapData(data, options: options)
                 guard let obj = mappableObject as? T else {
                     completionHandler(nil, GPHJSONMappingError(description: "Couldn't cast " + String(describing: T.GPHMappableObject.self) + " to " + String(describing: T.self) + " during JSON response parsing."))
                     return
@@ -294,6 +333,5 @@ import Foundation
     }
     
     #endif
-
     
 }

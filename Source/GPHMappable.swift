@@ -16,28 +16,16 @@ import Foundation
 /// Make sure Models implement this protocol to be able to map JSON>Obj
 protocol GPHMappable {
     
-    /// Generic Root object.
-    associatedtype GPHRootObject
-    
     /// Generic Mappable object to return.
     associatedtype GPHMappableObject
     
-    
     /// Static function for mapping JSON to objects.
     ///
-    /// - parameter root: root object to be used for passing extra data
-    /// - parameter data: GPHJSONObect data to be mapped
-    /// - parameter request: request type to manipulate the data (if .search vs .translate, mapping will be different)
-    /// - parameter media: media type, GIF|Sticker|...
-    /// - parameter rendition: rendition type
+    /// - parameter options: Dictionary of options (type, root object, media...)
     /// - returns: object: Self
     ///
-    static func mapData(_ root: GPHRootObject?,
-                        data jsonData: GPHJSONObject,
-                        request requestType: GPHRequestType,
-                        media mediaType: GPHMediaType,
-                        rendition renditionType: GPHRenditionType) throws -> GPHMappableObject
-    
+    static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHMappableObject
+
 }
 
 
