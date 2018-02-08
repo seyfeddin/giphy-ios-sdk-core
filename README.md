@@ -58,10 +58,10 @@ pod install
 
 ### Carthage Setup
 
-Add the GiphyAuthSDK entry to your Cartfile
+Add the GiphyCoreSDK entry to your Cartfile
 
 ```
-git "git@github.com:Giphy/giphy-ios-auth-core.git" "master"
+git "git@github.com:Giphy/giphy-ios-sdk-core.git" "master"
 ```
 
 Run carthage update to grab the GiphyCoreSDK framework
