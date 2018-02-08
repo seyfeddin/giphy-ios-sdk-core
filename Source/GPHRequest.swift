@@ -24,7 +24,6 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
     /// The client to which this request is related.
     let client: GPHAbstractClient
     
-    let type: GPHRequestType
     // MARK: Initializers
     
     /// Convenience Initializer
@@ -34,10 +33,9 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
     /// - parameter type: Request type (GPHRequestType).
     /// - parameter completionHandler: GPHJSONCompletionHandler to return JSON or Error.
     ///
-    init(_ client: GPHAbstractClient, request: URLRequest, type: GPHRequestType, completionHandler: @escaping GPHJSONCompletionHandler) {
+    init(_ client: GPHAbstractClient, request: URLRequest, completionHandler: @escaping GPHJSONCompletionHandler) {
         self.client = client
         self.request = request
-        self.type = type
         super.init(completionHandler: completionHandler)
     }
     

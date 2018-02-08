@@ -105,9 +105,9 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func httpRequest(with request: URLRequest, type: GPHRequestType, completionHandler: @escaping GPHJSONCompletionHandler) -> Operation {
+    @discardableResult func httpRequest(with request: URLRequest, completionHandler: @escaping GPHJSONCompletionHandler) -> Operation {
         
-        let operation = GPHRequest(self, request: request, type: type, completionHandler: completionHandler)
+        let operation = GPHRequest(self, request: request, completionHandler: completionHandler)
         self.requestQueue.addOperation(operation)
         
         return operation
@@ -126,7 +126,6 @@ import Foundation
     @discardableResult func getRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
         
         return self.httpRequest(with: request,
-                                type: type,
                                 completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
                                                                                        media: media,
                                                                                        completionHandler: completionHandler))
@@ -146,7 +145,6 @@ import Foundation
     @discardableResult func listRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
 
         return self.httpRequest(with: request,
-                                type: type,
                                 completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
                                                                                        media: media,
                                                                                        completionHandler: completionHandler))
@@ -164,7 +162,6 @@ import Foundation
     @discardableResult func listTermSuggestionsRequest(with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionResponse>) -> Operation {
         
         return self.httpRequest(with: request,
-                                type: type,
                                 completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
                                                                                        media: media,
                                                                                        completionHandler: completionHandler))
@@ -183,7 +180,6 @@ import Foundation
     @discardableResult func listCategoriesRequest(_ root: GPHCategory? = nil, with request: URLRequest, type: GPHRequestType, media: GPHMediaType, completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
         
         return self.httpRequest(with: request,
-                                type: type,
                                 completionHandler: GPHAbstractClient.parseJSONResponse(root: root,
                                                                                        type: type,
                                                                                        media: media,
@@ -202,7 +198,6 @@ import Foundation
                                               completionHandler: @escaping GPHCompletionHandler<GPHChannelResponse>) -> Operation {
         
         return self.httpRequest(with: request,
-                                type: type,
                                 completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
                                                                                        media: media,
                                                                                        completionHandler: completionHandler))
@@ -220,7 +215,6 @@ import Foundation
                                               completionHandler: @escaping GPHCompletionHandler<GPHListChannelResponse>) -> Operation {
         
         return self.httpRequest(with: request,
-                                type: type,
                                 completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
                                                                                        media: media,
                                                                                        completionHandler: completionHandler))
@@ -239,7 +233,6 @@ import Foundation
                                               completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
         
         return self.httpRequest(with: request,
-                                type: type,
                                 completionHandler: GPHAbstractClient.parseJSONResponse(type: type,
                                                                                        media: media,
                                                                                        completionHandler: completionHandler))
