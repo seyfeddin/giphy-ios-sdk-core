@@ -15,7 +15,7 @@ import Foundation
 
 /// Async Request Operations with Completion Handler Support
 ///
-class GPHRequest: GPHAsyncOperationWithCompletion {
+@objcMembers public class GPHRequest: GPHAsyncOperationWithCompletion {
     // MARK: Properties
 
     /// URLRequest obj to handle the networking.
@@ -43,7 +43,7 @@ class GPHRequest: GPHAsyncOperationWithCompletion {
     
     /// Override the Operation function main to handle the request
     ///
-    override func main() {
+    override public func main() {
         client.session.dataTask(with: request) { data, response, error in
             
             if self.isCancelled {

@@ -283,10 +283,7 @@ import Foundation
     
     /// Parses a JSON response to an HTTP request expected to return a particular GPHMappable response.
     ///
-    /// - parameter root: root object under which to parse results
-    /// - parameter type: GPHRequestType to figure out what endpoint to hit
-    /// - parameter media: GPHMediaType to figure out GIF/Sticker
-    /// - parameter rendition: GPHRenditionType GIF rendition to prefer, if applicable.
+    /// - parameter options: dict of objects to be passed around for serialziers.
     /// - parameter completionHandler: Completion handler to be notified of the parser's outcome.
     /// - returns: GPHJSONCompletionHandler to be used as a completion handler for an HTTP request.
     ///

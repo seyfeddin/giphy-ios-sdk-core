@@ -20,14 +20,14 @@
     
     /// Detects network reachability using the system's built-in mechanism.
     ///
-    public class GPHNetworkReachability {
+    @objcMembers public class GPHNetworkReachability {
         
         /// Reachability handle used to test connectivity.
         private var reachability: SCNetworkReachability
         
         // MARK: Initialization
         
-        init() {
+        public init() {
             // Create reachability handle to an all-zeroes address.
             var zeroAddress = GPHNetworkReachability.zeroAddress
             reachability = withUnsafePointer(to: &zeroAddress) {
@@ -41,7 +41,7 @@
         ///
         /// - returns: true if network connectivity is available, false otherwise.
         ///
-        func isReachable() -> Bool {
+        public func isReachable() -> Bool {
             var flags: SCNetworkReachabilityFlags = []
             if !SCNetworkReachabilityGetFlags(reachability, &flags) {
                 return false
