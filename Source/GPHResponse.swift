@@ -18,7 +18,7 @@ import Foundation
     // MARK: Properties
 
     /// Message description.
-    public internal(set) var meta: GPHMeta
+    public var meta: GPHMeta
     
     
     // MARK: Initializers
