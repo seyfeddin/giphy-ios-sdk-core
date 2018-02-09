@@ -75,7 +75,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                    completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
     
         // Build the request endpoint
-        var queryItems:[URLQueryItem] = [
+        let queryItems:[URLQueryItem] = [
             URLQueryItem(name: "q", value: query),
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
