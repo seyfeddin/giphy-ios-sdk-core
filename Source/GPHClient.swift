@@ -62,7 +62,6 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     /// - parameter limit: Total hits you request (default: 25)
     /// - parameter rating: maximum rating of returned content (default R)
     /// - parameter lang: Language of the content (default English)
-    /// - parameter pingbackUserId: Option to pass pingback ID to API (default nil)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -73,7 +72,6 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                    limit: Int = 25,
                                    rating: GPHRatingType = .ratedR,
                                    lang: GPHLanguageType = .english,
-                                   pingbackUserId: String? = nil,
                                    completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
     
         // Build the request endpoint
@@ -84,9 +82,6 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             URLQueryItem(name: "rating", value: rating.rawValue),
             URLQueryItem(name: "lang", value: lang.rawValue),
         ]
-        if let pbId = pingbackUserId {
-            queryItems.append(URLQueryItem(name: "pingback_id", value: pbId))
-        }
         
         let request = GPHRequestRouter.request("\(media.rawValue)s/search", .get, queryItems).asURLRequest(apiKey)
         return self.listRequest(with: request, type: "search", media: media, completionHandler: completionHandler)
