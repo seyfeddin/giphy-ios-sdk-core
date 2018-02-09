@@ -56,6 +56,20 @@ Run pods to grab the GiphyCoreSDK framework
 pod install
 ```
 
+### Carthage Setup
+
+Add the GiphyCoreSDK entry to your Cartfile
+
+```
+git "git@github.com:Giphy/giphy-ios-sdk-core.git" "master"
+```
+
+Run carthage update to grab the GiphyCoreSDK framework
+
+```bash
+carthage update
+```
+
 ### Initialize Giphy SDK
 
 ```swift
