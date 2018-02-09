@@ -95,6 +95,22 @@ import Foundation
     }
 }
 
+/// Request Type for URLRequest objects.
+///
+public enum GPHRequestType: String {
+    
+    /// POST request
+    case post = "POST"
+    
+    /// GET Request
+    case get = "GET"
+    
+    /// PUT Request
+    case put = "PUT"
+    
+    /// DELETE Request
+    case delete = "DELETE"
+}
 
 /// Router to generate URLRequest objects.
 ///
@@ -102,7 +118,7 @@ public enum GPHRequestRouter {
     /// MARK: Properties
     
     /// Setup the Request: Path, Method, Parameters)
-    case request(String, String, [URLQueryItem]?)
+    case request(String, GPHRequestType, [URLQueryItem]?)
     
     /// Base endpoint url.
     static let baseURLString = "https://api.giphy.com/v1/"
@@ -111,7 +127,7 @@ public enum GPHRequestRouter {
     var method: String {
         switch self {
         case .request(_, let method, _):
-            return method
+            return method.rawValue
         }
     }
     

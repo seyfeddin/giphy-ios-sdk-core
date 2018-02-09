@@ -88,7 +88,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             queryItems.append(URLQueryItem(name: "pingback_id", value: pbId))
         }
         
-        let request = GPHRequestRouter.request("\(media.rawValue)s/search", "GET", queryItems).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("\(media.rawValue)s/search", .get, queryItems).asURLRequest(apiKey)
         return self.listRequest(with: request, type: "search", media: media, completionHandler: completionHandler)
     }
     
@@ -117,7 +117,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             URLQueryItem(name: "limit", value: "\(limit)"),
             URLQueryItem(name: "rating", value: rating.rawValue),
         ]
-        let request = GPHRequestRouter.request("\(media.rawValue)s/trending", "GET", queryItems).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("\(media.rawValue)s/trending", .get, queryItems).asURLRequest(apiKey)
         return self.listRequest(with: request, type: "trending", media: media, completionHandler: completionHandler)
     }
     
@@ -146,7 +146,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             URLQueryItem(name: "rating", value: rating.rawValue),
             URLQueryItem(name: "lang", value: lang.rawValue),
         ]
-        let request = GPHRequestRouter.request("\(media.rawValue)s/translate", "GET", queryItems).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("\(media.rawValue)s/translate", .get, queryItems).asURLRequest(apiKey)
         return self.getRequest(with: request, type: "translate", media: media, completionHandler: completionHandler)
     }
     
@@ -174,7 +174,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             URLQueryItem(name: "tag", value: query),
             URLQueryItem(name: "rating", value: rating.rawValue),
         ]
-        let request = GPHRequestRouter.request("\(media.rawValue)s/random", "GET", queryItems).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("\(media.rawValue)s/random", .get, queryItems).asURLRequest(apiKey)
         return self.getRequest(with: request, type: "random", media: media, completionHandler: completionHandler)
     }
     
@@ -191,7 +191,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     @discardableResult public func gifByID(_ id: String,
                                     completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
         
-        let request = GPHRequestRouter.request("gifs/\(id)", "GET", nil).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("gifs/\(id)", .get, nil).asURLRequest(apiKey)
         return self.getRequest(with: request, type: "get", media: .gif, completionHandler: completionHandler)
     }
     
@@ -211,7 +211,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         let queryItems:[URLQueryItem] = [
             URLQueryItem(name: "ids", value: ids.flatMap({$0}).joined(separator:","))
         ]
-        let request = GPHRequestRouter.request("gifs", "GET", queryItems).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("gifs", .get, queryItems).asURLRequest(apiKey)
         return self.listRequest(with: request, type: "getAll", media: .gif, completionHandler: completionHandler)
     }
     
@@ -237,7 +237,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
         ]
-        let request = GPHRequestRouter.request("gifs/categories", "GET", queryItems).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("gifs/categories", .get, queryItems).asURLRequest(apiKey)
         return self.listCategoriesRequest(with: request, type: "categories", media: .gif, completionHandler: completionHandler)
     }
     
@@ -265,7 +265,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
         ]
-        let request = GPHRequestRouter.request("gifs/categories/\(categoryObj.encodedPath)", "GET", queryItems).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("gifs/categories/\(categoryObj.encodedPath)", .get, queryItems).asURLRequest(apiKey)
         return self.listCategoriesRequest(categoryObj, with: request, type: "subCategories", media: .gif, completionHandler: completionHandler)
     }
     
@@ -299,7 +299,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             URLQueryItem(name: "rating", value: rating.rawValue),
             URLQueryItem(name: "lang", value: lang.rawValue),
         ]
-        let request = GPHRequestRouter.request("gifs/categories/\(categoryObj.encodedPath)", "GET", queryItems).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("gifs/categories/\(categoryObj.encodedPath)", .get, queryItems).asURLRequest(apiKey)
         return self.listRequest(with: request, type: "categoryContent", media: .gif, completionHandler: completionHandler)
     }
     
@@ -315,7 +315,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     @discardableResult public func termSuggestions(_ term: String,
                                                    completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionResponse>) -> Operation {
         
-        let request = GPHRequestRouter.request("queries/suggest/\(term)", "GET", nil).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("queries/suggest/\(term)", .get, nil).asURLRequest(apiKey)
         return self.listTermSuggestionsRequest(with: request, type: "termSuggestions", media: .gif, completionHandler: completionHandler)
     }
     
@@ -331,7 +331,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                           media: GPHMediaType,
                                           completionHandler: @escaping GPHCompletionHandler<GPHChannelResponse>) -> Operation {
         
-        let request = GPHRequestRouter.request("stickers/packs/\(channelId)", "GET", nil).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("stickers/packs/\(channelId)", .get, nil).asURLRequest(apiKey)
         return self.channelRequest(with: request, type: "channel", media: media, completionHandler: completionHandler)
     }
     
@@ -356,7 +356,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
         ]
-        let request = GPHRequestRouter.request("stickers/packs/\(channelId)/children", "GET", queryItems).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("stickers/packs/\(channelId)/children", .get, queryItems).asURLRequest(apiKey)
         return self.channelChildrenRequest(with: request, type: "channelChildren", media: media, completionHandler: completionHandler)
     }
 
@@ -381,7 +381,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
         ]
-        let request = GPHRequestRouter.request("stickers/packs/\(channelId)/stickers", "GET", queryItems).asURLRequest(apiKey)
+        let request = GPHRequestRouter.request("stickers/packs/\(channelId)/stickers", .get, queryItems).asURLRequest(apiKey)
         return self.channelContentRequest(with: request, type: "channel", media: media, completionHandler: completionHandler)
     }
 
