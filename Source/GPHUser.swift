@@ -177,38 +177,34 @@ extension GPHUser {
 extension GPHUser: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHMedia?,
-                               data jsonData: GPHJSONObject,
-                               request requestType: GPHRequestType,
-                               media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) throws -> GPHUser {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHUser {
         
         guard
-            let username = jsonData["username"] as? String
+            let username = data["username"] as? String
         else {
-            throw GPHJSONMappingError(description: "Couldn't map GPHUser for \(jsonData)")
+            throw GPHJSONMappingError(description: "Couldn't map GPHUser for \(data)")
         }
        
         let obj = GPHUser(username)
 
-        obj.id = parseInt(jsonData["id"] as? String)
-        obj.isPublic = jsonData["is_public"] as? Bool ?? false
-        obj.suppressChrome = jsonData["suppress_chrome"] as? Bool ?? false
-        obj.name = jsonData["name"] as? String
-        obj.displayName = jsonData["display_name"] as? String
-        obj.userDescription = jsonData["user_description"] as? String
-        obj.attributionDisplayName = jsonData["attribution_display_name"] as? String
-        obj.twitter = jsonData["twitter"] as? String
-        obj.twitterUrl = jsonData["twitter_url"] as? String
-        obj.facebookUrl = jsonData["facebook_url"] as? String
-        obj.instagramUrl = jsonData["instagram_url"] as? String
-        obj.websiteUrl = jsonData["website_url"] as? String
-        obj.websiteDisplayUrl = jsonData["website_display_url"] as? String
-        obj.tumblrUrl = jsonData["tumblr_url"] as? String
-        obj.avatarUrl = jsonData["avatar_url"] as? String
-        obj.bannerUrl = jsonData["banner_url"] as? String
-        obj.profileUrl = jsonData["profile_url"] as? String
-        obj.jsonRepresentation = jsonData
+        obj.id = parseInt(data["id"] as? String)
+        obj.isPublic = data["is_public"] as? Bool ?? false
+        obj.suppressChrome = data["suppress_chrome"] as? Bool ?? false
+        obj.name = data["name"] as? String
+        obj.displayName = data["display_name"] as? String
+        obj.userDescription = data["user_description"] as? String
+        obj.attributionDisplayName = data["attribution_display_name"] as? String
+        obj.twitter = data["twitter"] as? String
+        obj.twitterUrl = data["twitter_url"] as? String
+        obj.facebookUrl = data["facebook_url"] as? String
+        obj.instagramUrl = data["instagram_url"] as? String
+        obj.websiteUrl = data["website_url"] as? String
+        obj.websiteDisplayUrl = data["website_display_url"] as? String
+        obj.tumblrUrl = data["tumblr_url"] as? String
+        obj.avatarUrl = data["avatar_url"] as? String
+        obj.bannerUrl = data["banner_url"] as? String
+        obj.profileUrl = data["profile_url"] as? String
+        obj.jsonRepresentation = data
         
         return obj
     }

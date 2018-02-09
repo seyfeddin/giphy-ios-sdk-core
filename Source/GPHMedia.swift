@@ -225,8 +225,12 @@ extension GPHMedia {
 ///
 public extension GPHMedia {
     
-    @objc public static func mapJSON(_ json: GPHJSONObject, request:GPHRequestType,  media: GPHMediaType) throws -> GPHMedia {
-        let media = try GPHMedia.mapData(nil, data: json, request: request, media: media)
+    @objc public static func mapJSON(_ json: GPHJSONObject, request:String,  media: GPHMediaType) throws -> GPHMedia {
+        let options: [String: Any?] = [
+            "request": request,
+            "media": media
+        ]
+        let media = try GPHMedia.mapData(json, options: options)
         return media
     }
     
@@ -239,62 +243,71 @@ public extension GPHMedia {
 extension GPHMedia: GPHMappable {
 
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHMedia?,
-                               data jsonData: GPHJSONObject,
-                               request requestType: GPHRequestType,
-                               media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) throws -> GPHMedia {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHMedia {
         guard
-            let objId: String = jsonData["id"] as? String,
-            let url: String = jsonData["url"] as? String
+            let objId: String = data["id"] as? String,
+            let url: String = data["url"] as? String
         else {
-            throw GPHJSONMappingError(description: "Couldn't map GPHMedia for \(jsonData)")
+            throw GPHJSONMappingError(description: "Couldn't map GPHMedia for \(data)")
+        }
+        
+        guard let mediaType = options["media"] as? GPHMediaType else {
+            throw GPHJSONMappingError(description: "Need Media type to map the object")
+        }
+        
+        guard let requestType = options["request"] as? String else {
+            throw GPHJSONMappingError(description: "Need Request type to map the object")
         }
         
         let obj = GPHMedia(objId, type: mediaType, url: url)
         
-        obj.rating = parseRating(jsonData["rating"] as? String)
-        obj.title = jsonData["title"] as? String
-        obj.caption = jsonData["caption"] as? String
-        obj.slug = jsonData["slug"] as? String
-        obj.importDate = parseDate(jsonData["import_datetime"] as? String)
-        obj.trendingDate = parseDate(jsonData["trending_datetime"] as? String)
-        obj.indexable = jsonData["indexable"] as? String
-        obj.contentUrl = jsonData["content_url"] as? String
-        obj.bitlyUrl = jsonData["bitly_url"] as? String
-        obj.bitlyGifUrl = jsonData["bitly_gif_url"] as? String
-        obj.embedUrl = jsonData["embed_url"] as? String
-        obj.source = jsonData["source"] as? String
-        obj.sourceTld = jsonData["source_tld"] as? String
-        obj.sourcePostUrl = jsonData["source_post_url"] as? String
-        obj.tags = jsonData["tags"] as? [String]
-        obj.featuredTags = jsonData["featured_tags"] as? [String]
-        obj.isHidden = jsonData["is_hidden"] as? Bool ?? false
-        obj.isRemoved = jsonData["is_removed"] as? Bool ?? false
-        obj.isCommunity = jsonData["is_community"] as? Bool ?? false
-        obj.isAnonymous = jsonData["is_anonymous"] as? Bool ?? false
-        obj.isFeatured = jsonData["is_featured"] as? Bool ?? false
-        obj.isRealtime = jsonData["is_realtime"] as? Bool ?? false
-        obj.isIndexable = jsonData["is_indexable"] as? Bool ?? false
-        obj.isSticker = jsonData["is_sticker"] as? Bool ?? false
-        obj.updateDate = parseDate(jsonData["update_datetime"] as? String)
-        obj.createDate = parseDate(jsonData["create_datetime"] as? String)
-        obj.jsonRepresentation = jsonData
+        obj.rating = parseRating(data["rating"] as? String)
+        obj.title = data["title"] as? String
+        obj.caption = data["caption"] as? String
+        obj.slug = data["slug"] as? String
+        obj.importDate = parseDate(data["import_datetime"] as? String)
+        obj.trendingDate = parseDate(data["trending_datetime"] as? String)
+        obj.indexable = data["indexable"] as? String
+        obj.contentUrl = data["content_url"] as? String
+        obj.bitlyUrl = data["bitly_url"] as? String
+        obj.bitlyGifUrl = data["bitly_gif_url"] as? String
+        obj.embedUrl = data["embed_url"] as? String
+        obj.source = data["source"] as? String
+        obj.sourceTld = data["source_tld"] as? String
+        obj.sourcePostUrl = data["source_post_url"] as? String
+        obj.tags = data["tags"] as? [String]
+        obj.featuredTags = data["featured_tags"] as? [String]
+        obj.isHidden = data["is_hidden"] as? Bool ?? false
+        obj.isRemoved = data["is_removed"] as? Bool ?? false
+        obj.isCommunity = data["is_community"] as? Bool ?? false
+        obj.isAnonymous = data["is_anonymous"] as? Bool ?? false
+        obj.isFeatured = data["is_featured"] as? Bool ?? false
+        obj.isRealtime = data["is_realtime"] as? Bool ?? false
+        obj.isIndexable = data["is_indexable"] as? Bool ?? false
+        obj.isSticker = data["is_sticker"] as? Bool ?? false
+        obj.updateDate = parseDate(data["update_datetime"] as? String)
+        obj.createDate = parseDate(data["create_datetime"] as? String)
+        obj.jsonRepresentation = data
+        
+        
+        // New options with root object
+        var optionsCopy = options
+        optionsCopy["root"] = obj
         
         // Handle User Data
-        if let userData = jsonData["user"] as? GPHJSONObject {
-            obj.user = try GPHUser.mapData(obj, data: userData, request: requestType, media: mediaType)
+        if let userData = data["user"] as? GPHJSONObject {
+            obj.user = try GPHUser.mapData(userData, options: optionsCopy)
         }
         
         // Handling exception of the Random endpoint structure
         switch requestType {
-        case .random:
-            let renditions = try GPHImages.mapData(obj, data: jsonData, request: requestType, media: mediaType)
+        case "random":
+            let renditions = try GPHImages.mapData(data, options: optionsCopy)
             obj.images = renditions
 
         default:
-            if let renditionData = jsonData["images"] as? GPHJSONObject {
-                let renditions = try GPHImages.mapData(obj, data: renditionData, request: requestType, media: mediaType)
+            if let renditionData = data["images"] as? GPHJSONObject {
+                let renditions = try GPHImages.mapData(renditionData, options: optionsCopy)
                 obj.images = renditions
             }
         }

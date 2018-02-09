@@ -131,57 +131,58 @@ extension GPHCategory {
 extension GPHCategory: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHCategory?,
-                               data jsonData: GPHJSONObject,
-                               request requestType: GPHRequestType,
-                               media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) throws -> GPHCategory {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHCategory {
         
+        guard let requestType = options["request"] as? String else {
+            throw GPHJSONMappingError(description: "Need Request type to map the data")
+        }
         
-        guard let name = jsonData["name"] as? String,
-              let nameEncoded = jsonData["name_encoded"] as? String
+        guard let name = data["name"] as? String,
+              let nameEncoded = data["name_encoded"] as? String
         else {
-            throw GPHJSONMappingError(description: "Couldn't map GPHCategory for \(jsonData)")
+            throw GPHJSONMappingError(description: "Couldn't map GPHCategory for \(data)")
         }
         
         let obj = GPHCategory(name, nameEncoded: nameEncoded, encodedPath: "")
         
         var gif: GPHMedia? = nil
         
-        if let gifData = jsonData["gif"] as? GPHJSONObject {
-            gif = try GPHMedia.mapData(nil, data: gifData, request: requestType, media: mediaType)
+        if let gifData = data["gif"] as? GPHJSONObject {
+            gif = try GPHMedia.mapData(gifData, options: options)
         }
         
         obj.gif = gif
         
         switch requestType {
-        case .categories:
-            
+        case "categories":
             obj.encodedPath = nameEncoded
             
-            if let subCategoriesJSON = jsonData["subcategories"] as? [GPHJSONObject] {
+            if let subCategoriesJSON = data["subcategories"] as? [GPHJSONObject] {
                 if subCategoriesJSON.count > 0 {
                     obj.subCategories = []
                     for subCategoryJSON in subCategoriesJSON {
                         // Create all the sub categories
-                        let subObj = try GPHCategory.mapData(obj, data: subCategoryJSON, request: .subCategories)
+                        var optionsCopy = options
+                        optionsCopy["root"] = obj
+                        optionsCopy["request"] = "subCategories"
+                        let subObj = try GPHCategory.mapData(subCategoryJSON, options: optionsCopy)
                         obj.subCategories?.append(subObj)
                     }
                 }
             }
             
-        case .subCategories:
-            if let root = root {
-                obj.encodedPath = root.nameEncoded + "/" + nameEncoded
-            } else {
-                throw GPHJSONMappingError(description: "You need a root category to get sub-categories")
+        case "subCategories":
+            guard let root = options["root"] as? GPHCategory else {
+                throw GPHJSONMappingError(description: "Root object can not be nil, expected a GPHCategory")
             }
+            obj.encodedPath = root.nameEncoded + "/" + nameEncoded
             obj.subCategories = nil
+            
         default:
            throw GPHJSONMappingError(description: "Request type is not valid for Categories")
         }
         
-        obj.jsonRepresentation = jsonData
+        obj.jsonRepresentation = data
         
         return obj
     }

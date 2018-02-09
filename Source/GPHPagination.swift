@@ -72,20 +72,16 @@ extension GPHPagination {
 extension GPHPagination: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHPagination?,
-                               data jsonData: GPHJSONObject,
-                               request requestType: GPHRequestType,
-                               media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) throws -> GPHPagination {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHPagination {
         
         guard
-            let count = jsonData["count"] as? Int
+            let count = data["count"] as? Int
         else {
-            throw GPHJSONMappingError(description: "Couldn't map GPHPagination for \(jsonData)")
+            throw GPHJSONMappingError(description: "Couldn't map GPHPagination for \(data)")
         }
         
-        let totalCount = jsonData["total_count"] as? Int ?? count
-        let offset = jsonData["offset"] as? Int ?? 0
+        let totalCount = data["total_count"] as? Int ?? count
+        let offset = data["offset"] as? Int ?? 0
         
         let obj = GPHPagination(totalCount, count: count, offset: offset)
         return obj

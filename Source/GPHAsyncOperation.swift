@@ -14,7 +14,7 @@ import Foundation
 
 /// Sub-classing Operation to make sure we manage its state correctly
 ///
-class GPHAsyncOperation: Operation {
+@objcMembers public class GPHAsyncOperation: Operation {
     // MARK: Properties
 
     /// State enum to use KVO trick. (cool trick from raywenderlich)
@@ -87,7 +87,7 @@ extension GPHAsyncOperation {
 
 /// A specific type of async operation with a completion handler.
 ///
-class GPHAsyncOperationWithCompletion: GPHAsyncOperation {
+@objcMembers public class GPHAsyncOperationWithCompletion: GPHAsyncOperation {
     // MARK: Properties
 
     /// User completion block to be called.
