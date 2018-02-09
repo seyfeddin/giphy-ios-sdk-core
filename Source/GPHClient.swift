@@ -204,7 +204,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
 
         // Build the request endpoint
         let queryItems:[URLQueryItem] = [
-            URLQueryItem(name: "ids", value: ids.flatMap({$0}).joined(separator:","))
+            URLQueryItem(name: "ids", value: ids.joined(separator:","))
         ]
         let request = GPHRequestRouter.request("gifs", .get, queryItems).asURLRequest(apiKey)
         return self.listRequest(with: request, type: "getAll", media: .gif, completionHandler: completionHandler)

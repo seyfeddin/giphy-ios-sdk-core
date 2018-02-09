@@ -462,9 +462,6 @@ extension XCTestCase {
                        obj.jsonRepresentation!["still_url"] as? String,
                        "Still Gif Url won't match")
         
-        print(obj.gifSize)
-        print(GPHImage.parseInt(obj.jsonRepresentation!["size"] as? String) ?? 0)
-        
         XCTAssertEqual(obj.gifSize,
                        GPHImage.parseInt(obj.jsonRepresentation!["size"] as? String) ?? 0,
                        "Gif size won't match")
