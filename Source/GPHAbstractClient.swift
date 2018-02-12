@@ -100,7 +100,6 @@ import Foundation
     /// Perform a request
     ///
     /// - parameter request: URLRequest
-    /// - parameter type: GPHRequestType to figure out what endpoint to hit
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///

@@ -357,7 +357,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
 
     /// Get a channel gifs
     ///
-    /// - parameter id: channel id
+    /// - parameter channelId: channel id
     /// - parameter offset: Offset of results (default: 0)
     /// - parameter limit: Total hits you request (default: 25)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
