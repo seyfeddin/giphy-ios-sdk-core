@@ -184,7 +184,12 @@ public enum GPHRequestRouter {
         // Create the request.
         var request = URLRequest(url: finalUrl)
         request.httpMethod = method
-            
+        
+        // Add the custom headers.
+        for (header, value) in headers {
+            request.addValue(value, forHTTPHeaderField: header)
+        }
+        
         switch method {
         case "POST", "DELETE", "PUT":
             // Set up request parameters.
