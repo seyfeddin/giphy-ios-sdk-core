@@ -110,6 +110,9 @@ public enum GPHRequestType: String {
     
     /// DELETE Request
     case delete = "DELETE"
+
+    /// UPLOAD Request
+    case upload = "UPLOAD"
 }
 
 /// Router to generate URLRequest objects.
@@ -124,10 +127,10 @@ public enum GPHRequestRouter {
     static let baseURLString = "https://api.giphy.com/v1/"
     
     /// HTTP Method type.
-    var method: String {
+    var method: GPHRequestType {
         switch self {
         case .request(_, let method, _, _):
-            return method.rawValue
+            return method
         }
     }
     
@@ -171,7 +174,7 @@ public enum GPHRequestRouter {
         // Get the final url
         let finalUrl: URL = {
             switch method {
-            case "GET":
+            case .get:
                 var urlComponents = URLComponents(string: url.absoluteString)
                 urlComponents?.queryItems = queryItems
                 guard let fullUrl = urlComponents?.url else { return url }
@@ -183,7 +186,7 @@ public enum GPHRequestRouter {
         
         // Create the request.
         var request = URLRequest(url: finalUrl)
-        request.httpMethod = method
+        request.httpMethod = (method == .upload ? "POST" : method.rawValue)
         
         // Add the custom headers.
         for (header, value) in headers {
@@ -191,16 +194,17 @@ public enum GPHRequestRouter {
         }
         
         switch method {
-        case "POST", "DELETE", "PUT":
+        case .post, .delete, .put:
             // Set up request parameters.
             request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content-type")
             
             var urlComponents = URLComponents(string: url.absoluteString)
             urlComponents?.queryItems = queryItems
             request.httpBody = (urlComponents?.percentEncodedQuery ?? "").data(using: String.Encoding.utf8)
-            
-        default:
+        case .get:
             request.addValue("application/json", forHTTPHeaderField: "content-type")
+        default:
+            break
         }
         
         return request
