@@ -126,6 +126,9 @@ public enum GPHRequestRouter {
     /// Base endpoint url.
     static let baseURLString = "https://api.giphy.com/v1/"
     
+    /// Base upload endpoint url.
+    static let baseUploadURLString = "https://upload.giphy.com/v1/"
+    
     /// HTTP Method type.
     var method: GPHRequestType {
         switch self {
@@ -136,9 +139,9 @@ public enum GPHRequestRouter {
     
     /// Full URL
     var url: URL {
-        let baseUrl = URL(string: GPHRequestRouter.baseURLString)!
         switch self {
-        case .request(let path, _, _, _):
+        case .request(let path, let method, _, _):
+            let baseUrl = (method == .upload ? URL(string: GPHRequestRouter.baseUploadURLString)! : URL(string: GPHRequestRouter.baseURLString)!)
             return baseUrl.appendingPathComponent(path)
         }
     }
