@@ -117,8 +117,8 @@ public enum GPHRequestType: String {
 public enum GPHRequestRouter {
     /// MARK: Properties
     
-    /// Setup the Request: Path, Method, Parameters)
-    case request(String, GPHRequestType, [URLQueryItem]?)
+    /// Setup the Request: Path, Method, Parameters, Headers)
+    case request(String, GPHRequestType, [URLQueryItem]?, [String: String]?)
     
     /// Base endpoint url.
     static let baseURLString = "https://api.giphy.com/v1/"
@@ -126,7 +126,7 @@ public enum GPHRequestRouter {
     /// HTTP Method type.
     var method: String {
         switch self {
-        case .request(_, let method, _):
+        case .request(_, let method, _, _):
             return method.rawValue
         }
     }
@@ -135,19 +135,27 @@ public enum GPHRequestRouter {
     var url: URL {
         let baseUrl = URL(string: GPHRequestRouter.baseURLString)!
         switch self {
-        case .request(let path, _, _):
+        case .request(let path, _, _, _):
             return baseUrl.appendingPathComponent(path)
         }
     }
     
     /// Query Parameters
     var query: [URLQueryItem] {
-        let items:[URLQueryItem] = []
         switch self {
-        case .request(_, _, let queryItems):
-            return queryItems ?? items
+        case .request(_, _, let queryItems, _):
+            return queryItems ?? []
         }
     }
+    
+    /// Custom Headers
+    var headers: [String: String] {
+        switch self {
+        case .request(_, _, _, let customHeaders):
+            return customHeaders ?? [:]
+        }
+    }
+    
     // MARK: Helper functions
     
     /// Construct the request from url, method and parameters.
