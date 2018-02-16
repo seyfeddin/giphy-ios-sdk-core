@@ -141,7 +141,8 @@ public enum GPHRequestRouter {
     var url: URL {
         switch self {
         case .request(let path, let method, _, _):
-            let baseUrl = (method == .upload ? URL(string: GPHRequestRouter.baseUploadURLString)! : URL(string: GPHRequestRouter.baseURLString)!)
+            let baseUrl = (method == .upload ? URL(string: GPHRequestRouter.baseUploadURLString)! :
+                                               URL(string: GPHRequestRouter.baseURLString)!)
             return baseUrl.appendingPathComponent(path)
         }
     }
