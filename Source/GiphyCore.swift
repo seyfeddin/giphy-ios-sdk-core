@@ -15,9 +15,7 @@ import Foundation
     
     /// Shared instance to use
     ///
-    /// - parameter apiKey: Giphy Api Key to use.
-    ///
-    @objc public class func sharedInstance() -> GPHClient {
+    @objc public class func shared() -> GPHClient {
         return _sharedInstance
     }
     
@@ -28,4 +26,5 @@ import Foundation
     @objc public class func configure(apiKey: String) {
         _sharedInstance.apiKey = apiKey
     }
+
 }
