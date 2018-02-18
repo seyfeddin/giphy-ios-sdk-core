@@ -11,20 +11,14 @@ import Foundation
 @objc public class GiphyCore: NSObject {
     
     // Singleton to interface with
-    static let _sharedInstance = GPHClient(apiKey: "")
-    
-    /// Shared instance to use
-    ///
-    @objc public class func shared() -> GPHClient {
-        return _sharedInstance
-    }
+    static let shared = GPHClient(apiKey: "")
     
     /// Configure the Client
     ///
     /// - parameter apiKey: Giphy Api Key to use.
     ///
     @objc public class func configure(apiKey: String) {
-        _sharedInstance.apiKey = apiKey
+        shared.apiKey = apiKey
     }
 
 }

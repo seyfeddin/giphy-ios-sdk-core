@@ -266,6 +266,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E716BA562039134B00E07EAD /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				E7AF4E4F1EAE370100489AB7 /* GPHClient.swift */,
+				E7AF4E541EAE382D00489AB7 /* GPHAbstractClient.swift */,
+			);
+			name = Client;
+			sourceTree = "<group>";
+		};
 		E7365A471EC1052100997C5C /* Response Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,8 +320,7 @@
 			isa = PBXGroup;
 			children = (
 				E716BA4B2038FFC200E07EAD /* GiphyCore.swift */,
-				E7AF4E4F1EAE370100489AB7 /* GPHClient.swift */,
-				E7AF4E541EAE382D00489AB7 /* GPHAbstractClient.swift */,
+				E716BA562039134B00E07EAD /* Client */,
 				E7AF4E421EABF58100489AB7 /* Models */,
 				E7AF4E511EAE370E00489AB7 /* Network */,
 				E7147E0F1EC2B97200DC5CFF /* Supporting Files */,
