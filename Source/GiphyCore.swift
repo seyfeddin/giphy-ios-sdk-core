@@ -11,7 +11,7 @@ import Foundation
 @objc public class GiphyCore: NSObject {
     
     // Singleton to interface with
-    static let shared = GPHClient(apiKey: "")
+    @objc public static let shared = GPHClient(apiKey: "")
     
     /// Configure the Client
     ///
