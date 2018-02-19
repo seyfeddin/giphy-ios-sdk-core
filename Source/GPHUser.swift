@@ -82,7 +82,6 @@ import Foundation
     /// Join Date/Time.
     public fileprivate(set) var joinDate: Date?
     
-    
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
@@ -126,6 +125,8 @@ import Foundation
         self.avatarUrl = aDecoder.decodeObject(forKey: "avatarUrl") as? String
         self.bannerUrl = aDecoder.decodeObject(forKey: "bannerUrl") as? String
         self.profileUrl = aDecoder.decodeObject(forKey: "profileUrl") as? String
+        self.loginDate = aDecoder.decodeObject(forKey: "loginDate") as? Date
+        self.joinDate = aDecoder.decodeObject(forKey: "joinDate") as? Date
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
     }
 
@@ -149,6 +150,8 @@ import Foundation
         aCoder.encode(self.avatarUrl, forKey: "avatarUrl")
         aCoder.encode(self.bannerUrl, forKey: "bannerUrl")
         aCoder.encode(self.profileUrl, forKey: "profileUrl")
+        aCoder.encode(self.loginDate, forKey: "loginDate")
+        aCoder.encode(self.joinDate, forKey: "joinDate")
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
     }
     
@@ -217,6 +220,8 @@ extension GPHUser: GPHMappable {
         obj.avatarUrl = data["avatar_url"] as? String
         obj.bannerUrl = data["banner_url"] as? String
         obj.profileUrl = data["profile_url"] as? String
+        obj.loginDate = parseDate(data["last_login"] as? String)
+        obj.joinDate = parseDate(data["date_joined"] as? String)
         obj.jsonRepresentation = data
         
         return obj
