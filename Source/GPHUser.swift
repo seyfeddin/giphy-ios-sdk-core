@@ -69,9 +69,19 @@ import Foundation
 
     /// User Public/Private.
     public fileprivate(set) var isPublic: Bool = false
+
+    /// User is Staff.
+    public fileprivate(set) var isStaff: Bool = false
     
     /// Suppress Chrome.
     public fileprivate(set) var suppressChrome: Bool = false
+    
+    /// Last Login Date/Time.
+    public fileprivate(set) var loginDate: Date?
+    
+    /// Join Date/Time.
+    public fileprivate(set) var joinDate: Date?
+    
     
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
@@ -100,6 +110,7 @@ import Foundation
         
         self.id = aDecoder.decodeObject(forKey: "id") as? Int
         self.isPublic = aDecoder.decodeBool(forKey: "isPublic")
+        self.isStaff = aDecoder.decodeBool(forKey: "isStaff")
         self.suppressChrome = aDecoder.decodeBool(forKey: "suppressChrome")
         self.name = aDecoder.decodeObject(forKey: "name") as? String
         self.displayName = aDecoder.decodeObject(forKey: "displayName") as? String
@@ -122,6 +133,7 @@ import Foundation
         aCoder.encode(self.username, forKey: "username")
         aCoder.encode(self.id, forKey: "id")
         aCoder.encode(self.isPublic, forKey: "isPublic")
+        aCoder.encode(self.isPublic, forKey: "isStaff")
         aCoder.encode(self.suppressChrome, forKey: "suppressChrome")
         aCoder.encode(self.name, forKey: "name")
         aCoder.encode(self.displayName, forKey: "displayName")
@@ -189,6 +201,7 @@ extension GPHUser: GPHMappable {
 
         obj.id = parseInt(data["id"] as? String)
         obj.isPublic = data["is_public"] as? Bool ?? false
+        obj.isStaff = data["is_staff"] as? Bool ?? false
         obj.suppressChrome = data["suppress_chrome"] as? Bool ?? false
         obj.name = data["name"] as? String
         obj.displayName = data["display_name"] as? String
