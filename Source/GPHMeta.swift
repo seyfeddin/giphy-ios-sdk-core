@@ -82,8 +82,7 @@ extension GPHMeta: GPHMappable {
                 throw GPHJSONMappingError(description: "Couldn't map GPHMeta for \(data)")
         }
         
-        let obj = GPHMeta(responseId, status: status, msg: msg)
-        return obj
+        return GPHMeta(responseId, status: status, msg: msg)
     }
     
 }

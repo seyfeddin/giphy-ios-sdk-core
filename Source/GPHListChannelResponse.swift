@@ -87,8 +87,7 @@ extension GPHListChannelResponse: GPHMappable {
         }
         
         // TODO: pagination
-        let obj = GPHListChannelResponse(meta, data: results, pagination: nil)
-        return obj
+        return GPHListChannelResponse(meta, data: results, pagination: nil)
     }
 }
 

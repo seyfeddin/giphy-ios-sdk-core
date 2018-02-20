@@ -83,8 +83,7 @@ extension GPHListMediaResponse: GPHMappable {
         }
         
         // No image and pagination data, return the meta data
-        let obj = GPHListMediaResponse(meta, data: results, pagination: pagination)
-        return obj
+        return GPHListMediaResponse(meta, data: results, pagination: pagination)
     }
     
 }

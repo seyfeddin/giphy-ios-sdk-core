@@ -68,22 +68,14 @@ extension GPHMediaResponse: GPHMappable {
         // Try to see if we can get the Media object
         if let mediaData = data["data"] as? GPHJSONObject {
             
-            if let mediaId = mediaData["gif_id"] as? String {
-                let media = GPHMedia(mediaId, type: .gif, url: "")
-                let obj = GPHMediaResponse(meta, data: media)
-                return obj
-            }
-            
             let data = try GPHMedia.mapData(mediaData, options: options)
             
             // We got the image and the meta data
-            let obj = GPHMediaResponse(meta, data: data)
-            return obj
+            return GPHMediaResponse(meta, data: data)
         }
         
         // No image and the meta data
-        let obj = GPHMediaResponse(meta, data: nil)
-        return obj
+        return GPHMediaResponse(meta, data: nil)
     }
     
 }

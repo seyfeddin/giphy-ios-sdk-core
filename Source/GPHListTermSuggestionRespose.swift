@@ -77,13 +77,11 @@ extension GPHListTermSuggestionResponse: GPHMappable {
             }
             
             // We have images and the meta data and pagination
-            let obj = GPHListTermSuggestionResponse(meta, data: results)
-            return obj
+            return GPHListTermSuggestionResponse(meta, data: results)
         }
         
         // No image and pagination data, return the meta data
-        let obj = GPHListTermSuggestionResponse(meta, data: nil)
-        return obj
+        return GPHListTermSuggestionResponse(meta, data: nil)
     }
     
 }

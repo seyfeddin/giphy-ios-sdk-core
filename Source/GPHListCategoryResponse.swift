@@ -85,13 +85,11 @@ extension GPHListCategoryResponse: GPHMappable {
             }
             
             // We have images and the meta data and pagination
-            let obj = GPHListCategoryResponse(meta, data: results, pagination: pagination)
-            return obj
+            return GPHListCategoryResponse(meta, data: results, pagination: pagination)
         }
         
         // No image and pagination data, return the meta data
-        let obj = GPHListCategoryResponse(meta, data: nil, pagination: nil)
-        return obj
+        return GPHListCategoryResponse(meta, data: nil, pagination: nil)
     }
     
 }

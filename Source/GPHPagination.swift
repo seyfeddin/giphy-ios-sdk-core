@@ -83,8 +83,7 @@ extension GPHPagination: GPHMappable {
         let totalCount = data["total_count"] as? Int ?? count
         let offset = data["offset"] as? Int ?? 0
         
-        let obj = GPHPagination(totalCount, count: count, offset: offset)
-        return obj
+        return GPHPagination(totalCount, count: count, offset: offset)
     }
     
 }
