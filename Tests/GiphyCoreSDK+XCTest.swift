@@ -196,8 +196,8 @@ extension XCTestCase {
                        obj.jsonRepresentation!["username"] as? String,
                        "Username won't match")
         
-        XCTAssertEqual(obj.id,
-                       GPHUser.parseInt(obj.jsonRepresentation!["id"] as? String),
+        XCTAssertEqual(obj.userId,
+                       obj.jsonRepresentation!["id"] as? String,
                        "Id won't match")
         
         XCTAssertEqual(obj.isPublic,

@@ -23,8 +23,8 @@ import Foundation
     public fileprivate(set) var username: String = ""
 
     /// User ID.
-    public fileprivate(set) var id: Int?
-    
+    public fileprivate(set) var userId: String?
+
     /// Name of the User.
     public fileprivate(set) var name: String?
     
@@ -107,7 +107,7 @@ import Foundation
         
         self.init(username)
         
-        self.id = aDecoder.decodeObject(forKey: "id") as? Int
+        self.userId = aDecoder.decodeObject(forKey: "userId") as? String
         self.isPublic = aDecoder.decodeBool(forKey: "isPublic")
         self.isStaff = aDecoder.decodeBool(forKey: "isStaff")
         self.suppressChrome = aDecoder.decodeBool(forKey: "suppressChrome")
@@ -132,7 +132,7 @@ import Foundation
 
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.username, forKey: "username")
-        aCoder.encode(self.id, forKey: "id")
+        aCoder.encode(self.userId, forKey: "userId")
         aCoder.encode(self.isPublic, forKey: "isPublic")
         aCoder.encode(self.isPublic, forKey: "isStaff")
         aCoder.encode(self.suppressChrome, forKey: "suppressChrome")
@@ -202,7 +202,7 @@ extension GPHUser: GPHMappable {
        
         let obj = GPHUser(username)
 
-        obj.id = parseInt(data["id"] as? String)
+        obj.userId = data["id"] as? String
         obj.isPublic = data["is_public"] as? Bool ?? false
         obj.isStaff = data["is_staff"] as? Bool ?? false
         obj.suppressChrome = data["suppress_chrome"] as? Bool ?? false
