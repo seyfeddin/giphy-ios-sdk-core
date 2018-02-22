@@ -26,6 +26,8 @@ import Foundation
     /// Message description.
     public fileprivate(set) var msg: String
     
+    /// Error Code.
+    public fileprivate(set) var errorCode: String
     
     // MARK: Initializers
     
@@ -35,6 +37,7 @@ import Foundation
         self.responseId = ""
         self.status = 0
         self.msg = ""
+        self.errorCode = ""
         super.init()
     }
     
@@ -44,11 +47,12 @@ import Foundation
     /// - parameter status: Status (200, 404...)
     /// - parameter msg: Message description.
     ///
-    convenience init(_ responseId: String, status: Int, msg: String) {
+    convenience init(_ responseId: String, status: Int, msg: String, errorCode: String) {
         self.init()
         self.status = status
         self.msg = msg
         self.responseId = responseId
+        self.errorCode = errorCode
     }
     
 }
@@ -60,7 +64,7 @@ import Foundation
 extension GPHMeta {
     
     override public var description: String {
-        return "GPHMeta(\(self.responseId) status: \(self.status) msg: \(self.msg))"
+        return "GPHMeta(\(self.responseId) status: \(self.status) msg: \(self.msg) error_code: \(self.errorCode))"
     }
     
 }
@@ -81,8 +85,9 @@ extension GPHMeta: GPHMappable {
             else {
                 throw GPHJSONMappingError(description: "Couldn't map GPHMeta for \(data)")
         }
+        let errorCode = data["error_code"] as? String ?? ""
         
-        return GPHMeta(responseId, status: status, msg: msg)
+        return GPHMeta(responseId, status: status, msg: msg, errorCode: errorCode)
     }
     
 }
