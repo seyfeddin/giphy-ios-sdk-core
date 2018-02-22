@@ -287,12 +287,12 @@ import Foundation
     /// - returns: GPHJSONCompletionHandler to be used as a completion handler for an HTTP request.
     ///
     public class func parseJSONResponse<T>(_ options: [String: Any?],
-                                    completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
+                                           completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
         
         return { (data, response, error) in
             // Error returned
             
-            if let error = error {
+            if let error = error as? GPHHTTPError, (error.errorCode < 400 && error.errorCode >= 500) {
                 completionHandler(nil, error)
                 return
             }
@@ -303,14 +303,14 @@ import Foundation
                 completionHandler(nil, GPHJSONMappingError(description: "No data returned from the server, but no error reported."))
                 return
             }
-
+            
             do {
                 let mappableObject: T.GPHMappableObject = try T.mapData(data, options: options)
                 guard let obj = mappableObject as? T else {
                     completionHandler(nil, GPHJSONMappingError(description: "Couldn't cast " + String(describing: T.GPHMappableObject.self) + " to " + String(describing: T.self) + " during JSON response parsing."))
                     return
                 }
-                completionHandler(obj, nil)
+                completionHandler(obj, error)
             } catch {
                 completionHandler(nil, error)
             }
