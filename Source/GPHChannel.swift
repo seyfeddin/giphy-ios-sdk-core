@@ -68,6 +68,8 @@ import Foundation
         self.id = id
     }
     
+    //MARK: NSCoding
+    
     required convenience public init?(coder aDecoder: NSCoder) {
         guard
             let id = aDecoder.decodeObject(forKey: "id") as? Int
@@ -109,6 +111,24 @@ import Foundation
         
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
     }
+    
+    // MARK: NSObject
+    
+    override public func isEqual(_ object: Any?) -> Bool {
+        if object as? GPHChannel === self {
+            return true
+        }
+        if let other = object as? GPHChannel, self.id == other.id {
+            return true
+        }
+        return false
+    }
+    
+    override public var hash: Int {
+        return "gph_channel_\(self.id)".hashValue
+    }
+    
+    
 }
 
 /// Make objects human readable.

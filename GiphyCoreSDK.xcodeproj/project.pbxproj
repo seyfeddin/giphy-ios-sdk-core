@@ -123,6 +123,10 @@
 		E7AF4E551EAE382D00489AB7 /* GPHAbstractClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E541EAE382D00489AB7 /* GPHAbstractClient.swift */; };
 		E7AF4E571EAE387100489AB7 /* GPHAsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E561EAE387100489AB7 /* GPHAsyncOperation.swift */; };
 		E7AF4E591EAE3E1900489AB7 /* GPHNetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AF4E581EAE3E1900489AB7 /* GPHNetworkReachability.swift */; };
+		E7B1AB402044AD3C00D44CC8 /* GPHFilterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1AB3F2044AD3C00D44CC8 /* GPHFilterable.swift */; };
+		E7B1AB412044AD3C00D44CC8 /* GPHFilterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1AB3F2044AD3C00D44CC8 /* GPHFilterable.swift */; };
+		E7B1AB422044AD3C00D44CC8 /* GPHFilterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1AB3F2044AD3C00D44CC8 /* GPHFilterable.swift */; };
+		E7B1AB432044AD3C00D44CC8 /* GPHFilterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1AB3F2044AD3C00D44CC8 /* GPHFilterable.swift */; };
 		E7F1026F1EB8EFF400F0FF34 /* GPHError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */; };
 		E7F102711EB9407000F0FF34 /* GPHImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102701EB9407000F0FF34 /* GPHImages.swift */; };
 		E7F102731EBA6E5B00F0FF34 /* GPHMappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */; };
@@ -189,6 +193,7 @@
 		E7AF4E541EAE382D00489AB7 /* GPHAbstractClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHAbstractClient.swift; sourceTree = "<group>"; };
 		E7AF4E561EAE387100489AB7 /* GPHAsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHAsyncOperation.swift; sourceTree = "<group>"; };
 		E7AF4E581EAE3E1900489AB7 /* GPHNetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHNetworkReachability.swift; sourceTree = "<group>"; };
+		E7B1AB3F2044AD3C00D44CC8 /* GPHFilterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPHFilterable.swift; sourceTree = "<group>"; };
 		E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHError.swift; sourceTree = "<group>"; };
 		E7F102701EB9407000F0FF34 /* GPHImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHImages.swift; sourceTree = "<group>"; };
 		E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHMappable.swift; sourceTree = "<group>"; };
@@ -345,6 +350,7 @@
 			children = (
 				E7AF4E451EAC17C200489AB7 /* GPHTypes.swift */,
 				E7F102721EBA6E5B00F0FF34 /* GPHMappable.swift */,
+				E7B1AB3F2044AD3C00D44CC8 /* GPHFilterable.swift */,
 				E7AF4E431EABF5C200489AB7 /* GPHMedia.swift */,
 				E7AF4E471EAC181C00489AB7 /* GPHUser.swift */,
 				E7AF4E491EAC2B5500489AB7 /* GPHImage.swift */,
@@ -676,6 +682,7 @@
 				E7147E041EC2AFAE00DC5CFF /* GPHAbstractClient.swift in Sources */,
 				E7147DF91EC2AF9800DC5CFF /* GPHAsyncOperation.swift in Sources */,
 				E7147DFD1EC2AFA200DC5CFF /* GPHUser.swift in Sources */,
+				E7B1AB412044AD3C00D44CC8 /* GPHFilterable.swift in Sources */,
 				E7147E001EC2AFA200DC5CFF /* GPHCategory.swift in Sources */,
 				E7147DF71EC2AF9800DC5CFF /* GPHRequest.swift in Sources */,
 				E7147E0C1EC2B12500DC5CFF /* GPHListMediaResponse.swift in Sources */,
@@ -720,6 +727,7 @@
 				E78FAD241EC371E2006D2803 /* GPHAsyncOperation.swift in Sources */,
 				E78FAD2E1EC371EE006D2803 /* GPHTypes.swift in Sources */,
 				E78FAD221EC371E2006D2803 /* GPHRequest.swift in Sources */,
+				E7B1AB422044AD3C00D44CC8 /* GPHFilterable.swift in Sources */,
 				E78FAD331EC371EE006D2803 /* GPHTermSuggestion.swift in Sources */,
 				E78FAD2F1EC371EE006D2803 /* GPHUser.swift in Sources */,
 				E78FAD291EC371E8006D2803 /* GPHMediaResponse.swift in Sources */,
@@ -764,6 +772,7 @@
 				E78FAD581EC37557006D2803 /* GPHNetworkReachability.swift in Sources */,
 				E78FAD4E1EC37557006D2803 /* GPHPagination.swift in Sources */,
 				E78FAD541EC37557006D2803 /* GPHListTermSuggestionRespose.swift in Sources */,
+				E7B1AB432044AD3C00D44CC8 /* GPHFilterable.swift in Sources */,
 				E78FAD451EC37557006D2803 /* GPHAbstractClient.swift in Sources */,
 				E78FAD481EC37557006D2803 /* GPHUser.swift in Sources */,
 				E78FAD521EC37557006D2803 /* GPHListMediaResponse.swift in Sources */,
@@ -797,6 +806,7 @@
 				E7AF4E461EAC17C200489AB7 /* GPHTypes.swift in Sources */,
 				E7AF4E4A1EAC2B5500489AB7 /* GPHImage.swift in Sources */,
 				E7F102711EB9407000F0FF34 /* GPHImages.swift in Sources */,
+				E7B1AB402044AD3C00D44CC8 /* GPHFilterable.swift in Sources */,
 				E7AF4E551EAE382D00489AB7 /* GPHAbstractClient.swift in Sources */,
 				AF05A7A31F66DB940095F5BA /* GPHChannel.swift in Sources */,
 				E7365A4F1EC124AC00997C5C /* GPHListMediaResponse.swift in Sources */,
