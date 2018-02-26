@@ -32,6 +32,9 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
+    
+    //MARK: NSCoding
+
     required convenience public init?(coder aDecoder: NSCoder) {
         self.init()
         
@@ -51,6 +54,24 @@ import Foundation
 
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
     }
+    
+    
+    // MARK: NSObject
+    
+    override public func isEqual(_ object: Any?) -> Bool {
+        if object as? GPHChannel === self {
+            return true
+        }
+        if let other = object as? GPHChannel, self.id == other.id {
+            return true
+        }
+        return false
+    }
+    
+    override public var hash: Int {
+        return "gph_channel_tag_\(self.id ?? 0)".hashValue
+    }
+    
 }
 
 /// Make objects human readable.
