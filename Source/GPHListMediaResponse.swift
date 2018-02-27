@@ -19,6 +19,9 @@ import Foundation
 
     /// Gifs/Stickers.
     public fileprivate(set) var data: [GPHMedia]?
+
+    /// Filtered out Gifs/Stickers.
+    public fileprivate(set) var filteredData: [GPHMedia]?
     
     /// Pagination info.
     public fileprivate(set) var pagination: GPHPagination?
@@ -32,9 +35,10 @@ import Foundation
     /// - parameter data: GPHMedia array (optional).
     /// - parameter pagination: GPHPagination object (optional).
     ///
-    convenience public init(_ meta:GPHMeta, data: [GPHMedia]?, pagination: GPHPagination?) {
+    convenience public init(_ meta:GPHMeta, data: [GPHMedia]?, filteredData: [GPHMedia]?, pagination: GPHPagination?) {
         self.init()
         self.data = data
+        self.filteredData = filteredData
         self.pagination = pagination
         self.meta = meta
     }
@@ -74,16 +78,23 @@ extension GPHListMediaResponse: GPHMappable {
         }
         
         var results: [GPHMedia]? = nil
+        var filtered: [GPHMedia]? = nil
         if let mediaData = data["data"] as? [GPHJSONObject] {
             results = []
+            filtered = []
             for result in mediaData {
                 let result = try GPHMedia.mapData(result, options: options)
-                results?.append(result)
+                if result.isValidObject() {
+                    results?.append(result)
+                } else {
+                    filtered?.append(result)
+                }
+                
             }
         }
         
         // No image and pagination data, return the meta data
-        return GPHListMediaResponse(meta, data: results, pagination: pagination)
+        return GPHListMediaResponse(meta, data: results, filteredData: filtered, pagination: pagination)
     }
     
 }

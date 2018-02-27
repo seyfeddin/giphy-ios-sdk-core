@@ -12,10 +12,17 @@
 
 import Foundation
 
+public typealias GPHFilterBlock = (_ obj: GPHFilterable) -> Bool
+
 @objc
-public protocol GPHFilterable {
+public class GPHFilterable: NSObject {
     
-    var uniqueId: Int {get set}
-    func isValidObject() -> Bool
+    @objc public static var filter:GPHFilterBlock? = nil
     
+    @objc public func isValidObject() -> Bool {
+        if let filter = GPHFilterable.filter {
+            return filter(self)
+        }
+        return true
+    }
 }

@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents Giphy A Channel Tag Object
 ///
-@objcMembers public class GPHChannelTag: NSObject, NSCoding {
+@objcMembers public class GPHChannelTag: GPHFilterable, NSCoding {
     // MARK: Properties
     
     /// ID of this Channel.

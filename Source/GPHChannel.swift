@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents Giphy Channels
 ///
-@objcMembers public class GPHChannel: NSObject, NSCoding {
+@objcMembers public class GPHChannel: GPHFilterable, NSCoding {
     // MARK: Properties
     
     // Stickers Packs Channel Root ID

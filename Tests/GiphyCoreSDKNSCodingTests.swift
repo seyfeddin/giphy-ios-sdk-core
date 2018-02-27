@@ -667,4 +667,76 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         
         waitForExpectations(timeout: 10, handler: nil)
     }
+    
+    func testNSCodingSearchFilter() {
+        let promise = expectation(description: "Status 200 & Receive Search Results & Map them to Objects")
+        
+        GPHMedia.filter = { obj in
+            print("Filter called...")
+            if let obj = obj as? GPHMedia {
+                print(obj.featuredTags)
+                return (obj.featuredTags != nil && obj.featuredTags!.count > 3)
+            }
+            return false
+        }
+        
+        let _ = client.search("dog") { (response, error) in
+            
+            if let error = error as NSError? {
+                XCTFail("Error(\(error.code)): \(error.localizedDescription)")
+            }
+            
+            if let response = response, let data = response.data, let filtered = response.filteredData, let pagination = response.pagination {
+                print(response.meta)
+                print(pagination)
+                // Test that search always returns some results
+
+                print("VALID ONES: (\(data.count))")
+                data.forEach { result in
+                    do {
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForMedia(result, media: .gif, request: "search")
+                        
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        print(obj)
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForMedia(obj, media: .gif, request: "search")
+                        
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
+                    }
+                }
+                
+                print("FILTERED ONES (\(filtered.count))")
+                filtered.forEach { result in
+                    do {
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForMedia(result, media: .gif, request: "search")
+
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        print(obj)
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForMedia(obj, media: .gif, request: "search")
+                        
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
+                    }
+                }
+                
+                
+                promise.fulfill()
+            } else {
+                XCTFail("No Result Found")
+            }
+        }
+        waitForExpectations(timeout: 10, handler: nil)
+    }
+    
+    
 }

@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy Media Object
 ///
-@objcMembers public class GPHMedia: NSObject, NSCoding {
+@objcMembers public class GPHMedia: GPHFilterable, NSCoding {
     // MARK: Properties
     
     /// ID of the Object.

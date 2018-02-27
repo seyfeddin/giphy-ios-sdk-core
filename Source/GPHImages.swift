@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy Images (Renditions) for a GPHMedia
 ///
-@objcMembers public class GPHImages: NSObject, NSCoding {
+@objcMembers public class GPHImages: GPHFilterable, NSCoding {
     // MARK: Properties
 
     /// ID of the Represented Object.

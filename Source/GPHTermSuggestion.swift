@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy Term Suggestion
 ///
-@objcMembers public class GPHTermSuggestion: NSObject, NSCoding {
+@objcMembers public class GPHTermSuggestion: GPHFilterable, NSCoding {
     // MARK: Properties
 
     /// Term suggestion.
