@@ -79,12 +79,17 @@ extension GPHListChannelResponse: GPHMappable {
         let meta = try GPHMeta.mapData(metaData, options: options)
         
         // Get Results
-        var results: [GPHChannel] = []
+        var results: [GPHChannel]? = []
         
         for result in resultsData {
             let result = try GPHChannel.mapData(result, options: options)
-            results.append(result)
+            if result.isValidObject() {
+                results?.append(result)
+            }
         }
+//        if results != nil {
+//            pagination?.updateFilteredCount(results!.count)
+//        }
         
         // TODO: pagination
         return GPHListChannelResponse(meta, data: results, pagination: nil)

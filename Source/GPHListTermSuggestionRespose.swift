@@ -69,11 +69,13 @@ extension GPHListTermSuggestionResponse: GPHMappable {
         if let termData = data["data"] as? [GPHJSONObject] {
             
             // Get Results
-            var results: [GPHTermSuggestion] = []
+            var results: [GPHTermSuggestion]? = []
             
             for result in termData {
                 let result = try GPHTermSuggestion.mapData(result, options: options)
-                results.append(result)
+                if result.isValidObject() {
+                    results?.append(result)
+                }
             }
             
             // We have images and the meta data and pagination

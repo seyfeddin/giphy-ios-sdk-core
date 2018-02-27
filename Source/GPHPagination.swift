@@ -20,8 +20,11 @@ import Foundation
     /// Total Result Count.
     public private(set) var totalCount: Int
     
-    /// Returned Result Count (not always == limit)
+    /// Actual Result Count (not always == limit)
     public private(set) var count: Int
+
+    /// Returned (if Filters applied) Result Count (not always == limit)
+    public private(set) var filteredCount: Int
     
     /// Offset to start next set of results.
     public private(set) var offset: Int
@@ -34,6 +37,7 @@ import Foundation
     override public init() {
         self.totalCount = 0
         self.count = 0
+        self.filteredCount = 0
         self.offset = 0
         super.init()
     }
@@ -48,7 +52,12 @@ import Foundation
         self.init()
         self.totalCount = totalCount
         self.count = count
+        self.filteredCount = count
         self.offset = offset
+    }
+    
+    func updateFilteredCount(_ count: Int) {
+        self.filteredCount = count
     }
     
 }

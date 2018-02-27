@@ -77,11 +77,16 @@ extension GPHListCategoryResponse: GPHMappable {
             let pagination = try GPHPagination.mapData(paginationData, options: options)
             
             // Get Results
-            var results: [GPHCategory] = []
+            var results: [GPHCategory]? = []
             
             for result in mediaData {
                 let result = try GPHCategory.mapData(result, options: options)
-                results.append(result)
+                if result.isValidObject() {
+                    results?.append(result)
+                }
+            }
+            if results != nil {
+                pagination.updateFilteredCount(results!.count)
             }
             
             // We have images and the meta data and pagination

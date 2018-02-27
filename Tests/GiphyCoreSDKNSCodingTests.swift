@@ -686,12 +686,12 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
             
-            if let response = response, let data = response.data, let filtered = response.filteredData, let pagination = response.pagination {
+            if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
                 print(pagination)
                 // Test that search always returns some results
 
-                print("VALID ONES: (\(data.count))")
+                print("VALID TOTAL: (\(pagination.filteredCount)) vs ACTUAL TOTAL:(\(pagination.count))")
                 data.forEach { result in
                     do {
                         // Test the initial mapping before archiving
@@ -709,26 +709,6 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                         XCTFail("Failed to archive and unarchive")
                     }
                 }
-                
-                print("FILTERED ONES (\(filtered.count))")
-                filtered.forEach { result in
-                    do {
-                        // Test the initial mapping before archiving
-                        try? self.validateJSONForMedia(result, media: .gif, request: "search")
-
-                        // Test if we can archive & unarchive
-                        let obj = try self.cloneViaCoding(root: result)
-                        print(obj)
-                        // Test mapping after archive & unarchive
-                        try? self.validateJSONForMedia(obj, media: .gif, request: "search")
-                        
-                    } catch let error as NSError {
-                        print(result)
-                        print(error)
-                        XCTFail("Failed to archive and unarchive")
-                    }
-                }
-                
                 
                 promise.fulfill()
             } else {
