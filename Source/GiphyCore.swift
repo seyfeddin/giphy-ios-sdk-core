@@ -21,13 +21,12 @@ import Foundation
         shared.apiKey = apiKey
     }
     
-    /// Configure the Models for Filtering
+    /// Configure Filtering for all the Models
     ///
-    /// - parameter model: GPHFilterable model to set the filter for.
     /// - parameter filter: GPHFilterBlock to use and figure out if an object is valid or not.
     ///
-    @objc public class func setFilter(_ model:GPHFilterable.Type, filter: @escaping GPHFilterBlock) {
-        model.filter = filter
+    @objc public class func setFilter(filter: @escaping GPHFilterBlock) {
+        GPHFilterable.filter = filter
     }
 
 }
