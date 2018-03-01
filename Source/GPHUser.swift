@@ -134,7 +134,7 @@ import Foundation
         aCoder.encode(self.username, forKey: "username")
         aCoder.encode(self.userId, forKey: "userId")
         aCoder.encode(self.isPublic, forKey: "isPublic")
-        aCoder.encode(self.isPublic, forKey: "isStaff")
+        aCoder.encode(self.isStaff, forKey: "isStaff")
         aCoder.encode(self.suppressChrome, forKey: "suppressChrome")
         aCoder.encode(self.name, forKey: "name")
         aCoder.encode(self.displayName, forKey: "displayName")
