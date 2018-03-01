@@ -165,6 +165,20 @@ public enum GPHRequestRouter {
     
     // MARK: Helper functions
     
+    /// Encode a URLQueryItem for including in HTTP requests
+    /// (encodes + signs correctly to %2B)
+    ///
+    /// - parameter queryItem: URLQueryItem to be encoded.
+    /// - returns: a URLQueryItem whose value is correctly percent-escaped.
+    ///
+    public func encodedURLQueryItem(_ queryItem: URLQueryItem) -> URLQueryItem {
+        var allowedCharacters: CharacterSet = CharacterSet.urlQueryAllowed
+        allowedCharacters.remove(charactersIn: "+")
+        let encodedValue = queryItem.value?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
+        return URLQueryItem(name: queryItem.name, value: encodedValue)
+    }
+    
+
     /// Construct the request from url, method and parameters.
     ///
     /// - parameter apiKey: Api-key for the request.
@@ -203,8 +217,11 @@ public enum GPHRequestRouter {
             request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content-type")
             
             var urlComponents = URLComponents(string: url.absoluteString)
-            urlComponents?.queryItems = queryItems
-            request.httpBody = (urlComponents?.percentEncodedQuery ?? "").data(using: String.Encoding.utf8)
+            let encodedQueryItems: [URLQueryItem] = queryItems.map { queryItem in
+                return encodedURLQueryItem(queryItem)
+            }
+            urlComponents?.queryItems = encodedQueryItems
+            request.httpBody = (urlComponents?.query ?? "").data(using: String.Encoding.utf8)
         case .get:
             request.addValue("application/json", forHTTPHeaderField: "content-type")
         default:
@@ -214,4 +231,3 @@ public enum GPHRequestRouter {
         return request
     }
 }
-
