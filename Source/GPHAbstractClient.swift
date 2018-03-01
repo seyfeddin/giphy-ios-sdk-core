@@ -85,7 +85,7 @@ import Foundation
     /// Encode Strings for appending to URLs for endpoints like Term Suggestions/Categories
     ///
     /// - parameter string: String to be encoded.
-    /// - returns: A cancellable operation.
+    /// - returns: A percent encoded string.
     ///
     @objc
     func encodedStringForUrl(_ string: String) -> String {
@@ -96,7 +96,7 @@ import Foundation
         return encoded
     }
 
-    
+        
     /// Perform a request
     ///
     /// - parameter request: URLRequest
