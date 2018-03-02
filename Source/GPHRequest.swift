@@ -173,7 +173,11 @@ public enum GPHRequestRouter {
     ///
     public func encodedURLQueryItem(_ queryItem: URLQueryItem) -> URLQueryItem {
         var allowedCharacters: CharacterSet = CharacterSet.urlQueryAllowed
-        allowedCharacters.remove(charactersIn: "+")
+        
+        // Removing the characters that AlamoFire removes to match behaviour:
+        // https://github.com/Alamofire/Alamofire/blob/master/Source/ParameterEncoding.swift#L236
+        
+        allowedCharacters.remove(charactersIn: ":#[]@!$&'()*+,;=")
         let encodedValue = queryItem.value?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         return URLQueryItem(name: queryItem.name, value: encodedValue)
     }
