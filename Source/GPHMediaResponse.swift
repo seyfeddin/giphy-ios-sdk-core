@@ -69,9 +69,11 @@ extension GPHMediaResponse: GPHMappable {
         if let mediaData = data["data"] as? GPHJSONObject {
             
             let data = try GPHMedia.mapData(mediaData, options: options)
-            
-            // We got the image and the meta data
-            return GPHMediaResponse(meta, data: data)
+            if data.isValidObject() {
+                // We got the image and the meta data
+                return GPHMediaResponse(meta, data: data)
+            }
+            return GPHMediaResponse(meta, data: nil)
         }
         
         // No image and the meta data

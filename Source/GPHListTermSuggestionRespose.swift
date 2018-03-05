@@ -59,8 +59,8 @@ extension GPHListTermSuggestionResponse: GPHMappable {
         
         guard
             let metaData = data["meta"] as? GPHJSONObject
-            else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(data)")
+        else {
+            throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(data)")
         }
         
         let meta = try GPHMeta.mapData(metaData, options: options)

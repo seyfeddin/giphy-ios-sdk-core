@@ -56,7 +56,7 @@ import Foundation
         self.offset = offset
     }
     
-    func updateFilteredCount(_ count: Int) {
+    public func updateFilteredCount(_ count: Int) {
         self.filteredCount = count
     }
     

@@ -27,7 +27,7 @@ import Foundation
     /// - parameter meta: init with a GPHMeta object.
     /// - parameter data: GPHChannel object.
     ///
-    convenience public init(_ meta: GPHMeta, data: GPHChannel) {
+    convenience public init(_ meta: GPHMeta, data: GPHChannel?) {
         self.init()
         self.data = data
         self.meta = meta
@@ -53,20 +53,23 @@ extension GPHChannelResponse: GPHMappable {
         
         guard
             let metaData = data["meta"] as? GPHJSONObject
-            else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHChannel due to missing 'meta' field: \(data)")
+        else {
+            throw GPHJSONMappingError(description: "Couldn't map GPHChannel due to missing 'meta' field: \(data)")
         }
         
         guard
             let channelData = data["data"] as? GPHJSONObject
-            else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHChannel due to missing 'data' field: \(data)")
+        else {
+            throw GPHJSONMappingError(description: "Couldn't map GPHChannel due to missing 'data' field: \(data)")
         }
         
         let meta = try GPHMeta.mapData(metaData, options: options)
         let channel = try GPHChannel.mapData(channelData, options: options)
-        
-        return GPHChannelResponse(meta, data: channel)
+
+        if channel.isValidObject() {
+            return GPHChannelResponse(meta, data: channel)
+        }
+        return GPHChannelResponse(meta, data: nil)
     }
     
 }
