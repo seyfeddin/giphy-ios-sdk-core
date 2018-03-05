@@ -56,6 +56,9 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
+    /// User Dictionary to Store data in Obj by the Developer
+    public var userDictionary: [String: Any]?
+    
     // MARK: Initializers
     
     /// Convenience Initializer
@@ -93,6 +96,7 @@ import Foundation
         self.mp4Url = aDecoder.decodeObject(forKey: "mp4Url") as? String
         self.mp4Size = aDecoder.decodeInteger(forKey: "mp4Size")
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
+        self.userDictionary = aDecoder.decodeObject(forKey: "userDictionary") as? [String: Any]
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -109,6 +113,7 @@ import Foundation
         aCoder.encode(self.mp4Url, forKey: "mp4Url")
         aCoder.encode(self.mp4Size, forKey: "mp4Size")
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
+        aCoder.encode(self.userDictionary, forKey: "userDictionary")
     }
     
     // MARK: NSObject

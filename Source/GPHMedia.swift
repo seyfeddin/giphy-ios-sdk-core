@@ -100,6 +100,9 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
+    /// User Dictionary to Store data in Obj by the Developer
+    public var userDictionary: [String: Any]?
+    
     /// Convenience Initializer
     ///
     /// - parameter id: Media Object ID.
@@ -152,6 +155,7 @@ import Foundation
         self.updateDate = aDecoder.decodeObject(forKey: "updateDate") as? Date
         self.createDate = aDecoder.decodeObject(forKey: "createDate") as? Date
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
+        self.userDictionary = aDecoder.decodeObject(forKey: "userDictionary") as? [String: Any]
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -187,6 +191,7 @@ import Foundation
         aCoder.encode(self.updateDate, forKey: "updateDate")
         aCoder.encode(self.createDate, forKey: "createDate")
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
+        aCoder.encode(self.userDictionary, forKey: "userDictionary")
     }
     
     // MARK: NSObject

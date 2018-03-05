@@ -35,6 +35,9 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
+    /// User Dictionary to Store data in Obj by the Developer
+    public var userDictionary: [String: Any]?
+    
     // MARK: Initializers
     
     /// Convenience Initializer
@@ -66,6 +69,7 @@ import Foundation
         self.gif = aDecoder.decodeObject(forKey: "gif") as? GPHMedia
         self.subCategories = aDecoder.decodeObject(forKey: "subCategories") as? [GPHCategory]
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
+        self.userDictionary = aDecoder.decodeObject(forKey: "userDictionary") as? [String: Any]
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -75,6 +79,7 @@ import Foundation
         aCoder.encode(self.gif, forKey: "gif")
         aCoder.encode(self.subCategories, forKey: "subCategories")
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
+        aCoder.encode(self.userDictionary, forKey: "userDictionary")
     }
     
     // MARK: NSObject

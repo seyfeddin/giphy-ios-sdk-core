@@ -59,6 +59,9 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
+    /// User Dictionary to Store data in Obj by the Developer
+    public var userDictionary: [String: Any]?
+    
     /// Convenience Initializer
     ///
     /// - parameter id: ID of the Channel.
@@ -90,8 +93,8 @@ import Foundation
         self.featuredGif = aDecoder.decodeObject(forKey: "featured_gif") as? GPHMedia ?? nil
         self.tags = aDecoder.decodeObject(forKey: "tags") as? Array<GPHChannelTag> ?? []
         self.ancestors = aDecoder.decodeObject(forKey: "ancestors") as? Array<GPHChannel> ?? []
-        
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
+        self.userDictionary = aDecoder.decodeObject(forKey: "userDictionary") as? [String: Any]
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -103,13 +106,12 @@ import Foundation
         aCoder.encode(self.displayName, forKey: "display_name")
         aCoder.encode(self.descriptionText, forKey: "description")
         aCoder.encode(self.shortDisplayName, forKey: "short_display_name")
-        
         aCoder.encode(self.user, forKey: "user")
         aCoder.encode(self.tags, forKey: "tags")
         aCoder.encode(self.ancestors, forKey: "ancestors")
         aCoder.encode(self.featuredGif, forKey: "featured_gif")
-        
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
+        aCoder.encode(self.userDictionary, forKey: "userDictionary")
     }
     
     // MARK: NSObject
