@@ -648,7 +648,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     func testNSCodingForChannelChildren() {
         let promise = expectation(description: "Status 200 & Receive Map Channel objects")
         
-        let _ = client.channelChildren(GPHChannel.StickersRootId, offset: 0, limit: 1, media: .sticker) { (response, error) in
+        let _ = client.channelChildren(1106, offset: 0, limit: 10, media: .sticker) { (response, error) in
             if let data = response?.data {
                 data.forEach { channel in
                     print(data)
@@ -674,7 +674,6 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         GPHMedia.filter = { obj in
             print("Filter called...")
             if let obj = obj as? GPHMedia {
-                print(obj.featuredTags)
                 return (obj.featuredTags != nil && obj.featuredTags!.count > 3)
             }
             return false

@@ -165,7 +165,7 @@ extension GPHChannel: GPHMappable {
         obj.contentType = (data["content_type"] as? String)
         obj.descriptionText = (data["description"] as? String)
         obj.bannerImage = (data["banner_image"] as? String)
-        obj.tags = (data["tags"] as? Array<GPHChannelTag>)
+        obj.tags = (data["tags"] as? [GPHChannelTag])
         
         obj.jsonRepresentation = data
         
@@ -178,7 +178,7 @@ extension GPHChannel: GPHMappable {
             obj.user = try GPHUser.mapData(userData, options: options)
         }
         
-        if let ancestors = data["ancestors"] as? Array<GPHJSONObject> {
+        if let ancestors = data["ancestors"] as? [GPHJSONObject] {
             for ancestor in ancestors {
                 let ancestor = try GPHChannel.mapData(ancestor, options: options)
                 obj.ancestors.append(ancestor)
