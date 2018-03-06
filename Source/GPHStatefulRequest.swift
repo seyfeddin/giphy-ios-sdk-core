@@ -35,13 +35,11 @@ class GPHStatefulRequest: GPHRequest {
     // More reliable way of determining whether the query has returned all paginated results
     var hasAlreadyReturnedAllResults: Bool = false
 
-    
     // Initiate a new request if necessary.
     //
     // 1) If force is YES, always create a new request.
     // 2) If force is NO, do not create a new request if there is already a pending retry.
     func newRequest(force: Bool) {}
-    
     
     func resetRequest(fireEventImmediately: Bool) {}
     func retryRequest() {}
