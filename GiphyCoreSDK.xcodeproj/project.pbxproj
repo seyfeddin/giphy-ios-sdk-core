@@ -373,10 +373,10 @@
 			children = (
 				E7365A471EC1052100997C5C /* Response Models */,
 				E7AF4E521EAE380700489AB7 /* GPHRequest.swift */,
+				E7EF0CFD204F35EF002ABCD8 /* GPHStatefulRequest.swift */,
 				E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */,
 				E7AF4E561EAE387100489AB7 /* GPHAsyncOperation.swift */,
 				E7AF4E581EAE3E1900489AB7 /* GPHNetworkReachability.swift */,
-				E7EF0CFD204F35EF002ABCD8 /* GPHStatefulRequest.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
