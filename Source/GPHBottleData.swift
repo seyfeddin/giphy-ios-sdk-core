@@ -12,7 +12,7 @@
 
 import Foundation
 
-/// Represents a Giphy Term Suggestion
+/// Represents a Giphy Bottle Data
 ///
 @objcMembers public class GPHBottleData: GPHFilterable, NSCoding {
     // MARK: Properties
