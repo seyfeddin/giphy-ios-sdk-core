@@ -89,7 +89,7 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
         lastRequestStartedAt = nil
         lastRequestResultCount = 0
         
-        //newRequest(force: true)
+        newRequest(force: true)
         
         if fireEventImmediately {
             fireRequestUpdate()
@@ -144,7 +144,7 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
     }
     
     func newRequestFired() {
-        //newRequest(force: true)
+        newRequest(force: true)
     }
     
     // Initiate a new request if necessary.
