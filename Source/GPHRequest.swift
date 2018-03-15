@@ -18,8 +18,8 @@ import Foundation
 @objcMembers public class GPHRequest: GPHAsyncOperationWithCompletion {
     // MARK: Properties
 
-    /// URLRequest obj to handle the networking.
-    var request: URLRequest
+    /// Config to form requests.
+    var config: GPHRequestConfig
     
     /// The client to which this request is related.
     let client: GPHAbstractClient
@@ -29,13 +29,13 @@ import Foundation
     /// Convenience Initializer
     ///
     /// - parameter client: GPHClient object to handle the request.
-    /// - parameter request: URLRequest to execute.
+    /// - parameter config: GPHRequestConfig to formulate request(s).
     /// - parameter type: Request type (GPHRequestType).
     /// - parameter completionHandler: GPHJSONCompletionHandler to return JSON or Error.
     ///
-    init(_ client: GPHAbstractClient, request: URLRequest, completionHandler: @escaping GPHJSONCompletionHandler) {
+    init(_ client: GPHAbstractClient, config: GPHRequestConfig, completionHandler: @escaping GPHJSONCompletionHandler) {
         self.client = client
-        self.request = request
+        self.config = config
         super.init(completionHandler: completionHandler)
     }
     
@@ -44,7 +44,7 @@ import Foundation
     /// Override the Operation function main to handle the request
     ///
     override public func main() {
-        client.session.dataTask(with: request) { data, response, error in
+        client.session.dataTask(with: config.getRequest()) { data, response, error in
             
             if self.isCancelled {
                 return

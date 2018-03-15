@@ -106,7 +106,7 @@ import Foundation
     @objc
     @discardableResult public func httpRequest(with config: GPHRequestConfig, completionHandler: @escaping GPHJSONCompletionHandler) -> Operation {
         
-        let operation = GPHRequest(self, request: config.getRequest(), completionHandler: completionHandler)
+        let operation = GPHRequest(self, config: config, completionHandler: completionHandler)
         self.requestQueue.addOperation(operation)
         
         return operation
