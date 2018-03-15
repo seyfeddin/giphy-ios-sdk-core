@@ -114,14 +114,23 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                      rating: GPHRatingType = .ratedR,
                                      completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
         
+        let config = GPHRequestConfig()
+        
         // Build the request endpoint
-        let queryItems:[URLQueryItem] = [
+        config.queryItems = [
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
             URLQueryItem(name: "rating", value: rating.rawValue),
         ]
-        let request = GPHRequestRouter.request("\(media.rawValue)s/trending", .get, queryItems, nil).asURLRequest(apiKey)
-        return self.listRequest(with: request, type: "trending", media: media, completionHandler: completionHandler)
+        config.path = "\(media.rawValue)s/trending"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "trending",
+            "media": media,
+        ]
+        
+        return self.listRequest(with: config, completionHandler: completionHandler)
     }
     
     

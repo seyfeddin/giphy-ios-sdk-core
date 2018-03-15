@@ -9,7 +9,7 @@
 import Foundation
 
 
-@objcMembers public class GPHRequestConfig {
+@objcMembers public class GPHRequestConfig:NSObject {
     
     public var method: GPHRequestType = .get
     public var queryItems: [URLQueryItem]? = nil
@@ -19,7 +19,7 @@ import Foundation
     public var options: [String: Any?]? = nil
     public var apiKey: String = ""
     
-    public func getRequest() -> GPHRequest {
+    public func getRequest() -> URLRequest {
         return GPHRequestRouter.request(path, method, queryItems, headers).asURLRequest(apiKey)
     }
 }

@@ -141,26 +141,16 @@ import Foundation
     
     /// Perform a request to get a list of results
     ///
-    /// - parameter request: URLRequest
-    /// - parameter type: GPHRequestType to figure out what endpoint to hit
-    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    /// - parameter config: GPHRequestConfig
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func listRequest(with request: URLRequest,
-                                        type: String,
-                                        media: GPHMediaType,
+    @discardableResult public func listRequest(with config: GPHRequestConfig,
                                         completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
-
-        // Build options for the serializer
-        let options:[String: Any?] = [
-            "request": type,
-            "media": media,
-        ]
         
-        return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(completionHandler: completionHandler))
     }
     
     /// Perform a request to get a list of term suggestions
@@ -286,7 +276,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the parser's outcome.
     /// - returns: GPHJSONCompletionHandler to be used as a completion handler for an HTTP request.
     ///
-    public class func parseJSONResponse<T>(_ options: [String: Any?],
+    public class func parseJSONResponse<T>(_ config: GPHRequestConfig,
                                            completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
         
         return { (data, response, error) in
@@ -305,7 +295,7 @@ import Foundation
             }
             
             do {
-                let mappableObject: T.GPHMappableObject = try T.mapData(data, options: options)
+                let mappableObject: T.GPHMappableObject = try T.mapData(data, options: config.options ?? [:])
                 guard let obj = mappableObject as? T else {
                     completionHandler(nil, GPHJSONMappingError(description: "Couldn't cast " + String(describing: T.GPHMappableObject.self) + " to " + String(describing: T.self) + " during JSON response parsing."))
                     return
