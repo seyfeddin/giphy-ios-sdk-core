@@ -147,6 +147,7 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
         newRequest(force: true)
     }
     
+    
     // Initiate a new request if necessary.
     //
     // 1) If force is YES, always create a new request.
@@ -177,58 +178,50 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
             return false
         }
 
-//        __weak GPHSDKQuery *welf = self;
-//        GPHFetchGIFListSuccessBlock successBlock = ^(NSArray *results, long filteredCount, long totalResultCount, NSString *responseId) {
-//
-//            GPHSDKQuery *strelf = welf;
-//            if (!strelf) {
-//                return;
-//            }
-//
-//            self.hasRequestInFlight = NO;
-//            [strelf cancelRetry];
-//            strelf.retryCount = 0;
-//
-//            strelf.hasReceivedAFailure = NO;
-//
-//            if (strelf.nextOffset != offsetAtRequestStart) {
-//                // If another request has modified items since this
-//                // request began, ignore this response.
-//                return;
-//            }
-//
-//
-//            strelf.items = existingSet;
-//            strelf.hasReceivedAResponse = YES;
-//
-//            strelf.lastRequestResultCount = results.count;
-//
-//            if (!strelf.totalResultCount) {
-//                strelf.totalResultCount = @(totalResultCount);
-//            }
-//            if (results.count == 0) {
-//                strelf.hasReceivedEmptyResponse = YES;
-//            }
-//            strelf.nextOffset = offsetAtRequestStart + self.requestNumberOfImages;
-//            strelf.responseId = responseId;
-//
-//            [strelf fireDelegateUpdate];
-//        };
-//
-//        GPHFailureBlock failureBlock = ^(NSURLSessionDataTask *task, NSError *error) {
-//
-//            GPHSDKQuery *strelf = welf;
-//            if (!strelf) {
-//                return;
-//            }
-//
-//            self.hasRequestInFlight = NO;
-//            [strelf tryToScheduleARetry];
-//            strelf.hasReceivedAFailure = YES;
-//            [strelf fireDelegateUpdate];
-//        };
-
         return true
+    }
+    
+    func succesfulRequest() {
+        
+        //    successs
+        //            self.hasRequestInFlight = NO;
+        //            [strelf cancelRetry];
+        //            strelf.retryCount = 0;
+        //
+        //            strelf.hasReceivedAFailure = NO;
+        //
+        //            if (strelf.nextOffset != offsetAtRequestStart) {
+        //                // If another request has modified items since this
+        //                // request began, ignore this response.
+        //                return;
+        //            }
+        //
+        //
+        //            strelf.hasReceivedAResponse = YES;
+        //
+        //            strelf.lastRequestResultCount = results.count;
+        //
+        //            if (!strelf.totalResultCount) {
+        //                strelf.totalResultCount = @(totalResultCount);
+        //            }
+        //            if (results.count == 0) {
+        //                strelf.hasReceivedEmptyResponse = YES;
+        //            }
+        //            strelf.nextOffset = offsetAtRequestStart + self.requestNumberOfImages;
+        //            strelf.responseId = responseId;
+        //
+        //            [strelf fireDelegateUpdate];
+        //        };
+        //
+        
+        
+    }
+    
+    func failedRequest() {
+        self.hasRequestInFlight = false
+        self.hasReceivedAFailure = true
+        self.scheduleRetry()
+        self.fireRequestUpdate()
     }
     
     
@@ -245,6 +238,7 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
             
             #if !os(watchOS)
                 if !self.client.isNetworkReachable() {
+                    self.failedRequest()
                     self.callCompletion(data: nil, response: response, error: GPHHTTPError(statusCode:100, description: "Network is not reachable"))
                     return
                 }
@@ -252,6 +246,7 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
 
             do {
                 guard let data = data else {
+                    self.failedRequest()
                     self.callCompletion(data: nil, response: response, error:GPHJSONMappingError(description: "Can not map API response to JSON, there is no data"))
                     return
                 }
@@ -270,15 +265,19 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
                         let errorMessage = (result["meta"] as? GPHJSONObject)?["msg"] as? String
                         // Prep the error
                         let errorAPIorHTTP = GPHHTTPError(statusCode: statusCode, description: errorMessage)
+                        self.failedRequest()
                         self.callCompletion(data: result, response: response, error: errorAPIorHTTP)
                         self.state = .finished
                         return
                     }
+                    
                     self.callCompletion(data: result, response: response, error: error)
                 } else {
+                    self.failedRequest()
                     self.callCompletion(data: nil, response: response, error: GPHJSONMappingError(description: "Can not map API response to JSON"))
                 }
             } catch {
+                self.failedRequest()
                 self.callCompletion(data: nil, response: response, error: error)
             }
             
