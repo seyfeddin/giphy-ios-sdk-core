@@ -82,56 +82,56 @@ class GPHStatefulRequest: GPHRequest {
             return false
         }
         
-        __weak GPHSDKQuery *welf = self;
-        GPHFetchGIFListSuccessBlock successBlock = ^(NSArray *results, long filteredCount, long totalResultCount, NSString *responseId) {
-            
-            GPHSDKQuery *strelf = welf;
-            if (!strelf) {
-                return;
-            }
-            
-            self.hasRequestInFlight = NO;
-            [strelf cancelRetry];
-            strelf.retryCount = 0;
-            
-            strelf.hasReceivedAFailure = NO;
-            
-            if (strelf.nextOffset != offsetAtRequestStart) {
-                // If another request has modified items since this
-                // request began, ignore this response.
-                return;
-            }
-            
-            
-            strelf.items = existingSet;
-            strelf.hasReceivedAResponse = YES;
-            
-            strelf.lastRequestResultCount = results.count;
-            
-            if (!strelf.totalResultCount) {
-                strelf.totalResultCount = @(totalResultCount);
-            }
-            if (results.count == 0) {
-                strelf.hasReceivedEmptyResponse = YES;
-            }
-            strelf.nextOffset = offsetAtRequestStart + self.requestNumberOfImages;
-            strelf.responseId = responseId;
-            
-            [strelf fireDelegateUpdate];
-        };
-        
-        GPHFailureBlock failureBlock = ^(NSURLSessionDataTask *task, NSError *error) {
-            
-            GPHSDKQuery *strelf = welf;
-            if (!strelf) {
-                return;
-            }
-            
-            self.hasRequestInFlight = NO;
-            [strelf tryToScheduleARetry];
-            strelf.hasReceivedAFailure = YES;
-            [strelf fireDelegateUpdate];
-        };
+//        __weak GPHSDKQuery *welf = self;
+//        GPHFetchGIFListSuccessBlock successBlock = ^(NSArray *results, long filteredCount, long totalResultCount, NSString *responseId) {
+//
+//            GPHSDKQuery *strelf = welf;
+//            if (!strelf) {
+//                return;
+//            }
+//
+//            self.hasRequestInFlight = NO;
+//            [strelf cancelRetry];
+//            strelf.retryCount = 0;
+//
+//            strelf.hasReceivedAFailure = NO;
+//
+//            if (strelf.nextOffset != offsetAtRequestStart) {
+//                // If another request has modified items since this
+//                // request began, ignore this response.
+//                return;
+//            }
+//
+//
+//            strelf.items = existingSet;
+//            strelf.hasReceivedAResponse = YES;
+//
+//            strelf.lastRequestResultCount = results.count;
+//
+//            if (!strelf.totalResultCount) {
+//                strelf.totalResultCount = @(totalResultCount);
+//            }
+//            if (results.count == 0) {
+//                strelf.hasReceivedEmptyResponse = YES;
+//            }
+//            strelf.nextOffset = offsetAtRequestStart + self.requestNumberOfImages;
+//            strelf.responseId = responseId;
+//
+//            [strelf fireDelegateUpdate];
+//        };
+//
+//        GPHFailureBlock failureBlock = ^(NSURLSessionDataTask *task, NSError *error) {
+//
+//            GPHSDKQuery *strelf = welf;
+//            if (!strelf) {
+//                return;
+//            }
+//
+//            self.hasRequestInFlight = NO;
+//            [strelf tryToScheduleARetry];
+//            strelf.hasReceivedAFailure = YES;
+//            [strelf fireDelegateUpdate];
+//        };
         
         return true
     }

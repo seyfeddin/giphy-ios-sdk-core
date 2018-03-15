@@ -145,125 +145,76 @@ import Foundation
     
     /// Perform a request to get a list of term suggestions
     ///
-    /// - parameter request: URLRequest
-    /// - parameter type: GPHRequestType to figure out what endpoint to hit
-    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    /// - parameter config: GPHRequestConfig
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func listTermSuggestionsRequest(with request: URLRequest,
-                                                       type: String,
-                                                       media: GPHMediaType,
+    @discardableResult public func listTermSuggestionsRequest(with config: GPHRequestConfig,
                                                        completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionResponse>) -> Operation {
         
-        // Build options for the serializer
-        let options:[String: Any?] = [
-            "request": type,
-            "media": media,
-        ]
-        
-        return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
 
     /// Perform a request to get a list of categories
     ///
-    /// - parameter root: GPHCategory for which to obtain subcategories, or nil.
-    /// - parameter request: URLRequest
-    /// - parameter type: GPHRequestType to figure out what endpoint to hit
-    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    /// - parameter config: GPHRequestConfig
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func listCategoriesRequest(_ root: GPHCategory? = nil,
-                                                  with request: URLRequest,
-                                                  type: String,
-                                                  media: GPHMediaType,
+    @discardableResult public func listCategoriesRequest(with config: GPHRequestConfig,
                                                   completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
         
-        
-        // Build options for the serializer
-        let options:[String: Any?] = [
-            "root": root,
-            "request": type,
-            "media": media,
-        ]
-        
-        return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     /// Perform a request to get a channels object.
     ///
-    /// - parameter type: GPHRequestType to figure out what endpoint to hit
-    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    /// - parameter config: GPHRequestConfig
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     ///
     @objc
-    @discardableResult public func channelRequest(with request: URLRequest,
-                                              type: String,
-                                              media: GPHMediaType,
+    @discardableResult public func channelRequest(with config: GPHRequestConfig,
                                               completionHandler: @escaping GPHCompletionHandler<GPHChannelResponse>) -> Operation {
         
-        // Build options for the serializer
-        let options:[String: Any?] = [
-            "request": type,
-            "media": media,
-        ]
-        
-        return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     /// Get a list of children of a given channel
     ///
-    /// - parameter type: GPHRequestType to figure out what endpoint to hit
-    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    /// - parameter config: GPHRequestConfig
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     ///
     @objc
-    @discardableResult public func channelChildrenRequest(with request: URLRequest,
-                                              type: String,
-                                              media: GPHMediaType,
+    @discardableResult public func channelChildrenRequest(with config: GPHRequestConfig,
                                               completionHandler: @escaping GPHCompletionHandler<GPHListChannelResponse>) -> Operation {
         
-        // Build options for the serializer
-        let options:[String: Any?] = [
-            "request": type,
-            "media": media,
-        ]
-        
-        return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     /// Get a list of gifs for a given channel.
     /// NOTE: this has the same response structure as any other getGifs
     ///
-    /// - parameter type: GPHRequestType to figure out what endpoint to hit
-    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    /// - parameter config: GPHRequestConfig
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     ///
     @objc
-    @discardableResult public func channelContentRequest(with request: URLRequest,
-                                              type: String,
-                                              media: GPHMediaType,
+    @discardableResult public func channelContentRequest(with config: GPHRequestConfig,
                                               completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
         
-        
-        // Build options for the serializer
-        let options:[String: Any?] = [
-            "request": type,
-            "media": media,
-        ]
-        
-        return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     /// Parses a JSON response to an HTTP request expected to return a particular GPHMappable response.
     ///
-    /// - parameter options: dict of objects to be passed around for serialziers.
-    /// - parameter completionHandler: Completion handler to be notified of the parser's outcome.
+    /// - parameter config: GPHRequestConfig
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: GPHJSONCompletionHandler to be used as a completion handler for an HTTP request.
     ///
     public class func parseJSONResponse<T>(_ config: GPHRequestConfig,
