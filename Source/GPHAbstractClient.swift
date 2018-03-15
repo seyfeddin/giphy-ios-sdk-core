@@ -99,14 +99,14 @@ import Foundation
         
     /// Perform a request
     ///
-    /// - parameter request: URLRequest
+    /// - parameter config: GPHRequestConfig
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func httpRequest(with request: URLRequest, completionHandler: @escaping GPHJSONCompletionHandler) -> Operation {
+    @discardableResult public func httpRequest(with config: GPHRequestConfig, completionHandler: @escaping GPHJSONCompletionHandler) -> Operation {
         
-        let operation = GPHRequest(self, request: request, completionHandler: completionHandler)
+        let operation = GPHRequest(self, request: config.getRequest(), completionHandler: completionHandler)
         self.requestQueue.addOperation(operation)
         
         return operation
@@ -115,26 +115,16 @@ import Foundation
 
     /// Perform a request to get a single result
     ///
-    /// - parameter request: URLRequest
-    /// - parameter type: GPHRequestType to figure out what endpoint to hit
-    /// - parameter media: GPHMediaType to figure out GIF/Sticker
+    /// - parameter config: GPHRequestConfig
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func getRequest(with request: URLRequest,
-                                       type: String,
-                                       media: GPHMediaType,
+    @discardableResult public func getRequest(with config: GPHRequestConfig,
                                        completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
         
-        // Build options for the serializer
-        let options:[String: Any?] = [
-            "request": type,
-            "media": media,
-        ]
-        
-        return self.httpRequest(with: request,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(options, completionHandler: completionHandler))
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
 
     }
     
@@ -150,7 +140,7 @@ import Foundation
                                         completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
         
         return self.httpRequest(with: config,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(completionHandler: completionHandler))
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     /// Perform a request to get a list of term suggestions

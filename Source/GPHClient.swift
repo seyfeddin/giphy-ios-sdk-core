@@ -152,14 +152,24 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                       lang: GPHLanguageType = .english,
                                       completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
     
+        
+        let config = GPHRequestConfig()
+        
         // Build the request endpoint
-        let queryItems:[URLQueryItem] = [
+        config.queryItems = [
             URLQueryItem(name: "s", value: term),
             URLQueryItem(name: "rating", value: rating.rawValue),
             URLQueryItem(name: "lang", value: lang.rawValue),
         ]
-        let request = GPHRequestRouter.request("\(media.rawValue)s/translate", .get, queryItems, nil).asURLRequest(apiKey)
-        return self.getRequest(with: request, type: "translate", media: media, completionHandler: completionHandler)
+        config.path = "\(media.rawValue)s/translate"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "translate",
+            "media": media,
+        ]
+
+        return self.getRequest(with: config, completionHandler: completionHandler)
     }
     
     
