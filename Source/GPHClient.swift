@@ -74,17 +74,25 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                    lang: GPHLanguageType = .english,
                                    completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
     
+        let config = GPHRequestConfig()
+        
         // Build the request endpoint
-        let queryItems:[URLQueryItem] = [
+        config.queryItems = [
             URLQueryItem(name: "q", value: query),
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
             URLQueryItem(name: "rating", value: rating.rawValue),
             URLQueryItem(name: "lang", value: lang.rawValue),
         ]
+        config.path = "\(media.rawValue)s/search"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "search",
+            "media": media,
+        ]
         
-        let request = GPHRequestRouter.request("\(media.rawValue)s/search", .get, queryItems, nil).asURLRequest(apiKey)
-        return self.listRequest(with: request, type: "search", media: media, completionHandler: completionHandler)
+        return self.listRequest(with: config, completionHandler: completionHandler)
     }
     
     

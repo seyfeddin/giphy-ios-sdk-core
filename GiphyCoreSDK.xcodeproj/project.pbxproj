@@ -63,6 +63,10 @@
 		E7365A511EC1305700997C5C /* GPHListTermSuggestionRespose.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A501EC1305700997C5C /* GPHListTermSuggestionRespose.swift */; };
 		E7365A531EC132BA00997C5C /* GPHListCategoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A521EC132BA00997C5C /* GPHListCategoryResponse.swift */; };
 		E7365A551EC136FC00997C5C /* GiphyCoreSDKOffsetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A541EC136FC00997C5C /* GiphyCoreSDKOffsetTests.swift */; };
+		E787722A205B195800A561AC /* GPHRequestConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7877229205B195800A561AC /* GPHRequestConfig.swift */; };
+		E787722B205B195800A561AC /* GPHRequestConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7877229205B195800A561AC /* GPHRequestConfig.swift */; };
+		E787722C205B195800A561AC /* GPHRequestConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7877229205B195800A561AC /* GPHRequestConfig.swift */; };
+		E787722D205B195800A561AC /* GPHRequestConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7877229205B195800A561AC /* GPHRequestConfig.swift */; };
 		E78FAD111EC370B6006D2803 /* GiphyCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E78FAD081EC370B6006D2803 /* GiphyCoreSDK.framework */; };
 		E78FAD1F1EC371D4006D2803 /* GiphyCoreSDKOffsetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A541EC136FC00997C5C /* GiphyCoreSDKOffsetTests.swift */; };
 		E78FAD201EC371D4006D2803 /* GiphyCoreSDKStatusCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7365A431EBFBD8200997C5C /* GiphyCoreSDKStatusCodeTests.swift */; };
@@ -178,6 +182,7 @@
 		E7365A501EC1305700997C5C /* GPHListTermSuggestionRespose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHListTermSuggestionRespose.swift; sourceTree = "<group>"; };
 		E7365A521EC132BA00997C5C /* GPHListCategoryResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPHListCategoryResponse.swift; sourceTree = "<group>"; };
 		E7365A541EC136FC00997C5C /* GiphyCoreSDKOffsetTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiphyCoreSDKOffsetTests.swift; sourceTree = "<group>"; };
+		E7877229205B195800A561AC /* GPHRequestConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPHRequestConfig.swift; sourceTree = "<group>"; };
 		E78FAD081EC370B6006D2803 /* GiphyCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GiphyCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E78FAD101EC370B6006D2803 /* GiphyCoreSDK-OSX-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GiphyCoreSDK-OSX-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E78FAD3C1EC374EA006D2803 /* GiphyCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GiphyCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -373,6 +378,7 @@
 			children = (
 				E7365A471EC1052100997C5C /* Response Models */,
 				E7AF4E521EAE380700489AB7 /* GPHRequest.swift */,
+				E7877229205B195800A561AC /* GPHRequestConfig.swift */,
 				E7EF0CFD204F35EF002ABCD8 /* GPHStatefulRequest.swift */,
 				E7F1026E1EB8EFF400F0FF34 /* GPHError.swift */,
 				E7AF4E561EAE387100489AB7 /* GPHAsyncOperation.swift */,
@@ -673,6 +679,7 @@
 				E735E3541F704A0500D0FDED /* GPHChannel.swift in Sources */,
 				E7147E081EC2B12500DC5CFF /* GPHPagination.swift in Sources */,
 				E716BA4D2038FFC200E07EAD /* GiphyCore.swift in Sources */,
+				E787722B205B195800A561AC /* GPHRequestConfig.swift in Sources */,
 				E7147DFA1EC2AF9800DC5CFF /* GPHNetworkReachability.swift in Sources */,
 				E7147E0E1EC2B12500DC5CFF /* GPHListTermSuggestionRespose.swift in Sources */,
 				E7147DFB1EC2AFA200DC5CFF /* GPHMedia.swift in Sources */,
@@ -719,6 +726,7 @@
 				E735E3551F704A0600D0FDED /* GPHChannel.swift in Sources */,
 				E78FAD271EC371E8006D2803 /* GPHMeta.swift in Sources */,
 				E716BA4E2038FFC200E07EAD /* GiphyCore.swift in Sources */,
+				E787722C205B195800A561AC /* GPHRequestConfig.swift in Sources */,
 				E78FAD281EC371E8006D2803 /* GPHResponse.swift in Sources */,
 				E78FAD231EC371E2006D2803 /* GPHError.swift in Sources */,
 				E78FAD341EC371EE006D2803 /* GPHMappable.swift in Sources */,
@@ -765,6 +773,7 @@
 				E735E3561F704A0700D0FDED /* GPHChannel.swift in Sources */,
 				E78FAD561EC37557006D2803 /* GPHError.swift in Sources */,
 				E716BA4F2038FFC200E07EAD /* GiphyCore.swift in Sources */,
+				E787722D205B195800A561AC /* GPHRequestConfig.swift in Sources */,
 				E78FAD551EC37557006D2803 /* GPHRequest.swift in Sources */,
 				E78FAD461EC37557006D2803 /* GPHMedia.swift in Sources */,
 				E78FAD4B1EC37557006D2803 /* GPHCategory.swift in Sources */,
@@ -800,6 +809,7 @@
 				E7365A461EBFD87900997C5C /* GPHPagination.swift in Sources */,
 				E7AF4E4E1EAC3A4A00489AB7 /* GPHTermSuggestion.swift in Sources */,
 				E716BA4C2038FFC200E07EAD /* GiphyCore.swift in Sources */,
+				E787722A205B195800A561AC /* GPHRequestConfig.swift in Sources */,
 				E7AF4E571EAE387100489AB7 /* GPHAsyncOperation.swift in Sources */,
 				E7AF4E441EABF5C200489AB7 /* GPHMedia.swift in Sources */,
 				AF05A7A51F66E1560095F5BA /* GPHChannelResponse.swift in Sources */,
