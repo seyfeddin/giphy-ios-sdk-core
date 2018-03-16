@@ -12,8 +12,6 @@
 
 import Foundation
 
-typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
-
 /// Async Request Operations with Completion Handler Support
 ///
 @objcMembers public class GPHRequest: GPHAsyncOperationWithCompletion {
@@ -25,8 +23,6 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
     /// The client to which this request is related.
     let client: GPHAbstractClient
     
-    var requestUpdates: [GPHRequestUpdate]? = nil
-    
     var totalResultCount = 0
     
     var nextRequestLimit = 25
@@ -35,6 +31,7 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
     var lastRequestResultCount = 0
     var lastRequestStartedAt: Date? = nil
     
+    var retryLimit = 3
     var retryCount = 0
     var retryDelay = 1.0
     var retryDelayPower = 2.0
@@ -92,16 +89,16 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
         newRequest(force: true)
         
         if fireEventImmediately {
-            fireRequestUpdate()
+            self.callCompletion(data: nil, response: nil, error: GPHHTTPError(statusCode:101, description: "Reset Request"))
         }
         
     }
     
     func scheduleRetry() {
         
-        if retryDelayTimer != nil {
+        if self.hasRequestInFlight && state != .finished {
             // A retry is already scheduled, so ignore.
-            return;
+            return
         }
         
         retryCount += 1
@@ -116,31 +113,13 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
         // It'd be nice to eventually honor connectivity (via Reachability)
         // and foreground/activation state
         let retryDelaySeconds = retryDelay * pow(Double(retryCount), retryDelayPower)
-        retryDelayTimer = Timer.scheduledTimer(timeInterval: retryDelaySeconds, target: self, selector: #selector(newRequestFired), userInfo: nil, repeats: false)
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + retryDelaySeconds) {
+            self.newRequestFired()
+        }
     }
     
     func cancelRetry() {
-        retryDelayTimer?.invalidate()
-        retryDelayTimer = nil
-    }
-    
-    func fireRequestUpdate() {
-        
-        //        let totalUpdates = (requestUpdates ?? []).count
-        //        print "COUNT: \(totalUpdates)"
-        
-        for update in requestUpdates ?? [] {
-            update(self)
-        }
-    }
-    
-    func addUpdate(update: @escaping GPHRequestUpdate) {
-        
-        if requestUpdates == nil {
-            requestUpdates = [];
-        }
-        requestUpdates?.append(update)
+        self.state = .finished
     }
     
     func newRequestFired() {
@@ -153,7 +132,8 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
     // 1) If force is YES, always create a new request.
     // 2) If force is NO, do not create a new request if there is already a pending retry.
     @discardableResult func newRequest(force: Bool) -> Bool {
-
+        
+        print("New Request retryCount:\(retryCount)")
         if force {
             cancelRetry()
             hasRequestInFlight = false
@@ -177,12 +157,13 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
         lastRequestStartedAt = Date()
         lastRequestResultCount = 0
         
+        self.start()
         return true
     }
     
-    func succesfulRequest() {
+    func succesfulRequest(data: GPHJSONObject?, response: URLResponse?, error: Error?) {
         
-        let offsetAtRequestStart = nextRequestOffset
+//        let offsetAtRequestStart = nextRequestOffset
 
         self.hasRequestInFlight = false
         self.cancelRetry()
@@ -195,31 +176,38 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
 //            // request began, ignore this response.
 //            return
 //        }
-//
-//
-//        self.hasReceivedAResponse = true
-//
+
+
+        self.hasReceivedAResponse = true
+
 //        self.lastRequestResultCount = results.count
-//
+
 //        if (!self.totalResultCount) {
 //            self.totalResultCount = totalResultCount
 //        }
 //        if (results.count == 0) {
 //            self.hasReceivedEmptyResponse = true
 //        }
-//        self.nextOffset = offsetAtRequestStart + self.requestNumberOfImages
-//        self.responseId = responseId
-
-        self.fireRequestUpdate()
-    
-    
+//        self.nextOffset = offsetAtRequestStart + self.nextRequestLimit
+        
+        self.state = .finished
+        self.callCompletion(data: data, response: response, error: error)
     }
     
-    func failedRequest() {
+    func failedRequest(retry: Bool = false, data: GPHJSONObject?, response: URLResponse?, error: Error?) {
         self.hasRequestInFlight = false
         self.hasReceivedAFailure = true
-        self.scheduleRetry()
-        self.fireRequestUpdate()
+
+        if retry {
+            if retryCount < retryLimit {
+                self.scheduleRetry()
+            } else {
+                print("Retry Limit Reached")
+            }
+        }
+        
+        self.state = .finished
+        self.callCompletion(data: data, response: response, error: error)
     }
     
     
@@ -236,18 +224,14 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
             
             #if !os(watchOS)
                 if !self.client.isNetworkReachable() {
-                    self.failedRequest()
-                    self.callCompletion(data: nil, response: response, error: GPHHTTPError(statusCode:100, description: "Network is not reachable"))
-                    self.state = .finished
+                    self.failedRequest(retry: true, data: nil, response: response, error: GPHHTTPError(statusCode:100, description: "Network is not reachable"))
                     return
                 }
             #endif
 
             do {
                 guard let data = data else {
-                    self.failedRequest()
-                    self.callCompletion(data: nil, response: response, error:GPHJSONMappingError(description: "Can not map API response to JSON, there is no data"))
-                    self.state = .finished
+                    self.failedRequest(retry: true, data: nil, response: response, error:GPHJSONMappingError(description: "Can not map API response to JSON, there is no data"))
                     return
                 }
                 
@@ -265,46 +249,21 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
                         let errorMessage = (result["meta"] as? GPHJSONObject)?["msg"] as? String
                         // Prep the error
                         let errorAPIorHTTP = GPHHTTPError(statusCode: statusCode, description: errorMessage)
-                        self.failedRequest()
-                        self.callCompletion(data: result, response: response, error: errorAPIorHTTP)
-                        self.state = .finished
+                        self.failedRequest(retry: false, data: result, response: response, error: errorAPIorHTTP)
                         return
                     }
-                    
-                    self.callCompletion(data: result, response: response, error: error)
-                    self.state = .finished
+                    self.succesfulRequest(data: result, response: response, error: error)
                     
                 } else {
-                    self.failedRequest()
-                    self.callCompletion(data: nil, response: response, error: GPHJSONMappingError(description: "Can not map API response to JSON"))
-                    self.state = .finished
+                    self.failedRequest(retry: false, data: nil, response: response, error: GPHJSONMappingError(description: "Can not map API response to JSON"))
                 }
             } catch {
-                self.failedRequest()
-                self.callCompletion(data: nil, response: response, error: error)
-                self.state = .finished
+                self.failedRequest(retry: false, data: nil, response: response, error: error)
             }
             
         }.resume()
     }
 }
-//- (instancetype)init {
-//    if (self = [super init]) {
-//        [[GPHConnectionStatus instance] addObserver:self];
-//        self.requestNumberOfImages = kDefaultRequestNumberOfImages;
-//    }
-//
-//    return self;
-//}
-//#pragma mark - GPHConnectionStatusObserver
-//
-//- (void)connectionStatusDidChange:(BOOL)isConnected {
-//    if (isConnected) {
-//        [self newRequest:NO];
-//    }
-//}
-//
-//
 
 
 /// Request Type for URLRequest objects.
