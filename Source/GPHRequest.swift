@@ -238,6 +238,7 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
                 if !self.client.isNetworkReachable() {
                     self.failedRequest()
                     self.callCompletion(data: nil, response: response, error: GPHHTTPError(statusCode:100, description: "Network is not reachable"))
+                    self.state = .finished
                     return
                 }
             #endif
@@ -246,6 +247,7 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
                 guard let data = data else {
                     self.failedRequest()
                     self.callCompletion(data: nil, response: response, error:GPHJSONMappingError(description: "Can not map API response to JSON, there is no data"))
+                    self.state = .finished
                     return
                 }
                 
@@ -270,16 +272,18 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
                     }
                     
                     self.callCompletion(data: result, response: response, error: error)
+                    self.state = .finished
+                    
                 } else {
                     self.failedRequest()
                     self.callCompletion(data: nil, response: response, error: GPHJSONMappingError(description: "Can not map API response to JSON"))
+                    self.state = .finished
                 }
             } catch {
                 self.failedRequest()
                 self.callCompletion(data: nil, response: response, error: error)
+                self.state = .finished
             }
-            
-            self.state = .finished
             
         }.resume()
     }
