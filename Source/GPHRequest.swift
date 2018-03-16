@@ -169,52 +169,50 @@ typealias GPHRequestUpdate = (_ request: GPHRequest) -> Void
             return false
         }
 
-        hasRequestInFlight = true
-        lastRequestStartedAt = Date()
-        lastRequestResultCount = 0
-        let offsetAtRequestStart = nextRequestOffset
-
         if hasAlreadyReturnedAllResults {
             return false
         }
 
+        hasRequestInFlight = true
+        lastRequestStartedAt = Date()
+        lastRequestResultCount = 0
+        
         return true
     }
     
     func succesfulRequest() {
         
-        //    successs
-        //            self.hasRequestInFlight = NO;
-        //            [strelf cancelRetry];
-        //            strelf.retryCount = 0;
-        //
-        //            strelf.hasReceivedAFailure = NO;
-        //
-        //            if (strelf.nextOffset != offsetAtRequestStart) {
-        //                // If another request has modified items since this
-        //                // request began, ignore this response.
-        //                return;
-        //            }
-        //
-        //
-        //            strelf.hasReceivedAResponse = YES;
-        //
-        //            strelf.lastRequestResultCount = results.count;
-        //
-        //            if (!strelf.totalResultCount) {
-        //                strelf.totalResultCount = @(totalResultCount);
-        //            }
-        //            if (results.count == 0) {
-        //                strelf.hasReceivedEmptyResponse = YES;
-        //            }
-        //            strelf.nextOffset = offsetAtRequestStart + self.requestNumberOfImages;
-        //            strelf.responseId = responseId;
-        //
-        //            [strelf fireDelegateUpdate];
-        //        };
-        //
-        
-        
+        let offsetAtRequestStart = nextRequestOffset
+
+        self.hasRequestInFlight = false
+        self.cancelRetry()
+        self.retryCount = 0
+
+        self.hasReceivedAFailure = false
+
+//        if (self.nextOffset != offsetAtRequestStart) {
+//            // If another request has modified items since this
+//            // request began, ignore this response.
+//            return
+//        }
+//
+//
+//        self.hasReceivedAResponse = true
+//
+//        self.lastRequestResultCount = results.count
+//
+//        if (!self.totalResultCount) {
+//            self.totalResultCount = totalResultCount
+//        }
+//        if (results.count == 0) {
+//            self.hasReceivedEmptyResponse = true
+//        }
+//        self.nextOffset = offsetAtRequestStart + self.requestNumberOfImages
+//        self.responseId = responseId
+
+        self.fireRequestUpdate()
+    
+    
     }
     
     func failedRequest() {

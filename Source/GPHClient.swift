@@ -92,7 +92,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             "media": media,
         ]
         
-        return self.listRequest(with: config, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     
@@ -130,7 +131,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             "media": media,
         ]
         
-        return self.listRequest(with: config, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     
@@ -169,7 +171,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             "media": media,
         ]
 
-        return self.getRequest(with: config, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     
@@ -205,7 +208,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             "media": media,
         ]
         
-        return self.getRequest(with: config, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     
@@ -232,7 +236,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             "media": GPHMediaType.gif,
         ]
         
-        return self.getRequest(with: config, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     
@@ -261,7 +266,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             "media": GPHMediaType.gif,
         ]
         
-        return self.listRequest(with: config, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     //MARK: Categories Endpoint
@@ -297,7 +303,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             "root": nil,
         ]
         
-        return self.listCategoriesRequest(with: config, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     /// Sub-Categories for GIFs
@@ -337,7 +344,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             "root": categoryObj,
         ]
         
-        return self.listCategoriesRequest(with: config, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     /// Category Content (only works with Sub-categories / top categories won't return content)
@@ -380,7 +388,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             "media": GPHMediaType.gif,
         ]
 
-        return self.listRequest(with: config, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     //MARK: Term Suggestion Endpoint
@@ -406,7 +415,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             "media": GPHMediaType.gif,
         ]
         
-        return self.listTermSuggestionsRequest(with: config, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     /// Get a channel by id
@@ -432,7 +442,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             "media": media,
         ]
         
-        return self.channelRequest(with: config, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     /// Get a channel children
@@ -466,7 +477,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             "media": media,
         ]
 
-        return self.channelChildrenRequest(with: config, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
 
     /// Get a channel gifs
@@ -499,7 +511,8 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
             "media": media,
         ]
         
-        return self.channelContentRequest(with: config, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
 
 }
