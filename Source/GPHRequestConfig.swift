@@ -18,6 +18,7 @@ import Foundation
     public var requestType: String = ""
     public var options: [String: Any?]? = nil
     public var apiKey: String = ""
+    public var retry: Int = 3
     
     public func getRequest() -> URLRequest {
         return GPHRequestRouter.request(path, method, queryItems, headers).asURLRequest(apiKey)

@@ -31,11 +31,10 @@ import Foundation
     var lastRequestResultCount = 0
     var lastRequestStartedAt: Date? = nil
     
-    var retryLimit = 3
-    var retryCount = 0
-    var retryDelay = 1.0
-    var retryDelayPower = 2.0
-    var retryDelayTimer:Timer? = nil
+    private var retryLimit = 3
+    private var retryCount = 0
+    private var retryDelay = 1.0
+    private var retryDelayPower = 2.0
     
     var hasRequestInFlight: Bool = false
     
@@ -68,13 +67,12 @@ import Foundation
     init(_ client: GPHAbstractClient, config: GPHRequestConfig, completionHandler: @escaping GPHJSONCompletionHandler) {
         self.client = client
         self.config = config
+        self.retryLimit = config.retry
         super.init(completionHandler: completionHandler)
     }
     
     func resetRequest(fireEventImmediately: Bool) {
         
-        retryDelayTimer?.invalidate()
-        retryDelayTimer = nil
         hasReceivedAResponse = false
         hasReceivedEmptyResponse = false
         hasReceivedAFailure = false
@@ -137,11 +135,6 @@ import Foundation
         if force {
             cancelRetry()
             hasRequestInFlight = false
-        }
-
-        if retryDelayTimer != nil {
-            // There already is a pending request, abort.
-            return false
         }
 
         if hasRequestInFlight {
