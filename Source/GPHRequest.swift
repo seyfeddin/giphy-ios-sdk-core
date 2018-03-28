@@ -23,12 +23,6 @@ import Foundation
     /// The client to which this request is related.
     let client: GPHAbstractClient
     
-    var totalResultCount = 0
-    
-    var nextRequestLimit = 25
-    var nextRequestOffset = 0
-    
-    var lastRequestResultCount = 0
     var lastRequestStartedAt: Date? = nil
     
     private var retryLimit = 3
@@ -49,11 +43,6 @@ import Foundation
     // This flag is set IFF we have received an empty response, which
     // should indicate that we have "bottomed out" in the paging.
     var hasReceivedEmptyResponse: Bool = false
-    
-    // More reliable way of determining whether the query has returned all paginated results
-    var hasAlreadyReturnedAllResults: Bool {
-        get { return totalResultCount > 0 && nextRequestOffset >= totalResultCount }
-    }
     
     // MARK: Initializers
     
@@ -76,13 +65,9 @@ import Foundation
         hasReceivedAResponse = false
         hasReceivedEmptyResponse = false
         hasReceivedAFailure = false
-        
-        totalResultCount = 0
-        nextRequestOffset = 0
         hasRequestInFlight = false
         
         lastRequestStartedAt = nil
-        lastRequestResultCount = 0
         
         newRequest(force: true)
         
@@ -107,9 +92,6 @@ import Foundation
         // e.g. After the first failure, we wait 1 second,
         // after the second we wait 4 seconds,
         // after the third we wait 9 seconds, etc.
-        //
-        // It'd be nice to eventually honor connectivity (via Reachability)
-        // and foreground/activation state
         let retryDelaySeconds = retryDelay * pow(Double(retryCount), retryDelayPower)
         DispatchQueue.main.asyncAfter(deadline: .now() + retryDelaySeconds) {
             self.newRequestFired()
@@ -142,63 +124,41 @@ import Foundation
             return false
         }
 
-        if hasAlreadyReturnedAllResults {
-            return false
-        }
-
         hasRequestInFlight = true
         lastRequestStartedAt = Date()
-        lastRequestResultCount = 0
         
         self.start()
         return true
     }
     
     func succesfulRequest(data: GPHJSONObject?, response: URLResponse?, error: Error?) {
-        
-//        let offsetAtRequestStart = nextRequestOffset
 
-        self.hasRequestInFlight = false
         self.cancelRetry()
         self.retryCount = 0
 
+        self.hasRequestInFlight = false
         self.hasReceivedAFailure = false
-
-//        if (self.nextOffset != offsetAtRequestStart) {
-//            // If another request has modified items since this
-//            // request began, ignore this response.
-//            return
-//        }
-
-
         self.hasReceivedAResponse = true
-
-//        self.lastRequestResultCount = results.count
-
-//        if (!self.totalResultCount) {
-//            self.totalResultCount = totalResultCount
-//        }
-//        if (results.count == 0) {
-//            self.hasReceivedEmptyResponse = true
-//        }
-//        self.nextOffset = offsetAtRequestStart + self.nextRequestLimit
         
         self.state = .finished
         self.callCompletion(data: data, response: response, error: error)
     }
     
     func failedRequest(retry: Bool = false, data: GPHJSONObject?, response: URLResponse?, error: Error?) {
+        
         self.hasRequestInFlight = false
         self.hasReceivedAFailure = true
 
         if retry {
             if retryCount < retryLimit {
                 self.scheduleRetry()
-            } else {
-                print("Retry Limit Reached")
             }
+//            else {
+//                 print("Retry Limit Reached")
+//            }
         }
         
+        self.retryCount = 0
         self.state = .finished
         self.callCompletion(data: data, response: response, error: error)
     }
