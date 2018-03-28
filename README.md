@@ -340,7 +340,7 @@ let op = client.search("cats") { (response, error) in
 
     if let response = response, let data = response.data, let pagination = response.pagination {
         for result in data {
-            result.userDictionary["Description"] = "Results from Cats Search"
+            result.userDictionary = ["Description" : "Results from Cats Search"]
         }
     } else {
         print("No Results Found")
