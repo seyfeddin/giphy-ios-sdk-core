@@ -39,6 +39,10 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 * [GIFs for a Subcategory](#sub-category-content-endpoint)
 * [Term Suggestions](#term-suggestions-endpoint)
 
+### Advanced Usage
+
+* [Filtering](#filtering-models)
+* [User Dictionaries](#user-dictionaries)
 
 # Setup
 
@@ -295,4 +299,57 @@ let op = client.termSuggestions("carm") { (response, error) in
     }
 }
 ```
+
+# Advanced Usage
+
+## Filtering Models
+
+We added support for you to filter results of any models out during requests. Here are few use cases below in code:
+
+```
+GPHFilterable.filter = { obj in
+            if let obj = obj as? GPHMedia {
+                
+                // Check to see if this Media object has tags
+                // Say we only want GIFs/Stickers with tags, otherwise filter them out
+                return obj.tags == nil
+                
+            } else if let obj = obj as? GPHChannel {
+            
+                // We only want channels which have featured Gifs
+                return obj.featuredGif != false
+            }
+            
+            // Otherwise this is a valid object, don't filter it out
+            return true
+        }
+```
+
+## User Dictionaries
+
+We figured you might want to attach extra data to our models such us `GPHMedia` .. so now all our models have `userDictionary`
+which you can attach any sort of object along with any of our models. 
+
+```
+/// Gif Search
+let op = client.search("cats") { (response, error) in
+
+    if let error = error as NSError? {
+        ......
+    }
+
+    if let response = response, let data = response.data, let pagination = response.pagination {
+        for result in data {
+            result.userDictionary["Description"] = "Results from Cats Search"
+        }
+    } else {
+        print("No Results Found")
+    }
+}
+```
+
+
+
+
+
 
