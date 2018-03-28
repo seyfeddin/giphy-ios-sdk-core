@@ -70,6 +70,11 @@ Run carthage update to grab the GiphyCoreSDK framework
 carthage update
 ```
 
+### Swift Package Manager Setup
+
+* Add .package(url:"https://github.com/Giphy/giphy-ios-sdk-core", from: "1.2.0") to your package dependencies.
+* Then add GiphyCoreSDK to your target dependencies. 
+
 ### Initialize Giphy SDK
 
 ```swift
