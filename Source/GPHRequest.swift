@@ -50,7 +50,6 @@ import Foundation
     ///
     /// - parameter client: GPHClient object to handle the request.
     /// - parameter config: GPHRequestConfig to formulate request(s).
-    /// - parameter type: Request type (GPHRequestType).
     /// - parameter completionHandler: GPHJSONCompletionHandler to return JSON or Error.
     ///
     init(_ client: GPHAbstractClient, config: GPHRequestConfig, completionHandler: @escaping GPHJSONCompletionHandler) {

@@ -440,13 +440,13 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
                 data.forEach { result in
                     do {
                         // Test the initial mapping before archiving
-                        try? self.validateJSONForTerm(result)
+                        try? self.validateJSONForTerm(result, request: "term")
                         
                         // Test if we can archive & unarchive
                         let obj = try self.cloneViaCoding(root: result)
                         
                         // Test mapping after archive & unarchive
-                        try? self.validateJSONForTerm(obj)
+                        try? self.validateJSONForTerm(obj, request: "term")
                         
                     } catch let error as NSError {
                         print(result)

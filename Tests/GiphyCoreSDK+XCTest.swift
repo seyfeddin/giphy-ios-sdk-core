@@ -172,6 +172,10 @@ extension XCTestCase {
         if obj.jsonRepresentation!["user"] != nil {
             try? self.validateJSONForUser(obj.user!, request: request)
         }
+
+        if obj.jsonRepresentation!["bottle_data"] != nil {
+            try? self.validateJSONForBottleData(obj.bottleData!, request: request)
+        }
         
         XCTAssertNotNil(obj.images, "Images can not be nil")
         try? self.validateJSONForImages(obj.images!, mediaId: obj.id, media: media, request: request)
@@ -180,13 +184,35 @@ extension XCTestCase {
 }
 
 
+/// Extension for GPHBottleData JSON<>Obj roundtrip check
+///
+extension XCTestCase {
+    
+    /// Function to test Archiving&Unarchiving an object
+    ///
+    /// - parameter obj: object to check mapping.
+    /// - parameter request: request type.
+    ///
+    func validateJSONForBottleData(_ obj: GPHBottleData, request: String) throws {
+        
+        XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
+        
+        XCTAssertEqual(obj.tid,
+                       obj.jsonRepresentation!["tid"] as? String,
+                       "Tid's won't match")
+        
+    }
+    
+}
+
 /// Extension for GPHUser JSON<>Obj roundtrip check
 ///
 extension XCTestCase {
 
     /// Function to test Archiving&Unarchiving an object
     ///
-    /// - parameter root: object to check mapping.
+    /// - parameter obj: object to check mapping.
+    /// - parameter request: request type.
     ///
     func validateJSONForUser(_ obj: GPHUser, request: String) throws {
         
@@ -274,9 +300,10 @@ extension XCTestCase {
     
     /// Function to test Archiving&Unarchiving an object
     ///
-    /// - parameter root: object to check mapping.
+    /// - parameter obj: object to check mapping.
+    /// - parameter request: request type.
     ///
-    func validateJSONForChannelTag(_ obj: GPHChannelTag) throws {
+    func validateJSONForChannelTag(_ obj: GPHChannelTag, request: String) throws {
         
         XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
         
@@ -305,7 +332,9 @@ extension XCTestCase {
     
     /// Function to test Archiving&Unarchiving an object
     ///
-    /// - parameter root: object to check mapping.
+    /// - parameter obj: object to check mapping.
+    /// - parameter media: media type.
+    /// - parameter request: request type.
     ///
     func validateJSONForChannel(_ obj: GPHChannel, channelId: Int, media: GPHMediaType, request: String) throws {
         
@@ -353,7 +382,7 @@ extension XCTestCase {
                                tagsJSON.count,
                                "Tags count is not matching")
                 obj.tags?.forEach({ tag in
-                    try? self.validateJSONForChannelTag(tag)
+                    try? self.validateJSONForChannelTag(tag, request: request)
                 })
             }
         }
@@ -371,7 +400,9 @@ extension XCTestCase {
     
     /// Function to test Archiving&Unarchiving an object
     ///
-    /// - parameter root: object to check mapping.
+    /// - parameter obj: object to check mapping.
+    /// - parameter media: media type.
+    /// - parameter request: request type.
     ///
     func validateJSONForImages(_ obj: GPHImages, mediaId: String, media: GPHMediaType, request: String) throws {
         
@@ -440,7 +471,11 @@ extension XCTestCase {
     
     /// Function to test Archiving&Unarchiving an object
     ///
-    /// - parameter root: object to check mapping.
+    /// - parameter obj: object to check mapping.
+    /// - parameter mediaId: media id.
+    /// - parameter rendition: media rendition.
+    /// - parameter media: media type.
+    /// - parameter request: request type.
     ///
     func validateJSONForImage(_ obj: GPHImage, mediaId: String, rendition: GPHRenditionType, media: GPHMediaType, request: String) throws {
         
@@ -504,7 +539,9 @@ extension XCTestCase {
     
     /// Function to test Archiving&Unarchiving an object
     ///
-    /// - parameter root: object to check mapping.
+    /// - parameter obj: object to check mapping.
+    /// - parameter root: root object to check mapping.
+    /// - parameter request: request type.
     ///
     func validateJSONForCategory(_ obj: GPHCategory, root: GPHCategory?, request: String) throws {
         
@@ -569,9 +606,10 @@ extension XCTestCase {
     
     /// Function to test Archiving&Unarchiving an object
     ///
-    /// - parameter root: object to check mapping.
+    /// - parameter obj: object to check mapping.
+    /// - parameter request: request type.
     ///
-    func validateJSONForTerm(_ obj: GPHTermSuggestion) throws {
+    func validateJSONForTerm(_ obj: GPHTermSuggestion, request: String) throws {
         
         XCTAssertNotNil(obj.jsonRepresentation, "JSON representation can not be nil")
         

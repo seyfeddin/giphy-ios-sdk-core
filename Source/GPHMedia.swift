@@ -68,6 +68,9 @@ import Foundation
     /// Renditions of the Media Object.
     public fileprivate(set) var images: GPHImages?
     
+    /// Bottle Data.
+    public fileprivate(set) var bottleData: GPHBottleData?
+    
     /// Tags representing the Media Object.
     public fileprivate(set) var tags: [String]?
     
@@ -142,6 +145,7 @@ import Foundation
         self.sourcePostUrl = aDecoder.decodeObject(forKey: "sourcePostUrl") as? String
         self.user = aDecoder.decodeObject(forKey: "user") as? GPHUser
         self.images = aDecoder.decodeObject(forKey: "images") as? GPHImages
+        self.bottleData = aDecoder.decodeObject(forKey: "bottleData") as? GPHBottleData
         self.tags = aDecoder.decodeObject(forKey: "tags") as? [String]
         self.featuredTags = aDecoder.decodeObject(forKey: "featuredTags") as? [String]
         self.isHidden = aDecoder.decodeBool(forKey: "isHidden")
@@ -178,6 +182,7 @@ import Foundation
         aCoder.encode(self.sourcePostUrl, forKey: "sourcePostUrl")
         aCoder.encode(self.user, forKey: "user")
         aCoder.encode(self.images, forKey: "images")
+        aCoder.encode(self.bottleData, forKey: "bottleData")
         aCoder.encode(self.tags, forKey: "tags")
         aCoder.encode(self.featuredTags, forKey: "featuredTags")
         aCoder.encode(self.isHidden, forKey: "isHidden")
@@ -302,6 +307,11 @@ extension GPHMedia: GPHMappable {
         // Handle User Data
         if let userData = data["user"] as? GPHJSONObject {
             obj.user = try GPHUser.mapData(userData, options: optionsCopy)
+        }
+
+        // Handle Bottle Data
+        if let bottleData = data["bottle_data"] as? GPHJSONObject {
+            obj.bottleData = try GPHBottleData.mapData(bottleData, options: optionsCopy)
         }
         
         // Handling exception of the Random endpoint structure
