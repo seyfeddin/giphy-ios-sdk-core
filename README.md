@@ -82,7 +82,8 @@ carthage update
 ### Initialize Giphy SDK
 
 ```swift
-let client = GPHClient(apiKey: "YOUR_API_KEY")
+// Configure your API Key
+GiphyCore.configure(apiKey: "YOUR_API_KEY")
 ```
 
 ### Search Endpoint
@@ -90,7 +91,7 @@ Search all Giphy GIFs for a word or phrase. Punctuation will be stripped and ign
 
 ```swift
 /// Gif Search
-let op = client.search("cats") { (response, error) in
+let op = GiphyCore.shared.search("cats") { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -108,7 +109,7 @@ let op = client.search("cats") { (response, error) in
 }
 
 /// Sticker Search
-let op = client.search("dogs", media: .sticker) { (response, error) in
+let op = GiphyCore.shared.search("dogs", media: .sticker) { (response, error) in
     //...
 }
 ```
@@ -118,12 +119,12 @@ Fetch GIFs currently trending online. Hand curated by the Giphy editorial team. 
 
 ```swift
 /// Trending GIFs
-let op = client.trending() { (response, error) in
+let op = GiphyCore.shared.trending() { (response, error) in
     //...
 }
 
 /// Trending Stickers
-let op = client.trending(.sticker) { (response, error) in
+let op = GiphyCore.shared.trending(.sticker) { (response, error) in
     //...
 }
 ```
@@ -133,12 +134,12 @@ The translate API draws on search, but uses the Giphy "special sauce" to handle 
 
 ```swift
 /// Translate to a GIF
-let op = client.translate("cats") { (response, error) in
+let op = GiphyCore.shared.translate("cats") { (response, error) in
     //...
 }
 
 /// Translate to a Sticker
-let op = client.translate("cats", media: .sticker) { (response, error) in
+let op = GiphyCore.shared.translate("cats", media: .sticker) { (response, error) in
     //...
 }
 ```
@@ -148,7 +149,7 @@ Returns a random GIF, limited by tag. Excluding the tag parameter will return a 
 
 ```swift
 /// Random GIF
-let op = client.random("cats") { (response, error) in
+let op = GiphyCore.shared.random("cats") { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -163,7 +164,7 @@ let op = client.random("cats") { (response, error) in
 }
 
 /// Random Sticker
-let op = client.random("cats", media: .sticker) { (response, error) in
+let op = GiphyCore.shared.random("cats", media: .sticker) { (response, error) in
     //...
 }
 ```
@@ -173,7 +174,7 @@ Returns meta data about a GIF, by GIF id. In the below example, the GIF ID is "f
 
 ```swift
 /// Gif by Id
-let op = client.gifByID("feqkVgjJpYtjy") { (response, error) in
+let op = GiphyCore.shared.gifByID("feqkVgjJpYtjy") { (response, error) in
     //...
 }
 ```
@@ -185,7 +186,7 @@ A multiget version of the get GIF by ID endpoint. In this case the IDs are feqkV
 /// GIFs by Ids
 let ids = ["feqkVgjJpYtjy", "7rzbxdu0ZEXLy"]
 
-let op = client.gifsByIDs(ids) { (response, error) in
+let op = GiphyCore.shared.gifsByIDs(ids) { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -208,7 +209,7 @@ A multiget version of the get GIF by ID endpoint. In this case the IDs are feqkV
 
 ```swift
 /// Get top trending categories for GIFs.
-let op = client.categoriesForGifs() { (response, error) in
+let op = GiphyCore.shared.categoriesForGifs() { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -233,7 +234,7 @@ Get Sub-Categories for GIFs given a cateory. You will need this sub-category obj
 /// Sub-Categories for a given category.
 let category = "actions"
 
-let op = client.subCategoriesForGifs(category) { (response, error) in
+let op = GiphyCore.shared.subCategoriesForGifs(category) { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -259,7 +260,7 @@ Get GIFs for a given Sub-Category.
 let category = "actions"
 let subCategory = "cooking"
 
-let op = client.gifsByCategory(category, subCategory: subCategory) { (response, error) in
+let op = GiphyCore.shared.gifsByCategory(category, subCategory: subCategory) { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -283,7 +284,7 @@ Get term suggestions give a search term, or a substring.
 
 ```swift
 /// Term Suggestions
-let op = client.termSuggestions("carm") { (response, error) in
+let op = GiphyCore.shared.termSuggestions("carm") { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -307,7 +308,7 @@ let op = client.termSuggestions("carm") { (response, error) in
 We added support for you to filter results of any models out during requests. Here are few use cases below in code:
 
 ```
-GPHFilterable.filter = { obj in
+GiphyCore.setFilter(filter: { obj in
             if let obj = obj as? GPHMedia {
                 
                 // Check to see if this Media object has tags
@@ -322,7 +323,7 @@ GPHFilterable.filter = { obj in
             
             // Otherwise this is a valid object, don't filter it out
             return true
-        }
+        })
 ```
 
 ## User Dictionaries
@@ -332,7 +333,7 @@ which you can attach any sort of object along with any of our models.
 
 ```
 /// Gif Search
-let op = client.search("cats") { (response, error) in
+let op = GiphyCore.shared.search("cats") { (response, error) in
 
     if let error = error as NSError? {
         ......
