@@ -307,7 +307,7 @@ let op = GiphyCore.shared.termSuggestions("carm") { (response, error) in
 
 We added support for you to filter results of any models out during requests. Here are few use cases below in code:
 
-```
+```swift
 GiphyCore.setFilter(filter: { obj in
             if let obj = obj as? GPHMedia {
                 
@@ -331,7 +331,7 @@ GiphyCore.setFilter(filter: { obj in
 We figured you might want to attach extra data to our models such us `GPHMedia` .. so now all our models have `userDictionary`
 which you can attach any sort of object along with any of our models. 
 
-```
+```swift
 /// Gif Search
 let op = GiphyCore.shared.search("cats") { (response, error) in
 
