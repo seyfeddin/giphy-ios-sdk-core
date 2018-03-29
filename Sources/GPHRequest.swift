@@ -12,38 +12,162 @@
 
 import Foundation
 
-
 /// Async Request Operations with Completion Handler Support
 ///
 @objcMembers public class GPHRequest: GPHAsyncOperationWithCompletion {
     // MARK: Properties
 
-    /// URLRequest obj to handle the networking.
-    var request: URLRequest
+    /// Config to form requests.
+    var config: GPHRequestConfig
     
     /// The client to which this request is related.
     let client: GPHAbstractClient
+    
+    var lastRequestStartedAt: Date? = nil
+    
+    private var retryLimit = 3
+    private var retryCount = 0
+    private var retryDelay = 1.0
+    private var retryDelayPower = 2.0
+    
+    var hasRequestInFlight: Bool = false
+    
+    // This flag isn't set until we've receive at least a first response -
+    // even if it was empty.
+    var hasReceivedAResponse: Bool = false
+    
+    // This flag is set IFF we have received a failure more recently
+    // than a response.
+    var hasReceivedAFailure: Bool = false
+    
+    // This flag is set IFF we have received an empty response, which
+    // should indicate that we have "bottomed out" in the paging.
+    var hasReceivedEmptyResponse: Bool = false
     
     // MARK: Initializers
     
     /// Convenience Initializer
     ///
     /// - parameter client: GPHClient object to handle the request.
-    /// - parameter request: URLRequest to execute.
+    /// - parameter config: GPHRequestConfig to formulate request(s).
     /// - parameter completionHandler: GPHJSONCompletionHandler to return JSON or Error.
     ///
-    init(_ client: GPHAbstractClient, request: URLRequest, completionHandler: @escaping GPHJSONCompletionHandler) {
+    init(_ client: GPHAbstractClient, config: GPHRequestConfig, completionHandler: @escaping GPHJSONCompletionHandler) {
         self.client = client
-        self.request = request
+        self.config = config
+        self.retryLimit = config.retry
         super.init(completionHandler: completionHandler)
     }
+    
+    func resetRequest(fireEventImmediately: Bool) {
+        
+        hasReceivedAResponse = false
+        hasReceivedEmptyResponse = false
+        hasReceivedAFailure = false
+        hasRequestInFlight = false
+        
+        lastRequestStartedAt = nil
+        
+        newRequest(force: true)
+        
+        if fireEventImmediately {
+            self.callCompletion(data: nil, response: nil, error: GPHHTTPError(statusCode:101, description: "Reset Request"))
+        }
+        
+    }
+    
+    func scheduleRetry() {
+        
+        if self.hasRequestInFlight && state != .finished {
+            // A retry is already scheduled, so ignore.
+            return
+        }
+        
+        retryCount += 1
+        
+        // Our retry adopts a simple "exponential backoff" algorithm.
+        // Essentially we wait for the square of the retry count, in seconds,
+        // although we could tune this if we wanted to.
+        // e.g. After the first failure, we wait 1 second,
+        // after the second we wait 4 seconds,
+        // after the third we wait 9 seconds, etc.
+        let retryDelaySeconds = retryDelay * pow(Double(retryCount), retryDelayPower)
+        DispatchQueue.main.asyncAfter(deadline: .now() + retryDelaySeconds) {
+            self.newRequestFired()
+        }
+    }
+    
+    func cancelRetry() {
+        self.state = .finished
+    }
+    
+    func newRequestFired() {
+        newRequest(force: true)
+    }
+    
+    
+    // Initiate a new request if necessary.
+    //
+    // 1) If force is YES, always create a new request.
+    // 2) If force is NO, do not create a new request if there is already a pending retry.
+    @discardableResult func newRequest(force: Bool) -> Bool {
+        
+//        print("New Request retryCount:\(retryCount)")
+        if force {
+            cancelRetry()
+            hasRequestInFlight = false
+        }
+
+        if hasRequestInFlight {
+            // There already is a request in flight.
+            return false
+        }
+
+        hasRequestInFlight = true
+        lastRequestStartedAt = Date()
+        
+        self.start()
+        return true
+    }
+    
+    func succesfulRequest(data: GPHJSONObject?, response: URLResponse?, error: Error?) {
+
+        self.cancelRetry()
+        self.retryCount = 0
+
+        self.hasRequestInFlight = false
+        self.hasReceivedAFailure = false
+        self.hasReceivedAResponse = true
+        
+        self.state = .finished
+        self.callCompletion(data: data, response: response, error: error)
+    }
+    
+    func failedRequest(retry: Bool = false, data: GPHJSONObject?, response: URLResponse?, error: Error?) {
+        
+        self.hasRequestInFlight = false
+        self.hasReceivedAFailure = true
+
+        if retry {
+            if retryCount < retryLimit {
+                self.state = .finished
+                self.scheduleRetry()
+                return
+            }
+        }
+        
+        self.retryCount = 0
+        self.state = .finished
+        self.callCompletion(data: data, response: response, error: error)
+    }
+    
     
     // MARK: Operation function
     
     /// Override the Operation function main to handle the request
     ///
     override public func main() {
-        client.session.dataTask(with: request) { data, response, error in
+        client.session.dataTask(with: config.getRequest()) { data, response, error in
             
             if self.isCancelled {
                 return
@@ -51,14 +175,14 @@ import Foundation
             
             #if !os(watchOS)
                 if !self.client.isNetworkReachable() {
-                    self.callCompletion(data: nil, response: response, error: GPHHTTPError(statusCode:100, description: "Network is not reachable"))
+                    self.failedRequest(retry: true, data: nil, response: response, error: GPHHTTPError(statusCode:100, description: "Network is not reachable"))
                     return
                 }
             #endif
 
             do {
                 guard let data = data else {
-                    self.callCompletion(data: nil, response: response, error:GPHJSONMappingError(description: "Can not map API response to JSON, there is no data"))
+                    self.failedRequest(retry: true, data: nil, response: response, error:GPHJSONMappingError(description: "Can not map API response to JSON, there is no data"))
                     return
                 }
                 
@@ -76,23 +200,22 @@ import Foundation
                         let errorMessage = (result["meta"] as? GPHJSONObject)?["msg"] as? String
                         // Prep the error
                         let errorAPIorHTTP = GPHHTTPError(statusCode: statusCode, description: errorMessage)
-                        self.callCompletion(data: result, response: response, error: errorAPIorHTTP)
-                        self.state = .finished
+                        self.failedRequest(retry: false, data: result, response: response, error: errorAPIorHTTP)
                         return
                     }
-                    self.callCompletion(data: result, response: response, error: error)
+                    self.succesfulRequest(data: result, response: response, error: error)
+                    
                 } else {
-                    self.callCompletion(data: nil, response: response, error: GPHJSONMappingError(description: "Can not map API response to JSON"))
+                    self.failedRequest(retry: false, data: nil, response: response, error: GPHJSONMappingError(description: "Can not map API response to JSON"))
                 }
             } catch {
-                self.callCompletion(data: nil, response: response, error: error)
+                self.failedRequest(retry: false, data: nil, response: response, error: error)
             }
-            
-            self.state = .finished
             
         }.resume()
     }
 }
+
 
 /// Request Type for URLRequest objects.
 ///
