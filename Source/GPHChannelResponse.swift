@@ -27,7 +27,7 @@ import Foundation
     /// - parameter meta: init with a GPHMeta object.
     /// - parameter data: GPHChannel object.
     ///
-    convenience public init(_ meta: GPHMeta, data: GPHChannel) {
+    convenience public init(_ meta: GPHMeta, data: GPHChannel?) {
         self.init()
         self.data = data
         self.meta = meta
@@ -49,28 +49,27 @@ extension GPHChannelResponse {
 // MARK: Extension -- Parsing & Mapping
 extension GPHChannelResponse: GPHMappable {
     
-    static func mapData(_ root: GPHChannel?,
-                        data jsonData: GPHJSONObject,
-                        request requestType: GPHRequestType,
-                        media mediaType: GPHMediaType = .gif,
-                        rendition renditionType: GPHRenditionType = .original) throws -> GPHChannelResponse {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHChannelResponse {
         
         guard
-            let metaData = jsonData["meta"] as? GPHJSONObject
-            else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHChannel due to missing 'meta' field: \(jsonData)")
+            let metaData = data["meta"] as? GPHJSONObject
+        else {
+            throw GPHJSONMappingError(description: "Couldn't map GPHChannel due to missing 'meta' field: \(data)")
         }
         
         guard
-            let channelData = jsonData["data"] as? GPHJSONObject
-            else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHChannel due to missing 'data' field: \(jsonData)")
+            let channelData = data["data"] as? GPHJSONObject
+        else {
+            throw GPHJSONMappingError(description: "Couldn't map GPHChannel due to missing 'data' field: \(data)")
         }
         
-        let meta = try GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
-        let channel = try GPHChannel.mapData(nil, data: channelData, request: requestType, media: mediaType)
-        
-        return GPHChannelResponse(meta, data: channel)
+        let meta = try GPHMeta.mapData(metaData, options: options)
+        let channel = try GPHChannel.mapData(channelData, options: options)
+
+        if channel.isValidObject() {
+            return GPHChannelResponse(meta, data: channel)
+        }
+        return GPHChannelResponse(meta, data: nil)
     }
     
 }

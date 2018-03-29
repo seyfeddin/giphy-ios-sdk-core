@@ -16,15 +16,15 @@ import Foundation
 ///
 /// http://api.giphy.com/v1/gifs/categories/animals/cats?api_key=4OMJYpPoYwVpe
 
-@objcMembers public class GPHUser: NSObject, NSCoding {
+@objcMembers public class GPHUser: GPHFilterable, NSCoding {
     // MARK: Properties
     
     /// Username.
     public fileprivate(set) var username: String = ""
 
     /// User ID.
-    public fileprivate(set) var id: Int?
-    
+    public fileprivate(set) var userId: String?
+
     /// Name of the User.
     public fileprivate(set) var name: String?
     
@@ -69,12 +69,24 @@ import Foundation
 
     /// User Public/Private.
     public fileprivate(set) var isPublic: Bool = false
+
+    /// User is Staff.
+    public fileprivate(set) var isStaff: Bool = false
     
     /// Suppress Chrome.
     public fileprivate(set) var suppressChrome: Bool = false
     
+    /// Last Login Date/Time.
+    public fileprivate(set) var loginDate: Date?
+    
+    /// Join Date/Time.
+    public fileprivate(set) var joinDate: Date?
+    
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
+    
+    /// User Dictionary to Store data in Obj by the Developer
+    public var userDictionary: [String: Any]?
     
     // MARK: Initializers
     
@@ -98,8 +110,9 @@ import Foundation
         
         self.init(username)
         
-        self.id = aDecoder.decodeObject(forKey: "id") as? Int
+        self.userId = aDecoder.decodeObject(forKey: "userId") as? String
         self.isPublic = aDecoder.decodeBool(forKey: "isPublic")
+        self.isStaff = aDecoder.decodeBool(forKey: "isStaff")
         self.suppressChrome = aDecoder.decodeBool(forKey: "suppressChrome")
         self.name = aDecoder.decodeObject(forKey: "name") as? String
         self.displayName = aDecoder.decodeObject(forKey: "displayName") as? String
@@ -115,13 +128,17 @@ import Foundation
         self.avatarUrl = aDecoder.decodeObject(forKey: "avatarUrl") as? String
         self.bannerUrl = aDecoder.decodeObject(forKey: "bannerUrl") as? String
         self.profileUrl = aDecoder.decodeObject(forKey: "profileUrl") as? String
+        self.loginDate = aDecoder.decodeObject(forKey: "loginDate") as? Date
+        self.joinDate = aDecoder.decodeObject(forKey: "joinDate") as? Date
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
+        self.userDictionary = aDecoder.decodeObject(forKey: "userDictionary") as? [String: Any]
     }
 
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.username, forKey: "username")
-        aCoder.encode(self.id, forKey: "id")
+        aCoder.encode(self.userId, forKey: "userId")
         aCoder.encode(self.isPublic, forKey: "isPublic")
+        aCoder.encode(self.isStaff, forKey: "isStaff")
         aCoder.encode(self.suppressChrome, forKey: "suppressChrome")
         aCoder.encode(self.name, forKey: "name")
         aCoder.encode(self.displayName, forKey: "displayName")
@@ -137,7 +154,10 @@ import Foundation
         aCoder.encode(self.avatarUrl, forKey: "avatarUrl")
         aCoder.encode(self.bannerUrl, forKey: "bannerUrl")
         aCoder.encode(self.profileUrl, forKey: "profileUrl")
+        aCoder.encode(self.loginDate, forKey: "loginDate")
+        aCoder.encode(self.joinDate, forKey: "joinDate")
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
+        aCoder.encode(self.userDictionary, forKey: "userDictionary")
     }
     
     // MARK: NSObject
@@ -177,38 +197,37 @@ extension GPHUser {
 extension GPHUser: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHMedia?,
-                               data jsonData: GPHJSONObject,
-                               request requestType: GPHRequestType,
-                               media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) throws -> GPHUser {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHUser {
         
         guard
-            let username = jsonData["username"] as? String
+            let username = data["username"] as? String
         else {
-            throw GPHJSONMappingError(description: "Couldn't map GPHUser for \(jsonData)")
+            throw GPHJSONMappingError(description: "Couldn't map GPHUser for \(data)")
         }
        
         let obj = GPHUser(username)
 
-        obj.id = parseInt(jsonData["id"] as? String)
-        obj.isPublic = jsonData["is_public"] as? Bool ?? false
-        obj.suppressChrome = jsonData["suppress_chrome"] as? Bool ?? false
-        obj.name = jsonData["name"] as? String
-        obj.displayName = jsonData["display_name"] as? String
-        obj.userDescription = jsonData["user_description"] as? String
-        obj.attributionDisplayName = jsonData["attribution_display_name"] as? String
-        obj.twitter = jsonData["twitter"] as? String
-        obj.twitterUrl = jsonData["twitter_url"] as? String
-        obj.facebookUrl = jsonData["facebook_url"] as? String
-        obj.instagramUrl = jsonData["instagram_url"] as? String
-        obj.websiteUrl = jsonData["website_url"] as? String
-        obj.websiteDisplayUrl = jsonData["website_display_url"] as? String
-        obj.tumblrUrl = jsonData["tumblr_url"] as? String
-        obj.avatarUrl = jsonData["avatar_url"] as? String
-        obj.bannerUrl = jsonData["banner_url"] as? String
-        obj.profileUrl = jsonData["profile_url"] as? String
-        obj.jsonRepresentation = jsonData
+        obj.userId = data["id"] as? String
+        obj.isPublic = data["is_public"] as? Bool ?? false
+        obj.isStaff = data["is_staff"] as? Bool ?? false
+        obj.suppressChrome = data["suppress_chrome"] as? Bool ?? false
+        obj.name = data["name"] as? String
+        obj.displayName = data["display_name"] as? String
+        obj.userDescription = data["user_description"] as? String
+        obj.attributionDisplayName = data["attribution_display_name"] as? String
+        obj.twitter = data["twitter"] as? String
+        obj.twitterUrl = data["twitter_url"] as? String
+        obj.facebookUrl = data["facebook_url"] as? String
+        obj.instagramUrl = data["instagram_url"] as? String
+        obj.websiteUrl = data["website_url"] as? String
+        obj.websiteDisplayUrl = data["website_display_url"] as? String
+        obj.tumblrUrl = data["tumblr_url"] as? String
+        obj.avatarUrl = data["avatar_url"] as? String
+        obj.bannerUrl = data["banner_url"] as? String
+        obj.profileUrl = data["profile_url"] as? String
+        obj.loginDate = parseDate(data["last_login"] as? String)
+        obj.joinDate = parseDate(data["date_joined"] as? String)
+        obj.jsonRepresentation = data
         
         return obj
     }

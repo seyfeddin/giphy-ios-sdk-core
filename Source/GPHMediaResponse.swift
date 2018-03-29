@@ -55,32 +55,29 @@ extension GPHMediaResponse {
 extension GPHMediaResponse: GPHMappable {
     
     /// this is where the magic will happen + error handling
-    static func mapData(_ root: GPHMedia?,
-                               data jsonData: GPHJSONObject,
-                               request requestType: GPHRequestType,
-                               media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) throws -> GPHMediaResponse {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHMediaResponse {
         
         guard
-            let metaData = jsonData["meta"] as? GPHJSONObject
+            let metaData = data["meta"] as? GPHJSONObject
             else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(jsonData)")
+                throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(data)")
         }
         
-        let meta = try GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
+        let meta = try GPHMeta.mapData(metaData, options: options)
         
         // Try to see if we can get the Media object
-        if let mediaData = jsonData ["data"] as? GPHJSONObject {
-            let data = try GPHMedia.mapData(nil, data: mediaData, request: requestType, media: mediaType, rendition: renditionType)
+        if let mediaData = data["data"] as? GPHJSONObject {
             
-            // We got the image and the meta data
-            let obj = GPHMediaResponse(meta, data: data)
-            return obj
+            let data = try GPHMedia.mapData(mediaData, options: options)
+            if data.isValidObject() {
+                // We got the image and the meta data
+                return GPHMediaResponse(meta, data: data)
+            }
+            return GPHMediaResponse(meta, data: nil)
         }
         
         // No image and the meta data
-        let obj = GPHMediaResponse(meta, data: nil)
-        return obj
+        return GPHMediaResponse(meta, data: nil)
     }
     
 }

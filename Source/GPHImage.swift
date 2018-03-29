@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents a Giphy Image (GIF/Sticker)
 ///
-@objcMembers public class GPHImage: NSObject, NSCoding {
+@objcMembers public class GPHImage: GPHFilterable, NSCoding {
     // MARK: Properties
 
     /// ID of the Represented GPHMedia Object.
@@ -56,6 +56,9 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
+    /// User Dictionary to Store data in Obj by the Developer
+    public var userDictionary: [String: Any]?
+    
     // MARK: Initializers
     
     /// Convenience Initializer
@@ -93,6 +96,7 @@ import Foundation
         self.mp4Url = aDecoder.decodeObject(forKey: "mp4Url") as? String
         self.mp4Size = aDecoder.decodeInteger(forKey: "mp4Size")
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
+        self.userDictionary = aDecoder.decodeObject(forKey: "userDictionary") as? [String: Any]
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -109,6 +113,7 @@ import Foundation
         aCoder.encode(self.mp4Url, forKey: "mp4Url")
         aCoder.encode(self.mp4Size, forKey: "mp4Size")
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
+        aCoder.encode(self.userDictionary, forKey: "userDictionary")
     }
     
     // MARK: NSObject
@@ -148,29 +153,29 @@ extension GPHImage {
 extension GPHImage: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHMedia?,
-                               data jsonData: GPHJSONObject,
-                               request requestType: GPHRequestType,
-                               media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) throws -> GPHImage {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHImage {
         
-        guard let mediaId = root?.id else {
+        guard let root = options["root"] as? GPHMedia else {
             throw GPHJSONMappingError(description: "Root object can not be nil, expected a GPHMedia")
         }
         
-        let obj = GPHImage(mediaId, rendition: renditionType)
+        guard let renditionType = options["rendition"] as? GPHRenditionType else {
+            throw GPHJSONMappingError(description: "Need Rendition to map the object")
+        }
         
-        obj.gifUrl = jsonData["url"] as? String
-        obj.stillGifUrl = jsonData["still_url"] as? String
-        obj.gifSize = parseInt(jsonData["size"] as? String) ?? 0
-        obj.width = parseInt(jsonData["width"] as? String) ?? 0
-        obj.height = parseInt(jsonData["height"] as? String) ?? 0
-        obj.frames = parseInt(jsonData["frames"] as? String) ?? 0
-        obj.webPUrl = jsonData["webp"] as? String
-        obj.webPSize = parseInt(jsonData["webp_size"] as? String) ?? 0
-        obj.mp4Url = jsonData["mp4"] as? String
-        obj.mp4Size = parseInt(jsonData["mp4_size"] as? String) ?? 0
-        obj.jsonRepresentation = jsonData
+        let obj = GPHImage(root.id, rendition: renditionType)
+        
+        obj.gifUrl = data["url"] as? String
+        obj.stillGifUrl = data["still_url"] as? String
+        obj.gifSize = parseInt(data["size"] as? String) ?? 0
+        obj.width = parseInt(data["width"] as? String) ?? 0
+        obj.height = parseInt(data["height"] as? String) ?? 0
+        obj.frames = parseInt(data["frames"] as? String) ?? 0
+        obj.webPUrl = data["webp"] as? String
+        obj.webPSize = parseInt(data["webp_size"] as? String) ?? 0
+        obj.mp4Url = data["mp4"] as? String
+        obj.mp4Size = parseInt(data["mp4_size"] as? String) ?? 0
+        obj.jsonRepresentation = data
         
         return obj
     }

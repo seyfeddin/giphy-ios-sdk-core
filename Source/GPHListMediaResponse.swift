@@ -60,35 +60,35 @@ extension GPHListMediaResponse {
 extension GPHListMediaResponse: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHMedia?,
-                               data jsonData: GPHJSONObject,
-                               request requestType: GPHRequestType,
-                               media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) throws -> GPHListMediaResponse {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHListMediaResponse {
         guard
-            let metaData = jsonData["meta"] as? GPHJSONObject
+            let metaData = data["meta"] as? GPHJSONObject
             else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(jsonData)")
+                throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(data)")
         }
-        let meta = try GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
+        let meta = try GPHMeta.mapData(metaData, options: options)
         
         var pagination: GPHPagination? = nil
-        if let paginationData = jsonData["pagination"] as? GPHJSONObject {
-            pagination = try GPHPagination.mapData(nil, data: paginationData, request: requestType, media: mediaType)
+        if let paginationData = data["pagination"] as? GPHJSONObject {
+            pagination = try GPHPagination.mapData(paginationData, options: options)
         }
         
         var results: [GPHMedia]? = nil
-        if let mediaData = jsonData["data"] as? [GPHJSONObject] {
+        if let mediaData = data["data"] as? [GPHJSONObject] {
             results = []
             for result in mediaData {
-                let result = try GPHMedia.mapData(nil, data: result, request: requestType, media: mediaType)
-                results?.append(result)
+                let result = try GPHMedia.mapData(result, options: options)
+                if result.isValidObject() {
+                    results?.append(result)
+                }
             }
+        }
+        if results != nil {
+            pagination?.updateFilteredCount(results!.count)
         }
         
         // No image and pagination data, return the meta data
-        let obj = GPHListMediaResponse(meta, data: results, pagination: pagination)
-        return obj
+        return GPHListMediaResponse(meta, data: results, pagination: pagination)
     }
     
 }

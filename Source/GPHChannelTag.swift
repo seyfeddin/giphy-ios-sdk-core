@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents Giphy A Channel Tag Object
 ///
-@objcMembers public class GPHChannelTag: NSObject, NSCoding {
+@objcMembers public class GPHChannelTag: GPHFilterable, NSCoding {
     // MARK: Properties
     
     /// ID of this Channel.
@@ -32,6 +32,11 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
+    /// User Dictionary to Store data in Obj by the Developer
+    public var userDictionary: [String: Any]?
+    
+    //MARK: NSCoding
+
     required convenience public init?(coder aDecoder: NSCoder) {
         self.init()
         
@@ -39,8 +44,8 @@ import Foundation
         self.channel = aDecoder.decodeObject(forKey: "channel") as? Int
         self.tag = aDecoder.decodeObject(forKey: "tag") as? String
         self.rank = aDecoder.decodeObject(forKey: "rank") as? Int
-        
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
+        self.userDictionary = aDecoder.decodeObject(forKey: "userDictionary") as? [String: Any]
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -48,9 +53,27 @@ import Foundation
         aCoder.encode(self.channel, forKey: "channel")
         aCoder.encode(self.tag, forKey: "tag")
         aCoder.encode(self.rank, forKey: "rank")
-
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
+        aCoder.encode(self.userDictionary, forKey: "userDictionary")
     }
+    
+    
+    // MARK: NSObject
+    
+    override public func isEqual(_ object: Any?) -> Bool {
+        if object as? GPHChannel === self {
+            return true
+        }
+        if let other = object as? GPHChannel, self.id == other.id {
+            return true
+        }
+        return false
+    }
+    
+    override public var hash: Int {
+        return "gph_channel_tag_\(self.id ?? 0)".hashValue
+    }
+    
 }
 
 /// Make objects human readable.
@@ -64,22 +87,18 @@ extension GPHChannelTag {
 }
 
 extension GPHChannelTag: GPHMappable {
-    
+
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHChannelTag?,
-                        data jsonData: GPHJSONObject,
-                        request requestType: GPHRequestType,
-                        media mediaType: GPHMediaType = .gif,
-                        rendition renditionType: GPHRenditionType = .original) throws -> GPHChannelTag {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHChannelTag {
         
         let obj = GPHChannelTag()
         
-        obj.id = (jsonData["id"] as? Int)
-        obj.channel = (jsonData["channel"] as? Int)
-        obj.tag = (jsonData["tag"] as? String)
-        obj.rank = (jsonData["rank"] as? Int)
+        obj.id = (data["id"] as? Int)
+        obj.channel = (data["channel"] as? Int)
+        obj.tag = (data["tag"] as? String)
+        obj.rank = (data["rank"] as? Int)
         
-        obj.jsonRepresentation = jsonData
+        obj.jsonRepresentation = data
         
         return obj
     }

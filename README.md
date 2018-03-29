@@ -39,6 +39,10 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 * [GIFs for a Subcategory](#sub-category-content-endpoint)
 * [Term Suggestions](#term-suggestions-endpoint)
 
+### Advanced Usage
+
+* [Filtering](#filtering-models)
+* [User Dictionaries](#user-dictionaries)
 
 # Setup
 
@@ -56,10 +60,30 @@ Run pods to grab the GiphyCoreSDK framework
 pod install
 ```
 
+### Carthage Setup
+
+Add the GiphyCoreSDK entry to your Cartfile
+
+```
+git "git@github.com:Giphy/giphy-ios-sdk-core.git" "master"
+```
+
+Run carthage update to grab the GiphyCoreSDK framework
+
+```bash
+carthage update
+```
+
+### Swift Package Manager Setup
+
+* Add .package(url:"https://github.com/Giphy/giphy-ios-sdk-core", from: "1.2.0") to your package dependencies.
+* Then add GiphyCoreSDK to your target dependencies. 
+
 ### Initialize Giphy SDK
 
 ```swift
-let client = GPHClient(apiKey: "YOUR_API_KEY")
+// Configure your API Key
+GiphyCore.configure(apiKey: "YOUR_API_KEY")
 ```
 
 ### Search Endpoint
@@ -67,7 +91,7 @@ Search all Giphy GIFs for a word or phrase. Punctuation will be stripped and ign
 
 ```swift
 /// Gif Search
-let op = client.search("cats") { (response, error) in
+let op = GiphyCore.shared.search("cats") { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -85,7 +109,7 @@ let op = client.search("cats") { (response, error) in
 }
 
 /// Sticker Search
-let op = client.search("dogs", media: .sticker) { (response, error) in
+let op = GiphyCore.shared.search("dogs", media: .sticker) { (response, error) in
     //...
 }
 ```
@@ -95,12 +119,12 @@ Fetch GIFs currently trending online. Hand curated by the Giphy editorial team. 
 
 ```swift
 /// Trending GIFs
-let op = client.trending() { (response, error) in
+let op = GiphyCore.shared.trending() { (response, error) in
     //...
 }
 
 /// Trending Stickers
-let op = client.trending(.sticker) { (response, error) in
+let op = GiphyCore.shared.trending(.sticker) { (response, error) in
     //...
 }
 ```
@@ -110,12 +134,12 @@ The translate API draws on search, but uses the Giphy "special sauce" to handle 
 
 ```swift
 /// Translate to a GIF
-let op = client.translate("cats") { (response, error) in
+let op = GiphyCore.shared.translate("cats") { (response, error) in
     //...
 }
 
 /// Translate to a Sticker
-let op = client.translate("cats", media: .sticker) { (response, error) in
+let op = GiphyCore.shared.translate("cats", media: .sticker) { (response, error) in
     //...
 }
 ```
@@ -125,7 +149,7 @@ Returns a random GIF, limited by tag. Excluding the tag parameter will return a 
 
 ```swift
 /// Random GIF
-let op = client.random("cats") { (response, error) in
+let op = GiphyCore.shared.random("cats") { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -140,7 +164,7 @@ let op = client.random("cats") { (response, error) in
 }
 
 /// Random Sticker
-let op = client.random("cats", media: .sticker) { (response, error) in
+let op = GiphyCore.shared.random("cats", media: .sticker) { (response, error) in
     //...
 }
 ```
@@ -150,7 +174,7 @@ Returns meta data about a GIF, by GIF id. In the below example, the GIF ID is "f
 
 ```swift
 /// Gif by Id
-let op = client.gifByID("feqkVgjJpYtjy") { (response, error) in
+let op = GiphyCore.shared.gifByID("feqkVgjJpYtjy") { (response, error) in
     //...
 }
 ```
@@ -162,7 +186,7 @@ A multiget version of the get GIF by ID endpoint. In this case the IDs are feqkV
 /// GIFs by Ids
 let ids = ["feqkVgjJpYtjy", "7rzbxdu0ZEXLy"]
 
-let op = client.gifsByIDs(ids) { (response, error) in
+let op = GiphyCore.shared.gifsByIDs(ids) { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -185,7 +209,7 @@ A multiget version of the get GIF by ID endpoint. In this case the IDs are feqkV
 
 ```swift
 /// Get top trending categories for GIFs.
-let op = client.categoriesForGifs() { (response, error) in
+let op = GiphyCore.shared.categoriesForGifs() { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -210,7 +234,7 @@ Get Sub-Categories for GIFs given a cateory. You will need this sub-category obj
 /// Sub-Categories for a given category.
 let category = "actions"
 
-let op = client.subCategoriesForGifs(category) { (response, error) in
+let op = GiphyCore.shared.subCategoriesForGifs(category) { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -236,7 +260,7 @@ Get GIFs for a given Sub-Category.
 let category = "actions"
 let subCategory = "cooking"
 
-let op = client.gifsByCategory(category, subCategory: subCategory) { (response, error) in
+let op = GiphyCore.shared.gifsByCategory(category, subCategory: subCategory) { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -260,7 +284,7 @@ Get term suggestions give a search term, or a substring.
 
 ```swift
 /// Term Suggestions
-let op = client.termSuggestions("carm") { (response, error) in
+let op = GiphyCore.shared.termSuggestions("carm") { (response, error) in
 
     if let error = error as NSError? {
         // Do what you want with the error
@@ -276,4 +300,57 @@ let op = client.termSuggestions("carm") { (response, error) in
     }
 }
 ```
+
+# Advanced Usage
+
+## Filtering Models
+
+We added support for you to filter results of any models out during requests. Here are few use cases below in code:
+
+```swift
+GiphyCore.setFilter(filter: { obj in
+            if let obj = obj as? GPHMedia {
+                
+                // Check to see if this Media object has tags
+                // Say we only want GIFs/Stickers with tags, otherwise filter them out
+                return obj.tags == nil
+                
+            } else if let obj = obj as? GPHChannel {
+            
+                // We only want channels which have featured Gifs
+                return obj.featuredGif != false
+            }
+            
+            // Otherwise this is a valid object, don't filter it out
+            return true
+        })
+```
+
+## User Dictionaries
+
+We figured you might want to attach extra data to our models such us `GPHMedia` .. so now all our models have `userDictionary`
+which you can attach any sort of object along with any of our models. 
+
+```swift
+/// Gif Search
+let op = GiphyCore.shared.search("cats") { (response, error) in
+
+    if let error = error as NSError? {
+        ......
+    }
+
+    if let response = response, let data = response.data, let pagination = response.pagination {
+        for result in data {
+            result.userDictionary = ["Description" : "Results from Cats Search"]
+        }
+    } else {
+        print("No Results Found")
+    }
+}
+```
+
+
+
+
+
 

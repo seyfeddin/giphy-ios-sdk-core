@@ -1,9 +1,9 @@
 //
-//  GPHTermSuggestion.swift
+//  GPHBottleData.swift
 //  GiphyCoreSDK
 //
-//  Created by Cem Kozinoglu, Gene Goykhman, Giorgia Marenda on 4/24/17.
-//  Copyright © 2017 Giphy. All rights reserved.
+//  Created by Cem Kozinoglu, Gene Goykhman, Giorgia Marenda on 3/13/18.
+//  Copyright © 2018 Giphy. All rights reserved.
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public
 //  License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,13 +12,13 @@
 
 import Foundation
 
-/// Represents a Giphy Term Suggestion
+/// Represents a Giphy Bottle Data
 ///
-@objcMembers public class GPHTermSuggestion: GPHFilterable, NSCoding {
+@objcMembers public class GPHBottleData: GPHFilterable, NSCoding {
     // MARK: Properties
-
-    /// Term suggestion.
-    public private(set) var term: String = ""
+    
+    /// Tid.
+    public private(set) var tid: String = ""
     
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
@@ -30,26 +30,26 @@ import Foundation
     
     /// Convenience Initializer
     ///
-    /// - parameter term: Term suggestion.
+    /// - parameter tid: tid.
     ///
-    convenience public init(_ term: String) {
+    convenience public init(_ tid: String) {
         self.init()
-        self.term = term
+        self.tid = tid
     }
     
     //MARK: NSCoding
-
+    
     required convenience public init?(coder aDecoder: NSCoder) {
-        guard let term = aDecoder.decodeObject(forKey: "term") as? String
+        guard let tid = aDecoder.decodeObject(forKey: "tid") as? String
             else { return nil }
         
-        self.init(term)
+        self.init(tid)
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
         self.userDictionary = aDecoder.decodeObject(forKey: "userDictionary") as? [String: Any]
     }
     
     public func encode(with aCoder: NSCoder) {
-        aCoder.encode(self.term, forKey: "term")
+        aCoder.encode(self.tid, forKey: "tid")
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
         aCoder.encode(self.userDictionary, forKey: "userDictionary")
     }
@@ -57,17 +57,17 @@ import Foundation
     // MARK: NSObject
     
     override public func isEqual(_ object: Any?) -> Bool {
-        if object as? GPHTermSuggestion === self {
+        if object as? GPHBottleData === self {
             return true
         }
-        if let other = object as? GPHTermSuggestion, self.term == other.term {
+        if let other = object as? GPHBottleData, self.tid == other.tid {
             return true
         }
         return false
     }
     
     override public var hash: Int {
-        return "gph_term_suggestion_\(self.term)".hashValue
+        return "gph_bottle_\(self.tid)".hashValue
     }
     
 }
@@ -76,10 +76,10 @@ import Foundation
 
 /// Make objects human readable.
 ///
-extension GPHTermSuggestion {
+extension GPHBottleData {
     
     override public var description: String {
-        return "GPHTermSuggestion(\(self.term))"
+        return "GPHBottleData(\(self.tid))"
     }
     
 }
@@ -88,18 +88,18 @@ extension GPHTermSuggestion {
 
 /// For parsing/mapping protocol.
 ///
-extension GPHTermSuggestion: GPHMappable {
+extension GPHBottleData: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHTermSuggestion {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHBottleData {
         
         guard
-            let term = data["name"] as? String
+            let tid = data["tid"] as? String
             else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHTermSuggestion for \(data)")
+                throw GPHJSONMappingError(description: "Couldn't map GPHBottleData for \(data)")
         }
         
-        let obj = GPHTermSuggestion(term)
+        let obj = GPHBottleData(tid)
         obj.jsonRepresentation = data
         return obj
     }

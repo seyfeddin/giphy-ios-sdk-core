@@ -14,7 +14,7 @@ import Foundation
 
 /// Represents Giphy Channels
 ///
-@objcMembers public class GPHChannel: NSObject, NSCoding {
+@objcMembers public class GPHChannel: GPHFilterable, NSCoding {
     // MARK: Properties
     
     // Stickers Packs Channel Root ID
@@ -59,6 +59,9 @@ import Foundation
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
+    /// User Dictionary to Store data in Obj by the Developer
+    public var userDictionary: [String: Any]?
+    
     /// Convenience Initializer
     ///
     /// - parameter id: ID of the Channel.
@@ -67,6 +70,8 @@ import Foundation
         self.init()
         self.id = id
     }
+    
+    //MARK: NSCoding
     
     required convenience public init?(coder aDecoder: NSCoder) {
         guard
@@ -88,8 +93,8 @@ import Foundation
         self.featuredGif = aDecoder.decodeObject(forKey: "featured_gif") as? GPHMedia ?? nil
         self.tags = aDecoder.decodeObject(forKey: "tags") as? Array<GPHChannelTag> ?? []
         self.ancestors = aDecoder.decodeObject(forKey: "ancestors") as? Array<GPHChannel> ?? []
-        
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
+        self.userDictionary = aDecoder.decodeObject(forKey: "userDictionary") as? [String: Any]
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -101,14 +106,31 @@ import Foundation
         aCoder.encode(self.displayName, forKey: "display_name")
         aCoder.encode(self.descriptionText, forKey: "description")
         aCoder.encode(self.shortDisplayName, forKey: "short_display_name")
-        
         aCoder.encode(self.user, forKey: "user")
         aCoder.encode(self.tags, forKey: "tags")
         aCoder.encode(self.ancestors, forKey: "ancestors")
         aCoder.encode(self.featuredGif, forKey: "featured_gif")
-        
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
+        aCoder.encode(self.userDictionary, forKey: "userDictionary")
     }
+    
+    // MARK: NSObject
+    
+    override public func isEqual(_ object: Any?) -> Bool {
+        if object as? GPHChannel === self {
+            return true
+        }
+        if let other = object as? GPHChannel, self.id == other.id {
+            return true
+        }
+        return false
+    }
+    
+    override public var hash: Int {
+        return "gph_channel_\(self.id)".hashValue
+    }
+    
+    
 }
 
 /// Make objects human readable.
@@ -124,15 +146,11 @@ extension GPHChannel {
 extension GPHChannel: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHChannel?,
-                        data jsonData: GPHJSONObject,
-                        request requestType: GPHRequestType,
-                        media mediaType: GPHMediaType = .gif,
-                        rendition renditionType: GPHRenditionType = .original) throws -> GPHChannel {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHChannel {
         guard
-            let objId: Int = jsonData["id"] as? Int
+            let objId: Int = data["id"] as? Int
             else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHChannel due to missing 'id' field \(jsonData)")
+                throw GPHJSONMappingError(description: "Couldn't map GPHChannel due to missing 'id' field \(data)")
         }
         
         let obj = GPHChannel()
@@ -140,29 +158,29 @@ extension GPHChannel: GPHMappable {
         // These fields are OPTIONAL in the sense that we won't `throw` if they're missing
         // (though we might want to reconsider some of them).
         obj.id = objId
-        obj.slug = (jsonData["slug"] as? String)
-        obj.displayName = (jsonData["display_name"] as? String)
-        obj.shortDisplayName = (jsonData["short_display_name"] as? String)
-        obj.type = (jsonData["type"] as? String)
-        obj.contentType = (jsonData["content_type"] as? String)
-        obj.descriptionText = (jsonData["description"] as? String)
-        obj.bannerImage = (jsonData["banner_image"] as? String)
-        obj.tags = (jsonData["tags"] as? Array<GPHChannelTag>)
+        obj.slug = (data["slug"] as? String)
+        obj.displayName = (data["display_name"] as? String)
+        obj.shortDisplayName = (data["short_display_name"] as? String)
+        obj.type = (data["type"] as? String)
+        obj.contentType = (data["content_type"] as? String)
+        obj.descriptionText = (data["description"] as? String)
+        obj.bannerImage = (data["banner_image"] as? String)
+        obj.tags = (data["tags"] as? [GPHChannelTag])
         
-        obj.jsonRepresentation = jsonData
+        obj.jsonRepresentation = data
         
-        if let imageData = jsonData["featured_gif"] as? GPHJSONObject {
-            obj.featuredGif = try GPHMedia.mapData(nil, data: imageData, request: requestType, media: mediaType)
+        if let imageData = data["featured_gif"] as? GPHJSONObject {
+            obj.featuredGif = try GPHMedia.mapData(imageData, options: options)
         }
         
         // Handle User Data
-        if let userData = jsonData["user"] as? GPHJSONObject {
-            obj.user = try GPHUser.mapData(nil, data: userData, request: requestType, media: mediaType)
+        if let userData = data["user"] as? GPHJSONObject {
+            obj.user = try GPHUser.mapData(userData, options: options)
         }
         
-        if let ancestors = jsonData["ancestors"] as? Array<GPHJSONObject> {
+        if let ancestors = data["ancestors"] as? [GPHJSONObject] {
             for ancestor in ancestors {
-                let ancestor = try GPHChannel.mapData(nil, data: ancestor, request: requestType)
+                let ancestor = try GPHChannel.mapData(ancestor, options: options)
                 obj.ancestors.append(ancestor)
             }
         }

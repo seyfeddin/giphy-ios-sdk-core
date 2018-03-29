@@ -55,39 +55,35 @@ extension GPHListTermSuggestionResponse {
 extension GPHListTermSuggestionResponse: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHTermSuggestion?,
-                               data jsonData: GPHJSONObject,
-                               request requestType: GPHRequestType,
-                               media mediaType: GPHMediaType = .gif,
-                               rendition renditionType: GPHRenditionType = .original) throws -> GPHListTermSuggestionResponse {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHListTermSuggestionResponse {
         
         guard
-            let metaData = jsonData["meta"] as? GPHJSONObject
-            else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(jsonData)")
+            let metaData = data["meta"] as? GPHJSONObject
+        else {
+            throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Meta missing for \(data)")
         }
         
-        let meta = try GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
+        let meta = try GPHMeta.mapData(metaData, options: options)
         
         // Try to see if we can get the Media object
-        if let termData = jsonData["data"] as? [GPHJSONObject] {
+        if let termData = data["data"] as? [GPHJSONObject] {
             
             // Get Results
-            var results: [GPHTermSuggestion] = []
+            var results: [GPHTermSuggestion]? = []
             
             for result in termData {
-                let result = try GPHTermSuggestion.mapData(nil, data: result, request: requestType, media: mediaType)
-                results.append(result)
+                let result = try GPHTermSuggestion.mapData(result, options: options)
+                if result.isValidObject() {
+                    results?.append(result)
+                }
             }
             
             // We have images and the meta data and pagination
-            let obj = GPHListTermSuggestionResponse(meta, data: results)
-            return obj
+            return GPHListTermSuggestionResponse(meta, data: results)
         }
         
         // No image and pagination data, return the meta data
-        let obj = GPHListTermSuggestionResponse(meta, data: nil)
-        return obj
+        return GPHListTermSuggestionResponse(meta, data: nil)
     }
     
 }

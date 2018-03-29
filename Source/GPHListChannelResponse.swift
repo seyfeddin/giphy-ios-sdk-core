@@ -59,15 +59,11 @@ extension GPHListChannelResponse {
 extension GPHListChannelResponse: GPHMappable {
     
     /// This is where the magic/mapping happens + error handling.
-    static func mapData(_ root: GPHChannel?,
-                        data jsonData: GPHJSONObject,
-                        request requestType: GPHRequestType,
-                        media mediaType: GPHMediaType = .gif,
-                        rendition renditionType: GPHRenditionType = .original) throws -> GPHListChannelResponse {
+    public static func mapData(_ data: GPHJSONObject, options: [String: Any?]) throws -> GPHListChannelResponse {
         guard
-            let metaData = jsonData["meta"] as? GPHJSONObject
+            let metaData = data["meta"] as? GPHJSONObject
             else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHListChannelResponse due to Meta missing for \(jsonData)")
+                throw GPHJSONMappingError(description: "Couldn't map GPHListChannelResponse due to Meta missing for \(data)")
         }
 //        guard
 //            let paginationData = jsonData["pagination"] as? GPHJSONObject
@@ -75,24 +71,28 @@ extension GPHListChannelResponse: GPHMappable {
 //                throw GPHJSONMappingError(description: "Couldn't map GPHMediaResponse due to Pagination missing for \(jsonData)")
 //        }
         guard
-            let resultsData = jsonData["data"] as? [GPHJSONObject]
+            let resultsData = data["data"] as? [GPHJSONObject]
             else {
-                throw GPHJSONMappingError(description: "Couldn't map GPHListChannelResponse due to Results missing for \(jsonData)")
+                throw GPHJSONMappingError(description: "Couldn't map GPHListChannelResponse due to Results missing for \(data)")
         }
         
-        let meta = try GPHMeta.mapData(nil, data: metaData, request: requestType, media: mediaType, rendition: renditionType)
+        let meta = try GPHMeta.mapData(metaData, options: options)
         
         // Get Results
-        var results: [GPHChannel] = []
+        var results: [GPHChannel]? = []
         
         for result in resultsData {
-            let result = try GPHChannel.mapData(root, data: result, request: requestType, media: mediaType)
-            results.append(result)
+            let result = try GPHChannel.mapData(result, options: options)
+            if result.isValidObject() {
+                results?.append(result)
+            }
         }
+//        if results != nil {
+//            pagination?.updateFilteredCount(results!.count)
+//        }
         
         // TODO: pagination
-        let obj = GPHListChannelResponse(meta, data: results, pagination: nil)
-        return obj
+        return GPHListChannelResponse(meta, data: results, pagination: nil)
     }
 }
 
