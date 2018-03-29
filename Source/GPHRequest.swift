@@ -112,7 +112,7 @@ import Foundation
     // 2) If force is NO, do not create a new request if there is already a pending retry.
     @discardableResult func newRequest(force: Bool) -> Bool {
         
-        print("New Request retryCount:\(retryCount)")
+//        print("New Request retryCount:\(retryCount)")
         if force {
             cancelRetry()
             hasRequestInFlight = false
@@ -150,11 +150,10 @@ import Foundation
 
         if retry {
             if retryCount < retryLimit {
+                self.state = .finished
                 self.scheduleRetry()
+                return
             }
-//            else {
-//                 print("Retry Limit Reached")
-//            }
         }
         
         self.retryCount = 0
