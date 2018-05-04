@@ -29,6 +29,8 @@ import Foundation
     /// Offset to start next set of results.
     public private(set) var offset: Int
     
+    /// Next Page token
+    public private(set) var nextCursor: String?
     
     // MARK: Initializers
     
@@ -91,6 +93,7 @@ extension GPHPagination: GPHMappable {
         
         let totalCount = data["total_count"] as? Int ?? count
         let offset = data["offset"] as? Int ?? 0
+        let nextCursor = data["next_cursor"] as? String
         
         return GPHPagination(totalCount, count: count, offset: offset)
     }
