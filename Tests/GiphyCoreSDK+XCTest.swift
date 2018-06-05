@@ -243,7 +243,7 @@ extension XCTestCase {
                        "Display name won't match")
 
         XCTAssertEqual(obj.userDescription,
-                       obj.jsonRepresentation!["user_description"] as? String,
+                       obj.jsonRepresentation!["description"] as? String,
                        "User description won't match")
         
         XCTAssertEqual(obj.attributionDisplayName,

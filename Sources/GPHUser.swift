@@ -219,7 +219,7 @@ extension GPHUser: GPHMappable {
         obj.suppressChrome = data["suppress_chrome"] as? Bool ?? false
         obj.name = data["name"] as? String
         obj.displayName = data["display_name"] as? String
-        obj.userDescription = data["user_description"] as? String
+        obj.userDescription = data["description"] as? String
         obj.attributionDisplayName = data["attribution_display_name"] as? String
         obj.twitter = data["twitter"] as? String
         obj.twitterUrl = data["twitter_url"] as? String
