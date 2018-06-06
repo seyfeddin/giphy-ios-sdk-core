@@ -43,13 +43,16 @@ public extension GPHMappable {
     public static func parseDate(_ date: String?) -> Date? {
         if let date = date {
             //"2013-03-21 04:03:08"
-            // "2016-07-13 21:50:57",
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            if let dateObj = dateFormatter.date(from:date) {
-                let calendar = Calendar.current
-                let components = calendar.dateComponents([.year, .month, .day, .hour], from: dateObj)
-                return calendar.date(from:components)
+            //"2018-06-05T21:46:37.525Z"
+            let dateFormats = ["yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"]
+            for format in dateFormats {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = format
+                if let dateObj = dateFormatter.date(from:date) {
+                    let calendar = Calendar.current
+                    let components = calendar.dateComponents([.year, .month, .day, .hour], from: dateObj)
+                    return calendar.date(from:components)
+                }
             }
             return nil
         }
