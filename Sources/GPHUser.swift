@@ -73,6 +73,9 @@ import Foundation
     /// User is Staff.
     public fileprivate(set) var isStaff: Bool = false
     
+    /// User is Verified
+    public fileprivate(set) var isVerified: Bool = false
+    
     /// Suppress Chrome.
     public fileprivate(set) var suppressChrome: Bool = false
     
@@ -113,6 +116,7 @@ import Foundation
         self.userId = aDecoder.decodeObject(forKey: "userId") as? String
         self.isPublic = aDecoder.decodeBool(forKey: "isPublic")
         self.isStaff = aDecoder.decodeBool(forKey: "isStaff")
+        self.isVerified = aDecoder.decodeBool(forKey: "isVerified")
         self.suppressChrome = aDecoder.decodeBool(forKey: "suppressChrome")
         self.name = aDecoder.decodeObject(forKey: "name") as? String
         self.displayName = aDecoder.decodeObject(forKey: "displayName") as? String
@@ -139,6 +143,7 @@ import Foundation
         aCoder.encode(self.userId, forKey: "userId")
         aCoder.encode(self.isPublic, forKey: "isPublic")
         aCoder.encode(self.isStaff, forKey: "isStaff")
+        aCoder.encode(self.isVerified, forKey: "isVerified")
         aCoder.encode(self.suppressChrome, forKey: "suppressChrome")
         aCoder.encode(self.name, forKey: "name")
         aCoder.encode(self.displayName, forKey: "displayName")
@@ -210,10 +215,11 @@ extension GPHUser: GPHMappable {
         obj.userId = data["id"] as? String
         obj.isPublic = data["is_public"] as? Bool ?? false
         obj.isStaff = data["is_staff"] as? Bool ?? false
+        obj.isVerified = data["is_verified"] as? Bool ?? false
         obj.suppressChrome = data["suppress_chrome"] as? Bool ?? false
         obj.name = data["name"] as? String
         obj.displayName = data["display_name"] as? String
-        obj.userDescription = data["user_description"] as? String
+        obj.userDescription = data["description"] as? String
         obj.attributionDisplayName = data["attribution_display_name"] as? String
         obj.twitter = data["twitter"] as? String
         obj.twitterUrl = data["twitter_url"] as? String

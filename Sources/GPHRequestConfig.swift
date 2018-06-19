@@ -11,6 +11,7 @@ import Foundation
 
 @objcMembers public class GPHRequestConfig:NSObject {
     
+    public var base = "https://api.giphy.com/v1/"
     public var method: GPHRequestType = .get
     public var queryItems: [URLQueryItem]? = nil
     public var headers: [String: String]? = nil
@@ -21,6 +22,6 @@ import Foundation
     public var retry: Int = 3
     
     public func getRequest() -> URLRequest {
-        return GPHRequestRouter.request(path, method, queryItems, headers).asURLRequest(apiKey)
+        return GPHRequestRouter.request(base, path, method, queryItems, headers).asURLRequest(apiKey)
     }
 }
