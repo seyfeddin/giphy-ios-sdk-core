@@ -15,7 +15,7 @@ import Foundation
 public typealias GPHFilterBlock = (_ obj: GPHFilterable) -> Bool
 
 @objc
-public class GPHFilterable: NSObject {
+open class GPHFilterable: NSObject {
     
     @objc public static var filter:GPHFilterBlock? = nil
     

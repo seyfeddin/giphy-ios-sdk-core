@@ -74,17 +74,26 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                    lang: GPHLanguageType = .english,
                                    completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
     
+        let config = GPHRequestConfig()
+        
         // Build the request endpoint
-        let queryItems:[URLQueryItem] = [
+        config.queryItems = [
             URLQueryItem(name: "q", value: query),
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
             URLQueryItem(name: "rating", value: rating.rawValue),
             URLQueryItem(name: "lang", value: lang.rawValue),
         ]
+        config.path = "\(media.rawValue)s/search"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "search",
+            "media": media,
+        ]
         
-        let request = GPHRequestRouter.request("\(media.rawValue)s/search", .get, queryItems, nil).asURLRequest(apiKey)
-        return self.listRequest(with: request, type: "search", media: media, completionHandler: completionHandler)
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     
@@ -106,14 +115,24 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                      rating: GPHRatingType = .ratedR,
                                      completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
         
+        let config = GPHRequestConfig()
+        
         // Build the request endpoint
-        let queryItems:[URLQueryItem] = [
+        config.queryItems = [
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
             URLQueryItem(name: "rating", value: rating.rawValue),
         ]
-        let request = GPHRequestRouter.request("\(media.rawValue)s/trending", .get, queryItems, nil).asURLRequest(apiKey)
-        return self.listRequest(with: request, type: "trending", media: media, completionHandler: completionHandler)
+        config.path = "\(media.rawValue)s/trending"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "trending",
+            "media": media,
+        ]
+        
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     
@@ -135,14 +154,25 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                       lang: GPHLanguageType = .english,
                                       completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
     
+        
+        let config = GPHRequestConfig()
+        
         // Build the request endpoint
-        let queryItems:[URLQueryItem] = [
+        config.queryItems = [
             URLQueryItem(name: "s", value: term),
             URLQueryItem(name: "rating", value: rating.rawValue),
             URLQueryItem(name: "lang", value: lang.rawValue),
         ]
-        let request = GPHRequestRouter.request("\(media.rawValue)s/translate", .get, queryItems, nil).asURLRequest(apiKey)
-        return self.getRequest(with: request, type: "translate", media: media, completionHandler: completionHandler)
+        config.path = "\(media.rawValue)s/translate"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "translate",
+            "media": media,
+        ]
+
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     
@@ -163,14 +193,23 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                    rating: GPHRatingType = .ratedR,
                                    completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
     
+        let config = GPHRequestConfig()
         
         // Build the request endpoint
-        let queryItems:[URLQueryItem] = [
+        config.queryItems = [
             URLQueryItem(name: "tag", value: query),
             URLQueryItem(name: "rating", value: rating.rawValue),
         ]
-        let request = GPHRequestRouter.request("\(media.rawValue)s/random", .get, queryItems, nil).asURLRequest(apiKey)
-        return self.getRequest(with: request, type: "random", media: media, completionHandler: completionHandler)
+        config.path = "\(media.rawValue)s/random"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "random",
+            "media": media,
+        ]
+        
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     
@@ -186,8 +225,19 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     @discardableResult public func gifByID(_ id: String,
                                     completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
         
-        let request = GPHRequestRouter.request("gifs/\(id)", .get, nil, nil).asURLRequest(apiKey)
-        return self.getRequest(with: request, type: "get", media: .gif, completionHandler: completionHandler)
+        let config = GPHRequestConfig()
+        
+        // Build the request endpoint
+        config.path = "gifs/\(id)"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "get",
+            "media": GPHMediaType.gif,
+        ]
+        
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     
@@ -201,13 +251,23 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     @discardableResult public func gifsByIDs(_ ids: [String],
                                      completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
     
-
+        
+        let config = GPHRequestConfig()
+        
         // Build the request endpoint
-        let queryItems:[URLQueryItem] = [
+        config.queryItems = [
             URLQueryItem(name: "ids", value: ids.joined(separator:","))
         ]
-        let request = GPHRequestRouter.request("gifs", .get, queryItems, nil).asURLRequest(apiKey)
-        return self.listRequest(with: request, type: "getAll", media: .gif, completionHandler: completionHandler)
+        config.path = "gifs"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "getAll",
+            "media": GPHMediaType.gif,
+        ]
+        
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     //MARK: Categories Endpoint
@@ -226,14 +286,25 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                                         sort: String = "",
                                                         completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
         
+        let config = GPHRequestConfig()
+        
         // Build the request endpoint
-        let queryItems:[URLQueryItem] = [
+        config.queryItems = [
             URLQueryItem(name: "sort", value: "\(sort)"),
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
         ]
-        let request = GPHRequestRouter.request("gifs/categories", .get, queryItems, nil).asURLRequest(apiKey)
-        return self.listCategoriesRequest(with: request, type: "categories", media: .gif, completionHandler: completionHandler)
+        config.path = "gifs/categories"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "categories",
+            "media": GPHMediaType.gif,
+            "root": nil,
+        ]
+        
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     /// Sub-Categories for GIFs
@@ -252,16 +323,29 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                                           sort: String = "",
                                                           completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
         
+        // root
         let categoryObj = GPHCategory(category, nameEncoded: encodedStringForUrl(category), encodedPath:encodedStringForUrl(category))
+
+        
+        let config = GPHRequestConfig()
         
         // Build the request endpoint
-        let queryItems:[URLQueryItem] = [
+        config.queryItems = [
             URLQueryItem(name: "sort", value: "\(sort)"),
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
         ]
-        let request = GPHRequestRouter.request("gifs/categories/\(categoryObj.encodedPath)", .get, queryItems, nil).asURLRequest(apiKey)
-        return self.listCategoriesRequest(categoryObj, with: request, type: "subCategories", media: .gif, completionHandler: completionHandler)
+        config.path = "gifs/categories/\(categoryObj.encodedPath)"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "subCategories",
+            "media": GPHMediaType.gif,
+            "root": categoryObj,
+        ]
+        
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     /// Category Content (only works with Sub-categories / top categories won't return content)
@@ -287,15 +371,25 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
         let encodedPath = "\(encodedStringForUrl(category))/\(encodedStringForUrl(subCategory))"
         let categoryObj = GPHCategory(category, nameEncoded: encodedStringForUrl(category), encodedPath:encodedPath)
         
+        let config = GPHRequestConfig()
+        
         // Build the request endpoint
-        let queryItems:[URLQueryItem] = [
+        config.queryItems = [
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
             URLQueryItem(name: "rating", value: rating.rawValue),
             URLQueryItem(name: "lang", value: lang.rawValue),
         ]
-        let request = GPHRequestRouter.request("gifs/categories/\(categoryObj.encodedPath)", .get, queryItems, nil).asURLRequest(apiKey)
-        return self.listRequest(with: request, type: "categoryContent", media: .gif, completionHandler: completionHandler)
+        config.path = "gifs/categories/\(categoryObj.encodedPath)"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "categoryContent",
+            "media": GPHMediaType.gif,
+        ]
+
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     //MARK: Term Suggestion Endpoint
@@ -310,8 +404,19 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     @discardableResult public func termSuggestions(_ term: String,
                                                    completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionResponse>) -> Operation {
         
-        let request = GPHRequestRouter.request("queries/suggest/\(term)", .get, nil, nil).asURLRequest(apiKey)
-        return self.listTermSuggestionsRequest(with: request, type: "termSuggestions", media: .gif, completionHandler: completionHandler)
+        let config = GPHRequestConfig()
+        
+        // Build the request endpoint
+        config.path = "queries/suggest/\(term)"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "termSuggestions",
+            "media": GPHMediaType.gif,
+        ]
+        
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     /// Get a channel by id
@@ -326,8 +431,19 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                           media: GPHMediaType,
                                           completionHandler: @escaping GPHCompletionHandler<GPHChannelResponse>) -> Operation {
         
-        let request = GPHRequestRouter.request("stickers/packs/\(channelId)", .get, nil, nil).asURLRequest(apiKey)
-        return self.channelRequest(with: request, type: "channel", media: media, completionHandler: completionHandler)
+        let config = GPHRequestConfig()
+        
+        // Build the request endpoint
+        config.path = "stickers/packs/\(channelId)"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "channel",
+            "media": media,
+        ]
+        
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
     /// Get a channel children
@@ -346,13 +462,23 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                               media: GPHMediaType,
                                               completionHandler: @escaping GPHCompletionHandler<GPHListChannelResponse>) -> Operation {
         
+        let config = GPHRequestConfig()
+        
         // Build the request endpoint
-        let queryItems:[URLQueryItem] = [
+        config.queryItems = [
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
         ]
-        let request = GPHRequestRouter.request("stickers/packs/\(channelId)/children", .get, queryItems, nil).asURLRequest(apiKey)
-        return self.channelChildrenRequest(with: request, type: "channelChildren", media: media, completionHandler: completionHandler)
+        config.path = "stickers/packs/\(channelId)/children"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "channelChildren",
+            "media": media,
+        ]
+
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
 
     /// Get a channel gifs
@@ -370,14 +496,23 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                               media: GPHMediaType,
                                               completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
         
+        let config = GPHRequestConfig()
         
         // Build the request endpoint
-        let queryItems:[URLQueryItem] = [
+        config.queryItems = [
             URLQueryItem(name: "offset", value: "\(offset)"),
             URLQueryItem(name: "limit", value: "\(limit)"),
         ]
-        let request = GPHRequestRouter.request("stickers/packs/\(channelId)/stickers", .get, queryItems, nil).asURLRequest(apiKey)
-        return self.channelContentRequest(with: request, type: "channel", media: media, completionHandler: completionHandler)
+        config.path = "stickers/packs/\(channelId)/stickers"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "channel",
+            "media": media,
+        ]
+        
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
 
 }

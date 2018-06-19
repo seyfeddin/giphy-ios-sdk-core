@@ -230,7 +230,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
             }
             
         }
-        waitForExpectations(timeout: 10, handler: nil)
+        waitForExpectations(timeout: 1000, handler: nil)
     }
     
     func testNSCodingForTranslateSticker() {

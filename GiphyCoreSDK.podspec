@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
     s.name = 'GiphyCoreSDK'
     s.module_name = 'GiphyCoreSDK'
-    s.version = '1.2.0'
+    s.version = '1.3.0'
     s.license = 'Mozilla Public License v2'
     s.summary = 'Giphy API wrapper for iOS, tvOS, watchOS & OS X.'
     s.homepage = 'https://github.com/Giphy/giphy-ios-sdk-core'
@@ -14,6 +14,6 @@ Pod::Spec.new do |s|
     s.watchos.deployment_target = '2.0'
 
     s.source_files = [
-        'Source/*.swift',
+        'Sources/*.swift',
     ]
 end

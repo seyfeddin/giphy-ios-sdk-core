@@ -14,7 +14,7 @@ let package = Package(
         .target(
             name: "GiphyCoreSDK",
             dependencies: [],
-            path: "./Source"),
+            path: "./Sources"),
         .testTarget(
             name: "GiphyCoreSDKTests",
             dependencies: ["GiphyCoreSDK"],
