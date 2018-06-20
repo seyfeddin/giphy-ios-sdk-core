@@ -20,6 +20,9 @@ import Foundation
     /// Tid.
     public private(set) var tid: String = ""
     
+    /// Tags.
+    public private(set) var tags: [String]?
+
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?
     
@@ -45,11 +48,13 @@ import Foundation
         
         self.init(tid)
         self.jsonRepresentation = aDecoder.decodeObject(forKey: "jsonRepresentation") as? GPHJSONObject
+        self.tags = aDecoder.decodeObject(forKey: "tags") as? [String]
         self.userDictionary = aDecoder.decodeObject(forKey: "userDictionary") as? [String: Any]
     }
     
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.tid, forKey: "tid")
+        aCoder.encode(self.tags, forKey: "tags")
         aCoder.encode(self.jsonRepresentation, forKey: "jsonRepresentation")
         aCoder.encode(self.userDictionary, forKey: "userDictionary")
     }
@@ -100,6 +105,8 @@ extension GPHBottleData: GPHMappable {
         }
         
         let obj = GPHBottleData(tid)
+        
+        obj.tags = data["tags"] as? [String]
         obj.jsonRepresentation = data
         return obj
     }

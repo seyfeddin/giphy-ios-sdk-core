@@ -717,5 +717,47 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
+    func testNSCodingSearchBottledData() {
+        let promise = expectation(description: "Status 200 & Receive Search Results & Map them to Objects")
+        
+        
+        let _ = client.search("shy") { (response, error) in
+            
+            if let error = error as NSError? {
+                XCTFail("Error(\(error.code)): \(error.localizedDescription)")
+            }
+            
+            if let response = response, let data = response.data, let pagination = response.pagination {
+                print(response.meta)
+                print(pagination)
+                // Test that search always returns some results
+                
+                print("VALID TOTAL: (\(pagination.filteredCount)) vs ACTUAL TOTAL:(\(pagination.count))")
+                data.forEach { result in
+                    do {
+                        // Test the initial mapping before archiving
+                        try? self.validateJSONForMedia(result, media: .gif, request: "search")
+                        
+                        // Test if we can archive & unarchive
+                        let obj = try self.cloneViaCoding(root: result)
+                        print(obj.bottleData?.tid ?? "no tid")
+                        print(obj.bottleData?.tags ?? "no tags")
+                        // Test mapping after archive & unarchive
+                        try? self.validateJSONForMedia(obj, media: .gif, request: "search")
+                        
+                    } catch let error as NSError {
+                        print(result)
+                        print(error)
+                        XCTFail("Failed to archive and unarchive")
+                    }
+                }
+                
+                promise.fulfill()
+            } else {
+                XCTFail("No Result Found")
+            }
+        }
+        waitForExpectations(timeout: 10, handler: nil)
+    }
     
 }
