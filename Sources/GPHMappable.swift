@@ -39,11 +39,12 @@ public extension GPHMappable {
     /// - returns: a Date object or nil
     ///
     public static func parseDate(_ date: String?) -> Date? {
-        guard let date = date else { return nil }
         //"2013-03-21 04:03:08" "2018-06-05T21:46:37.525Z" "2018-08-02T12:00:00Z"
         let dateFormats = ["yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "yyyy-MM-dd'T'HH:mm:ss'Z'"]
         for format in dateFormats {
-            return parseDate(date, format: format)
+            if let parsedDate = parseDate(date, format: format) {
+                return parsedDate
+            }
         }
         return nil
     }
