@@ -50,12 +50,13 @@ import Foundation
     /// - parameter count: Number of results returned.
     /// - parameter offset: Current offset of the result set.
     ///
-    convenience init(_ totalCount: Int, count: Int, offset: Int) {
+    convenience init(_ totalCount: Int, count: Int, offset: Int, nextCursor: String? = nil) {
         self.init()
         self.totalCount = totalCount
         self.count = count
         self.filteredCount = count
         self.offset = offset
+        self.nextCursor = nextCursor
     }
     
     public func updateFilteredCount(_ count: Int) {
@@ -93,9 +94,9 @@ extension GPHPagination: GPHMappable {
         
         let totalCount = data["total_count"] as? Int ?? count
         let offset = data["offset"] as? Int ?? 0
-        let nextCursor = data["next_cursor"] as? String
+        let nextCursor = data["next_cursor"] as? String ?? data["next_page"] as? String
         
-        return GPHPagination(totalCount, count: count, offset: offset)
+        return GPHPagination(totalCount, count: count, offset: offset, nextCursor: nextCursor)
     }
     
 }
