@@ -52,13 +52,9 @@ public extension GPHMappable {
     public static func parseDate(_ date: String?, format: String) -> Date? {
         guard let date = date else { return nil }
         let dateFormatter = DateFormatter.standardDateFormatter
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC") ?? TimeZone.current
         dateFormatter.dateFormat = format
-        if let dateObj = dateFormatter.date(from: date) {
-            let calendar = Calendar.current
-            let components = calendar.dateComponents([.year, .month, .day, .hour], from: dateObj)
-            return calendar.date(from:components)
-        }
-        return nil
+        return dateFormatter.date(from: date)
     }
 
     /// Map a String to a URL.
