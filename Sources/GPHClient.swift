@@ -30,12 +30,12 @@ public typealias GPHJSONCompletionHandler = (_ data: GPHJSONObject?, _ response:
 /// - parameter response: Generic Response (GPHResponse, GPHMediaResponse..)
 /// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
 ///
-public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> Void
+//public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> Void
 
 
 /// Entry point into the Swift API.
 ///
-@objcMembers public class GPHClient : GPHAbstractClient {
+@objc public class GPHClient : GPHAbstractClient {
     // MARK: Properties
     
     /// Giphy API key.
@@ -72,7 +72,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                    limit: Int = 25,
                                    rating: GPHRatingType = .ratedR,
                                    lang: GPHLanguageType = .english,
-                                   completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
+                                   completionHandler: @escaping (_ response: GPHListMediaResponse?, _ error: Error?) -> Void) -> Operation {
     
         let config = GPHRequestConfig()
         
@@ -113,7 +113,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                      offset: Int = 0,
                                      limit: Int = 25,
                                      rating: GPHRatingType = .ratedR,
-                                     completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
+                                     completionHandler: @escaping (_ response: GPHListMediaResponse?, _ error: Error?) -> Void) -> Operation {
         
         let config = GPHRequestConfig()
         
@@ -152,7 +152,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                       media: GPHMediaType = .gif,
                                       rating: GPHRatingType = .ratedR,
                                       lang: GPHLanguageType = .english,
-                                      completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
+                                      completionHandler: @escaping (_ response: GPHMediaResponse?, _ error: Error?) -> Void) -> Operation {
     
         
         let config = GPHRequestConfig()
@@ -191,7 +191,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     @discardableResult public func random(_ query: String,
                                    media: GPHMediaType = .gif,
                                    rating: GPHRatingType = .ratedR,
-                                   completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
+                                   completionHandler: @escaping (_ response: GPHMediaResponse?, _ error: Error?) -> Void) -> Operation {
     
         let config = GPHRequestConfig()
         
@@ -223,7 +223,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     ///
     @objc
     @discardableResult public func gifByID(_ id: String,
-                                    completionHandler: @escaping GPHCompletionHandler<GPHMediaResponse>) -> Operation {
+                                    completionHandler: @escaping (_ response: GPHMediaResponse?, _ error: Error?) -> Void) -> Operation {
         
         let config = GPHRequestConfig()
         
@@ -249,7 +249,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     ///
     @objc
     @discardableResult public func gifsByIDs(_ ids: [String],
-                                     completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
+                                     completionHandler: @escaping (_ response: GPHListMediaResponse?, _ error: Error?) -> Void) -> Operation {
     
         
         let config = GPHRequestConfig()
@@ -284,7 +284,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     @discardableResult public func categoriesForGifs(_  offset: Int = 0,
                                                         limit: Int = 25,
                                                         sort: String = "",
-                                                        completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
+                                                        completionHandler: @escaping (_ response: GPHListCategoryResponse?, _ error: Error?) -> Void) -> Operation {
         
         let config = GPHRequestConfig()
         
@@ -321,7 +321,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                                           offset: Int = 0,
                                                           limit: Int = 25,
                                                           sort: String = "",
-                                                          completionHandler: @escaping GPHCompletionHandler<GPHListCategoryResponse>) -> Operation {
+                                                          completionHandler: @escaping (_ response: GPHListCategoryResponse?, _ error: Error?) -> Void) -> Operation {
         
         // root
         let categoryObj = GPHCategory(category, nameEncoded: encodedStringForUrl(category), encodedPath:encodedStringForUrl(category))
@@ -366,7 +366,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                                     limit: Int = 25,
                                                     rating: GPHRatingType = .ratedR,
                                                     lang: GPHLanguageType = .english,
-                                                    completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
+                                                    completionHandler: @escaping (_ response: GPHListMediaResponse?, _ error: Error?) -> Void) -> Operation {
         
         let encodedPath = "\(encodedStringForUrl(category))/\(encodedStringForUrl(subCategory))"
         let categoryObj = GPHCategory(category, nameEncoded: encodedStringForUrl(category), encodedPath:encodedPath)
@@ -402,7 +402,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     ///
     @objc
     @discardableResult public func termSuggestions(_ term: String,
-                                                   completionHandler: @escaping GPHCompletionHandler<GPHListTermSuggestionResponse>) -> Operation {
+                                                   completionHandler: @escaping (_ response: GPHListTermSuggestionResponse?, _ error: Error?) -> Void) -> Operation {
         
         let config = GPHRequestConfig()
         
@@ -429,7 +429,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
     @objc
     @discardableResult public func channel(_ channelId: Int,
                                           media: GPHMediaType,
-                                          completionHandler: @escaping GPHCompletionHandler<GPHChannelResponse>) -> Operation {
+                                          completionHandler: @escaping (_ response: GPHChannelResponse?, _ error: Error?) -> Void) -> Operation {
         
         let config = GPHRequestConfig()
         
@@ -460,7 +460,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                               offset: Int = 0,
                                               limit: Int = 25,
                                               media: GPHMediaType,
-                                              completionHandler: @escaping GPHCompletionHandler<GPHListChannelResponse>) -> Operation {
+                                              completionHandler: @escaping (_ response: GPHListChannelResponse?, _ error: Error?) -> Void) -> Operation {
         
         let config = GPHRequestConfig()
         
@@ -494,7 +494,7 @@ public typealias GPHCompletionHandler<T> = (_ response: T?, _ error: Error?) -> 
                                               offset: Int = 0,
                                               limit: Int = 25,
                                               media: GPHMediaType,
-                                              completionHandler: @escaping GPHCompletionHandler<GPHListMediaResponse>) -> Operation {
+                                              completionHandler: @escaping (_ response: GPHListMediaResponse?, _ error: Error?) -> Void) -> Operation {
         
         let config = GPHRequestConfig()
         

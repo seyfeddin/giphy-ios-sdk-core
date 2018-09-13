@@ -120,7 +120,7 @@ import Foundation
     /// - returns: GPHJSONCompletionHandler to be used as a completion handler for an HTTP request.
     ///
     public class func parseJSONResponse<T>(_ config: GPHRequestConfig,
-                                           completionHandler: @escaping GPHCompletionHandler<T>) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
+                                           completionHandler: @escaping ((_ response: T?, _ error: Error?) -> Void)) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
         
         return { (data, response, error) in
             // Error returned
