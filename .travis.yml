@@ -3,7 +3,7 @@ branches:
     - master
 language: objective-c
 os: osx
-osx_image: xcode8.3
+osx_image: xcode10
 script: 
     - set -o pipefail
     - xcodebuild clean build test -project GiphyCoreSDK.xcodeproj -scheme "GiphyCoreSDK iOS" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator -destination "OS=10.0,name=iPhone 7"
